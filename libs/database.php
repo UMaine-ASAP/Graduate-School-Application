@@ -4,6 +4,8 @@
  Purpose: To allow access to a MySQL database
 ************************************************************************/
 
+include_once "variables.php";
+
 class Database
 {
 	var $database_name;
@@ -12,12 +14,12 @@ class Database
 	var $database_host;	
 	var $database_link;
 		
-	function Database($user="grad3", $pass="temp1e", $host="localhost", $name="grad5app")
+	function Database($user=null, $pass=null, $host=null, $name=null)
 	{
-		$this->database_user = $this->escapeString($user);
-		$this->database_pass = $this->escapeString($pass);
-		$this->database_host = $this->escapeString($host);
-		$this->database_name = $this->escapeString($name);
+		$this->database_user = $this->escapeString(isset($user)?$user:$GLOBALS["db_user"]);
+		$this->database_pass = $this->escapeString(isset($pass)?$pass:$GLOBALS["db_pass"]);
+		$this->database_host = $this->escapeString(isset($host)?$host:$GLOBALS["db_host"]);
+		$this->database_name = $this->escapeString(isset($name)?$name:$GLOBALS["db_name"]);
 	}
 
 	function changeAll($user, $pass, $host, $name)
@@ -54,7 +56,7 @@ class Database
 	
 	function connect()
 	{
-		$this->database_link = mysql_connect($this->database_host, $this->database_user, $this->database_pass) or die("Could not make connection to MySQL");
+		$this->database_link = mysql_connect($this->database_host, $this->database_user, $this->database_pass) or die("Could not make connection to MySQL: ".$this->database_host." ".$this->database_user." ".$this->database_pass." ".$this->database_name);
 		mysql_select_db($this->database_name) or die ("Could not open database: ". $this->database_name);
 	}
 
