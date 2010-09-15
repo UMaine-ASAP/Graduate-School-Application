@@ -1,8 +1,7 @@
    <?php
  	include_once "../application/libs/database.php";
 	function mainestreet($userid) {
-	// Lukas Jordan //edits: jonathan simpson.
-	//don't change without versioning.
+		
 		$db = new Database();
 		$db->connect();
 		$result = $db->query("SELECT * FROM applicants WHERE applicant_id = %d", $userid);
@@ -77,18 +76,15 @@
 			
 			$programresult = $db->query("SELECT academic_plan FROM um_academic WHERE academic_program = '%s'", $result[$a]['academic_program']);
 			
-			$start_semester = $result[$a]['start_semester']."\t";////////////////////
-			$start_year = $result[$a]['start_year']."\t";////////////////////
+			$start_semester = $result[$a]['start_semester']."\t";
+			$start_year = $result[$a]['start_year']."\t";
 			
-			// $temp .= $user['alternate_name']."\t";
-			// $temp .=  preg_replace('/[^\d]/', '', $user['secondary_phone'])."\t";
-			$attendance_load = $result[$a]['attendance_load']."\t";////////////////////
+			$attendance_load = $result[$a]['attendance_load']."\t";
 			
 			$academic_program = $result[$a]['academic_program']."\t";
 			$academic_plan= $programresult[0]['academic_plan']."\t";
-			// $academic_plan= $result[$a]['academic_dept_code']."\t";
 			
-			$student_t = $result[$a]['student_type']."\t";////////////////////
+			$student_t = $result[$a]['student_type']."\t";
 			
 			$t .= "\t"."\t"."\t"."\t";
 			
@@ -103,11 +99,7 @@
 		$temp .= $academic_plan;
 		
 		$temp.= $t;
-		// $temp .= "\t";
-		// 		$temp .= "\t";
-		// 		$temp .= "\t";
-		// 		$temp .= "\t";
-
+		
 		for ($a = 0; $a < $blanks; $a++){
 			$temp .= "\t";
 			$temp .= "\t";
@@ -117,7 +109,6 @@
 			$temp .= "\t";
 		}
 
-		// $temp .= $user['desired_housing']."\t";
 		$temp .= "F"."\t";
 		
 		// writes previous schools attended
@@ -136,8 +127,6 @@
 		for ($a = 0; $a < $blanks; $a++)
 			$temp .= "\t";
 
-		// $temp .= $user['residency_status']."\t";
-		// $temp .= $user['student_type']."\t";
 		$temp .= "\t";
 		$temp .= $student_t;
 		
