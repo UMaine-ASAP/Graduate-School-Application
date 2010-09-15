@@ -1,7 +1,6 @@
 <?php
 
 //Cron script to be run every morning, which batches the previous days applications.
-//Jonathan Simpson
 
 include_once "../application/libs/variables.php";
 include_once "../application/libs/database.php";
@@ -27,9 +26,6 @@ $emailMessaage = "";
 //////////////////////////////////////////////
 // YYYY-MM-DD
 $submit_date = date('Y-m-d', mktime(0,0,0,date("m"),date("d")-1,date("y")));
-// $submit_date = date('Y-m-d', mktime(0,0,0,date("m"),date("d"),date("y")));
-
-// $submit_date = date('Y-m-d');
 //////////////////////////////////////////////
 
 //Connect to DB (in database.php) //Prep query to get batch of users
