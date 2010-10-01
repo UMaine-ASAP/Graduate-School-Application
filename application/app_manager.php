@@ -1,6 +1,7 @@
 <?php
 	include_once "libs/database.php";
 	include_once "libs/corefuncs.php";
+	include_once "libs/variables.php";
 	include_once "templates/template.php";
 
 	//*********************************************************************************************
@@ -340,6 +341,14 @@
 		$applicant_data = $db->query("SELECT * FROM applicants WHERE applicants.applicant_id=%d LIMIT 1", $user);
 		$applicant_data = $applicant_data[0];
 		foreach($applicant_data as $id_key => $form_value) {
+		
+			if($id_key == "social_security_number") {
+
+				$ssn = $db->query("SELECT AES_DECRYPT(social_security_number, '%s') FROM applicants WHERE applicants.applicant_id=%d LIMIT 1", $GLOBALS['key'], $user);
+				$ssn = $ssn[0][0];
+				$form_value = $ssn;
+			}
+
 			$key_terms = explode("_",$id_key);
 
 			if($key_terms[1] == "repeatable") {
@@ -353,8 +362,7 @@
 				$repeat_data = $db->query("SELECT %s_id FROM `%s` WHERE applicant_id=%d", $tableName, $tableName, $user);
 				if(count($repeat_data) == 0 AND $tableName != "extrareferences")
 					$db->iquery("INSERT INTO `%s` (applicant_id, %s_id) VALUES (%d, 1)", $tableName, $tableName, $user);		
-				$repeat_data = $db->query("SELECT %s_id FROM `%s` WHERE applicant_id=%d", $tableName, $tableName, $user);
-				
+				$repeat_data = $db->query("SELECT %s_id FROM `%s` WHERE applicant_id=%d", $tableName, $tableName, $user);	
 				
 				$repeat_count = count($repeat_data);
 				$replace[strtoupper($tableName)."_COUNT"] = $repeat_count;
@@ -387,6 +395,7 @@
 		
 		//Replace -> Parse -> Render iSection Content
 		$replace['USER'] = $user;
+
 		$build_form->changeArray($replace);
 		$form_content = $build_form->parse();
 	} else {
