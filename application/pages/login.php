@@ -1,6 +1,7 @@
 <?php
 include '../libs/corefuncs.php';
 include '../libs/database.php';
+include '../libs/variables.php';
 
 // connect to database
 $db = new Database();
@@ -49,7 +50,6 @@ if ($_POST) {
 		if ($email == 'e-mail address') {
 			$signin_msg .= "<p class='warning'>you did not enter an email address</p>";
 		} else {
-			// connect to MySQL
 			$user_result = $db->query("SELECT `applicant_id`, `password`, `login_email_confirmed` FROM `applicants` WHERE `login_email` = '%s' LIMIT 1", $email);
 			$user_result = $user_result[0];
 

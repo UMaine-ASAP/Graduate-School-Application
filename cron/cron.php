@@ -1,6 +1,7 @@
 <?php
 
 //Cron script to be run every morning, which batches the previous days applications.
+//Jonathan Simpson
 
 include_once "../application/libs/variables.php";
 include_once "../application/libs/database.php";
@@ -16,7 +17,7 @@ $num_applicants = 0;
 $mainestreet = "";
 $emailMessage = "";
 //Uncomment when live.
-ini_set("display_errors", 0);
+ini_set("display_errors", 1);
 
 //Var for errors that are relevant to Grad School (ie. missing essay)
 $emailMessaage = "";
@@ -25,7 +26,10 @@ $emailMessaage = "";
 
 //////////////////////////////////////////////
 // YYYY-MM-DD
-$submit_date = date('Y-m-d', mktime(0,0,0,date("m"),date("d")-1,date("y")));
+// $submit_date = date('Y-m-d', mktime(0,0,0,date("m"),date("d")-1,date("y")));
+$submit_date = date('Y-m-d', mktime(0,0,0,date("m"),date("d"),date("y")));
+
+// $submit_date = date('Y-m-d');
 //////////////////////////////////////////////
 
 //Connect to DB (in database.php) //Prep query to get batch of users
@@ -33,7 +37,7 @@ $db = new Database();
 $db->connect();
 
 //Send out the query.
-$batch = $db->query("SELECT applicant_id, given_name, middle_name, family_name, suffix FROM applicants WHERE application_submit_date = '%s'", $submit_date);
+$batch = $db->query("SELECT applicant_id, given_name, middle_name, family_name, suffix, date_of_birth FROM applicants WHERE application_submit_date = '%s'", $submit_date);
 
 //Reformat $submit_date
 $dateT = new DateTime($submit_date);
@@ -46,13 +50,16 @@ if (count($batch)!=0) {
 	$tempFolder = $GLOBALS['$essays_path']."UMGradApps_".$submit_date."/";
 	//Create temp folder.
 	//Create folder for each applicant, include in it thier application and essay.
-	mkdir($tempFolder) or $errors .= "LINE:".__LINE__."Temp folder:".$tempFolder." creation failed, check permissions.</br>";
+	mkdir($tempFolder) or $errors .= "LINE:".__LINE__."Temp folder:".$tempFolder." creation failed, check permissions.<br />";
 	//Loop through each un-pushed applicant.
 	foreach($batch as $applicant) {
 		$num_applicants++;
 		$name = getName($applicant);
 		//ex: 91
 		$userid = $applicant[0];
+		$given_name = $applicant[1];
+		$family_name = $applicant[3];
+		$date_of_birth = $applicant[5];
 		$mainestreet .= mainestreet($userid);
 		//Temp folder for individual applicant:
 		//ex: ../essays/UMGradApps_02_03_2010/Simpson_Jonathan_Daniel_II_91
@@ -62,7 +69,9 @@ if (count($batch)!=0) {
 		if(!mkdir($newFolder)) $errors .= "LINE:".__LINE__."Folder creation failed: ".$newFolder."</br>";
 		//path to their app
 		// $pdfin = "../pdf_export/completed_pdfs/UMGradApp_".$userid.".pdf";
-		$pdfin = $completed_pdfs_path."/UMGradApp_".$userid.".pdf";
+		// $pdfin = $completed_pdfs_path."/UMGradApp_".$userid.".pdf";
+		$pdfin = $completed_pdfs_path.$userid."_".$family_name."_".$given_name."_".$date_of_birth.".pdf";
+
 		//path to put app, then copy.
 		$pdfout = $newFolder."/UMGradApp_".$applicant[3]."_".$userid.".pdf";
 		chmod($pdfin, 0777) or $errors .= "LINE:".__LINE__."Error chmoding $pdfin";
@@ -132,7 +141,7 @@ if (count($batch)!=0) {
 	
 	//Save mainestreet data to text file.
 	$mstf = $tempFolder."UMGradApps_Mainestreet".$submit_date.".txt";
-	$fh = fopen($mstf, 'w') or die("LINE:".__LINE__."can't open file");
+	$fh = fopen($mstf, 'w') or die("LINE:".__LINE__." can't open file");
 	fwrite($fh, $mainestreet);
 	fclose($fh);
 
@@ -152,8 +161,8 @@ if (count($batch)!=0) {
 
 //Construct email components
 
-$mailto = '<graduate@maine.edu>';
-// $mailto = '<joshua.e.mcgrath@gmail.com>';
+// $mailto = '<graduate@maine.edu>';
+$mailto = '<joshua.e.mcgrath@gmail.com>';
 
 
 $subject = 'UMaine Grad School Applications for '.$submit_date; 

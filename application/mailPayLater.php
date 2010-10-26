@@ -17,9 +17,11 @@
 	$db->iquery("UPDATE applicants SET application_fee_payment_status='N' WHERE applicants.applicant_id=%d", $user);	
 	
 	$email_array = $db->query("SELECT login_email FROM applicants WHERE applicant_id = %d",  $user);
+	$amount_array = $db->query("SELECT application_fee_transaction_amount FROM applicants WHERE applicant_id = %d", $user);
 	
 	//print_r($email_array);
 	$email = $email_array[0]["login_email"];
+	$amount = $amount_array[0]["application_fee_transaction_amount"];
 	
 	$to      = $email;
 	$subject = 'Application Received';
@@ -95,7 +97,7 @@ p {
 
 <div id=\"content\">
 
-<a href=\"http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" src='http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6/sites/default/files/acquia_marina_logo.png' /></a>
+<a href=\"http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" src='http://".$_SERVER['SERVER_NAME'] ."/grad/application/images/grad_logo.png' /></a>
 
 <h1>Welcome!</h1>
 
@@ -104,7 +106,7 @@ p {
 <div id=\"message\">
 
 <h3>Application Received</h3>
-<p>Thank you for your application to the Graduate School. Please send a check or money order for the application fee as soon as possible so that your application may be processed. Once the application fee has been received, you will receive an email from the Graduate School acknowledging the processing of your application. In this email, you will receive instructions regarding how to log in to the University&rsquo;s student information system to check the status of your application. Your check should be made payable to the University of Maine and sent to:</p>
+<p>Thank you for your application to the Graduate School. Please send a check or money order for the application fee of \$$amount as soon as possible so that your application may be processed. Once the application fee has been received, you will receive an email from the Graduate School acknowledging the processing of your application. In this email, you will receive instructions regarding how to log in to the University&rsquo;s student information system to check the status of your application. Your check should be made payable to the University of Maine and sent to:</p>
 
 <p>
 Graduate School<br />

@@ -42,6 +42,7 @@
 			</noscript>
 
 			<div class="topHeader">Welcome <span style="font-weight:bold;">{{EMAIL}}</span>&nbsp;&nbsp;&nbsp;[&nbsp;<a href="pages/logout.php" style="color:#FFF;">Sign Out</a>&nbsp;]</div>
+
 			<div id="sidebar_pane">
 				<div id="header">
 					Welcome{{NAME}}
@@ -53,25 +54,20 @@
 					{{SECTION_CONTENT}}
 				</div>
 				<div id="footer">
-				<form id="submit_form" method="post">
-					<input type="submit" id="submit_app" name="submit_app" value="Review Application"/>
-				</form>
-				<form id="sign_out" method="link" action="pages/logout.php">
-					<input type="submit" id="sign_out" name="sign_out" value="Sign Out"/>
-				</form>
-				<input type="button" name="save_button" value="Save" id="save_button" onClick="alert('Your progress has been saved')" />
-				<!--
-				<form name="footer_options" method="post">
-					<div style="float:left;width:33%;"><input type="submit" id="prev_button" value="Prev" /></div>
-					<div style="float:left;width:34%;;" ><input type="submit" id="save_button" value="Save" /></div>
-					<div style="float:left;width:33%;"><input type="submit" id="next_button" value="Name" /></div>
-					<div style="clear:both;"></div>
-				</form>-->
+					<form id="submit_form" method="post">
+						<input type="submit" id="submit_app" name="submit_app" value="Review Application"/>
+					</form>
+					<form id="sign_out" method="link" action="pages/logout.php">
+						<input type="submit" id="sign_out" name="sign_out" value="Sign Out"/>
+					</form>
+					<input type="button" name="save_button" value="Save" id="save_button" onClick="alert('Your progress has been saved')" />
 				</div>
-			</div>					
+			</div>
+			
 			<div id="form_pane">
 				{{FORM}}
 			</div>
+
 			<div style="clear:both"></div>
 			
 			<div class="gradFooter">

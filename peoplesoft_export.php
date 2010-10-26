@@ -64,9 +64,9 @@
 			$temp .= "\t";
 			$temp .= "\t";
 			$temp .= "\t";
-			$temp .= "\t";
-			$temp .= "\t";
-			$temp .= "\t";
+			$temp .= "\t");
+			$temp .= "\t");
+			$temp .= "\t");
 		}
 			$temp .= $user['desired_housing']."\t";
 
@@ -78,14 +78,14 @@
 			$temp .= $result[$a]['previous_school_code']."\t";
 		}
 		for ($a = 0; $a <= $blanks; $a++){
-			$temp .= "\t";
+			$temp .= "\t");
 		}
 		$temp .= $user['residency_status']."\t";
 		$temp .= $user['application_fee_payment_status']."\t";
 		$temp .= $user['application_fee_transaction_type']."\t";
 		$temp .= $user['application_fee_transaction_date']."\t";
 		$temp .= $user['application_fee_transaction_amount']."\t";
-		$temp .= $user['application_fee_transaction_number'];
+		$temp .= $user['application_fee_transaction_number']);
 		
 		echo $temp
 

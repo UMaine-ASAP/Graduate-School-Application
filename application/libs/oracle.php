@@ -1,8 +1,10 @@
 <?php
-  /************************************************************************
+/************************************************************************
  Class: Oracle
  Purpose: To allow access to an Oracle database
-  ************************************************************************/
+************************************************************************/
+
+include_once "variables.php";
 
 class Oracle
 {
@@ -13,18 +15,14 @@ class Oracle
 	var $database_port;	
 	var $database_link;
 
-	//DEVELOPMENT
-	//function Oracle($database_user="TNUMGRAD", $database_pass="B21gkS", $database_host="admdev.db.unet.maine.edu", $database_port=1521, $database_name="UPAY_REQUESTS")
-
 	//PRODUCTION
-	function Oracle($database_user="TNUMGRAD", $database_pass="B21gkS", $database_host="admapps.db.unet.maine.edu", $database_port=1521, $database_name="UPAY_REQUESTS")
-
+	function Oracle($database_user, $database_pass, $database_host, $database_port, $database_name)
 	{
-		$this->database_user = $database_user;
-		$this->database_pass = $database_pass;
-		$this->database_host = $database_host;
-		$this->database_port = $database_port;
-		$this->database_name = $database_name;
+		$this->database_user = $this->isset($user)?$user:$GLOBALS["touchnet_db_user"];
+		$this->database_pass = $this->isset($pass)?$pass:$GLOBALS["touchnet_db_pass"];
+		$this->database_host = $this->isset($host)?$host:$GLOBALS["touchnet_db_host"];
+		$this->database_host = $this->isset($port)?$host:$GLOBALS["touchnet_db_port"];
+		$this->database_name = $this->isset($name)?$name:$GLOBALS["touchnet_db_name"];
 	}
 	
 	function connect()

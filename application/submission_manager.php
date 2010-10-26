@@ -2,15 +2,30 @@
 	include_once "libs/database.php";
 	include_once "libs/template.php";
 	include_once "libs/corefuncs.php";
+	include_once "libs/validator.php";
 
 	//*********************************************************************************************
 	// Database Login
 	//*********************************************************************************************
 	$db = new Database();
 	$db->connect();
+
+
+	//*********************************************************************************************
+	// Validate Application and redirect if not complete
+	//*********************************************************************************************
+	$error_list = get_error_list($db);
+
+	//Redirect if not complete
+	if($error_list != "") {
+		session_start();
+		$_SESSION['submitted'] = TRUE;
+		session_write_close();
+		header("location:app_manager.php");
+	}
 	
 	//*********************************************************************************************
-	// Determine User  ***check for sql injection risks***
+	// Determine User
 	//*********************************************************************************************
 	$user = check_ses_vars();
 	$user = ($user)?$user:header("location:pages/login.php");
@@ -20,12 +35,12 @@
 	//*********************************************************************************************
 	$sub = $db->query("SELECT applicants.has_been_submitted FROM applicants WHERE applicants.applicant_id = %d", $user);
 	
-	// if($sub[0][0] == 1){
-	// 		header("location:lockout.php");
-	// 	}
+	//if($sub[0][0] == 1) {
+	//	header("location:lockout.php");
+	//}
 	
 	if($sub[0][0] == 1){
-		header("location:./pages/lockout.php");	
+		header("location:pages/lockout.php");	
 	}
 	//*********************************************************************************************
 	// Test Submission and Verify

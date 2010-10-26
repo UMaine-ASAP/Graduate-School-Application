@@ -114,7 +114,7 @@
 		
 		$message.= "</head>"."<body>";
 
-		$message .= "<a href=\"http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6/sites/default/files/acquia_marina_logo.png' /></a>";
+		$message .= "<a href=\"http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='http://".$_SERVER['SERVER_NAME'] ."/grad/application/images/grad_logo.png' /></a>";
 		$message .= "<div id= 'message'>"."<p style='font-weight:bold;'>"."Hello ". ucwords($userarray['reference1_first']) ." ". ucwords($userarray['reference1_last']) .", </p><br/>";
 		$message .= $fname. " " .$lname. " has requested that you write a recommendation for their application "; 
 		$message .= "to the University of Maine Graduate School.<br/><br/>";
@@ -218,7 +218,7 @@
 		</style>";
 		
 		$message.= "</head>"."<body>";
-		$message .= "<a href=\"http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6/sites/default/files/acquia_marina_logo.png' /></a>";
+		$message .= "<a href=\"http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='http://".$_SERVER['SERVER_NAME'] ."/grad/application/images/grad_logo.png' /></a>";
 		$message .= "<div id= 'message'>"."<p style='font-weight:bold;'>"."Hello ". ucwords($userarray['reference2_first']) ." ". ucwords($userarray['reference2_last']) .", </p><br/>";
 		$message .= $fname. " " .$lname. " has requested that you write a recommendation for their application "; 
 		$message .= "to the University of Maine Graduate School.<br/><br/>";
@@ -322,7 +322,7 @@
 		</style>";
 		
 		$message.= "</head>"."<body>";
-		$message .= "<a href=\"http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6/sites/default/files/acquia_marina_logo.png' /></a>";
+		$message .= "<a href=\"http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='http://".$_SERVER['SERVER_NAME'] ."/grad/application/images/grad_logo.png' /></a>";
 		$message .= "<div id= 'message'>"."<p style='font-weight:bold;'>"."Hello ". ucwords($userarray['reference3_first']) ." ". ucwords($userarray['reference3_last']) .", </p><br/>";
 		$message .= $fname. " " .$lname. " has requested that you write a recommendation for their application "; 
 		$message .= "to the University of Maine Graduate School.<br/><br/>";
@@ -431,7 +431,7 @@
 	
 				</head>
 				<body>";
-				$message .= "<a href=\"http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6/sites/default/files/acquia_marina_logo.png' /></a>";
+				$message .= "<a href=\"http://".$_SERVER['SERVER_NAME'] ."/grad/drupal6\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='http://".$_SERVER['SERVER_NAME'] ."/grad/application/images/grad_logo.png' /></a>";
 				$message .= "<div id= 'message'>"."<p style='font-weight:bold;'>"."Hello ". ucwords($xref['reference_first']) ." ". ucwords($xref['reference_last']) .", </p><br/>";
 				$message .= $fname. " " .$lname. " has requested that you write a recommendation for their application "; 
 				$message .= "to the University of Maine Graduate School.<br/>";

@@ -1,5 +1,6 @@
 <?php
 	include_once "corefuncs.php";
+
 	$user = check_ses_vars();
 	$user = ($user)?$user:header("location:../pages/index.php");
 

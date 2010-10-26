@@ -2,7 +2,7 @@
 	<fieldset class="nested">
 
 		<label for="academic_dept_code[{{INDEX}}]"> 
-			<p class="title">Department</p>
+			<p class="required title">Department*</p>
 			<select id="academic_dept_code[{{INDEX}}]" name="academic_dept_code" value="{{ACADEMIC_DEPT_CODE}}" onchange="saveValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}}); updateAcademicPrograms('academic_dept_code[{{INDEX}}]','academic_program[{{INDEX}}]');">
 				<option value="">Select Department</option>
 			</select>

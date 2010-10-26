@@ -109,15 +109,20 @@
 		var paynow = document.getElementById("paynow_yes");
 		var paylater = document.getElementById("paynow_no");
 		if(paynow.checked) {
+			$("#submitButton").attr("disabled", "true");
 			$.post("../pdf_export/pdf_export_server.php");
 			$.post("../application/recommender.php");
 			var url = "../application/send_payment.php";    
 			$(location).attr('href',url);
 		} else if(paylater.checked){
-			window.location = "../application/success.php";
-			$.post("../application/recommender.php");
-			$.post("../application/mailPayLater.php");
-			$.post("../pdf_export/pdf_export_server.php");
+			$("#submitButton").attr("disabled", "true");
+			$.post("../application/recommender.php", function(data) {
+				$.post("../application/mailPayLater.php", function(data) {
+					$.post("../pdf_export/pdf_export_server.php", function(data) {
+						window.location = "../application/success.php";
+					});
+				});
+			});
 		}
 	});
 </script>

@@ -378,8 +378,11 @@
 //	$today .= date("U");//append unix timestamp for server copy of PDF
 	// $pdftitle = "UMGradApp_". $user .".pdf";
 	$exDOB = explode("/", $personal_data['date_of_birth']);
-	$newBOD = $exDOB[0].$exDOB[1].$exDOB[2];
-	$pdftitle = $user."_".$personal_data['family_name']."_".$personal_data['given_name']."_".$newBOD.".pdf";
+	$newDOB = $exDOB[0].$exDOB[1].$exDOB[2];
+	// $pdftitle = $user."_".$personal_data['family_name']."_".$personal_data['given_name']."_".$newBOD.".pdf";
+	
+	$pdftitle = $user."_".$personal_data['family_name']."_".$personal_data['given_name']."_".$newDOB.".pdf";
+	
 	echo "XXXXXXXX".$newBOD;
 		
 	if($has_been_submitted == 0){

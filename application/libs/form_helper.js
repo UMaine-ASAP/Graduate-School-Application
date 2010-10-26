@@ -1,7 +1,4 @@
 function saveValue(e,user,table_name,index) {
-
-	//alert(e+" "+user+" "+table_name+" "+index);
-	var targ;
 	if (!e) var e = window.event;
 	if (e.target) targ = e.target;
 	else if (e.srcElement) targ = e.srcElement;
@@ -11,13 +8,10 @@ function saveValue(e,user,table_name,index) {
 	if(!table_name) table_name = '';
 	if(!index) index = '';
 	
-	//alert(targ.name+" "+targ.value);
-	
 	$.ajax({
 		type: "POST",
 		url: "libs/saveData.php",
-		data: "id="+user+"&table="+table_name+"&index="+index+"&field="+targ.name+"&value="+targ.value,
-		success: function(msg){/*alert(msg)*/}
+		data: "table="+table_name+"&index="+index+"&field="+targ.name+"&value="+targ.value
 	});
 }
 
@@ -28,9 +22,6 @@ function saveCheckValue(e,user,table_name,index) {
 	else if (e.srcElement) targ = e.srcElement;
 	if (targ.nodeType == 3) // defeat Safari bug
 		targ = targ.parentNode;
-		
-	//str ="id="+user+"&field="+targ.name+"&value="+targ.value;
-	//alert(str);
 	
 	if(!table_name) table_name = '';
 	if(!index) index = '';
@@ -38,17 +29,13 @@ function saveCheckValue(e,user,table_name,index) {
 	
 	field = targ.name;
 	if(field.substr(field.length-1,1) == "]") {
-		//alert(field);
 		field = field.substring(0,field.length-3);
-		//alert(field);
 	}
-	
-	//alert("id="+user+"&table="+table_name+"&index="+index+"&field="+targ.name+"&value="+targ.value);
+
 	$.ajax({
 		type: "POST",
 		url: "libs/saveData.php",
-		data: "id="+user+"&table="+table_name+"&index="+index+"&field="+field+"&value="+targ.value,
-		success: function(msg){/*alert("*"+msg)*/}
+		data: "table="+table_name+"&index="+index+"&field="+field+"&value="+targ.value
 	});
 }
 
@@ -57,9 +44,7 @@ function initValue_old(element,value) {
 	var e = document.getElementById(element);
 	var quit = false;
 	
-	//alert(e+"\n"+e.id +"\n"+value);
 	for(i=0;i<e.length && !quit;i++) {
-		//alert("Element ID:"+e.id+"\nValue:"+element[i].value+"\nPassed:"+value+"\ni:"+(i+1)+"/"+e.length);
 		if(e[i].value == value) { 
 			e[i].selected = true;
 			quit = true;
@@ -87,7 +72,6 @@ function dynamicInitSelectValue(element,value) {
 
 function checkInitValue(element, value) {
 	element = document.getElementById(element);
-	//alert(element.name+" ?= "+value);
 	element.checked = element.value == value;
 }
 
@@ -95,12 +79,10 @@ function addItem(table) {
 	$.get("templates/"+table+"_repeatable.php",function(data){
 		//Get information for replacement
 		form_item = data;		
-		user  = document.getElementById("user_id").value;
-		//alert(user+" "+table+" "+form_item);
+		user = document.getElementById("user_id").value;
 		
 		index = null;
 		$.get("libs/nextIndex.php",{tablename:table,username:user,random:new Date().getTime()},function(nextIndex){
-			//alert(nextIndex);
 
 			index = Number(nextIndex);
 
@@ -120,10 +102,7 @@ function addItem(table) {
 	},"text");	
 }
 
-function removeItem(id,user) {
-	
-	//var minimum = document.getElementById();
-	
+function removeItem(id,user) {	
 	var d = document.getElementById(id)
 	$("#"+d.id+" fieldset").fadeOut();
 	$(d).slideUp("normal",function() {
@@ -133,15 +112,12 @@ function removeItem(id,user) {
 	$.ajax({
 		type: "POST",
 		url: "libs/removeItem.php",
-		data: "remove_id="+id+"&user="+user,
-		success: function(msg){/*alert(msg);*/}
+		data: "remove_id="+id
 	});
 }
 
 function visibility(elementID,vis) {
 	var theDiv = document.getElementById(elementID);
-	
-	//alert(elementID);
 	
 	if(vis) {
 		theDiv.style.display = vis;
@@ -163,20 +139,16 @@ function visSlideUp(elementID) {
 function visSlideDown(elementID) {
 	$("#"+elementID.id).slideDown("slow")
 	$("#"+elementID+" fieldset").fadeIn();
-	//$(elementID).slideDown();
 }
 
 function showOrNot(element,showVal) {
 	var el = document.getElementById(element);
-	
-	//alert(el+" "+el.id);
-	
 	if(showVal == 1) el.style.display = 'block';
 	else if (showVal == 0) el.style.display = 'none';
 }
 
 function stopRKey(evt) { 
-  var evt = (evt) ? evt : ((event) ? event : null); 
-  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
-  if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
+	var evt = (evt) ? evt : ((event) ? event : null); 
+	var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+	if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
 }

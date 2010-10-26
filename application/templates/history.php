@@ -247,7 +247,7 @@
 		<div class="hidden" id="gmat_taken_section">
 			<label for="gmat_date">
 				<p class="title">Date of Exam</p>
-				<input type="text" size="14" maxlength="7" id="gmat_date" name="gmat_date" value="{{GMAT_DATE}}" onblur="saveValue(event,{{USER}});" />
+				<input type="text" size="14" maxlength="7" id="gmat_date" name="gmat_date" value="{{GMAT_DATE}}" onblur="saveValue(event,{{USER}});" /
 				<p class="help">mm/yyyy</p>
 			</label>
 

@@ -96,13 +96,11 @@ class Database
 	{
 		if (get_magic_quotes_gpc())
 			$str = stripslashes($str);
-		if($this->database_link != null)
-			$escape = mysql_real_escape_string($str, $this->database_link);
+		if($this->database_link)
+			$str = mysql_real_escape_string($str, $this->database_link);
 		else
-			$escape = mysql_real_escape_string($str);
-		if(!$escape)
-			$escape = addslashes($str);
-		return $escape;
+			$str = addslashes($str);
+		return $str;
 	}
 	
 	function returnTable($qry,$wdth,$bdr,$clr1,$clr2)
