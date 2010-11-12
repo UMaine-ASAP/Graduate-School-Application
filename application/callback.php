@@ -39,7 +39,8 @@ if ($status == "success") {
 	$db->close();
 
 	# Update Proxy DB
-	include_once("../../../protected/grad/return-callback.php");
+
+	include_once("return-callback.php");
 
 } else {
 	$db->close();

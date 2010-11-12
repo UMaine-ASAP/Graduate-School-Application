@@ -1,6 +1,0 @@
-SELECT login_email FROM applicants WHERE applicant_id=2 => 
-Array
-(
-    [0] => joshua.calvin.belanger@gmail.com
-    [login_email] => joshua.calvin.belanger@gmail.com
-)
