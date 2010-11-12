@@ -1,0 +1,187 @@
+       	
+acalog ACMS™ 	
+Close Window 
+    	
+Online Application Help
+
+This document contains help on the following topics:
+
+   1. Online Application Overview and Navigation
+   2. Create An Account and Login
+   3. Main Application Pages
+         1. Personal
+         2. Educational
+         3. Essays
+         4. National
+         5. Recommendations
+   4. Supplemental Forms Pages
+         1. Downloadable Forms
+   5. Print an Application
+   6. Submit an Application
+         1. Sign & Submit
+         2. Authorize Payment
+         3. Payment Receipt
+   7. Technical Help
+
+For additional help, please contact The University of Maine.
+
+ 
+1. Online Application Overview and Navigation
+	
+TOP
+
+The acalog ACMS™ allows you to submit an online application to this institution. The application format is based on the Common Application that is used by over 200 universities around the country. Submitting an online application requires filling out several online forms and paying for any application processing fees. Once submitted, your application will be given the same attention as a traditionally hand written and mailed application.
+
+You may even be able to submit multiple applications to this institution if it offers multiple online catalogs. For instance, if this intitution offers undergraduate and graduate catalogs, you may easily create and submit different applications for each catalog.
+Home 
+	
+Main Application 
+	
+Supplemental Forms
+
+Personal
+	
+Family
+	
+Educational
+
+Once you have registerd and logged in, you will notice additional navigation available at the top of the page (example at right). Use this navigation to access the different sections of your application and the different functions you may perform.
+
+Some sections of the online application may include a second row of navigation links. These links may have an unchecked () or a checked () icon next to them. An unchecked icon indicates that the section or its required fields have not been filled in yet. A checked icon indicates that the section or its required fields have been filled in and saved. All required fields in these sections should be completed before the application is submitted. Not all of the fields in the various forms will be required.
+
+ 
+2. Create an Account and Login
+	
+TOP
+
+To submit an online application, you must first login. If you have already created an account, simply enter your e-mail address and password to login. If you have not created an account yet, click on the Register an Account link.
+
+Note: The online application and Portfolio features use the same account system. If you have already created an account for use with the Portfolio, you may simply login using your Portfolio account information (e-mail and password).
+
+When registering an account, you must enter a valid e-mail address, a password and password confirmation. You may also request that an advisor contact you by checking the Please have an advisor contact me checkbox. Once you complete all required fields, click the Submit button to create your account and be automatically logged in.
+
+Once logged in you may begin editing applications for any available catalog.
+
+You may create and submit an application for each catalog in the system. If you have more than one application in progress, you may change applicatons by choosing a different catalog from the drop down list at the top of the page and clicking the GO button. This will allow you to edit the application for the selected catalog.
+
+Note: For more information about submitting mulitple applications, please see the Submit an Application section.
+
+When you are finished editing your application, click the Logout link in the top navigation to logout.
+
+ 
+3. Main Application Pages
+	
+TOP
+
+The main portion of the online application consists of the forms located under the Main Application link. These forms contain required information that must be completed prior to submisson of your application.
+
+Some sections of the online application may include a second row of navigation links. These links may have the different icons next to them. An unchecked icon () indicates that the section has not been completed yet. A checked icon () indicates that the section has been completed.
+
+While filling out the different forms for your application, be sure to save your information often to help protect against lost data. To save information, click the Save Data button at the bottom of each form after altering any information in the form. You may always come back and edit the form later.
+
+Personal
+
+This form is used to enter basic information about yourself such as name, address and contact information, and any knowledge of other languages.
+
+Educational
+
+This form is used to enter information about your past education and proposed future educational endeavors. Several parts of this form will only be displayed for undergraduate applications and others will only be displayed for graduate applicatons.
+
+Undergratuate based applications will include several educational objectives fields as well as form fields for high school information as well as ACT, SAT I, and SAT II test scores.
+
+Graduate based applications will include form fields for college test scores, GRE, GMAT, and MAT test scores.
+
+Essays
+
+This form is used to enter essays about your past acheivements, work experiences, and a personal essay about yourself.
+
+It is recomended that all essays be written in a word processing program such as Microsoft Word™ and then copied into the appropriate essay text box. Note: Special formatting such as different fonts, bold or italic text, and images will be lost and should not be used in the essays.
+
+National
+
+This form is only required of international students who are not citizens of the United States. All fields of this form should be completed.
+
+U.S. Citizens should simply select the U.S. Citizen button and then continue with the rest of their application.
+
+Recommendations
+
+Use this form to list persons who will be submitting letters of recommendation on your behalf. Recommendations should be provided from employers, supervisors, professors, or others who are able to comment on your professional and educational goals and potential.
+
+ 
+4. Supplemental Forms Pages
+	
+TOP
+
+This online application may offer several forms under the Supplemental Forms link in addition to the Main Application forms. These forms are designed to add specific additional information to your application that may not be covered in the Main Application sections.
+
+You may not need to fill out all (or any) of these supplemental forms. To find out which supplemental forms you should complete, please see the information on the Home and Submit pages.
+
+The different supplemental forms available are described below.
+
+Downloadable Forms
+
+This section includes forms that may be downloaded, printed and mailed. Any forms that are required to be mailed to the institution with your application are likely to be included here. If you are paying the application fee by check or money order, any printed forms should be mailed along with your application payment.
+
+To download a form, simply click on the name of the form.
+
+Some forms may require plug-ins to view them within the browser. See the technical help section below for more information about plug-ins.
+
+ 
+5. Print an Application
+	
+TOP
+
+You may easily print a copy of your online application whenever you wish.
+
+To do so, simply click on the Print Application link in the top navigation. This will open a pop up window with your application and all the fields displayed in it. To print the contents of the window, simply click on the Click here to print this page link.
+
+When finished printing, close the window or click on the Close Window link.
+
+Note: If the application was already submitted, your payment receipt information will be displayed at the bottom of this page.
+
+ 
+6. Submit an Application
+	
+TOP
+
+The process for submitting your application is very simple. All you need to do is sign and date the application once all required information in the application is complete. Many institutions may also require that an application processing fee be paid before processing your submitted application.
+
+The acalog ACMS™ makes these tasks easy. All of the application submission tasks are located under the Submit link in the top navigation.
+
+Sign & Submit
+
+Before submitting your application you must sign and date it. Start by clicking on the Sign & Submit link in the secondary navigation.
+
+If you have not completed all the required fields in the application, you will be given a list of pages which are incomplete. You must return and complete the required fields on these pages before you may sign and submit your application. Although not every form field must be filled in, the fields marked as required must be completed.
+
+If all required fields and sections have been filled in, you may sign and submit the applicaton. Enter your full legal name and the date and click the Submit Application button. If there are no errors, your application will have been successfully submitted.
+
+Note: Once submitted, you may not edit or re-submit an online application.
+
+Authorize Payment
+
+Many institutions require that you pay a processing fee before they will process your application. Once you have signed and submitted your application, the Authorize Payment link will become available in the top navigation. Click on this link to authorize payment of the application processing fee.
+
+You may pay your application processing fee by way of check or money order or secure online credit card transaction. Fill in the appropriate information and then click the Submit Payment button. Once the payment information is captured, you will be given a payment receipt as described below.
+
+Note: For credit card payments, the institution will conduct the credit card payment at a later date and will notify you when the transaction has been completed.
+
+Payment Receipt
+
+Your payment receipt information for your payments of any online application processing fees will be displayed at the bottom of the Print Application page.
+
+ 
+7. Technical Help
+	
+TOP
+
+Plug-ins for downloadable forms.
+
+Some of the downloadable forms may require plug-ins in order to be viewed within your web browser. Plug-ins are a way to add more functionality to your web browser. After installing a plug-in, your web browser will be able to display additional file formats such as Microsoft Word or Adobe Acrobat documents.
+
+For the most part, plug-ins will install nearly automatically. All you’ll need to do is locate the plug-in from its creator’s website, and click on a download link for it. Next simply confirm that you wish to install the plug-in, and the rest will be done automatically.
+
+The two most common plug-ins that you may need are in this catalog may require are for Microsoft Word plug-in or the Adobe Acrobat plug-in. You may also check this site for a more comprehensive listing of available plug-ins.
+
+ 
+    	All catalogs © 2009 The University of Maine. Powered by the acalog™ academic catalog management system (ACMS™).
