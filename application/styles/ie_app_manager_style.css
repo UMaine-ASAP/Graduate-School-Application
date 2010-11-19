@@ -1,0 +1,12 @@
+.nested {
+	position: relative;
+	top:2em;
+	padding-top:15px;
+	margin-bottom: 30px;
+}
+
+.nested legend {
+	position: absolute;
+	top: -1.3em;
+	left: .2em;
+}
