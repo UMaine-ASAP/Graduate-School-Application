@@ -1,12 +1,10 @@
 function saveDataCallback(response, target, value) {
-	if($("#validate_wrapper").validate()) {
-		if (response == 1) {
-			$("#validate_wrapper").validate().showErrors(null);
-		} else {
-			var errObj = new Object();
-			errObj[target.name] = response;
-			$("#validate_wrapper").validate().showErrors(errObj);
-		}
+	if (response == 1) {
+		$("#validate_wrapper").validate().showErrors(null);
+	} else {
+		var errObj = new Object();
+		errObj[target.name] = response;
+		$("#validate_wrapper").validate().showErrors(errObj);
 	}
 }
 
