@@ -1,0 +1,28 @@
+#within directory root
+
+find -type d -print0 | xargs -O chmod -R 755
+
+chmod -R 770 -R /
+
+chmod -R 400 includes
+chmod -R 400 misc
+chmod -R 400 modules
+chmod -R 400 profiles
+chmod -R 400 scripts
+chmod -R 400 themes
+chmod 400 .htaccess
+
+chmod -R 770 CHANGELOG.txt
+chmod -R 770 COPYRIGHT.txt
+chmod -R 770 cron.php
+chmod -R 770 index.php
+chmod -R 770 CHANGELOG.txt
+chmod -R 770 CHANGELOG.txt
+chmod -R 770 CHANGELOG.txt
+chmod -R 770 CHANGELOG.txt
+
+
+
+
+chmod -R 400 sites/default/settings.php
+chmod -R 644 sites/default/files
