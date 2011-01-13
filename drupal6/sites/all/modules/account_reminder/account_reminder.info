@@ -1,0 +1,11 @@
+; $Id: account_reminder.info,v 1.1.2.2 2009/03/10 18:22:36 jaydub Exp $
+name = Account Reminder
+description = "A small module to resend the welcome email to those users who have yet to validate their email addresses."
+core = 6.x
+
+; Information added by drupal.org packaging script on 2009-08-06
+version = "6.x-1.2"
+core = "6.x"
+project = "account_reminder"
+datestamp = "1249542017"
+
