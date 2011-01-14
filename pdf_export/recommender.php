@@ -146,7 +146,7 @@
 		(207) 581-3291
 		A Member of the University of Maine System";
 	
-		mail($recommender1email, $subject, $message_plain, $headers);
+		mail($recommender1email, $subject, $message, $headers);
 	}
 		
 	// Reference 2
@@ -268,7 +268,7 @@
 		(207) 581-3291
 		A Member of the University of Maine System";
 
-		mail($recommender2email, $subject, $message_plain, $headers);
+		mail($recommender2email, $subject, $message, $headers);
 	}
 		
 		
@@ -390,7 +390,7 @@
 		A Member of the University of Maine System";
 
 		
-		mail($recommender3email, $subject, $message_plain, $headers);
+		mail($recommender3email, $subject, $message, $headers);
 	}	
 	
 	
@@ -516,7 +516,7 @@
 				(207) 581-3291
 				A Member of the University of Maine System";
 				
-				mail(filter_var($xref['reference_email'], FILTER_SANITIZE_EMAIL), $subject, $message_plain, $headers);
+				mail(filter_var($xref['reference_email'], FILTER_SANITIZE_EMAIL), $subject, $message, $headers);
 			}
 		}
 	}

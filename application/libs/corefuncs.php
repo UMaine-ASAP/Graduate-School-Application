@@ -158,9 +158,9 @@ function sendSuccessMessage($email, $code) {
 
 
 	$subject = "UMaine Grad School: Please Confirm Your Account Request"; //subject
-	$header = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
+	$header = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/html; charset=iso-8859-1";
 
-	mail($email, $subject, $mail_body_plain, $header); //mail command	
+	mail($email, $subject, $mail_body, $header); //mail command	
 }
 
 function sendRecoverMessage($email, $code) {
@@ -267,6 +267,7 @@ function sendRecoverMessage($email, $code) {
 	$mail_body_plain .= "(207) 581-3291\n";
 	$mail_body_plain .= "A Member of the University of Maine System\n";
 	$mail_body_plain .= $GLOBALS['graduate_homepage'];
+
 	mail($recipient_email, $subject, $mail_body, $header); //mail command	
 }
 
