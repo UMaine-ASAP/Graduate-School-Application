@@ -148,14 +148,18 @@
 		// $temp .= $user['student_type']."\t";
 		$temp .= "\t";
 		$temp .= $student_t;
-		
+
 		$temp .= $user['application_fee_payment_status']."\t";
-		$temp .= $user['application_fee_transaction_type']."\t";
+
 		$appsubdate = explode("-", $user['application_fee_transaction_date']);
-		$temp .= $appsubdate[2]."/".$appsubdate[1]."/".$appsubdate[0]."\t";
-		if ($user['application_fee_payment_status']=='N'){
-			$temp .= "\t";
-		}else{ 
+		if ($user['application_fee_payment_status']=='N') {
+			//all blank
+			$temp .= "\t"; //transaction type
+			$temp .= "\t"; //date
+			$temp .= "\t"; //transaction amount
+		}else if($user['application_fee_payment_status']=='Y') { 
+			$temp .= $user['application_fee_transaction_type']."\t";
+			$temp .= $appsubdate[2]."/".$appsubdate[1]."/".$appsubdate[0]."\t";
 			$temp .= $user['application_fee_transaction_amount']."\t";
 		}	
 		$temp .= $user['application_fee_transaction_number']."\n";
