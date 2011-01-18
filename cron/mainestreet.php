@@ -155,8 +155,9 @@
 		$temp .= $appsubdate[2]."/".$appsubdate[1]."/".$appsubdate[0]."\t";
 		if ($user['application_fee_payment_status']=='N'){
 			$temp .= "\t";
-		}
-		else{ $temp .= $user['application_fee_transaction_amount']."\t";}	
+		}else{ 
+			$temp .= $user['application_fee_transaction_amount']."\t";
+		}	
 		$temp .= $user['application_fee_transaction_number']."\n";
 		return $temp;
 	}

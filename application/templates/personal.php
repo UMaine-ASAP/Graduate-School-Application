@@ -91,7 +91,7 @@
 					
 					<label for="permanent_postal">
 						<p class="required title">Postal Code *</p>
-						<input type="text" size="30" maxlength="15" id="permanent_postal" name="permanent_postal" value="{{PERMANENT_POSTAL}}" onblur="saveValue(event,{{USER}});">
+						<input type="text" size="15" maxlength="15" id="permanent_postal" name="permanent_postal" value="{{PERMANENT_POSTAL}}" onblur="saveValue(event,{{USER}});">
 					</label>
 					
 					<label for="permanent_country">
@@ -140,7 +140,7 @@
 				
 				<label for="mailing_postal">
 					<p class="title">Postal Code</p>
-					<input type="text" size="30" maxlength="15" id="mailing_postal" name="mailing_postal" value="{{MAILING_POSTAL}}" onblur="saveValue(event,{{USER}});">
+					<input type="text" size="15" maxlength="15" id="mailing_postal" name="mailing_postal" value="{{MAILING_POSTAL}}" onblur="saveValue(event,{{USER}});">
 				</label>
 				
 				<label for="mailing_country">

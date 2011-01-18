@@ -79,7 +79,7 @@
 			
 			<label for="reference_postal[{{INDEX}}]">
 				<p class="title">Postal Code</p>
-				<input type="text" size="30" maxlength="30" id="reference_postal[{{INDEX}}]" name="reference_postal" value="{{REFERENCE_POSTAL}}" onblur="saveValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});"/>
+				<input type="text" size="12" maxlength="12" id="reference_postal[{{INDEX}}]" name="reference_postal" value="{{REFERENCE_POSTAL}}" onblur="saveValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});"/>
 			</label>
 			
 			<label for="reference_country[{{INDEX}}]">
