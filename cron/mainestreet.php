@@ -1,6 +1,14 @@
    <?php
  	include_once "../application/libs/database.php";
  	include_once "../application/libs/variables.php";
+
+	function checkInternationalState($value) {
+		if($value == "IT") {
+			return "";
+		} else {
+			return $value;
+		}
+	}
 	
 	function mainestreet($userid) {
 	// Lukas Jordan //edits: jonathan simpson.
@@ -19,7 +27,7 @@
 		$temp .= $user['permanent_addr2']."\t";
 		$temp .= $user['permanent_city']."\t";
 		$temp .= $user['permanent_country']."\t";
-		$temp .= $user['permanent_state']."\t";
+		$temp .= checkInternationalState($user['permanent_state'])."\t";
 		$temp .= $user['permanent_postal']."\t";
 		$temp .= preg_replace('/[^\d]/', '', $user['primary_phone'])."\t";
 		$temp .= $user['email']."\t";
@@ -28,7 +36,7 @@
 		$temp .= $user['mailing_addr1']."\t";
 		$temp .= $user['mailing_addr2']."\t";
 		$temp .= $user['mailing_city']."\t";
-		$temp .= $user['mailing_state']."\t";
+		$temp .= checkInternationalState($user['mailing_state'])."\t";
 		$temp .= $user['mailing_country']."\t";
 		$temp .= $user['mailing_postal']."\t";
 		$temp .= $user['ethnicity_hispa']."\t";
@@ -162,7 +170,11 @@
 			$temp .= $appsubdate[2]."/".$appsubdate[1]."/".$appsubdate[0]."\t";
 			$temp .= $user['application_fee_transaction_amount']."\t";
 		}	
-		$temp .= $user['application_fee_transaction_number']."\n";
+		if($user['application_fee_transaction_number'] != 0) {
+			$temp .= $user['application_fee_transaction_number']."\n";
+		} else {
+			$temp .= "\n";
+		}
 		return $temp;
 	}
 ?>

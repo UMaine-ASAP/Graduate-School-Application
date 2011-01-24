@@ -52,7 +52,7 @@ function sendSuccessMessage($email, $code) {
 	$sender_name = "University of Maine Graduate School"; // sender's name
 	$sender_email = "noreply@umaine.edu"; // sender's e-mail address
 	$recipient_email = str_replace('@','%40',$email);
-	$confirm_url = $GLOBALS['grad_app_root']."pages/login";
+	$confirm_url = $GLOBALS['grad_app_root']."pages/login.php";
 	$mail_body = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">
 <html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">
 <head>
@@ -167,7 +167,7 @@ function sendRecoverMessage($email, $code) {
 	$sender_name = "University of Maine Graduate School"; // sender's name
 	$sender_email = "noreply@umaine.edu"; // sender's e-mail address
 	$recipient_email = $email;
-	$confirm_url = $GLOBALS['grad_app_root']."pages/login";//"http". ((!empty($_SERVER['HTTPS'])) ? "s" : ""). "://" .$GLOBALS['server_name']. $_SERVER['REQUEST_URI'];
+	$confirm_url = $GLOBALS['grad_app_root']."pages/login.php";//"http". ((!empty($_SERVER['HTTPS'])) ? "s" : ""). "://" .$GLOBALS['server_name']. $_SERVER['REQUEST_URI'];
 	$subject = "UMaine Grad School: Password Recovery";
 	$header = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/html; charset=iso-8859-1";
 	$mail_body = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
