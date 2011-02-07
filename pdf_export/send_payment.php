@@ -46,7 +46,7 @@ if($has_been_submitted == 0){
 	$trans_id = '*'.$user.'*'.time();
 
 	//update database transaction_id
-	$db->iquery("UPDATE applicants SET application_fee_transaction_number='%s' WHERE applicant_id=%d", $trans_id, $user);
+	//$db->iquery("UPDATE applicants SET application_fee_transaction_number='%s' WHERE applicant_id=%d", $trans_id, $user);
 
 	//Fetch application cost
 	$app_cost_query = $db->query("SELECT application_fee_transaction_amount FROM applicants WHERE applicant_id=%d", $user);

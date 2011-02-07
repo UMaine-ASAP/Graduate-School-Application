@@ -15,7 +15,7 @@
 	// Determine User and page_id
 	//*********************************************************************************************
 	$user = check_ses_vars();
-	$user = ($user)?$user:header("location:application/pages/login.php");
+	$user = ($user)?$user:header("location:../application/pages/login.php");
 	
 	//*********************************************************************************************
 	// Initialize PDF Writer
@@ -401,6 +401,47 @@
 	$pdf->AddPage();
 	$pdf->writeHTML($all_html_content, true, 0, true, 0);
 
+	//*********************************************************************************************
+	// Add essay and resume to pdf
+	//*********************************************************************************************
+	/*
+	$primary_query = "";
+	$primary_query .= "SELECT `essay_file_name`, `resume_file_name` FROM `applicants` WHERE `applicant_id` = %d";
+	
+	$file_data = $db->query($primary_query, $user);
+	$file_data = $file_data[0];
+	print_r($file_data);
+	foreach($file_data as $id_key => $value) {
+		if(is_numeric($id_key)) continue;
+
+		$type_array = split('_',$id_key);
+		$type = $type_array[0]; //stores either 'essay' or 'resume'
+		$temp = split('.', $value);
+		$ext = $temp[1];
+		$exDOB = explode("/", $personal_data['date_of_birth']);
+		$newDOB = $exDOB[0].$exDOB[1].$exDOB[2];
+
+		if($value != null) {
+			$msg = "The applicant's " . $type . " is attached. Double click on the icon to open the attached file.";
+		} else {
+			$msg = "The applicant did not submit a " . $type . ".";
+		}
+		//output
+		$pdf->Write(0, $msg, '', 0, 'L', true, 0, false, false, 0);
+		if($value != null) {
+			$path = $type . "s_path"; //directory of type (stored as a global)
+			$filename = $personal_data['given_name'] . $personal_data['family_name'] . $newDOB . $ext;
+			$pdf->Annotation(85, 27, 5, 5, $type, array('Subtype'=>'FileAttachment', 'Name' => 'PushPin', 'FS' => $GLOBALS[$path].$filename));
+		}
+		if($file_date['essay_file_name'] != null) {
+			$pdf->Write(0, $txt, '', 0, 'L', true, 0, false, false, 0);
+		}	
+	}
+	*/
+
+	//*********************************************************************************************
+	// Finish Constructing PDF
+	//*********************************************************************************************
 	$today = date("m-d-Y");
 //	$today .= "_";
 //	$today .= date("U");//append unix timestamp for server copy of PDF

@@ -132,7 +132,7 @@ function sendSuccessMessage($email, $code) {
 
 	<div id=\"message\">
 		<h3>Account Pending Confirmation</h3>
-		<p>An account for the University of Maine Graduate School Online Application has been requested for the e-mail address $email, Please confirm this address is correct before filling out the application.\r\rClick here to confirm: <a href=\"$confirm_url?email=" . str_replace('+','%2B',$recipient_email) . "&code=$code\">$confirm_url?email=" . str_replace('+','%2B',$recipient_email) . "&code=$code</a></p>
+		<p>An account for the University of Maine Graduate School Online Application has been requested for the e-mail address $email. Please confirm this address is correct before filling out the application.\r\rClick here to confirm: <a href=\"$confirm_url?email=" . str_replace('+','%2B',$recipient_email) . "&code=$code\">$confirm_url?email=" . str_replace('+','%2B',$recipient_email) . "&code=$code</a></p>
 
 		<h3>Questions and Feedback</h3>
 		<p>For questions, suggestions, and other feedback, please contact the <a href=\"mailto:$admin_email\">administrator</a>.</p>
@@ -149,27 +149,28 @@ function sendSuccessMessage($email, $code) {
 	</html>"; //mail body
 
 	$mail_body_plain = "Account Pending Confirmation\n\n";
-	$mail_body_plain .= "An account for the University of Maine Graduate School Online Application has been requested by this e-mail address, Please confirm this address is correct before filling out the application. Click here to confirm: ".$confirm_url."?email=" . str_replace('+','%2B',$recipient_email) . "&code=".$code."\n\n";
+	$mail_body_plain .= "An account for the University of Maine Graduate School Online Application has been requested by this e-mail address. Please confirm this address is correct before filling out the application. Click here to confirm: ".$confirm_url."?email=" . str_replace('+','%2B',$recipient_email) . "&code=".$code."\n\n";
 //	$mail_body_plain .= "Questions and Feedback";
-	$mail_body_plain .= "For questions, suggestions, and other feedback, please contact ".$GLOBALS['admin_email'].".\n\n";
-	$mail_body_plain .= "The University of Maine, Orono, Maine 04469\n";
-	$mail_body_plain .= "(207) 581-3291\n";
-	$mail_body_plain .= "A Member of the University of Maine System\n";
+	$mail_body_plain .= "For questions, suggestions, and other feedback, please contact ".$GLOBALS['admin_email'].".";
+	//$mail_body_plain .= "\n\nThe University of Maine, Orono, Maine 04469\n";
+	//$mail_body_plain .= "(207) 581-3291\n";
+	//$mail_body_plain .= "A Member of the University of Maine System\n";
+	$mail_body_plain .= "\r\rThe University of Maine, Graduate School\r5755 Stodder Hall\rOrono, Maine 04469\r(207) 581-3291\r" . $GLOBALS['graduate_homepage'];
 
 
 	$subject = "UMaine Grad School: Please Confirm Your Account Request"; //subject
-	$header = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/html; charset=iso-8859-1";
+	$header = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
 
-	mail($email, $subject, $mail_body, $header); //mail command	
+	mail($email, $subject, $mail_body_plain, $header); //mail command	
 }
 
 function sendRecoverMessage($email, $code) {
 	$sender_name = "University of Maine Graduate School"; // sender's name
 	$sender_email = "noreply@umaine.edu"; // sender's e-mail address
-	$recipient_email = $email;
-	$confirm_url = $GLOBALS['grad_app_root']."pages/login.php";//"http". ((!empty($_SERVER['HTTPS'])) ? "s" : ""). "://" .$GLOBALS['server_name']. $_SERVER['REQUEST_URI'];
+	$recipient_email = str_replace('+','%2B',$email);
+	$confirm_url = $GLOBALS['grad_app_root']."pages/forgot.php";//"http". ((!empty($_SERVER['HTTPS'])) ? "s" : ""). "://" .$GLOBALS['server_name']. $_SERVER['REQUEST_URI'];
 	$subject = "UMaine Grad School: Password Recovery";
-	$header = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/html; charset=iso-8859-1";
+	$header = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
 	$mail_body = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 	<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"
 		\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">
@@ -245,7 +246,7 @@ function sendRecoverMessage($email, $code) {
 	<body>
 	<a href=\"".$GLOBALS['graduate_homepage']."\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" src=\"".$GLOBALS['grad_images']."grad_logo.png\" /></a>
 		<h1>Password Recovery</h1>
-		<div id='message'><p>A password reset for the University of Maine Graduate School Online Application has been requested for the e-mail address $email.</p><p>Click here to reset your password: <a href=\"$confirm_url?email=$recipient_email&code=$code\">$confirm_url?email=$recipient_email&code=$code</a></p>
+		<div id='message'><p>A password reset for the University of Maine Graduate School Online Application has been requested for the e-mail address $email.</p><p>Click here to reset your password: <a href=\"$confirm_url?email=".str_replace('+','%2B',$recipient_email)."&code=$code\">$confirm_url?email=".str_replace('+','%2B',$recipient_email)."&code=$code</a></p>
 
 		<h3>Questions and Feedback</h3>
 		<p>For questions, suggestions, and other feedback, please contact the <a href=\"mailto:$admin_email\">administrator</a>.</p></div>
@@ -262,13 +263,14 @@ function sendRecoverMessage($email, $code) {
 	$mail_body_plain = "";
 	$mail_body_plain .= "Password Recovery\n\n";
 	$mail_body_plain .= "A password reset for the University of Maine Graduate School Online Application has been requested for the e-mail address $email. Click here to reset your password: $confirm_url?email=$recipient_email&code=$code\n";
-	$mail_body_plain .= "For questions, suggestions, and other feedback, please contact ".$GLOBALS['admin_email'].".\n\n";
-	$mail_body_plain .= "The University of Maine, Orono, Maine 04469\n";
-	$mail_body_plain .= "(207) 581-3291\n";
-	$mail_body_plain .= "A Member of the University of Maine System\n";
-	$mail_body_plain .= $GLOBALS['graduate_homepage'];
+	$mail_body_plain .= "\nFor questions, suggestions, and other feedback, please contact ".$GLOBALS['admin_email'].".";
+	//$mail_body_plain .= "\n\nThe University of Maine, Orono, Maine 04469\n";
+	//$mail_body_plain .= "(207) 581-3291\n";
+	//$mail_body_plain .= "A Member of the University of Maine System\n";
+	//$mail_body_plain .= $GLOBALS['graduate_homepage'];
+	$mail_body_plain .= "\r\rThe University of Maine, Graduate School\r5755 Stodder Hall\rOrono, Maine 04469\r(207) 581-3291\r" . $GLOBALS['graduate_homepage'];
 
-	mail($recipient_email, $subject, $mail_body, $header); //mail command	
+	mail($email, $subject, $mail_body_plain, $header); //mail command	
 }
 
 ?>

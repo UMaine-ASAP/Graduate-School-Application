@@ -162,8 +162,6 @@ if (count($batch)!=0) {
 //Construct email components
 
 $mailto = '<graduate@maine.edu>';
-// $mailto = '<joshua.e.mcgrath@gmail.com>';
-
 
 $subject = 'UMaine Grad School Applications for '.$submit_date; 
 
@@ -175,7 +173,7 @@ $headers .= "X-Priority: 3\n";
 $headers .= "MIME-Version: 1.0\n";
 $headers .= "\n\n";
 
-$mail_sent = @mail($mailto, $subject, $emailMessage, $headers);
+//$mail_sent = @mail($mailto, $subject, $emailMessage, $headers);
 
 //Remove when live, echos out any errors that occured...
 echo "<p>".$errors."</p>";

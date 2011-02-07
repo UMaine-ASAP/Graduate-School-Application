@@ -61,9 +61,8 @@
 			<select id="start_year[{{INDEX}}]" name="start_year"  value="{{START_YEAR}}" class="start_year" onchange="saveValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});">
 				<option value="">- None -</option>
 				<script type="text/javascript">
-					var d = new Date();
 					for(var i=0; i<4; i++) {
-						var year = d.getFullYear()+i;
+						var year = {{FIRST_START_YEAR}}+i;
 						document.write('<option value="'+year+'">'+year+'</option>');
 					}
 				</script>

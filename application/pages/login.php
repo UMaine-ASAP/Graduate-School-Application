@@ -31,7 +31,7 @@ if ($_GET) {
 				// prepare the query
 				
 				$db->iquery("UPDATE `applicants` SET `login_email_confirmed` = 1 WHERE `applicant_id` = '%s'", $check_id);
-				//sendSuccessMessage(str_replace('@','%40',$email), $code);
+				//sendSuccessMessage($email, $code);
 			}
 		} else {
 			$signin_msg .= "<p class='warning'>Malformed Link</p>";
@@ -330,7 +330,6 @@ $db->close();
 					<div style="clear:both"></div>
 				</fieldset>
 				<p class="message"><strong>Note:</strong> if you are not applying for a degree, please use the <a href="<?php echo $GLOBALS['graduate_homepage'];?>documents/file/Nondegree.pdf">graduate nondegree application/registration form</a>.</p>
-				<p class="message"><strong>Note:</strong> if you have already begun an online application using our <a href="http://gradcatalog.umaine.edu/apply/index.php">old online application</a>, please complete your application there.</p>
 			</form>
 		</div>
 

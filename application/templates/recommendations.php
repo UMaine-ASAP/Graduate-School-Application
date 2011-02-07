@@ -105,7 +105,7 @@
 			
 			<label for="reference1_postal">
 				<p class="title">Postal Code</p>
-				<input type="text" size="30" maxlength="30" id="reference1_postal" name="reference1_postal" value="{{REFERENCE1_POSTAL}}" onblur="saveValue(event,{{USER}});"/>
+				<input type="text" size="15" maxlength="15" id="reference1_postal" name="reference1_postal" value="{{REFERENCE1_POSTAL}}" onblur="saveValue(event,{{USER}});"/>
 			</label>
 			
 			<label for="reference1_country">
@@ -201,7 +201,7 @@
 			
 			<label for="reference2_postal">
 				<p class="title">Postal Code</p>
-				<input type="text" size="30" maxlength="30" id="reference2_postal" name="reference2_postal" value="{{REFERENCE2_POSTAL}}" onblur="saveValue(event,{{USER}});"/>
+				<input type="text" size="15" maxlength="15" id="reference2_postal" name="reference2_postal" value="{{REFERENCE2_POSTAL}}" onblur="saveValue(event,{{USER}});"/>
 			</label>
 							
 			<label for="reference2_country">
@@ -297,7 +297,7 @@
 			
 			<label for="reference3_postal">
 				<p class="title">Postal Code</p>
-				<input type="text" size="30" maxlength="30" id="reference3_postal" name="reference3_postal" value="{{REFERENCE3_POSTAL}}" onblur="saveValue(event,{{USER}});"/>
+				<input type="text" size="15" maxlength="15" id="reference3_postal" name="reference3_postal" value="{{REFERENCE3_POSTAL}}" onblur="saveValue(event,{{USER}});"/>
 			</label>
 			
 			<label for="reference3_country">

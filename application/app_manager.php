@@ -203,6 +203,8 @@
 	$amc_replace['SERVER_NAME'] = $GLOBALS['server_name'];
 	$amc_replace['ESSAY_NAME'] = $db->getFirst("SELECT essay_file_name FROM applicants WHERE applicant_id=%d", $user);
 	$amc_replace['RESUME_NAME'] = $db->getFirst("SELECT resume_file_name FROM applicants WHERE applicant_id=%d", $user);
+	$date = getDate();
+	$amc_replace['FIRST_START_YEAR'] = $date['year'];
 
 	$app_manager_content->changeArray($amc_replace);
 	print $app_manager_content->parse();

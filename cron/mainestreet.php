@@ -98,7 +98,8 @@
 			
 			// $temp .= $user['alternate_name']."\t";
 			// $temp .=  preg_replace('/[^\d]/', '', $user['secondary_phone'])."\t";
-			$attendance_load = $result[$a]['attendance_load']."\t";////////////////////
+			$al_temp = $result[$a]['attendance_load'];
+			$attendance_load = (al_temp == 'F' || al_temp == 'P') ? "F\t" : "\t";//$result[$a]['attendance_load']."\t";////////////////////
 			
 			$academic_program = $result[$a]['academic_program']."\t";
 			$academic_plan= $programresult[0]['academic_plan']."\t";
@@ -160,21 +161,18 @@
 		$temp .= $user['application_fee_payment_status']."\t";
 
 		$appsubdate = explode("-", $user['application_fee_transaction_date']);
-		if ($user['application_fee_payment_status']=='N') {
-			//all blank
-			$temp .= "\t"; //transaction type
-			$temp .= "\t"; //date
-			$temp .= "\t"; //transaction amount
-		}else if($user['application_fee_payment_status']=='Y') { 
+		if ($user['application_fee_payment_status']=='Y') {
 			$temp .= $user['application_fee_transaction_type']."\t";
 			$temp .= $appsubdate[2]."/".$appsubdate[1]."/".$appsubdate[0]."\t";
 			$temp .= $user['application_fee_transaction_amount']."\t";
-		}	
-		if($user['application_fee_transaction_number'] != 0) {
-			$temp .= $user['application_fee_transaction_number']."\n";
 		} else {
-			$temp .= "\n";
+			//value is 'N' - use all blanks
+			$temp .= "\t"; //transaction type
+			$temp .= "\t"; //date
+			$temp .= "\t"; //transaction amount
 		}
+		$temp .= "\n"; //skip application_fee_transaction_number
+
 		return $temp;
 	}
 ?>

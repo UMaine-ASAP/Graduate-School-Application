@@ -28,7 +28,7 @@
 	// $headers .= 'From: UMaine Graduate School <graduate@maine.edu>' . "\r\n";
 	$sender_name = "University of Maine Graduate School";
 	$sender_email = "graduate@maine.edu";
-	$headers = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/html; charset=iso-8859-1";
+	$headers = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
 	
 	// If references online apply with email
 	// Reference 1
@@ -37,6 +37,7 @@
 	if ($recommender1online == 1 && $recommender1email!="") {
 		//email link
 		$link = "<a href='".$GLOBALS["grad_app_root"]."pages/rec_submit.php?userid=". $gethash ."&ref_id=reference1"."'>Click Here</a>";
+		$link_plain = $GLOBALS["grad_app_root"]."pages/rec_submit.php?userid=". $gethash ."&ref_id=reference1";
 		
 		//email message body
 		$message = "
@@ -114,7 +115,7 @@
 		$message .= "<div id= 'message'>"."<p style='font-weight:bold;'>"."Hello ". ucwords(sanitizeString($userarray['reference1_first'])) ." ". ucwords(sanitizeString($userarray['reference1_last'])) .", </p><br/>";
 		$message .= $fname. " " .$lname. " has requested that you write a recommendation for their application "; 
 		$message .= "to the University of Maine Graduate School.<br/><br/>";
-		$message .= "Please click the link below to submit a recommendation online.<br/><br/>";
+		$message .= "Please click the link below to submit a recommendation online:<br/><br/>";
 		$message .= $link;
 		$message .= "<br/><br/>";
 		$message .= "Submitting a letter of recommendation online ensures advanced processing of graduate applications.";
@@ -129,24 +130,20 @@
 		$message .= "</body>
 		</html>";
 
-		$message_plain = "<a href=\"".$GLOBALS['graduate_homepage'] ."\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='".$_SERVER['grad_app_root'] ."images/grad_logo.png' /></a>";
-		$message_plain .= "Hello ". ucwords(sanitizeString($userarray['reference3_first'])) ." ". ucwords(sanitizeString($userarray['reference3_last'])).",/r/r";
-
+		$message_plain = "Hello ". ucwords(sanitizeString($userarray['reference1_first'])) ." ". ucwords(sanitizeString($userarray['reference1_last'])).",\r\r";
 
 		$message_plain .= "".$fname. " " .$lname. " has requested that you write a recommendation for their application "; 
-		$message_plain .= "to the University of Maine Graduate School./r/r";
-		$message_plain .= "Please click the link below to submit a recommendation online./r/r";
-		$message_plain .= $link;
-		$message_plain .= "/r/r";
-		$message_plain .= "Submitting a letter of recommendation online ensures advanced processing of graduate applications.";
-		$message_plain .= "/r/r";
-		$message_plain .= "Thank you for supporting the University of Maine's graduate mission!";
-		$message_plain .= "
-		The University of Maine, Orono, Maine 04469
-		(207) 581-3291
-		A Member of the University of Maine System";
+		$message_plain .= "to the University of Maine Graduate School.\r\r";
+		$message_plain .= "Please click the link below to submit a recommendation online:\r\r";
+		$message_plain .= $link_plain;
+		$message_plain .= "\r\r";
+		$message_plain .= "Submitting a letter of recommendation online ensures more efficient processing of graduate applications.";
+		$message_plain .= "\r\r";
+		$message_plain .= "Thank you for support on behalf of the University of Maine's graduate student applicants!";
+		//$message_plain .= "\r\rThe University of Maine, Orono, Maine 04469\r(207) 581-3291\rA Member of the University of Maine System\r" . $GLOBALS['graduate_homepage'];
+		$message_plain .= "\r\rThe University of Maine, Graduate School\r5755 Stodder Hall\rOrono, Maine 04469\r(207) 581-3291\r" . $GLOBALS['graduate_homepage'];
 	
-		mail($recommender1email, $subject, $message, $headers);
+		mail($recommender1email, $subject, $message_plain, $headers);
 	}
 		
 	// Reference 2
@@ -156,7 +153,7 @@
 
 		//email link
 		$link = "<a href='".$GLOBALS['grad_app_root'] ."pages/rec_submit.php?userid=". $gethash ."&ref_id=reference2"."'>Click Here</a>";
-		
+		$link_plain = $GLOBALS['grad_app_root'] ."pages/rec_submit.php?userid=". $gethash ."&ref_id=reference2";
 		//email message body
 		$message = "
 		<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -235,7 +232,7 @@
 		$message .= "<div id= 'message'>"."<p style='font-weight:bold;'>"."Hello ". ucwords(sanitizeString($userarray['reference2_first'])) ." ". ucwords(sanitizeString($userarray['reference2_last'])) .", </p><br/>";
 		$message .= $fname. " " .$lname. " has requested that you write a recommendation for their application "; 
 		$message .= "to the University of Maine Graduate School.<br/><br/>";
-		$message .= "Please click the link below to submit a recommendation online.<br/><br/>";
+		$message .= "Please click the link below to submit a recommendation online:<br/><br/>";
 		$message .= $link;
 		$message .= "<br/><br/>";
 		$message .= "Submitting a letter of recommendation online ensures advanced processing of graduate applications.";
@@ -251,24 +248,21 @@
 		</body>
 		</html>";
 
-		$message_plain = "<a href=\"".$GLOBALS['graduate_homepage'] ."\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='".$_SERVER['grad_app_root'] ."images/grad_logo.png' /></a>";
-		$message_plain .= "Hello ". ucwords(sanitizeString($userarray['reference3_first'])) ." ". ucwords(sanitizeString($userarray['reference3_last'])).",/r/r";
+		$message_plain = "Hello ". ucwords(sanitizeString($userarray['reference2_first'])) ." ". ucwords(sanitizeString($userarray['reference2_last'])).",\r\r";
 
 
 		$message_plain .= "".$fname. " " .$lname. " has requested that you write a recommendation for their application "; 
-		$message_plain .= "to the University of Maine Graduate School./r/r";
-		$message_plain .= "Please click the link below to submit a recommendation online./r/r";
-		$message_plain .= $link;
-		$message_plain .= "/r/r";
-		$message_plain .= "Submitting a letter of recommendation online ensures advanced processing of graduate applications.";
-		$message_plain .= "/r/r";
-		$message_plain .= "Thank you for supporting the University of Maine's graduate mission!";
-		$message_plain .= "
-		The University of Maine, Orono, Maine 04469
-		(207) 581-3291
-		A Member of the University of Maine System";
+		$message_plain .= "to the University of Maine Graduate School.\r\r";
+		$message_plain .= "Please click the link below to submit a recommendation online:\r\r";
+		$message_plain .= $link_plain;
+		$message_plain .= "\r\r";
+		$message_plain .= "Submitting a letter of recommendation online ensures more efficient processing of graduate applications.";
+		$message_plain .= "\r\r";
+		$message_plain .= "Thank you for support on behalf of the University of Maine's graduate student applicants!";
+		//$message_plain .= "\r\rThe University of Maine, Orono, Maine 04469\r(207) 581-3291\rA Member of the University of Maine System\r" . $GLOBALS['graduate_homepage'];
+		$message_plain .= "\r\rThe University of Maine, Graduate School\r5755 Stodder Hall\rOrono, Maine 04469\r(207) 581-3291\r" . $GLOBALS['graduate_homepage'];
 
-		mail($recommender2email, $subject, $message, $headers);
+		mail($recommender2email, $subject, $message_plain, $headers);
 	}
 		
 		
@@ -279,7 +273,7 @@
 		
 		//email link
 		$link = "<a href='".$GLOBALS['grad_app_root'] ."pages/rec_submit.php?userid=". $gethash ."&ref_id=reference3"."'>Click Here</a>";
-		
+		$link_plain = $GLOBALS['grad_app_root'] ."pages/rec_submit.php?userid=". $gethash ."&ref_id=reference3";
 		//email message body
 		$message = "
 		<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -356,7 +350,7 @@
 		$message .= "<div id= 'message'>"."<p style='font-weight:bold;'>"."Hello ". ucwords(sanitizeString($userarray['reference3_first'])) ." ". ucwords(sanitizeString($userarray['reference3_last'])) .", </p><br/>";
 		$message .= $fname. " " .$lname. " has requested that you write a recommendation for their application "; 
 		$message .= "to the University of Maine Graduate School.<br/><br/>";
-		$message .= "Please click the link below to submit a recommendation online.<br/><br/>";
+		$message .= "Please click the link below to submit a recommendation online:<br/><br/>";
 		$message .= $link;
 		$message .= "<br/><br/>";
 		$message .= "Submitting a letter of recommendation online ensures advanced processing of graduate applications.";
@@ -372,25 +366,21 @@
 		</body>
 		</html>";
 
-		$message_plain = "<a href=\"".$GLOBALS['graduate_homepage'] ."\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='".$_SERVER['grad_app_root'] ."images/grad_logo.png' /></a>";
-		$message_plain .= "Hello ". ucwords(sanitizeString($userarray['reference3_first'])) ." ". ucwords(sanitizeString($userarray['reference3_last'])).",\r\r";
+		$message_plain = "Hello ". ucwords(sanitizeString($userarray['reference3_first'])) ." ". ucwords(sanitizeString($userarray['reference3_last'])).",\r\r";
 
 
 		$message_plain .= "".$fname. " " .$lname. " has requested that you write a recommendation for their application "; 
 		$message_plain .= "to the University of Maine Graduate School.\r\r";
-		$message_plain .= "Please click the link below to submit a recommendation online.\r\r";
-		$message_plain .= $link;
+		$message_plain .= "Please click the link below to submit a recommendation online:\r\r";
+		$message_plain .= $link_plain;
 		$message_plain .= "\r\r";
-		$message_plain .= "Submitting a letter of recommendation online ensures advanced processing of graduate applications.";
+		$message_plain .= "Submitting a letter of recommendation online ensures more efficient processing of graduate applications.";
 		$message_plain .= "\r\r";
-		$message_plain .= "Thank you for supporting the University of Maine's graduate mission!";
-		$message_plain .= "
-		The University of Maine, Orono, Maine 04469
-		(207) 581-3291
-		A Member of the University of Maine System";
-
+		$message_plain .= "Thank you for support on behalf of the University of Maine's graduate student applicants!";
+		//$message_plain .= "\r\rThe University of Maine, Orono, Maine 04469\r(207) 581-3291\rA Member of the University of Maine System\r" . $GLOBALS['graduate_homepage'];
+		$message_plain .= "\r\rThe University of Maine, Graduate School\r5755 Stodder Hall\rOrono, Maine 04469\r(207) 581-3291\r" . $GLOBALS['graduate_homepage'];
 		
-		mail($recommender3email, $subject, $message, $headers);
+		mail($recommender3email, $subject, $message_plain, $headers);
 	}	
 	
 	
@@ -409,6 +399,7 @@
 	
 				//email link
 				$link = "<a href='".$GLOBALS['grad_app_root'] ."pages/rec_submit.php?userid=". $gethash ."&xref_id=". $xref['extrareferences_id']."'>Click Here</a>";
+				$link_plain = $GLOBALS['grad_app_root'] ."pages/rec_submit.php?userid=". $gethash ."&xref_id=". $xref['extrareferences_id'];
 						
 				//email message body
 				$message = "
@@ -483,7 +474,7 @@
 				$message .= "<div id= 'message'>"."<p style='font-weight:bold;'>"."Hello ". ucwords(sanitizeString($xref['reference_first'])) ." ". ucwords(sanitizeString($xref['reference_last'])) .", </p><br/>";
 				$message .= $fname. " " .$lname. " has requested that you write a recommendation for their application "; 
 				$message .= "to the University of Maine Graduate School.<br/>";
-				$message .= "Please click the link below to submit a recommendation online.<br/><br/>";
+				$message .= "Please click the link below to submit a recommendation online:<br/><br/>";
 				$message .= $link;
 				$message .= "<br/><br/>";
 				$message .= "Submitting a letter of recommendation online ensures advanced processing of graduate applications.";
@@ -499,24 +490,21 @@
 				</body>
 				</html>";
 
-		$message_plain = "<a href=\"".$GLOBALS['graduate_homepage'] ."\"><img alt=\"The University of Maine Graduate School\" height=\"99\" width=\"245\" 		src='".$_SERVER['grad_app_root'] ."images/grad_logo.png' /></a>";
-		$message_plain .= "Hello ". ucwords(sanitizeString($userarray['reference3_first'])) ." ". ucwords(sanitizeString($userarray['reference3_last'])).",/r/r";
+		$message_plain = "Hello ". ucwords(sanitizeString($xref['reference_first'])) ." ". ucwords(sanitizeString($xref['reference_last'])).",\r\r";
 
 
 				$message_plain .= "".$fname. " " .$lname. " has requested that you write a recommendation for their application "; 
-				$message_plain .= "to the University of Maine Graduate School./r/r";
-				$message_plain .= "Please click the link below to submit a recommendation online./r/r";
-				$message_plain .= $link;
-				$message_plain .= "/r/r";
-				$message_plain .= "Submitting a letter of recommendation online ensures advanced processing of graduate applications.";
-				$message_plain .= "/r/r";
-				$message_plain .= "Thank you for supporting the University of Maine's graduate mission!";
-				$message_plain .= "
-				The University of Maine, Orono, Maine 04469
-				(207) 581-3291
-				A Member of the University of Maine System";
+				$message_plain .= "to the University of Maine Graduate School.\r\r";
+				$message_plain .= "Please click the link below to submit a recommendation online:\r\r";
+				$message_plain .= $link_plain;
+				$message_plain .= "\r\r";
+				$message_plain .= "Submitting a letter of recommendation online ensures more efficient processing of graduate applications.";
+				$message_plain .= "\r\r";
+				$message_plain .= "Thank you for support on behalf of the University of Maine's graduate student applicants!";
+				//$message_plain .= "\r\rThe University of Maine, Orono, Maine 04469\r(207) 581-3291\rA Member of the University of Maine System\r" . $GLOBALS['graduate_homepage'];
+				$message_plain .= "\r\rThe University of Maine, Graduate School\r5755 Stodder Hall\rOrono, Maine 04469\r(207) 581-3291\r" . $GLOBALS['graduate_homepage'];
 				
-				mail(filter_var($xref['reference_email'], FILTER_SANITIZE_EMAIL), $subject, $message, $headers);
+				mail(filter_var($xref['reference_email'], FILTER_SANITIZE_EMAIL), $subject, $message_plain, $headers);
 			}
 		}
 	}
