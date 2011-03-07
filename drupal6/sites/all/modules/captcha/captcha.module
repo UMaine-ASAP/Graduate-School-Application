@@ -208,9 +208,14 @@ function captcha_process($element, $edit, &$form_state, $complete_form) {
     '#value' => $captcha_sid,
   );
 
-  // Additional one time CAPTCHA token: store in database and send with form.
-  $captcha_token = md5(mt_rand());
-  db_query("UPDATE {captcha_sessions} SET token='%s' WHERE csid=%d", $captcha_token, $captcha_sid);
+  // Get the token for a captcha_sid
+  $captcha_token = db_result(db_query("SELECT token FROM {captcha_sessions} WHERE csid = %d", $captcha_sid));
+  // Generate a new token if the token could not be retrieved (but not if the form has been submitted, because otherwise the session could be reused.)
+  if (! isset($captcha_token) && ! $form_state['submitted']) {
+    // Additional one time CAPTCHA token: store in database and send with form.
+    $captcha_token = md5(mt_rand());
+    db_query("UPDATE {captcha_sessions} SET token='%s' WHERE csid=%d", $captcha_token, $captcha_sid);
+  }
   $element['captcha_token'] = array(
     '#type' => 'hidden',
     '#value' => $captcha_token,
@@ -405,7 +410,7 @@ function captcha_form_alter(&$form, $form_state, $form_id) {
  * @return TRUE when strictly equal, FALSE otherwise.
  */
 function captcha_validate_strict_equality($solution, $response) {
-  return $solution === $response;
+  return $solution === $response || $solution === md5($response);
 }
 
 /**
