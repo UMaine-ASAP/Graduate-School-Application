@@ -404,20 +404,19 @@
 	//*********************************************************************************************
 	// Add essay and resume to pdf
 	//*********************************************************************************************
-	/*
+	/*	
 	$primary_query = "";
 	$primary_query .= "SELECT `essay_file_name`, `resume_file_name` FROM `applicants` WHERE `applicant_id` = %d";
 	
 	$file_data = $db->query($primary_query, $user);
 	$file_data = $file_data[0];
-	print_r($file_data);
+	$attachment_ct = 0;
 	foreach($file_data as $id_key => $value) {
 		if(is_numeric($id_key)) continue;
 
 		$type_array = split('_',$id_key);
 		$type = $type_array[0]; //stores either 'essay' or 'resume'
-		$temp = split('.', $value);
-		$ext = $temp[1];
+		list($temp, $ext) = explode('.', $value);
 		$exDOB = explode("/", $personal_data['date_of_birth']);
 		$newDOB = $exDOB[0].$exDOB[1].$exDOB[2];
 
@@ -430,15 +429,17 @@
 		$pdf->Write(0, $msg, '', 0, 'L', true, 0, false, false, 0);
 		if($value != null) {
 			$path = $type . "s_path"; //directory of type (stored as a global)
-			$filename = $personal_data['given_name'] . $personal_data['family_name'] . $newDOB . $ext;
-			$pdf->Annotation(85, 27, 5, 5, $type, array('Subtype'=>'FileAttachment', 'Name' => 'PushPin', 'FS' => $GLOBALS[$path].$filename));
+			$filename = $type . "_" . $user . "_" . $personal_data['given_name'] . "_" . $personal_data['family_name'] ."_". $newDOB . "." . $ext;
+			$ypos = 191 + $attachment_ct * 6;
+			echo $GLOBALS[$path].$filename . "<br>";
+			$pdf->Annotation(137, $ypos, 5, 5, $type, array('Subtype'=>'FileAttachment', 'Name' => 'PushPin', 'FS' => $GLOBALS[$path].$filename));
+			$attachment_ct++;
 		}
 		if($file_date['essay_file_name'] != null) {
 			$pdf->Write(0, $txt, '', 0, 'L', true, 0, false, false, 0);
-		}	
+		}
 	}
 	*/
-
 	//*********************************************************************************************
 	// Finish Constructing PDF
 	//*********************************************************************************************

@@ -18,6 +18,7 @@
 
   <div class="content">
     <?php print $content ?>
+    <?php print $node->content['webform']['#value'] ?>
   </div>
 
   <?php if ($terms): ?>
