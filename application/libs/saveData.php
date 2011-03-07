@@ -562,7 +562,7 @@ function filter_name($value)	{
 
 function filter_zipcode($value) {
 //	if(preg_match("/^([0-9]{5})(-[0-9]{4})?$/i",$value) || preg_match("([A-Za-z][0-9][A-Z] [0-9][A-Z][0-9])",$value))
-	return $value;
+	return filter_generic($value);
 //	else
 //		return false;
 }
@@ -729,7 +729,7 @@ function filter_mat_score($value) {
 
 function filter_student_type($value) {
 	$value = trim($value);
-	if(preg_match("(IS|OS|INTNL|NEBHE)", $value))
+	if(preg_match("(IS|OS|CAN|INTNL|NEBHE)", $value))
 		return $value;
 	else
 		return false;

@@ -2,7 +2,10 @@
 if (count($_POST) == 0 && count($_GET) == 0){
 	header("Location: signin");
 }
-if (isset($_POST['submit'])) {
+if 	( isset($_POST['submit']) 
+		&& isset($_GET['userid']) 
+		&& ( isset($_GET['ref_id']) || isset($_GET['xref_id'])) 
+		){
 		if ($_POST['submit'] == "Submit Recommendation") {
 			// validate (we're not using client-side validation on this one because 
 			// they might not have javascript)
@@ -12,6 +15,9 @@ if (isset($_POST['submit'])) {
 			include_once "../libs/variables.php";
 			include_once "../libs/database.php";
 			include_once "../libs/corefuncs.php";
+
+			$userid = $_GET['userid'];
+			$ref_id = $_GET['ref_id'];
 			
 			//connects to database
 			$db = new Database();
@@ -184,12 +190,57 @@ if (isset($_POST['submit'])) {
 			$cwd .= $pdftitle;
 			chmod($cwd, 0222);
 
+			//send recommender a thank you email
+			$sender_name = "University of Maine Graduate School"; // sender's name
+			$sender_email = "noreply@umaine.edu"; // sender's e-mail address
+
+			///////////////////////Get Email//////////////////////////////////////////////////////////////////
+			$result = $db->query("SELECT * FROM applicants WHERE login_email_code = '%s'", $userid);
+			$userarray = $result[0];
 			
-			header("Location: rec_submitted.php");
+			$fullname = $userarray['given_name']. " " .$userarray['family_name'];
+			
+			$ref_email = $ref_id. "_email";
+			$ref_email = $userarray[$ref_email];
+			
+			//check for any additional references (beyond 3)
+			if(isset($_GET['xref_id'])){
+				$xref_id = $_GET['xref_id'];
+
+				// Queries applicant data
+				$result = $db->query("SELECT * FROM extrareferences WHERE applicant_id = %d", $userid);
+				$xrefarray = $result;
+
+				foreach($xrefarray as $xref){
+					if($xref_id == $xref['extrareferences_id']){
+						//build recommender information 
+						$ref_email = $xref['reference_email'];
+					}
+				}
+			}
+			///////////////////////End Get Email////////////////////////////////////////////////////////////
+			$subject = "UMaine Grad School: Please Confirm Your Account Request"; //subject
+			$header  = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
+
+			$body  = "Thank you for writing a letter on behalf of " . $fullname . "'s application to the Graduate School at the University of Maine.  We regard letters of recommendation as one of the most crucial pieces of information in evaluating an applicant's potential for success in graduate study.  We deeply appreciate your effort in supporting " . $userarray['given_name'] . "'s application and hope that as you mentor other promising student's that you will encourage them to consider the University of Maine.\n\n";
+			$body .= "Information on our 70 master's degree programs and 30 doctoral programs may be found at www.umaine.edu/graduate.  Please feel free to contact the Graduate School office if you would like to request additional information on any of our programs.\n\n";
+			$body .= "Thanks again!\n\n";
+			$body .= "Sincerely,\n\n";
+			$body .= "Scott G. Delcourt\n";
+			$body .= "Associate Dean\n";
+			$body .= "Graduate School\n";
+			$body .= "University of Maine\n";
+			$body .= "(207) 581-3291\n";
+			
+			mail($ref_email, $subject, $body, $header);
+			
+			//header("Location: rec_submitted.php");
 	}
 } else {
 	
-	if (isset($_GET['userid']) && isset($_GET['ref_id']) || isset($_GET['xref_id'])) {
+	if 	(isset($_GET['userid']) && 
+			(isset($_GET['ref_id']) || isset($_GET['xref_id'])) 
+		){
 		include_once "../libs/corefuncs.php";
 	 	include_once "../libs/database.php";
 		$userid = $_GET['userid'];
@@ -419,7 +470,7 @@ if (isset($_POST['submit'])) {
 									Outstanding
 								</th>
 								<th span="col">
-									Truly Exeptional
+									Truly Exceptional
 								</th>
 								<th span="col">
 									Unable to Judge

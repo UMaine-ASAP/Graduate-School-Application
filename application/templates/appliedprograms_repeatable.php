@@ -39,8 +39,9 @@
 				<option value=""	>- None -</option>
 				<option value="IS" 	>In-State</option>
 				<option value="OS" 	>Out of State</option>
-				<option value="INTNL" 	>International</option>
-				<option value="NEBHE" 	>NEBHE program</option>
+				<option value="INTNL">International</option>
+				<option value="CAN" 	>Canadian</option>
+				<option value="NEBHE">NEBHE program</option>
 			</select>
 		</label> 	
 		<script type="text/javascript">initValue('student_type[{{INDEX}}]',"{{STUDENT_TYPE}}")</script>

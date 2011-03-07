@@ -6,12 +6,17 @@
 	$database_user = $GLOBALS["touchnet_db_user"];
 	$database_pass = $GLOBALS["touchnet_db_pass"];
 	$database_name = $GLOBALS["touchnet_db_name"];
-	$connection_string = $GLOBALS["touchnet_db_host"] . ":" . $GLOBALS["touchnet_db_port"] . "/" . $database_name . ":POOLED";
+	$db  = "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)";
+	$db .=	"(HOST = " . $GLOBALS["touchnet_db_host"] . ")(PORT=" . $GLOBALS["touchnet_db_port"] . "))";
+	$db .=	"(CONNECT_DATA=(SERVER=DEDICATED)";
+	$db .=	"(SERVICE_NAME=".$database_name.")))";
 
-	if($c = oci_connect($database_user, $database_pass, $connection_string) ) {
+	//$connection_string = $GLOBALS["touchnet_db_host"] . ":" . $GLOBALS["touchnet_db_port"] . "/" . $database_name . ":POOLED";
+
+	if($c = oci_connect($database_user, $database_pass, $db) ) {
 		
 		//perform query
-		$qry = "UPDATE UPAY_REQUESTS SET APP_STATUS='C', APP_MSG='".$app_msg."', APP_DATE=SYSDATE WHERE REQ_APP_TRAN_ID=".$identifier;
+		$qry = "UPDATE UPAY_REQUESTS SET APP_STATUS='C', APP_MSG='".$app_msg."', APP_DATE=SYSDATE WHERE REQ_APP_TRAN_ID=".$trans_id;
 
 		$stid = oci_parse($c, $qry) or logStuff("ERROR: ". var_dump(oci_error($c)));
 		$r = oci_execute($stid) or logStuff("ERROR: ". var_dump(oci_error($stid)));
