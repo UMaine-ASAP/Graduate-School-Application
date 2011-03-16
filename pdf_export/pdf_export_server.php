@@ -464,7 +464,7 @@
 		// $cwd .= "/completed_pdfs/";
 		$cwd = $completed_pdfs_path;
 		$cwd .= $pdftitle;
-		chmod($cwd, 0222);
+		chmod($cwd, 0664);
 			
 		// 	//echo "application copy has been made on server: ". $pdftitle;
 //		}

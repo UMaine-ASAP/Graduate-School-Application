@@ -188,7 +188,7 @@ if 	( isset($_POST['submit'])
 			// $cwd .= "/recommendations/";
 			$cwd = $recommendations_path;
 			$cwd .= $pdftitle;
-			chmod($cwd, 0222);
+			chmod($cwd, 0664);
 
 			//send recommender a thank you email
 			$sender_name = "University of Maine Graduate School"; // sender's name
@@ -219,7 +219,7 @@ if 	( isset($_POST['submit'])
 				}
 			}
 			///////////////////////End Get Email////////////////////////////////////////////////////////////
-			$subject = "UMaine Grad School: Please Confirm Your Account Request"; //subject
+			$subject = "Thank You from the University of Maine Graduate School"; //subject
 			$header  = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
 
 			$body  = "Thank you for writing a letter on behalf of " . $fullname . "'s application to the Graduate School at the University of Maine.  We regard letters of recommendation as one of the most crucial pieces of information in evaluating an applicant's potential for success in graduate study.  We deeply appreciate your effort in supporting " . $userarray['given_name'] . "'s application and hope that as you mentor other promising student's that you will encourage them to consider the University of Maine.\n\n";
@@ -234,7 +234,7 @@ if 	( isset($_POST['submit'])
 			
 			mail($ref_email, $subject, $body, $header);
 			
-			//header("Location: rec_submitted.php");
+			header("Location: rec_submitted.php");
 	}
 } else {
 	
