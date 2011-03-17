@@ -133,16 +133,18 @@ A Member of the University of Maine System
 </body>
 </html>";
 
-$message_plain = "Application Received";
-$message_plain .= "\r\rThank you for your application to the Graduate School. Please send a check or money order for the application fee of \$$amount as soon as possible so that your application may be processed. Once the application fee has been received, you will receive an email from the Graduate School acknowledging the processing of your application. In this email, you will receive instructions regarding how to log in to MaineStreet, the University's student information system, to check the status of your application. Your check should be made payable to the University of Maine and sent to:";
+$message_plain = "University of Maine Graduate Application Received - Fee Required";
 
+$message_plain .= "\r\rThank you for your application to the Graduate School. You must submit the payment of $65 for your application fee in order for your file to be reviewed for admission.";
+$message_plain .= "\rThe fee may be paid by sending a check/money order, made payable to University of Maine, to the address listed below.  Or you may call our office at 207-581-3291 to pay with a Visa or Mastercard.";
 
-$message_plain .= "\r\rGraduate School\rUniversity of Maine\r5755 Stodder Hall\rOrono, ME 04469-5755";
+$message_plain .="\r\rInstructions regarding how to log in to MaineStreet - the University's student information system - will be sent shortly with information on how to check the status of your application or pay your fee online, through your Student Center.";
+
+$message_plain .="\r\rPlease send checks or money orders to:";
+$message_plain .= "\rGraduate School\rUniversity of Maine\r5755 Stodder Hall\rOrono, ME 04469-5755";
 
 $message_plain .= "\r\rQuestions and Feedback";
 $message_plain .= "\rFor questions, suggestions, and other feedback, please contact the administrator at graduate@maine.edu";
-
-$message_plain .= "\r\rThe University of Maine, Graduate School\r5755 Stodder Hall\rOrono, Maine 04469\r(207) 581-3291\r" . $GLOBALS['graduate_homepage'];
 
 	$headers = "From: UMaine Graduate School <graduate@maine.edu>\r\nMIME-Version: 1.0\nContent-type: text/html; charset=iso-8859-1";
 	$headers_plain = "From: UMaine Graduate School <graduate@maine.edu>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
