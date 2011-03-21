@@ -7,6 +7,21 @@ include '../libs/variables.php';
 $db = new Database();
 $db->connect();
 
+function getHash( $index )
+{
+  $validCharacters = 'abcdefghijklmnopqerstuv0123456789';
+  $mod = strlen($validCharacters);
+  $hash = '';
+  $tmp = $index;
+
+  while( $tmp > $mod )
+  {
+    $hash .= substr($validCharacters, $tmp%$mod,1);
+    $tmp = floor( $tmp / $mod );
+  }
+  return $hash;
+}
+
 if ($_GET) {
 	if (isset($_GET['email']) && isset($_GET['code'])) {
 		
@@ -82,9 +97,7 @@ if ($_POST) {
 		$email_confirm = $_POST['create_email_confirm'];
 		$password = $_POST['create_password'];
 		$password_confirm = $_POST['create_password_confirm'];
-		// use this code for the confirmation email
-		$code = rand(0, 999999);
-		
+
 		// see if that email address already exists in the database, and if it does, throw an error
 
 		$dupe_result = $db->query("SELECT `login_email` FROM `applicants` WHERE `login_email` = '%s'", $email);
@@ -121,9 +134,15 @@ if ($_POST) {
 			
 			// no errors. proceed with account creation
 
+			$result = $db->query("SELECT applicant_id FROM applicants ORDER BY applicant_ID DESC LIMIT 1");
+			$last_index = $result[0]['applicant_id'];
+
+			$code = getHash(time()+last_index+1); // use this code for the confirmation email
 
 			$db->iquery("INSERT INTO `applicants` (`login_email`, `password`, `login_email_code`) VALUES('%s', '%s', '%s')", $email, sha1($password), $code);
+
 			$success_msg .= "<p class='success'>Account created. Please check your email for a link to confirm your email address.</p>";
+
 			sendSuccessMessage($email, $code);
 		}
 		
