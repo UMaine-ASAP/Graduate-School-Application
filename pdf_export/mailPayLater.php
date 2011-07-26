@@ -140,11 +140,14 @@ $message_plain .= "\rThe fee may be paid by sending a check/money order, made pa
 
 $message_plain .="\r\rInstructions regarding how to log in to MaineStreet - the University's student information system - will be sent shortly with information on how to check the status of your application or pay your fee online, through your Student Center.";
 
+
 $message_plain .="\r\rPlease send checks or money orders to:";
 $message_plain .= "\rGraduate School\rUniversity of Maine\r5755 Stodder Hall\rOrono, ME 04469-5755";
 
-$message_plain .= "\r\rQuestions and Feedback";
-$message_plain .= "\rFor questions, suggestions, and other feedback, please contact the administrator at graduate@maine.edu";
+$message_plain .="\r\rYour application will be held for 60 days from the date your application was submitted, and then permanently removed from our files if no fee has been received.";
+
+$message_plain .= "\r\r\rQuestions and Feedback";
+$message_plain .= "\r\rFor questions, suggestions, and other feedback, please contact the administrator at graduate@maine.edu";
 
 	$headers = "From: UMaine Graduate School <graduate@maine.edu>\r\nMIME-Version: 1.0\nContent-type: text/html; charset=iso-8859-1";
 	$headers_plain = "From: UMaine Graduate School <graduate@maine.edu>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";

@@ -13,6 +13,7 @@ if 	( isset($_POST['submit'])
 			
 			include_once "../../pdf_export/tcpdf/tcpdf.php";
 			include_once "../libs/variables.php";
+			include_once "../libs/template.php";
 			include_once "../libs/database.php";
 			include_once "../libs/corefuncs.php";
 
@@ -169,20 +170,54 @@ if 	( isset($_POST['submit'])
 			$pdfhtml .= $_POST['essay'];
 			
 			$pdfhtml .= "</body></html>";
-			
+
+			$today = date("m-d-Y");			
+
+			$replace_data = Array(
+				'RECOMMENDATION_DATE_RECEIVED' => $today,
+
+				'APPLICANT_NAME' 			 => $_POST["applicant_name"],
+				'APPLICANT_DOB'   			 => '',
+				'APPLICANT_FORMER_NAME' 		 => '',
+				'APPLICANT_EMAIL'			 => $_POST['uemail'],
+				'STATUS_WAIVED_VIEW_RECOMMENDATION' => $_POST['waived'],
+	
+				'RECOMMENDER_NAME' 	  => $_POST['rfname'] . " " . $_POST['rlname'],
+				'RECOMMENDER_TITLE' 	  => $_POST['rtitle'],
+				'RECOMMENDER_EMPLOYER' => $_POST['remployer'],
+				'RECOMMENDER_EMAIL'	  => $_POST['remail'],
+				'RECOMMENDER_PHONE'	  => $_POST['rphone'],
+
+				'RECOMMENDATION_ABILITY' 	=> $ability,
+				'RECOMMENDATION_MOTIVATION' => $motivation,
+				'RECOMMENDATION_TEXT' 	=> $_POST['essay']
+			);
+
+			$process_template = new Template();
+			$process_template->changeTemplate("LOR_Template/LOR.tpl");
+			$process_template->changeArray($replace_data);
+			$pdfhtml = $process_template->parse();
+
+
 			//-----------------------------------------------------------------
 			
 			$pdf->AddPage();
-			$pdf->writeHTML($pdfhtml, true, 0, true, 0);
+			//$pdf->writeHTML($pdfhtml, true, 0, true, 0);
 
-			$today = date("m-d-Y");
 			$user = $_POST["applicant_name"];
 			$pdftitle = "UMGradRec_". $user ."_".$_POST['rlname'].$_POST['rfname']."_". $today .".pdf";
 
 			//Close and output PDF document to local file on server
 			// $pdf->Output("recommendations/". $pdftitle, 'F');
-			$pdf->Output($recommendations_path.$pdftitle, 'F');
+			//$pdf->Output($recommendations_path.$pdftitle, 'F');
 			
+			/*==== MPDF ====*/
+			include('../../pdf_export/EXPERIMENTATION/MPDF52/mpdf.php');
+			$mpdf = new mPDF();
+			$mpdf->WriteHTML($pdfhtml);
+			$mpdf->Output($recommendations_path.$pdftitle);
+			/*==============*/
+
 			//set permissions on pdf to write only 
 			// $cwd = getcwd();
 			// $cwd .= "/recommendations/";

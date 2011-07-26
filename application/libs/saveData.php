@@ -641,7 +641,7 @@ function filter_gpa($value) {
 //400-800
 function filter_gre_verbal($value) {
 	$value = trim($value);
-	if(preg_match("/([4-7][0-9][0-9])|(800)/",$value))
+	if(preg_match("/([2-7][0-9][0-9])|(800)/",$value))
 		return $value;
 	else
 		return false;

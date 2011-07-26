@@ -366,7 +366,7 @@ display: inline;
   float: left;    /* LTR */
   font-family: Myriad Pro, Myriad Web Pro Regular, Lucida Grande, Geneva, Trebuchet MS, sans-serif;
   margin: 5px 10px 0 0;
-  width: 350px; /*was at 400px */
+  /*width: 350px;*/ /*was at 400px */
 }
 
 #header-first #logo {                            /* logo postion.  default image replaced if you upload your own */
@@ -455,7 +455,8 @@ color: #008AA3;
   /*margin: -75px 0px 0 0;*/
   display: inline;
   margin: auto;
-  width: 315px;
+  *margin-right: -24px;
+  /*width: 315px;*/
 }
 
 #primary-menu-wrapper {
@@ -467,7 +468,7 @@ color: #008AA3;
 /*left: 75px;*/
   /*bottom:48px;*/
 top: 26px;
-right: 351px;
+/*right: 351px;*/
   z-index: 5;    /* fixes IE z-index bug */
 }
 
