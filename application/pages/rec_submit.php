@@ -257,7 +257,7 @@ if 	( isset($_POST['submit'])
 			$subject = "Thank You from the University of Maine Graduate School"; //subject
 			$header  = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
 
-			$body  = "Thank you for writing a letter on behalf of " . $fullname . "'s application to the Graduate School at the University of Maine.  We regard letters of recommendation as one of the most crucial pieces of information in evaluating an applicant's potential for success in graduate study.  We deeply appreciate your effort in supporting " . $userarray['given_name'] . "'s application and hope that as you mentor other promising student's that you will encourage them to consider the University of Maine.\n\n";
+			$body  = "Thank you for writing a letter on behalf of " . $fullname . "'s application to the Graduate School at the University of Maine.  We regard letters of recommendation as one of the most crucial pieces of information in evaluating an applicant's potential for success in graduate study.  We deeply appreciate your effort in supporting " . $userarray['given_name'] . "'s application and hope that as you mentor other promising students that you will encourage them to consider the University of Maine.\n\n";
 			$body .= "Information on our 70 master's degree programs and 30 doctoral programs may be found at www.umaine.edu/graduate.  Please feel free to contact the Graduate School office if you would like to request additional information on any of our programs.\n\n";
 			$body .= "Thanks again!\n\n";
 			$body .= "Sincerely,\n\n";
