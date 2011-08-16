@@ -3,12 +3,14 @@
 include_once 'libs/extern_variables.php';
 include_once 'libs/database.php';
 
-$db = new Database();
+if( $server_name == 'hoonah.asap.um.maine.edu') {
+	$db = new Database();
 
-$db->connect();
+	$db->connect();
 
-$user = 2;
-$query = "UPDATE applicants SET has_been_submitted = 0 where applicant_id = %d";
-$db->iquery($query, $user);
-$db->close();
-echo "Successful!";
+	$user = 2;
+	$query = "UPDATE applicants SET has_been_submitted = 0 where applicant_id = %d";
+	$db->iquery($query, $user);
+	$db->close();
+	echo "Successful!";
+}

@@ -84,13 +84,13 @@ $session_timeout = 600; //10 minutes
 ///////////////////////
 
 //Where Essays are stored on submit
-$essays_path = "/Library/WebServer/Documents/grad/essays/";
+$essays_path = "/Library/WebServer/Documents/grad_application/essays/";
 //Where resumés are stored on submit
-$resumes_path = "/Library/WebServer/Documents/grad/essays/";
+$resumes_path = "/Library/WebServer/Documents/grad_application/essays/";
 //Where pdfs are stored on submit --- 
-$completed_pdfs_path = "/Library/WebServer/Documents/grad/pdf_export/completed_pdfs/";
+$completed_pdfs_path = "/Library/WebServer/Documents/grad_application/pdf_export/completed_pdfs/";
 //Where recommendations are stored, after the recommender fills out the online form and submits
-$recommendations_path = "/Library/WebServer/Documents/grad/recommendations/";
+$recommendations_path = "/Library/WebServer/Documents/grad_application/recommendations/";
 
 
 
@@ -105,7 +105,7 @@ $gradschool_path = "/Users/gradd2app/gradschool/";
 //To be accessed through sftp
 $mainestreet_path = "/Users/grad1mainst/mainestreet/";
 //Graduate Application document root
-$grad_app_root = "http://".$server_name."/grad/application/";
+$grad_app_root = "http://".$server_name."/grad_application/application/";
 // Images folder inside application root
 $grad_images = $grad_app_root . "images/";
 
