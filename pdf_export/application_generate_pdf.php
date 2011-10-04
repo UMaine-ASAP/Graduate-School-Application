@@ -1,5 +1,4 @@
 <?php
-
 	include_once "lib/tcpdf/tcpdf.php";
 	include_once "../application/libs/template.php";
 	include_once "../application/libs/variables.php";
@@ -24,8 +23,7 @@
 		return $result;
 	}
 
-	$user = check_ses_vars();
-	$user = ($user)?$user:header("location:../application/pages/login.php");
+function generate_application_pdf($user) {
 	
 	//*********************************************************************************************
 	// Database Login
@@ -69,7 +67,7 @@
 	//*********************************************************************************************
 	$primary_query = "SELECT given_name, middle_name, family_name, has_been_submitted FROM applicants WHERE applicant_id = %d";
 	$personal_data = $db->query($primary_query, $user);
-	$global_data   = $personal_data[0];
+	$global_data   = $global_data[0];
 	
 
 	$full_name 	      = $global_data['given_name'] ."_". $global_data['middle_name'] ."_". $global_data['family_name']; //set user name for pdf file name
@@ -429,12 +427,26 @@
 	// Output File
 	/*===============*/
 	
-	$today = date("m-d-y");//todays date without unix timestamp for user copy
-	$pdftitle = "UMGradApp_". $today ."_". $full_name .".pdf";
+	$today    = date("m-d-Y");
+	$exDOB    = explode("/", $personal_data['date_of_birth']);
+	$newDOB   = $exDOB[0].$exDOB[1].$exDOB[2];
+	
+	$pdftitle = $user."_".$personal_data['family_name']."_".$personal_data['given_name']."_".$newDOB.".pdf";
+		
+	//$all_html_content = template_parse("pdf_templates_test/Application.html", array_merge($page1_replace, $page2_replace, $page3_replace, $page4_replace));	
+	//	$mpdf->WriteHTML($all_html_content);
+	
+	$mpdf->Output($GLOBALS['completed_pdfs_path'] . $pdftitle);
 
-	$mpdf->Output($pdftitle, 'D');
+	//change permissions
+	$cwd = "completed_pdfs/";
+	$cwd .= $pdftitle;
+	chmod($cwd, 0664);
 
+	return $GLOBALS['completed_pdfs_path'] . $pdftitle;
 
+} //End Function Generate Application PDF
+	
 
 //============================================================+
 // END OF FILE                                                 

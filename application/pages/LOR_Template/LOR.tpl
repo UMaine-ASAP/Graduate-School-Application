@@ -23,7 +23,8 @@
 		.section { 
 			text-align: center;
 			margin-top: 30px;
-			font-size: 18px;
+			font-size: 14px;
+			text-decoration: underline;
 		}
 	
 		h1 {
@@ -37,7 +38,7 @@
 		}
 	
 		h4 {
-			font-size:13pt;
+			font-size:12px;
 			text-align:center;
 			font-weight:bold;
 			width:380pt;
@@ -119,10 +120,10 @@
 				</tr>
 			</table>
 		</div>
-
+<!--
 		<h4><b>This recommender allows this recommendation to be used for any program
 		the applicant may apply to.</b></h4>
-
+-->
 		<h2 class='section'>Summary Evaluation Ratings (1 = lowest, 7 = highest)</h2>
 	
 		<p><span class="field">Academic Ability and Potential for Graduate Work:</span> <strong><span class="value">{{RECOMMENDATION_ABILITY}}</span></strong></p>

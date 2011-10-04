@@ -111,43 +111,15 @@
 	$("#submitPayNow").click(function() {
 			$("#submitPayNow").attr("disabled", "true");
 			$("#submitPayLater").attr("disabled", "true");
-//			$.post("recommender.php");
-//			$.post("../pdf_export/pdf_export_server.php");
 			var url = "../pdf_export/send_payment.php";    
-//			$(location).attr('href',url);	
 			window.location.href = url;
 });
 	$("#submitPayLater").click(function() {
 			$("#submitPayLater").attr("disabled", "true");
 			$("#submitPayNow").attr("disabled", "true");
-//			$.post("recommender.php");
-//			$.post("mailPayLater.php");
-//			$.post("../pdf_export/pdf_export_server.php");
 			var url = "../pdf_export/success.php";
-//			$(location).attr('href',url);
 			window.location.href = url;
 });
-
-//	$("#submitButton").click(function() {
-//		var paynow = document.getElementById("paynow_yes");
-//		var paylater = document.getElementById("paynow_no");
-//		if(paynow.checked) {
-//			$("#submitButton").attr("disabled", "true");
-//			$.post("../pdf_export/pdf_export_server.php");
-//			$.post("../application/recommender.php");
-//			var url = "../application/send_payment.php";    
-//			$(location).attr('href',url);
-//		} else if(paylater.checked){
-//			$("#submitButton").attr("disabled", "true");
-//			$.post("../application/recommender.php", function(data) {
-//				$.post("../application/mailPayLater.php", function(data) {
-//					$.post("../pdf_export/pdf_export_server.php", function(data) {
-//						window.location = "../application/success.php";
-//					});
-//				});
-//			});
-//		}
-//	});
 </script>
 			
 			</div> <!-- buttons div -->

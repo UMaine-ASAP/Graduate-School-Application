@@ -19,6 +19,7 @@
 
 	//process application
 	if($has_been_submitted == 0){
+		$db->iquery("UPDATE applicants SET application_payment_method='%s' WHERE applicant_id=%d", "PAYLATER", $user);
 
 		//update database to show that application has been submitted
 		$db_update = "";

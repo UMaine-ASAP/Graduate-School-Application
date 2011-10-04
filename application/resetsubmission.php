@@ -12,5 +12,5 @@ if( $server_name == 'hoonah.asap.um.maine.edu') {
 	$query = "UPDATE applicants SET has_been_submitted = 0 where applicant_id = %d";
 	$db->iquery($query, $user);
 	$db->close();
-	echo "Successful!";
 }
+

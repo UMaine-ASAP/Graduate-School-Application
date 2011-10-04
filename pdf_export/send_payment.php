@@ -34,7 +34,7 @@ if($has_been_submitted == 0){
 	$db_update .= "' WHERE `applicant_id` = $user LIMIT 1";
 	$db->iquery($db_update);
 
-
+	$db->iquery("UPDATE applicants SET application_payment_method='%s' WHERE applicant_id=%d", "PAYNOW", $user);
 
 	//Send Recommendation and create pdf of application
 	require "recommender.php";

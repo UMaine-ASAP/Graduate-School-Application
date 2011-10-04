@@ -265,7 +265,7 @@ $db->close();
 	}
 	
 	p {
-		padding-bottom:.5em;
+		padding-top:.5em;
 	}
 	
 	fieldset {
@@ -292,6 +292,10 @@ $db->close();
 		-moz-border-radius:4px;
 		-webkit-border-radius:4px;
 		border:1px solid #9FAEB3;
+	}
+
+	input {
+		padding: 1px 6px;
 	}
 	
 	label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
@@ -340,7 +344,7 @@ $db->close();
 						<input type="password" class="required" name="password" id="password" size="27"/>
 					</label>
 
-					<div style="clear:both;"></div>
+					<div style="clear:both; height: 6px;"></div>
 
 					<input type="hidden" name="whichform" value="signin" id="whichform"/>
 					<input type="submit" name="signin" value="Sign In"/>
@@ -374,7 +378,7 @@ $db->close();
 						<input class="create_password_confirm" minLength="2" type="password" name="create_password_confirm" value="" id="create_password_confirm" size="27"/>
 					</label>
 
-					<div style="clear:both;"></div>
+					<div style="clear:both; height: 6px;"></div>
 
 					<input type="hidden" name="whichform" value="create_account" id="whichform"/>
 					<input type="submit" name="create" value="Create Account"/>

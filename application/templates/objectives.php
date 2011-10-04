@@ -96,6 +96,7 @@
 
 		</div>
 
+		<div><p class='title'>To upload an essay or resume, select the appropriate button above. Accepted file formats are pdf, doc, docx, rtf, and txt. If you have difficulties uploading a file, please send it as an attachment to graduate@maine.edu.</p></div>
 
 <!-- 		<fieldset id="essay_upload" name="essay_upload"> -->
 <!-- 			<legend>Essay</legend> -->

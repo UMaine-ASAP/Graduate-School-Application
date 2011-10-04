@@ -25,8 +25,8 @@ function uploadFile($name, $upload_path, $user) {
 	$exDOB = explode("/", $personal_data['date_of_birth']);
 	$newDOB = $exDOB[0].$exDOB[1].$exDOB[2];
 
-	$allowedExtensions = array("pdf", "doc", "docx", "rtf", "txt");
-	$allowedMimeTypes = array("application/pdf" ,"application/msword","application/doc","application/x-rtf","text/richtext","application/vnd.openxmlformats-officedocument.wordprocessingml.document","text/rtf" , "text/plain");
+	$allowedExtensions = array("doc", "docx", "rtf", "pdf");
+	$allowedMimeTypes = array("application/pdf", "application/msword","application/doc","application/x-rtf","text/richtext","application/vnd.openxmlformats-officedocument.wordprocessingml.document","text/rtf", "text/plain");
 
 	$filename = $_FILES[$name]["name"];
 	

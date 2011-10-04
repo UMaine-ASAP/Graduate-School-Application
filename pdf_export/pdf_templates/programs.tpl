@@ -1,68 +1,14 @@
-<table border="1" cellpadding="5">
-	<tr>
-		<td>
-			<strong>Program {{INDEX}}</strong>		
-		</td>
-	</tr>
-</table>
-
-<table border="1" cellpadding="5">
-	<tr>
-		<td>
-			<strong>Degree you are seeking:</strong>
-		</td>
-		<td>
-			<i>{{DESCRIPTION_APP}} - {{ACADEMIC_PROGRAM}}</i>
-		</td>
-	</tr>
-</table>
-
-<table border="1" cellpadding="5">
-	<tr>
-		<td>
-			<strong>Proposed department of study</strong>
-		</td>
-		<td>
-			<i>{{ACADEMIC_DEPT_CODE}}</i>
-		</td>
-	</tr>
-</table>	
-
-<table border="1" cellpadding="5">
-	<tr>
-		<td>
-			<strong>Major area of interest</strong>
-		</td>
-		<td>
-			<i>{{ACADEMIC_MAJOR}}</i>
-		</td>
-		<td>
-			<strong>Minor area of interest</strong>
-		</td>
-		<td>
-			<i>{{ACADEMIC_MINOR}}</i>
-		</td>
-	</tr>
-</table>
-
-<table border="1" cellpadding="5">
-	<tr>
-		<td>
-			<strong>Do you expect to study full or part time?</strong>
-		</td>
-		<td>
-			<i>{{ATTENDANCE_STATUS}}</i>
-		</td>
-	</tr>
-</table>
-
-<table border="1" cellpadding="5">
-	<tr>
-		<td>
-			<strong>Semester you plan to begin your graduate program</strong>
-		</td>
-		<td>
-			<i>{{START_SEMESTER}} {{START_YEAR}}</i>
-		</td>
-	</tr>
-</table>
+	<table class="two">
+		<tr>
+			<td><span class="field">Proposed department of study:</span> <span class="value">{{ACADEMIC_DEPT_CODE}}</span></td>
+			<td><span class="field">Intended Entry:</span> <span class="value">{{START_SEMESTER}} {{START_YEAR}}</span></td>
+		</tr>
+		<tr>
+			<td><span class="field">Degree you are seeking:</span> <span class="value">{{DESCRIPTION_APP}} - {{ACADEMIC_PROGRAM}}</span></td>
+			<td><span class="field">Attendance Status:</span> <span class="value">{{ATTENDANCE_STATUS}}</span></td>
+		</tr>
+		<tr>
+			<td><span class="field">Major Area of Interest:</span> <span class="value">{{ACADEMIC_MAJOR}}</span></td>
+			<td><span class="field">Minor Area of Interest:</span> <span class="value">{{ACADEMIC_MINOR}}</span></td>
+		</tr>
+	</table>
