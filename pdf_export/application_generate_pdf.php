@@ -23,8 +23,11 @@
 		return $result;
 	}
 
-function generate_application_pdf($user) {
+function generate_application_pdf($output_mode) {
 	
+	$user = check_ses_vars();
+	$user = ($user)?$user:header("location:../pages/index.php");
+
 	//*********************************************************************************************
 	// Database Login
 	//*********************************************************************************************
@@ -225,7 +228,7 @@ function generate_application_pdf($user) {
 	$primary_query  .= "`primary_phone`, `secondary_phone`, `present_occupation`, `ethnicity_hispa`, ";
 	$primary_query  .= "`date_of_birth`, `birth_city`, `birth_state`, `birth_country`, `gender`, `us_citizen`, `us_state`, `residency_status`, `country_of_citizenship`, ";
 	$primary_query	.= "AES_DECRYPT(`social_security_number`, '%s') AS `social_security_number`, ";
-	$primary_query  .= "`ethnicity_amind`, `ethnicity_asian`, `ethnicity_black`, `ethnicity_pacif`, `ethnicity_white`, `has_been_submitted`, `essay_file_name`, `resume_file_name`, `disciplinary_violation`, `criminal_violation` ";
+	$primary_query  .= "`ethnicity_amind`, `ethnicity_asian`, `ethnicity_black`, `ethnicity_pacif`, `ethnicity_white`, `has_been_submitted`, `essay_file_name`, `resume_file_name`, `disciplinary_violation`, `criminal_violation`, `application_payment_method` ";
 	$primary_query  .= "FROM `applicants` ";
 	$primary_query  .= "WHERE `applicant_id` = %d";
 	
@@ -401,25 +404,16 @@ function generate_application_pdf($user) {
 	// Build PDF
 	/*===============*/
 	//MPDF	
-	include('lib/MPDF52/mpdf.php');
+	include_once('lib/MPDF52/mpdf.php');
 	$mpdf = new mPDF();
 	
 	//combine all pages for auto page break generation
 	$all_html_content = "";
+	$all_html_content .= template_parse("pdf_templates/app_page_1.tpl", $page1_replace);
+	$all_html_content .= template_parse("pdf_templates/app_page_2.tpl", $page2_replace);
+	$all_html_content .= template_parse("pdf_templates/app_page_3.tpl", $page3_replace);
+	$all_html_content .= template_parse("pdf_templates/app_page_4.tpl", $page4_replace);
 
-	$all_html_content = template_parse("pdf_templates/app_page_1.tpl", $page1_replace);
-	$mpdf->AddPage();
-	$mpdf->WriteHTML($all_html_content);
-
-	$all_html_content = template_parse("pdf_templates/app_page_2.tpl", $page2_replace);
-	$mpdf->AddPage();
-	$mpdf->WriteHTML($all_html_content);
-
-	$all_html_content = template_parse("pdf_templates/app_page_3.tpl", $page3_replace);
-	$mpdf->AddPage();
-	$mpdf->WriteHTML($all_html_content);
-
-	$all_html_content = template_parse("pdf_templates/app_page_4.tpl", $page4_replace);
 	$mpdf->AddPage();
 	$mpdf->WriteHTML($all_html_content);
 
@@ -427,24 +421,25 @@ function generate_application_pdf($user) {
 	// Output File
 	/*===============*/
 	
-	$today    = date("m-d-Y");
-	$exDOB    = explode("/", $personal_data['date_of_birth']);
-	$newDOB   = $exDOB[0].$exDOB[1].$exDOB[2];
-	
-	$pdftitle = $user."_".$personal_data['family_name']."_".$personal_data['given_name']."_".$newDOB.".pdf";
-		
-	//$all_html_content = template_parse("pdf_templates_test/Application.html", array_merge($page1_replace, $page2_replace, $page3_replace, $page4_replace));	
-	//	$mpdf->WriteHTML($all_html_content);
-	
-	$mpdf->Output($GLOBALS['completed_pdfs_path'] . $pdftitle);
+	$today     = date("m-d-Y");
+	$exDOB     = explode("/", $personal_data['date_of_birth']);
+	$newDOB    = $exDOB[0].$exDOB[1].$exDOB[2];
+	$full_name = $personal_data['given_name'] ."_". $personal_data['middle_name'] ."_". $personal_data['family_name']; //set user 
 
-	//change permissions
-	$cwd = "completed_pdfs/";
-	$cwd .= $pdftitle;
-	chmod($cwd, 0664);
+	if( $output_mode == "SERVER" ) {		
+		$pdftitle = $user."_".$personal_data['family_name']."_".$personal_data['given_name']."_".$newDOB.".pdf";	
+		$mpdf->Output($GLOBALS['completed_pdfs_path'] . $pdftitle);
 
-	return $GLOBALS['completed_pdfs_path'] . $pdftitle;
+		//change permissions
+		$cwd = "completed_pdfs/";
+		$cwd .= $pdftitle;
+		chmod($cwd, 0664);
 
+	} else if( $output_mode == "USER" ){
+		$pdftitle = "UMGradApp_". $today ."_". $full_name .".pdf";
+		$mpdf->Output($pdftitle, 'D');		
+	}
+	return;
 } //End Function Generate Application PDF
 	
 

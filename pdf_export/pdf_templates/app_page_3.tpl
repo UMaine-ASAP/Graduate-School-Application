@@ -29,7 +29,7 @@
 			<td colspan='2'><span class="field">Have you ever taken or intend to take the MAT?</span> <span class="value">{{MAT_TAKEN}}</span></td>
 		</tr>
 		<tr>
-			<td><span class="field">GMAT Score:</span> <span class="value">{{MAT_SCORE}}</span></td>
+			<td><span class="field">MAT Score:</span> <span class="value">{{MAT_SCORE}}</span></td>
 			<td><span class="field">Date:</span> <span class="value">{{MAT_DATE}}</span></td>
 		</tr>
 	</table>

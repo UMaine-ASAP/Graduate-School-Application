@@ -173,7 +173,7 @@ if 	( isset($_POST['submit'])
 
 			$today = date("m-d-Y");			
 			
-			$results = $db->query("SELECT date_of_birth, alternate_name FROM applicants where login_email_code=%i", $userid);
+			$results = $db->query("SELECT date_of_birth, alternate_name FROM applicants where applicant_id = %d", $_POST['userid']);
 			$applicant_data = $results[0];
 
 			$replace_data = Array(
@@ -181,7 +181,7 @@ if 	( isset($_POST['submit'])
 
 				'APPLICANT_NAME' 			 => $_POST["applicant_name"],
 				'APPLICANT_DOB'   			 => $applicant_data['date_of_birth'],
-				'APPLICANT_FORMER_NAME' 		 => $applicant_data['alternate_name'],
+				'APPLICANT_FORMER_NAME' 	 => $applicant_data['alternate_name'],
 				'APPLICANT_EMAIL'			 => $_POST['uemail'],
 				'STATUS_WAIVED_VIEW_RECOMMENDATION' => $_POST['waived'],
 	
@@ -219,16 +219,12 @@ if 	( isset($_POST['submit'])
 			} else {
 				$updateQuery .= "UPDATE extrareferences SET reference_filename = '%s' WHERE applicant_id=%i";
 			}
-			$result = $db->query("SELECT applicant_id FROM applicants WHERE login_email_code=%i", $userid);
+			$result = $db->query("SELECT applicant_id FROM applicants WHERE login_email_code='%s'", $userid);
 			$result = $result[0];
 			$id = $result['applicant_id'];
 			$pdftitle = "UMGradRec_". $id ."_".$_POST['rlname'].$_POST['rfname']."_". $today .".pdf";
 
 			$db->iquery($updateQuery, $pdftitle, $id);
-
-			//Close and output PDF document to local file on server
-			// $pdf->Output("recommendations/". $pdftitle, 'F');
-			//$pdf->Output($recommendations_path.$pdftitle, 'F');
 			
 			/*==== MPDF ====*/
 			include('../../pdf_export/lib/MPDF52/mpdf.php');
@@ -237,11 +233,7 @@ if 	( isset($_POST['submit'])
 			$mpdf->Output($recommendations_path.$pdftitle);
 			/*==============*/
 
-			//set permissions on pdf to write only 
-			// $cwd = getcwd();
-			// $cwd .= "/recommendations/";
-			$cwd = $recommendations_path;
-			$cwd .= $pdftitle;
+			$cwd = $recommendations_path . $pdftitle;
 			chmod($cwd, 0664);
 
 			//send recommender a thank you email
