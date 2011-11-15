@@ -268,7 +268,7 @@ function generate_application_pdf($output_mode) {
 		$page1_replace['MAILING_ADDR1']   = $personal_data['permanent_addr1'];
 		$page1_replace['MAILING_ADDR2']   = $personal_data['permanent_addr2'];
 		$page1_replace['MAILING_CITY']    = $personal_data['permanent_city'];
-		$page1_replace['MAILING_STATE']   = $page1_replace['permanent_state'];
+		$page1_replace['MAILING_STATE']   = $page1_replace['PERMANENT_STATE'];
 		$page1_replace['MAILING_POSTAL']  = $personal_data['permanent_postal'];
 		$page1_replace['MAILING_COUNTRY'] = $personal_data['permanent_country'];
 	}
@@ -296,7 +296,11 @@ function generate_application_pdf($output_mode) {
 	$institution_data = $institution_data[0];
 	
 	$page2_replace = strip_numeric_indexes($institution_data);
-	
+	$page2_replace['PREV_UM_GRAD_APP']			= ($page2_data['prev_um_grad_app'])		 ? "Yes":"No";
+	$page2_replace['PREV_UM_GRAD_WITHDRAW'] 	= ($page2_data['prev_um_grad_withdraw']) ? "Yes":"No";
+	$page2_replace['DESIRE_ASSISTANTSHIP'] 		= ($page2_data['desire_assistantship'])	 ? "Yes":"No";
+	$page2_replace['APPLY_NEBHE'] 				= ($page2_data['apply_nebhe'])			 ? "Yes":"No";
+		
 	//*********************************************************************************************
 	// Create Page-3 using Templates
 	//*********************************************************************************************
@@ -347,10 +351,6 @@ function generate_application_pdf($output_mode) {
 	$page3_replace['GRE_TAKEN'] 		= ($page3_data['gre_taken'])		?"Yes":"No";
 	$page3_replace['GMAT_TAKEN'] 		= ($page3_data['gmat_taken'])		?"Yes":"No";
 	$page3_replace['MAT_TAKEN'] 		= ($page3_data['mat_taken'])		?"Yes":"No";
-	$page3_replace['PREV_UM_GRAD_APP']		= ($page3_data['prev_um_grad_app'])	?"Yes":"No";
-	$page3_replace['PREV_UM_GRAD_WITHDRAW'] 	= ($page3_data['prev_um_grad_withdraw'])	?"Yes":"No";
-	$page3_replace['DESIRE_ASSISTANTSHIP'] 	= ($page3_data['desire_assistantship'])	?"Yes":"No";
-	$page3_replace['APPLY_NEBHE'] 		= ($page3_data['apply_nebhe'])		?"Yes":"No";
 	
 	if( $page3_replace['GMAT_TAKEN'] == "No") {
 		$page3_replace['GMAT_DATE']  = "";

@@ -254,7 +254,7 @@ if 	( isset($_POST['submit'])
 				$xref_id = $_GET['xref_id'];
 
 				// Queries applicant data
-				$result = $db->query("SELECT * FROM extrareferences WHERE applicant_id = %d", $userid);
+				$result = $db->query("SELECT * FROM extrareferences WHERE login_email_code = '%s' ", $userid);
 				$xrefarray = $result;
 
 				foreach($xrefarray as $xref){

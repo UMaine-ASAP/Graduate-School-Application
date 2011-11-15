@@ -5,6 +5,6 @@
 		</tr>
 		<tr>
 			<td><span class="field">Subject:</span> <span class="value">{{GRE_SUBJECT}}</span></td>
-			<td><span class="field">Subject:</span> <span class="value">{{GRE_SCORE}}</span></td>
-			<td><span class="field">Subject:</span> <span class="value">{{GRE_DATE}}</span></td>
+			<td><span class="field">Score:</span> <span class="value">{{GRE_SCORE}}</span></td>
+			<td><span class="field">Date:</span> <span class="value">{{GRE_DATE}}</span></td>
 		</tr>

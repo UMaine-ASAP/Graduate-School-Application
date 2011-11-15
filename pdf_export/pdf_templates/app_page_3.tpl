@@ -2,7 +2,7 @@
   <div class="fieldset">
 	<table class="three">
 		<tr>
-			<td colspan="3"><span class="field">Have you ever taken or intend to take the GRE exam?</span> <span class="value">{{GRE_TAKEN}}</span></td>
+			<td colspan="3"><span class="field">Have you ever taken or intend to take the GRE?</span> <span class="value">{{GRE_TAKEN}}</span></td>
 		</tr>
 		<tr>
 			{{GRESCORES}}
