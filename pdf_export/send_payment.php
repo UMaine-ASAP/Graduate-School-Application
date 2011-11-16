@@ -56,7 +56,7 @@ if($has_been_submitted == 0){
 	$data ='UPAY_SITE_ID='.$GLOBALS["touchnet_site_id"].'&';
 	$data.='UMS_APP_ID='.$GLOBALS["touchnet_app_id"].'&';
 	$data.='EXT_TRANS_ID='.$trans_id.'&';
-	$data.='AMT=0.01';//. $app_cost;
+	$data.='AMT=' . $app_cost;
 	$header = array("MIME-Version: 1.0","Content-type: application/x-www-form-urlencoded","Contenttransfer-encoding: text");
 
 	//Execute request
