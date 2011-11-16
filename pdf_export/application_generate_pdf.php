@@ -155,7 +155,15 @@ function generate_application_pdf($output_mode) {
 	$gre_query = "";
 	$gre_query .= "SELECT * FROM gre WHERE applicant_id=$user";
 	$gres = $db->query($gre_query);
+	$first_pass = true;
 	foreach($gres as $gre){
+		if($first_pass) {
+			$first_pass = false;
+		} else {
+			$gre_results .= "<tr><td colspan='3' style='font-size: 20px;'>";
+			$gre_results .= "----------------------------------------------------------------------------------------------------------";
+			$gre_results .= "</td></tr>";
+		}
 		$gre_replace = strip_numeric_indexes($gre);		
 		$gre_results .= template_parse("pdf_templates/gre_scores.tpl", $gre_replace);
 	}

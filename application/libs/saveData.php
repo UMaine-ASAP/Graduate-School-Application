@@ -489,6 +489,15 @@ function isValid($name, $value, $message) {
 	} else if($name == "REFERENCE_COUNTRY") {
 		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
 		$message = "Invalid value.";
+	} else if($name == "ENGLISH_YEARS_SCHOOL") {
+		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_date_range'));
+		$message = "Incorrect Date Format";
+	} else if($name == "ENGLISH_YEARS_UNIV") {
+		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_date_range'));
+		$message = "Incorrect Date Format";
+	} else if($name == "ENGLISH_YEARS_PRIVATE") {
+		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_date_range'));
+		$message = "Incorrect Date Format";
 
 	###Submission Manager###
 	} else if($name == "ACCEPT_TERMS") {
@@ -505,6 +514,19 @@ function isValid($name, $value, $message) {
 	return $valid;
 }
 
+//format mm/yyyy-mm/yyyy
+function filter_date_range($value) {
+	//if ( preg_match("/(**)/", $value) ) {
+	if ( strpos($value, '-') != false ) {//Check for -
+		$dates = explode('-', $value);
+		$result = filter_short_date($dates[0]) && filter_short_date($dates[1]);
+
+		return $result;
+	} else {
+		return false;
+	}
+	//filter_long_date;
+}
 
 function filter_generic($value) {
 	$invalid_chars = str_split("\"#$%&'*+\\/=?^_`{|}~;><");

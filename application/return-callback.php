@@ -16,12 +16,14 @@
 	if($c = oci_connect($database_user, $database_pass, $db) ) {
 		
 		//perform query
-		$qry = "UPDATE UPAY_REQUESTS SET APP_STATUS='C', APP_MSG='".$app_msg."', APP_DATE=SYSDATE WHERE REQ_APP_TRAN_ID=".$trans_id;
+		//$qry = "UPDATE UPAY_REQUESTS SET APP_STATUS='C', APP_MSG='".$app_msg."', APP_DATE=SYSDATE WHERE REQ_APP_TRAN_ID=".$trans_id;
+		$qry = "SELECT * FROM UPAY_REQUESTS WHERE ext_trans_id = " . $trans_id;
 
 		$stid = oci_parse($c, $qry) or logStuff("ERROR: ". var_dump(oci_error($c)));
 		$r = oci_execute($stid) or logStuff("ERROR: ". var_dump(oci_error($stid)));
 		oci_free_statement($stid);
 		oci_close($c);
+		print_r($r);
 
 	} else {
 

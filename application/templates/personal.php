@@ -306,21 +306,25 @@
 		<div style="clear:both;"></div>
 
 		<div class="hidden" id="english_primary_section">
-			<p class="title">Please indicate the number of years you have studied English:</p>
+			<p class="title">Please indicate the number of years you have studied English (give dates):</p>
 					
 			<label for="english_years_school">
 				<p class="title">In secondary or middle school</p>
-				<input type="text" size="20" maxlength="2" id="english_years_school" name="english_years_school" value="{{ENGLISH_YEARS_SCHOOL}}" onblur="saveValue(event,{{USER}});">
+				<input type="text" size="20" maxlength="15" id="english_years_school" name="english_years_school" value="{{ENGLISH_YEARS_SCHOOL}}" onblur="saveValue(event,{{USER}});">
+				<label class='help'>mm/yyyy-mm/yyyy</label>
 			</label>
+
 			
 			<label for="english_years_univ">
 				<p class="title">In university</p>
-				<input type="text" size="20" maxlength="2" id="english_years_univ" name="english_years_univ" value="{{ENGLISH_YEARS_UNIV}}" onblur="saveValue(event,{{USER}});">
+				<input type="text" size="20" maxlength="15" id="english_years_univ" name="english_years_univ" value="{{ENGLISH_YEARS_UNIV}}" onblur="saveValue(event,{{USER}});">
+				<label class='help'>mm/yyyy-mm/yyyy</label>				
 			</label>
 			
 			<label for="english_years_private">
 				<p class="title">Under private auspices</p>
-				<input type="text" size="20" maxlength="2" id="english_years_private" name="english_years_private" value="{{ENGLISH_YEARS_PRIVATE}}" onblur="saveValue(event,{{USER}});">
+				<input type="text" size="20" maxlength="15" id="english_years_private" name="english_years_private" value="{{ENGLISH_YEARS_PRIVATE}}" onblur="saveValue(event,{{USER}});">
+				<label class='help'>mm/yyyy-mm/yyyy</label>
 			</label>
 		</div>
 		<script type="text/javascript">showOrNot('english_primary_section',!{{ENGLISH_PRIMARY}});</script>
