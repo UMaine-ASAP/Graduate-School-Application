@@ -229,7 +229,9 @@ if 	( isset($_POST['submit'])
 			/*==== MPDF ====*/
 			include('../../pdf_export/lib/MPDF52/mpdf.php');
 			$mpdf = new mPDF();
-			$mpdf->WriteHTML( utf8_encode($pdfhtml) );
+			//$mpdf->WriteHTML( utf8_encode($pdfhtml) );
+			$mpdf->WriteHTML( $pdfhtml );
+
 			$mpdf->Output($recommendations_path.$pdftitle);
 			/*==============*/
 
