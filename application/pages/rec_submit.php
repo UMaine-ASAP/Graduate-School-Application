@@ -231,7 +231,6 @@ if 	( isset($_POST['submit'])
 			$mpdf = new mPDF();
 			$mpdf->WriteHTML( utf8_encode($pdfhtml) );
 			
-
 			$mpdf->Output($recommendations_path.$pdftitle);
 			/*==============*/
 

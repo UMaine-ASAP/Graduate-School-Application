@@ -6,7 +6,7 @@
 
 	  <title>UMaine Graduate School Recommendation</title>
 	  <style type="text/css">
-		body {
+		body, pre {
 			width:7in;
 			margin: 0 auto;
 			padding:0;
@@ -14,6 +14,10 @@
 			color: #333;
 			font-size: 10pt;
 			line-height:10pt;
+		}
+
+		pre {
+			font-weight: bold;
 		}
 	
 		div.fieldset { /* not to be confused with <fieldset>, this is just a structural div */
@@ -134,6 +138,6 @@
 	
 		<p>Recommendation:</p>
 	
-		<p><b>{{RECOMMENDATION_TEXT}}</b></p>
+		<p><b><pre>{{RECOMMENDATION_TEXT}}</pre></b></p>
 	</body>
 </html>
