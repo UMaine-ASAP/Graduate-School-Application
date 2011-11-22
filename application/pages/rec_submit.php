@@ -55,7 +55,7 @@ if 	( isset($_POST['submit'])
 			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
 
 			// Set some language-dependent strings
-			$pdf->setLanguageArray($l); 
+			//$pdf->setLanguageArray($l); 
 
 			// Set font
 			$pdf->SetFont('times', '', 10);
@@ -229,7 +229,7 @@ if 	( isset($_POST['submit'])
 			/*==== MPDF ====*/
 			include('../../pdf_export/lib/MPDF52/mpdf.php');
 			$mpdf = new mPDF();
-			$mpdf->WriteHTML($pdfhtml);
+			$mpdf->WriteHTML( utf8_encode($pdfhtml) );
 			$mpdf->Output($recommendations_path.$pdftitle);
 			/*==============*/
 
@@ -616,7 +616,7 @@ if 	( isset($_POST['submit'])
 					<p class="note important"><strong>Please Note:</strong> If you follow the directions above and still receive an error when submitting, please send your recommendation within an email (or as an attachment within an email) to the University of Maine Graduate School at <a href="mailto:graduate@maine.edu">graduate@maine.edu</a></p>
 					</fieldset>
 					<input type="hidden" name="userid" value="<?php print $userid; ?>" id="userid"/>
-					<input type="hidden" name="rec_id" value="<?php print $rec_id; ?>" id="rec_id"/>
+					<!--<input type="hidden" name="rec_id" value="<?php //print $rec_id; ?>" id="rec_id"/>-->
 					<input type="hidden" name="applicant_name" value="<?php print $fullname; ?>" id="applicant_name"/>
 					<input type="hidden" name="program_names" value="<?php print $program_names; ?>" id="program_names"/>
 					<input type="hidden" name="waived" value="<?php print $waive_view_rights; ?>" id="waived"/>

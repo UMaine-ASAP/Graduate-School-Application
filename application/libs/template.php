@@ -64,6 +64,7 @@ class Template
 		}
 		$findreplace = $this->replaceArray;
 		$data_file = fopen($this->template, "r") or die("Could not open Template file ('$this->template').");
+		$template_html = '';
 		while(!feof($data_file)) $template_html .= fgets($data_file, 4096);
 		fclose($data_file);
 		
