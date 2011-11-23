@@ -79,14 +79,18 @@ class Database
 		$query = str_replace($diff_ways_to_quote, "?", $query);
 
 		if($stmt = $this->database_link->prepare($query)) {
-			//In order to dynmically bind parameter, references to the 
-			//bound parameter variables are required in call_user_func_array
-			$bindVars = array();
-			foreach($args as $key => $value) 
-			    $bindVars[$key] = &$args[$key];
-			$params = array_merge(array($stmt, $types), $bindVars);
-			call_user_func_array('mysqli_stmt_bind_param', $params);
-		
+
+			//Bind parameters
+			if( count($args) != 0) {
+				//In order to dynmically bind parameter, references to the 
+				//bound parameter variables are required in call_user_func_array
+				$bindVars = array();
+				foreach($args as $key => $value) 
+				    $bindVars[$key] = &$args[$key];
+				$params = array_merge(array($stmt, $types), $bindVars);
+
+				call_user_func_array('mysqli_stmt_bind_param', $params);				
+			}		
 
 			//Run query
 			$stmt->execute();
@@ -180,13 +184,17 @@ class Database
 		$query = str_replace($diff_ways_to_quote, "?", $query);
 
 		if($stmt = $this->database_link->prepare($query)) {
-			//In order to dynmically bind parameter, references to the 
-			//bound parameter variables are required in call_user_func_array
-			$bindVars = array();
-			foreach($args as $key => $value) 
-			    $bindVars[$key] = &$args[$key];
-			$params = array_merge(array($stmt, $types), $bindVars);
-			call_user_func_array('mysqli_stmt_bind_param', $params);
+	
+			//Bind parameters
+			if( count($args) != 0) {			
+				//In order to dynmically bind parameter, references to the 
+				//bound parameter variables are required in call_user_func_array
+				$bindVars = array();
+				foreach($args as $key => $value) 
+				    $bindVars[$key] = &$args[$key];
+				$params = array_merge(array($stmt, $types), $bindVars);
+				call_user_func_array('mysqli_stmt_bind_param', $params);
+			}
 
 			//Run query
 			$stmt->execute();
@@ -239,14 +247,17 @@ class Database
 		$query = str_replace($diff_ways_to_quote, "?", $query);
 
 		if($stmt = $this->database_link->prepare($query)) {
-			//In order to dynmically bind parameter, references to the 
-			//bound parameter variables are required in call_user_func_array
-			$bindVars = array();
-			foreach($args as $key => $value) 
-			    $bindVars[$key] = &$args[$key];
-			$params = array_merge(array($stmt, $types), $bindVars);
-			call_user_func_array('mysqli_stmt_bind_param', $params);
-		
+
+			//Bind parameters
+			if( count($args) != 0) {			
+				//In order to dynmically bind parameter, references to the 
+				//bound parameter variables are required in call_user_func_array
+				$bindVars = array();
+				foreach($args as $key => $value) 
+				    $bindVars[$key] = &$args[$key];
+				$params = array_merge(array($stmt, $types), $bindVars);
+				call_user_func_array('mysqli_stmt_bind_param', $params);
+			}
 
 			//Run query
 			$stmt->execute();

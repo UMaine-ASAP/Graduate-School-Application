@@ -18,7 +18,7 @@
 
 	//Redirect if not complete
 	if($error_list != "") {
-		session_start();
+		if( !isset($_SESSION) ) { session_start(); }
 		$_SESSION['submitted'] = TRUE;
 		session_write_close();
 		header("location:app_manager.php");
@@ -39,16 +39,16 @@
 	//	header("location:lockout.php");
 	//}
 	
-	if($sub[0][0] == 1){
+	if(!is_array($sub) || $sub[0][0] == 1){
 		header("location:pages/lockout.php");	
 	}
 	//*********************************************************************************************
 	// Test Submission and Verify
 	//*********************************************************************************************
-	if($_POST['final_submit_app']){
+	//if($_POST['final_submit_app']){
 		//Send info to proxy
 		//If okay go to payment
-	}
+	//}
 	
 	//*********************************************************************************************
 	// Start Building Page Content
@@ -118,6 +118,7 @@
 	$req_info_content = new Template();
 	$req_info_content->changeTemplate("templates/section_required_info.tpl");
 	$req_info_replace = array();
+
 	foreach($personal_data as $pfield => $pvalue){
 		if(!is_numeric($pfield))
 			$req_info_replace[strtoupper($pfield)] = $pvalue;
@@ -141,7 +142,7 @@
 		
 	//Replace -> Parse -> Render iSection Content
 	$req_info_content->changeArray($req_info_replace);
-	$req_info_section .= $req_info_content->parse();
+	$req_info_section = $req_info_content->parse();
 				
 	//retrieve application cost from database
 	$cost = $db->query("SELECT first_program, additional_programs FROM application_cost");	
@@ -150,6 +151,8 @@
 	
 	//Build Degree List
 	$flag=0;
+	$program_content = "";
+
 	foreach($app_data as $app_program){
 		$iprogram_content = new Template();
 		$iprogram_content->changeTemplate("templates/node_sub_program.tpl");
@@ -193,7 +196,7 @@
 	$amc_replace['S'] = ($flag > 1)?"s":"";
 	$amc_replace['TOTAL_COST'] = "$".number_format($total_cost,2);
 	$amc_replace['TOTAL_AMT'] = number_format($total_cost,2);
-	$amc_replace['DATE'] = date(c);
+	$amc_replace['DATE'] = date('F j, Y');
 
 	$app_manager_content->changeArray($amc_replace);
 	print $app_manager_content->parse();

@@ -178,16 +178,7 @@ function generate_application_pdf($output_mode) {
 	$language_query = "SELECT * FROM languages WHERE applicant_id=$user";
 	$languages = $db->query($language_query);
 	
-	$language_list      = Array();
-	$reading_prof_list  = Array();
-	$speaking_prof_list = Array();
-	$writing_prof_list  = Array();
 	foreach($languages as $language){
-		$language_list[] 	 = $language['LANGUAGE'];
-		$reading_prof_list[]  = $language['READING_PROFICIENCY'];
-		$speaking_prof_list[] = $language['SPEAKING_PROFICIENCY'];
-		$writing_prof_list[]  = $language['WRITING_PROFICIENCY'];
-
 		$language_replace  = strip_numeric_indexes($language);
 		$language_results .= template_parse("pdf_templates/languages.tpl", $language_replace);
 	}
@@ -304,10 +295,10 @@ function generate_application_pdf($output_mode) {
 	$institution_data = $institution_data[0];
 	
 	$page2_replace = strip_numeric_indexes($institution_data);
-	$page2_replace['PREV_UM_GRAD_APP']			= ($page2_data['prev_um_grad_app'])		 ? "Yes":"No";
-	$page2_replace['PREV_UM_GRAD_WITHDRAW'] 	= ($page2_data['prev_um_grad_withdraw']) ? "Yes":"No";
-	$page2_replace['DESIRE_ASSISTANTSHIP'] 		= ($page2_data['desire_assistantship'])	 ? "Yes":"No";
-	$page2_replace['APPLY_NEBHE'] 				= ($page2_data['apply_nebhe'])			 ? "Yes":"No";
+	$page2_replace['PREV_UM_GRAD_APP']			= ($page2_replace['PREV_UM_GRAD_APP'])		 ? "Yes":"No";
+	$page2_replace['PREV_UM_GRAD_WITHDRAW'] 	= ($page2_replace['PREV_UM_GRAD_WITHDRAW']) ? "Yes":"No";
+	$page2_replace['DESIRE_ASSISTANTSHIP'] 		= ($page2_replace['DESIRE_ASSISTANTSHIP'])	 ? "Yes":"No";
+	$page2_replace['APPLY_NEBHE'] 				= ($page2_replace['APPLY_NEBHE'])			 ? "Yes":"No";
 		
 	//*********************************************************************************************
 	// Create Page-3 using Templates
@@ -347,9 +338,9 @@ function generate_application_pdf($output_mode) {
 	/*============================*/
 	
 	//Replace International state option with blank for MaineStreet
-	if($page3_repace['REFERENCE1_STATE'] == "IT") $page3_repace['REFERENCE1_STATE'] = "";
-	if($page3_repace['REFERENCE2_STATE'] == "IT") $page3_repace['REFERENCE2_STATE'] = "";
-	if($page3_repace['REFERENCE3_STATE'] == "IT") $page3_repace['REFERENCE3_STATE'] = "";
+	if($page3_repace['REFERENCE1_STATE'] == "IT") $page3_replace['REFERENCE1_STATE'] = "";
+	if($page3_repace['REFERENCE2_STATE'] == "IT") $page3_replace['REFERENCE2_STATE'] = "";
+	if($page3_repace['REFERENCE3_STATE'] == "IT") $page3_replace['REFERENCE3_STATE'] = "";
 
 	if($page3_replace['REFERENCE1_CITY'] != "") $page3_replace['REFERENCE1_CITY'] .= ", ";
 	if($page3_replace['REFERENCE2_CITY'] != "") $page3_replace['REFERENCE2_CITY'] .= ", ";

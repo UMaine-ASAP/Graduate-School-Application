@@ -1,6 +1,7 @@
 <?
 
 include_once "variables.php";
+include_once "database.php";
 
 /**
 * Session Creation
@@ -11,15 +12,24 @@ function set_ses_vars($ID) {
 }
 
 function check_ses_vars() {
-	session_start();
+	if( !isset($_SESSION) ) { session_start(); }
 	if(isset($_SESSION['UMGradSession']) && isset($_SESSION['lastAccess'])) {
 		$latestAccess = time();
 		if($latestAccess - $_SESSION['lastAccess'] > $GLOBALS["session_timeout"]) {
 			user_logout();
 			return 0;
 		}
-		$_SESSION['lastAccess'] = $latestAccess;
-		return $_SESSION['UMGradSession'];
+		//Make sure user is valid
+		$db = new Database();
+		$db->connect();
+		$user_check = $db->query("SELECT applicant_id FROM applicants WHERE applicant_id = %d", $_SESSION['UMGradSession']);
+
+		if( is_array($user_check) ) {
+			$_SESSION['lastAccess'] = $latestAccess;
+			return $_SESSION['UMGradSession'];	
+		} else {
+			return 0;
+		}
 	}
 	return 0;
 }
@@ -28,13 +38,13 @@ function check_ses_vars() {
 * Login
 **/
 function user_login($id) {
-	$UMGradSession = $id;
-	session_start();
-	set_ses_vars($UMGradSession);
+	if( !isset($_SESSION) ) { session_start(); }
+	set_ses_vars($id);
 }
 
 function user_logout() {
-	session_start();
+	if( !isset($_SESSION) ) { session_start(); }
+
 	session_unset();
 	unset($_SESSION['UMGradSession']);
 	unset($_SESSION['lastAccess']);

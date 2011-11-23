@@ -30,7 +30,7 @@
 
 	$db->close();
 
-	$results = substr($results,0,strlen($length)-1);
+	$results = substr($results,0,strlen($results)-1);
 	print $results;
 	
 ?>

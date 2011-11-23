@@ -2,6 +2,23 @@
 if (count($_POST) == 0 && count($_GET) == 0){
 	header("Location: signin");
 }
+
+//Validate input
+if( isset($_GET['ref_id']) ) {
+	if( strpos($_GET['ref_id'], 'reference1') !== false ) {
+		$_GET['ref_id'] = 'reference1';
+	} else if( strpos($_GET['ref_id'], 'reference2') !== false ) {
+		$_GET['ref_id'] = 'reference2';		
+	} else if( strpos($_GET['ref_id'], 'reference3') !== false ) {
+		$_GET['ref_id'] = 'reference3';		
+	}
+}
+
+if( isset($_GET['xref_id']) ) {
+	$_GET['xref_id'] = intval( $_GET['xref_id'] );
+}
+
+//Methods
 if 	( isset($_POST['submit']) 
 		&& isset($_GET['userid']) 
 		&& ( isset($_GET['ref_id']) || isset($_GET['xref_id'])) 
@@ -18,7 +35,6 @@ if 	( isset($_POST['submit'])
 			include_once "../libs/corefuncs.php";
 
 			$userid = $_GET['userid'];
-			$ref_id = $_GET['ref_id'];
 			
 			//connects to database
 			$db = new Database();
@@ -109,7 +125,11 @@ if 	( isset($_POST['submit'])
 			$pdfhtml .= "Phone Number: ". $_POST['rphone'] ."<br/><br/>";
 			
 			//summary evaluation
-			switch ($_POST['ability']) {
+			$ability_score 		= ( isset($_POST['ability']) ) 	 ? $_POST['ability'] 	: -1;
+			$motivation_score   = ( isset($_POST['motivation']) ) ? $_POST['motivation'] : -1;
+			$ability   = "";
+			$motivation = "";
+			switch ( $ability_score ) {
 				case 1:
 				$ability = "1 - Below Average";
 				break;
@@ -135,7 +155,7 @@ if 	( isset($_POST['submit'])
 				$ability = "Unable to Judge";
 				break;
 			}
-			switch ($_POST['motivation']) {
+			switch ( $motivation_score ) {
 				case 1:
 				$motivation = "1 - Below Average";
 				break;
@@ -209,22 +229,26 @@ if 	( isset($_POST['submit'])
 
 			$user = $_POST["applicant_name"];
 			
-			//Update Database with filename
-			$updateQuery = "";
-			if( isset($_GET['ref_id']) ) {
-				$updateQuery .= "UPDATE applicants SET ";
-				if( $_GET['ref_id'] == 'reference1' || $_GET['ref_id'] == 'reference2' || $_GET['ref_id'] == 'reference3') {
-					$updateQuery .= $_GET['ref_id'] . "_filename = '%s'  WHERE applicant_id=%i";
-				}
-			} else {
-				$updateQuery .= "UPDATE extrareferences SET reference_filename = '%s' WHERE applicant_id=%i";
-			}
 			$result = $db->query("SELECT applicant_id FROM applicants WHERE login_email_code='%s'", $userid);
 			$result = $result[0];
 			$id = $result['applicant_id'];
 			$pdftitle = "UMGradRec_". $id ."_".$_POST['rlname'].$_POST['rfname']."_". $today .".pdf";
 
-			$db->iquery($updateQuery, $pdftitle, $id);
+			//Update Database with filename
+			if( isset($_GET['ref_id']) ) {
+				$ref_id = $_GET['ref_id'];
+
+				$updateQuery = "UPDATE applicants SET ";
+
+				if( $ref_id == 'reference1' || $ref_id == 'reference2' || $ref_id == 'reference3') {
+					$updateQuery .= $ref_id . "_filename = '%s'  WHERE applicant_id=%i";
+				}
+				$db->iquery($updateQuery, $pdftitle, $id);
+			} else {
+				$updateQuery = "UPDATE extrareferences SET reference_filename = '%s' WHERE applicant_id=%i and extrareferences_id = %d";
+				$db->iquery($updateQuery, $pdftitle, $id, $_GET['xref_id']);
+			}
+
 			
 			/*==== MPDF ====*/
 			include('../../pdf_export/lib/MPDF52/mpdf.php');
@@ -247,11 +271,13 @@ if 	( isset($_POST['submit'])
 			
 			$fullname = $userarray['given_name']. " " .$userarray['family_name'];
 			
-			$ref_email = $ref_id. "_email";
-			$ref_email = $userarray[$ref_email];
-			
-			//check for any additional references (beyond 3)
-			if(isset($_GET['xref_id'])){
+			if( isset($_GET['ref_id']) ) {
+
+				$ref_email = $_GET['ref_id'] . "_email";
+				$ref_email = $userarray[$ref_email];
+
+			} else if(isset($_GET['xref_id'])){
+
 				$xref_id = $_GET['xref_id'];
 
 				// Queries applicant data
@@ -290,20 +316,21 @@ if 	( isset($_POST['submit'])
 		){
 		include_once "../libs/corefuncs.php";
 	 	include_once "../libs/database.php";
-		$userid = $_GET['userid'];
-		$ref_id = $_GET['ref_id'];
+
+		$email_code = $_GET['userid'];
 		
 		// Connects to database
 		$db = new Database();
 		$db->connect();
 		
 		// Queries applicant data
-		$result = $db->query("SELECT * FROM applicants WHERE login_email_code = '%s'", $userid);
-		$userarray = $result[0];
+		$result 	= $db->query("SELECT * FROM applicants WHERE login_email_code = '%s'", $email_code);
+		$userarray  = $result[0];
+
 		$userid = $userarray['applicant_id'];
 		
 		//build users full name
-		$fullname = $userarray['given_name']. " " .$userarray['family_name'];
+		$fullname = $userarray['given_name'] . " " . $userarray['family_name'];
 		
 		//determine if user has waived rights to see recommendations
 		$waive_view_rights = $userarray['waive_view_rights'];
@@ -313,17 +340,6 @@ if 	( isset($_POST['submit'])
 			$waive_view_rights = "has not";
 		}
 		
-		//build recommender information 
-		$ref_fname = $ref_id. "_first";
-		$ref_fname = $userarray[$ref_fname];
-		$ref_lname = $ref_id. "_last";
-		$ref_lname = $userarray[$ref_lname];
-		$ref_email = $ref_id. "_email";
-
-		$ref_email = $userarray[$ref_email];
-		$ref_phone = $ref_id. "_phone";
-		$ref_phone = $userarray[$ref_phone];
-
 		//queries applied program data
 		$result = $db->query("SELECT * FROM appliedprograms WHERE applicant_id = %d", $userid);
 		$programs = array();
@@ -339,10 +355,22 @@ if 	( isset($_POST['submit'])
 			array_push($program_names, $result[0][0]);
 		}
 		
-		//////////////////////////////////////////////////////////////////////////////////////////////////
-		//check for any additional references (beyond 3)
-		///////////////////////////////////////////////////////////////////////////////////////////////
-		if(isset($_GET['xref_id'])){
+
+		// ===== build recommender information ===== //
+		if(isset($_GET['ref_id'])){	
+			$ref_id = $_GET['ref_id'];
+
+			$ref_fname = $ref_id. "_first";
+			$ref_fname = $userarray[$ref_fname];
+			$ref_lname = $ref_id. "_last";
+			$ref_lname = $userarray[$ref_lname];
+			$ref_email = $ref_id. "_email";
+
+			$ref_email = $userarray[$ref_email];
+			$ref_phone = $ref_id. "_phone";
+			$ref_phone = $userarray[$ref_phone];
+		
+		} else if( isset($_GET['xref_id']) ) {
 			$xref_id = $_GET['xref_id'];
 
 			// Queries applicant data

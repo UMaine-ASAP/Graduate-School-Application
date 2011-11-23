@@ -1,6 +1,6 @@
 <?php
-include "../libs/corefuncs.php";
-include '../libs/variables.php';
+include_once "../libs/corefuncs.php";
+include_once '../libs/variables.php';
 
 
 user_logout();

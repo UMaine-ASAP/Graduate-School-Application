@@ -4,7 +4,7 @@ include_once "corefuncs.php";
 
 function get_error_list($db = null) {
 	$error_list = "";
-
+	$error_num = 0;
 
 	//*********************************************************************************************
 	// Open database link

@@ -13,7 +13,7 @@
 	$user = ($user)?$user:header("location:pages/login.php");
 	
 	//Eventually have it find first not completed page;
-	$page_id = isset($_GET['form_id'])?$_GET['form_id']:2; //2 is page one
+	$page_id = isset($_GET['form_id']) ? $_GET['form_id'] : 2; //2 is page one
 
 
 	//*********************************************************************************************
@@ -31,29 +31,32 @@
 	// 		header("location:lockout.php");
 	// 	}
 	
-	if($sub[0][0] == 1){
+	if( !is_array($sub) || $sub[0][0] == 1){
 		header("location:./pages/lockout.php");
 	}
 	
 	//*********************************************************************************************
 	// Test Submission and Verify
 	//*********************************************************************************************
-	if($_POST['submit_app']) {
-		session_start();
+	if( isset($_POST['submit_app']) && $_POST['submit_app']) {
+		if( !isset($_SESSION) ) { session_start(); }
 		$_SESSION['submitted'] = true;
 	}
 	
 	//*********************************************************************************************
 	// Test Submission and Verify
 	//*********************************************************************************************
-	if($_POST['submit_app'] || $_GET['warning'] || $_SESSION['submitted']){
-		session_write_close();
+	if(    isset($_POST['submit_app']) 	 && $_POST['submit_app'] 
+		|| isset($_GET['warning']) 		 && $_GET['warning'] 
+		|| isset($_SESSION['submitted']) && $_SESSION['submitted']
+		){
+		//session_write_close();
 
 		$error_list = get_error_list($db);
 
 		//Redirect if complete
 		if($error_list == "") {
-			session_start();
+			if( !isset($_SESSION) ) { session_start(); }
 			unset($_SESSION['submitted']);
 			session_write_close();
 			header("location:submission_manager.php");
@@ -196,7 +199,7 @@
 	$amc_replace['EMAIL'] =  $db->getFirst("SELECT login_email FROM applicants WHERE applicant_id=%d", $user);
 	$amc_replace['GRADHOMEPAGE'] = $GLOBALS['graduate_homepage'];
 	$amc_replace['FAVICON'] = $GLOBALS['grad_images'] . "grad_favicon.ico";
-	$amc_replace['WARNINGS'] = ($error_list)?$error_list:"Please submit all information that you can.<br />Press the &ldquo;Review Application&rdquo; button when you are ready.";
+	$amc_replace['WARNINGS'] = ( isset($error_list) && $error_list != '' ) ? $error_list : "Please submit all information that you can.<br />Press the &ldquo;Review Application&rdquo; button when you are ready.";
 	$amc_replace['SECTION_CONTENT'] = $section_content;
 	$amc_replace['USER'] = $user;
 	$amc_replace['FORM'] = $form_content;

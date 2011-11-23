@@ -1,6 +1,6 @@
 <?php
-include '../libs/corefuncs.php';
-include '../libs/database.php';
+include_once '../libs/corefuncs.php';
+include_once '../libs/database.php';
 
 if ($_POST) {
 	if (isset($_POST['email']) && !isset($_POST['new_password'])) {
@@ -11,7 +11,7 @@ if ($_POST) {
 		$db = new Database();
 		$db->connect();
 		$user_result = $db->query("SELECT `forgot_password_code` FROM `applicants` WHERE `login_email` = '%s'", $email);
-		$user = $user_result[0];
+		$user = (is_array($user_result)) ? $user_result[0] : '';
 		$db->close();
 
 		if ($user != '') {

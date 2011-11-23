@@ -1,11 +1,15 @@
 <?php
-include '../libs/corefuncs.php';
-include '../libs/database.php';
-include '../libs/variables.php';
+include_once '../libs/corefuncs.php';
+include_once '../libs/database.php';
+include_once '../libs/variables.php';
 
 // connect to database
 $db = new Database();
 $db->connect();
+
+$signin_msg = "";
+$success_msg = "";	
+
 
 function getHash( $index )
 {
@@ -26,7 +30,7 @@ if ($_GET) {
 	if (isset($_GET['email']) && isset($_GET['code'])) {
 		
 		$get_email = str_replace('%40','@',$_GET['email']);
-		$get_code = $_GET['code'];
+		$get_code  = $_GET['code'];
 		
 		// make sure that user and that hash exist and match, and if they've already confirmed
 		$check_result = $db->query("SELECT `applicant_id`, `login_email_confirmed` FROM `applicants` WHERE `login_email` = '%s' AND `login_email_code` = '%s'", $get_email, $get_code);
@@ -56,8 +60,6 @@ if ($_GET) {
 
 if ($_POST) {
 	if ($_POST['whichform'] == 'signin') {
-		$signin_msg = "";
-	
 		// the user wants to sign in
 		$email = $_POST['email'];
 		$password = $_POST['password'];
@@ -93,17 +95,15 @@ if ($_POST) {
 		$create_msg = "";
 		
 		// the user wants to create a new account
-		$email = $_POST['create_email'];
-		$email_confirm = $_POST['create_email_confirm'];
-		$password = $_POST['create_password'];
+		$email 			  = $_POST['create_email'];
+		$email_confirm    = $_POST['create_email_confirm'];
+		$password 		  = $_POST['create_password'];
 		$password_confirm = $_POST['create_password_confirm'];
 
 		// see if that email address already exists in the database, and if it does, throw an error
 
 		$dupe_result = $db->query("SELECT `login_email` FROM `applicants` WHERE `login_email` = '%s'", $email);
-		$dupe = $dupe_result[0];
-
-		echo ($_POST['create email']);
+		$dupe = (is_array($dupe_result)) ? $dupe_result[0] : '';
 		
 		// validate form
 		if (empty($email) || empty($email_confirm) || empty($password) || empty($password_confirm) || $email != $email_confirm || $password != $password_confirm || $dupe != '') {
@@ -130,14 +130,12 @@ if ($_POST) {
 				$create_msg .= "<p class='warning'>A user with that name already exists. If you forgot your password, you can recover it <a href='forgot.php'>here</a>.</p>";
 			}
 		} else {
-			$success_msg = "";
-			
 			// no errors. proceed with account creation
 
 			$result = $db->query("SELECT applicant_id FROM applicants ORDER BY applicant_ID DESC LIMIT 1");
 			$last_index = $result[0]['applicant_id'];
 
-			$code = getHash(time()+last_index+1); // use this code for the confirmation email
+			$code = getHash(time()+$last_index+1); // use this code for the confirmation email
 
 			$db->iquery("INSERT INTO `applicants` (`login_email`, `password`, `login_email_code`) VALUES('%s', '%s', '%s')", $email, sha1($password), $code);
 
@@ -386,7 +384,10 @@ $db->close();
 					<div style="clear:both"></div>
 				</fieldset>
 			</form>
-			<div id="create_msg"><?php  print $create_msg; ?></div>
+			<?php if( isset($create_msg) ) { ?>
+				<div id="create_msg"><?php  print $create_msg; ?></div>				
+			<?php } ?>
+
 		</div>
 		
 		<div style="clear:both;"></div>

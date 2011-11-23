@@ -5,7 +5,7 @@ include_once "corefuncs.php";
 
 $user = check_ses_vars();
 
-if($user && $_POST['user'] == $user) {
+if($user && isset($_POST['user']) && $_POST['user'] == $user) {
 	$validData = true;
 	$errorMessage = "";
 } else {

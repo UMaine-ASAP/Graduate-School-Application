@@ -20,6 +20,11 @@ function uploadFile($name, $upload_path, $user) {
 	$primary_query  .= "WHERE `applicant_id` = %d";
 
 	$personal_data = $db->query($primary_query, $user);
+	if( !is_array($personal_data) ) {
+		$db->close();
+		die('ERROR: invalid user');
+		return;
+	}
 	$personal_data = $personal_data[0];
 
 	$exDOB = explode("/", $personal_data['date_of_birth']);
