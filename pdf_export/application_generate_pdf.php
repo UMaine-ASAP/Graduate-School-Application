@@ -338,9 +338,9 @@ function generate_application_pdf($output_mode) {
 	/*============================*/
 	
 	//Replace International state option with blank for MaineStreet
-	if($page3_repace['REFERENCE1_STATE'] == "IT") $page3_replace['REFERENCE1_STATE'] = "";
-	if($page3_repace['REFERENCE2_STATE'] == "IT") $page3_replace['REFERENCE2_STATE'] = "";
-	if($page3_repace['REFERENCE3_STATE'] == "IT") $page3_replace['REFERENCE3_STATE'] = "";
+	if($page3_replace['REFERENCE1_STATE'] == "IT") $page3_replace['REFERENCE1_STATE'] = "";
+	if($page3_replace['REFERENCE2_STATE'] == "IT") $page3_replace['REFERENCE2_STATE'] = "";
+	if($page3_replace['REFERENCE3_STATE'] == "IT") $page3_replace['REFERENCE3_STATE'] = "";
 
 	if($page3_replace['REFERENCE1_CITY'] != "") $page3_replace['REFERENCE1_CITY'] .= ", ";
 	if($page3_replace['REFERENCE2_CITY'] != "") $page3_replace['REFERENCE2_CITY'] .= ", ";
