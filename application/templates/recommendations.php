@@ -5,7 +5,7 @@
 	<legend>Letters of Recommendation</legend>
 	<span class="required"><p>Fields marked with * are required.</p></span>
 	<p class="message">Please list the contact information of three people whom you are requesting to send letters of recommendation. The letters of recommendation must be of recent date and written by people qualified, through personal experience with your academic work, to judge your capacity for advanced study. Recommendations must be sent directly from the recommenders to the Graduate School.</p>
-	
+	<p style='font-weight: bolder; color: red;'>Please note that electronic requests will not be sent to your recommenders until your application has been submitted. We suggest that you contact your references in advance of submitting the application.</p>	
 	<fieldset id="viewing_rights" name="viewing_rights" class="nested">
 		<legend>Waiver of Viewing Rights</legend>
 		
@@ -28,7 +28,7 @@
 		<div>
 			<div style="clear:both"></div>
 
-			<label for="reference1_online" >
+			<label for="reference1_online">
 				<p class="required title">Will this individual submit a recommendation online? *</p>
 				<label for="reference1_online_yes"><input type="radio" class='reference_online' id="reference1_online_yes" name="reference1_online" value="1" onchange="saveCheckValue(event,{{USER}});switchOut(this);" /> Yes</label>
 				<label for="reference1_online_no"><input type="radio" class='reference_online' id="reference1_online_no" name="reference1_online" value="0" onchange="saveCheckValue(event,{{USER}});switchOut(this);" /> No</label>
