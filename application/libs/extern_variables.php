@@ -6,7 +6,7 @@
 //Database User
 $db_user = "root";
 //Database Password
-$db_pass = "asap4u2u";
+$db_pass = "asap4u";
 //Database Host
 $db_host = "localhost";
 //Database Table
@@ -84,13 +84,13 @@ $session_timeout = 600; //10 minutes
 ///////////////////////
 
 //Where Essays are stored on submit
-$essays_path = "/var/www/gradschool/grad_application/essays/";
+$essays_path = "/Library/WebServer/Documents/grad_application/essays/";
 //Where resumés are stored on submit
-$resumes_path = "/var/www/gradschool/grad_application/essays/";
+$resumes_path = "/Library/WebServer/Documents/grad_application/essays/";
 //Where pdfs are stored on submit --- 
-$completed_pdfs_path = "/var/www/gradschool/grad_application/pdf_export/completed_pdfs/";
+$completed_pdfs_path = "/Library/WebServer/Documents/grad_application/pdf_export/completed_pdfs/";
 //Where recommendations are stored, after the recommender fills out the online form and submits
-$recommendations_path = "/var/www/gradschool/grad_application/recommendations/";
+$recommendations_path = "/Library/WebServer/Documents/grad_application/recommendations/";
 
 
 
