@@ -5,8 +5,8 @@
 		<div>
 			<label for="reference_online[{{INDEX}}]">
 				<p class="required title">Will this individual submit a recommendation online? *</p>
-				<label for="reference_online_yes[{{INDEX}}]"><input type="radio" class='reference_online' id="reference_online_yes[{{INDEX}}]" name="reference_online[{{INDEX}}]" value="1" onchange="saveCheckValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});" /> Yes</label>
-				<label for="reference_online_no[{{INDEX}}]"><input type="radio" class='reference_online' id="reference_online_no[{{INDEX}}]" name="reference_online[{{INDEX}}]" value="0" onchange="saveCheckValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});" checked /> No</label>
+				<label for="reference_online_yes[{{INDEX}}]"><input type="radio" class='online-check reference_online' id="reference_online_yes[{{INDEX}}]" name="reference_online[{{INDEX}}]" value="1" onchange="saveCheckValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});" /> Yes</label>
+				<label for="reference_online_no[{{INDEX}}]"><input type="radio" class='online-check reference_online' id="reference_online_no[{{INDEX}}]" name="reference_online[{{INDEX}}]" value="0" onchange="saveCheckValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});" checked /> No</label>
 			</label>
 			<script type="text/javascript">checkInitValue('reference_online_yes[{{INDEX}}]',"{{REFERENCE_ONLINE}}");</script>
 			<script type="text/javascript">checkInitValue('reference_online_no[{{INDEX}}]',"{{REFERENCE_ONLINE}}");</script>
@@ -91,7 +91,10 @@
 				
 			<div style="clear:both"></div>
 		</fieldset><!-- end fieldset "reference_addr" -->
-		
+
+		<button id='xref{{INDEX}}_request' class="sendEmail button green small add" type="button" onclick="requestRecommendation('#xref{{INDEX}}_request', 'xref{{INDEX}}'); return false;" title="Add">Email Recommendation Form to Reference</button><span class='emailSentMessage'></span>
+		<script type='text/javascript'> setButtonDisplay('#xref{{INDEX}}_request', '{{REFERENCE_ONLINE}}', '{{REFERENCE_REQUEST_SENT}}'); </script>
+
 		<div style="clear:both"></div>
 	</fieldset>
 

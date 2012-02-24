@@ -1,11 +1,48 @@
+<script>
+ function setButtonDisplay(field, ref_online, ref_email_sent) {
+ 	if( ref_online == '0' ) {
+	 	$(field).css('display', 'none');
+ 	}
+ 	if (ref_email_sent == '1') { 
+ 		$(field).addClass('email_sent');
+	 	$(field).css('display', 'none'); 		 
+ 		$(field).parent().children("span.emailSentMessage").text("Email has been sent.");
+ 	}
+ } 
+ function requestRecommendation(button, reference) {
+ 	$.ajax({
+ 		url: 'libs/email_reference.php',
+ 		type: 'POST', 		
+ 		data: 'reference=' + reference,
+ 		success: function(data) {
+ 			if ( data == "SUCCESS: Email Sent") { 
+ 				$(button).css('display', 'none');
+		 		$(button).addClass('email_sent');
+ 				$(button).parent().children("span.emailSentMessage").text("Email has been sent.");
+ 			} else {
+ 				$(button).parent().children("span.emailSentMessage").text(data); 				
+ 			}
+ 		}
+ 	});
+ }
 
+ $(document).ready( function() {
+ 	$('.online-check').click(function () {
+ 		var button = $(this).parent().parent().parent().parent().children('button.sendEmail');
+ 		if( $(this).val() == '1' && !$(button).hasClass("email_sent") )  {
+	 		button.css('display', 'block');
+ 		} else {
+	 		button.css('display', 'none'); 			
+ 		}
+ 	});
+ }); 
+</script>
 <form action="" method="post" id="recommendations" autocomplete="off">
 <input type="hidden" id="user_id" value="{{USER}}"/>
 <fieldset id="letters_of_recommendation" name="letters_of_recommendation">
 	<legend>Letters of Recommendation</legend>
 	<span class="required"><p>Fields marked with * are required.</p></span>
 	<p class="message">Please list the contact information of three people whom you are requesting to send letters of recommendation. The letters of recommendation must be of recent date and written by people qualified, through personal experience with your academic work, to judge your capacity for advanced study. Recommendations must be sent directly from the recommenders to the Graduate School.</p>
-	<p style='font-weight: bolder; color: red;'>Please note that electronic requests will not be sent to your recommenders until your application has been submitted. We suggest that you contact your references in advance of submitting the application.</p>	
 	<fieldset id="viewing_rights" name="viewing_rights" class="nested">
 		<legend>Waiver of Viewing Rights</legend>
 		
@@ -30,8 +67,8 @@
 
 			<label for="reference1_online">
 				<p class="required title">Will this individual submit a recommendation online? *</p>
-				<label for="reference1_online_yes"><input type="radio" class='reference_online' id="reference1_online_yes" name="reference1_online" value="1" onchange="saveCheckValue(event,{{USER}});switchOut(this);" /> Yes</label>
-				<label for="reference1_online_no"><input type="radio" class='reference_online' id="reference1_online_no" name="reference1_online" value="0" onchange="saveCheckValue(event,{{USER}});switchOut(this);" /> No</label>
+				<label for="reference1_online_yes"><input type="radio" class='online-check reference_online' id="reference1_online_yes" name="reference1_online" value="1" onchange="saveCheckValue(event,{{USER}});switchOut(this);" /> Yes</label>
+				<label for="reference1_online_no"><input type="radio" class='online-check reference_online' id="reference1_online_no" name="reference1_online" value="0" onchange="saveCheckValue(event,{{USER}});switchOut(this);" /> No</label>
 			</label>
 			<script type="text/javascript">checkInitValue('reference1_online_yes',"{{REFERENCE1_ONLINE}}");</script>
 			<script type="text/javascript">checkInitValue('reference1_online_no',"{{REFERENCE1_ONLINE}}");</script>
@@ -68,7 +105,7 @@
 				</select>
 			</label>
 			
-			<label' for="reference1_phone">
+			<label for="reference1_phone">
 				<p class="title">Phone Number</p>
 				<input type="text" size="16" maxlength="16" id="reference1_phone" name="reference1_phone" value="{{REFERENCE1_PHONE}}" class="reference1_phone" onblur="saveValue(event,{{USER}});"/>
 			</label>
@@ -117,7 +154,8 @@
 			
 			<div style="clear:both"></div>
 		</fieldset><!-- end fieldset "reference1_addr" -->
-
+		<button id='ref1_request' class="sendEmail button green small add" type="button" onclick="requestRecommendation('#ref1_request','reference1'); return false;" title="Add">Email Recommendation Form to Reference</button><span class='emailSentMessage'></span>
+		<script type='text/javascript'> setButtonDisplay('#ref1_request', '{{REFERENCE1_ONLINE}}', '{{REFERENCE1_REQUEST_SENT}}'); </script>
 		<div style="clear:both"></div>
 	</fieldset><!-- end fieldset "reference1" -->
 
@@ -127,8 +165,8 @@
 		<div>
 			<label for="reference2_online">
 				<p class="required title">Will this individual submit a recommendation online? *</p>
-				<label for="reference2_online_yes"><input type="radio" class='reference_online' id="reference2_online_yes" name="reference2_online" value="1" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-				<label for="reference2_online_no"><input type="radio" class='reference_online' id="reference2_online_no" name="reference2_online" value="0" onchange="saveCheckValue(event,{{USER}});"  /> No</label>
+				<label for="reference2_online_yes"><input type="radio" class='online-check reference_online' id="reference2_online_yes" name="reference2_online" value="1" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
+				<label for="reference2_online_no"><input type="radio" class='online-check reference_online' id="reference2_online_no" name="reference2_online" value="0" onchange="saveCheckValue(event,{{USER}});"  /> No</label>
 
 			</label>
 			<script type="text/javascript">checkInitValue('reference2_online_yes',"{{REFERENCE2_ONLINE}}");</script>
@@ -213,6 +251,10 @@
 			
 			<div style="clear:both"></div>
 		</fieldset><!-- end fieldset "reference2_addr" -->
+
+		<button id='ref2_request' class="sendEmail button green small add" type="button" onclick="requestRecommendation('#ref2_request', 'reference2'); return false;" title="Add">Email Recommendation Form to Reference</button><span class='emailSentMessage'></span>
+		<script type='text/javascript'> setButtonDisplay('#ref2_request', '{{REFERENCE2_ONLINE}}', '{{REFERENCE2_REQUEST_SENT}}'); </script>
+
 		
 		<div style="clear:both"></div>
 	</fieldset><!-- end fieldset "reference2" -->
@@ -224,8 +266,8 @@
 		<div>
 			<label for="reference3_online" >
 				<p class="required title">Will this individual submit a recommendation online? *</p>
-				<label for="reference3_online_yes"><input type="radio" class='reference_online' id="reference3_online_yes" name="reference3_online" value="1" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-				<label for="reference3_online_no"><input type="radio" class='reference_online' id="reference3_online_no" name="reference3_online" value="0" onchange="saveCheckValue(event,{{USER}});" checked /> No</label>
+				<label for="reference3_online_yes"><input type="radio" class='online-check reference_online' id="reference3_online_yes" name="reference3_online" value="1" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
+				<label for="reference3_online_no"><input type="radio" class='online-check reference_online' id="reference3_online_no" name="reference3_online" value="0" onchange="saveCheckValue(event,{{USER}});" checked /> No</label>
 			</label>
 			<script type="text/javascript">checkInitValue('reference3_online_yes',"{{REFERENCE3_ONLINE}}");</script>
 			<script type="text/javascript">checkInitValue('reference3_online_no',"{{REFERENCE3_ONLINE}}");</script>
@@ -309,6 +351,10 @@
 			
 			<div style="clear:both"></div>
 		</fieldset><!-- end fieldset "reference3_addr" -->
+
+		<button id='ref3_request' class="sendEmail button green small add" type="button" onclick="requestRecommendation('#ref3_request', 'reference3'); return false;" title="Add">Email Recommendation Form to Reference</button><span class='emailSentMessage'></span>
+		<script type='text/javascript'> setButtonDisplay('#ref3_request', '{{REFERENCE3_ONLINE}}', '{{REFERENCE3_REQUEST_SENT}}'); </script> 
+
 
 		<div style="clear:both"></div>
 	</fieldset><!-- end fieldset "reference3" -->

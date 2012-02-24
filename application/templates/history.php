@@ -90,7 +90,7 @@
 
 <fieldset id="previous_schools" name="previous_schools" class="nested">
 	<legend>Previously Attended Institutions</legend>
-	<p class="title">List in chronological order all institutions of collegiate standing, and location, that you have attended. Include dates of entering and leaving, degrees received or for which you are a candidate. Official transcripts must be sent <b>directly</b> from these institutions to the Graduate School. The Graduate School will order UM (ORONO) transcripts only.<br />
+	<p class="title">List in chronological order all institutions of collegiate standing, and location, that you have attended. Include dates of entering and leaving, degrees received or for which you are a candidate. Official transcripts must be sent <b>directly</b> from these institutions to the Graduate School. The Graduate School will obtain all transcripts from the University of Maine System campuses.<br />
 	<b>No decision can be made until all your transcripts are received in this office.</b></p>
 
 	
