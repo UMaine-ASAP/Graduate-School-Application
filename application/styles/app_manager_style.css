@@ -708,3 +708,7 @@ div.error {
 	display: block;
 }
 
+span.emailSentMessage {
+	font-weight: bolder; 
+	color: red;
+}
