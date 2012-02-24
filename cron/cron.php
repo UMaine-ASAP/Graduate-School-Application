@@ -193,4 +193,8 @@ function getName($applicant) { //Peice together their name from supplied informa
 	return $name;
 }
 
+
+//Remove applications older than 6 months
+include_once "app_cleanup.php";
+
 ?>
