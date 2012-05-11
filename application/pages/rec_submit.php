@@ -76,53 +76,6 @@ if 	( isset($_POST['submit'])
 			// Set font
 			$pdf->SetFont('times', '', 10);
 			
-			//create pdf content here -----------------------------------------
-			$pdfhtml = "<html><head><title>UMaine Graduate School Recommendation</title></head><body>";
-			
-			//applicant information
-			$pdfhtml .= "<br/><br/><strong>Applicant Information: </strong><br/>";
-			$pdfhtml .= "Name: ". $_POST["applicant_name"]. "<br/>";
-			$pdfhtml .= "Email Address: ". $_POST['uemail']. "<br/>";
-			// $pdfhtml .= "Department(s) Applied to and Degree(s) Sought:<br/> ";
-			// 			
-			// 			//get programs names and degrees sought
-			// 			$userid = $_POST['userid'];
-			// 			//queries applied program data
-			// 			$qry = "SELECT * FROM appliedprograms WHERE applicant_id = ". $userid;
-			// 			$result = $db->query($qry);
-			// 			$programs = array();
-			// 			foreach ($result as $program) {
-			// 				array_push($programs, $program['academic_program']);
-			// 			}
-			
-			//query for department headings and degrees seeking using applied program results
-			// $program_names = array();
-			// 			foreach ($programs as $program_code) {
-			// 				$qry = "SELECT description_app FROM um_academic WHERE academic_program = '". $program_code ."'";
-			// 				$result = $db->query($qry);
-			// 				array_push($program_names, $result[0][0]);
-			// 			}
-			// 			
-			// 		 	if (count($program_names) == 1) {
-			// 				$pdfhtml .= "–". $program_names[0];
-			// 				$pdfhtml .= "<br/>";
-			// 			} else {
-			// 				foreach ($program_names as $program) {
-			// 				$pdfhtml .= "–". $program;
-			// 				$pdfhtml .= "<br/>";
-			// 				}
-			// 			}
-						
-			//waiver of rights
-			$pdfhtml .= "<strong>This applicant ". $_POST['waived'] ." waived their rights to view this recommendation</strong><br/>";
-			
-			//recommender information
-			$pdfhtml .= "<br/><strong>Recommender Information: </strong><br/>";
-			$pdfhtml .= "Name: ". $_POST['rfname'] ." ". $_POST['rlname'] ."<br/>";
-			$pdfhtml .= "Title: ". $_POST['rtitle'] ."<br/>";
-			$pdfhtml .= "Employer: ". $_POST['remployer'] ."<br/>";
-			$pdfhtml .= "Email Address: ". $_POST['remail'] ."<br/>";
-			$pdfhtml .= "Phone Number: ". $_POST['rphone'] ."<br/><br/>";
 			
 			//summary evaluation
 			$ability_score 		= ( isset($_POST['ability']) ) 	 ? $_POST['ability'] 	: -1;
@@ -181,17 +134,39 @@ if 	( isset($_POST['submit'])
 				$motivation = "Unable to Judge";
 				break;
 			}
-			$pdfhtml .= "<strong>Summary Evaluation Ratings: </strong>(1 = lowest, 7 = highest)<br/>";
-			$pdfhtml .= "Academic Ability and Potential for Graduate Work: <strong>". $ability ."</strong><br/>";
-			$pdfhtml .= "Motivation for the Proposed Program of Study: <strong>". $motivation ."</strong><br/><br/>" ;  
-			
-			//recommendation body
-			$pdfhtml .= "<strong>Recommendation: </strong><br/>";
-			$pdfhtml .= $_POST['essay'];
-			
-			$pdfhtml .= "</body></html>";
 
-			$today = date("m-d-Y");			
+			//Set recommendation reuse and lifespan
+			$reuse_value    = ( isset($_POST['recommendation-reuse']) ) ? $_POST['recommendation-reuse'] : -1;
+			$lifespan_value = ( isset($_POST['recommendation-lifespan']) ) ? $_POST['recommendation-lifespan'] : -1;
+
+			$reuse 	  = "";
+			$lifespan = "";
+			$reuse_programs = "";
+			switch( $reuse_value ) {
+				case 'all':
+				$reuse = "All UM Graduate Programs";
+				$reuse_programs = "";
+				break;
+				case 'select':
+				$reuse = "The Following UM Graduate Programs:";
+				$reuse_programs = $_POST['recommendation-reuse-programs'];
+				break;
+			}
+
+			switch( $lifespan_value ) {
+				case '1year':
+				$lifespan = 'The current academic year';
+				break;
+				case '2years':
+				$lifespan = '2 years';
+				break;
+				case 'any':
+				$lifespan = 'Indefinitely';
+				break;
+			}
+
+
+			$today = date("m-d-Y");
 			
 			$results = $db->query("SELECT date_of_birth, alternate_name FROM applicants where applicant_id = %d", $_POST['userid']);
 			$applicant_data = $results[0];
@@ -213,7 +188,11 @@ if 	( isset($_POST['submit'])
 
 				'RECOMMENDATION_ABILITY' 	=> $ability,
 				'RECOMMENDATION_MOTIVATION' => $motivation,
-				'RECOMMENDATION_TEXT' 	=> $_POST['essay']
+
+				'RECOMMENDATION_REUSE' 			=> $reuse,
+				'RECOMMENDATION_REUSE_PROGRAMS' => $reuse_programs,
+				'RECOMMENDATION_LIFESPAN' 		=> $lifespan,
+				'RECOMMENDATION_TEXT' 			=> $_POST['essay']
 			);
 
 			$process_template = new Template();
@@ -225,7 +204,6 @@ if 	( isset($_POST['submit'])
 			//-----------------------------------------------------------------
 			
 			$pdf->AddPage();
-			//$pdf->writeHTML($pdfhtml, true, 0, true, 0);
 
 			$user = $_POST["applicant_name"];
 			
@@ -449,7 +427,25 @@ if 	( isset($_POST['submit'])
 		.important {
 			color:#BC0000;
 		}
-		
+ 
+ 		.radio-group-header {
+ 			margin-top: 10px;
+ 		}
+
+		.radio-selection {
+			display: inline-block;
+			margin-right: 30px;
+		}
+		.radio-selection label {
+			margin-left: 5px;
+		}
+
+		.col2, .col3 {
+			margin-top: 10px;
+		}
+
+
+
 		input[type="submit"] {
 			float:right;
 		}
@@ -633,6 +629,32 @@ if 	( isset($_POST['submit'])
 						<legend>
 							Recommendation
 						</legend>
+						<div class='radio-group-header'>This recommendation may be used for:</div>
+						<div class='col2'>
+							<span class='radio-selection'>
+								<input type='radio' name='recommendation-reuse' value='all'/><label>All UM Graduate Programs</label>
+							</span>
+							<span class='radio-selection'>
+								<input type='radio' name='recommendation-reuse' value='select'/><label>The Following UM Graduate Programs:</label>
+							</span>
+						</div>
+						<div>Please List: <input type='text' name='recommendation-reuse-programs' style='width: 80%;'/></div>
+
+						<div class='radio-group-header'>This recommendation may be used for:</div>
+						<div class='col3'>
+							<span class='radio-selection'>
+								<input type='radio' name='recommendation-lifespan' value='1year'/><label>The current academic year</label>
+							</span>
+							<span class='radio-selection'>
+								<input type='radio' name='recommendation-lifespan' value='2years'/><label>2 years</label>
+							</span>
+							<span class='radio-selection'>
+								<input type='radio' name='recommendation-lifespan' value='any'/><label>Indefinitely</label>
+							</span>
+						</div>
+
+						<br>
+
 						<p>What is your estimate of the applicant&rsquo;s promise as a graduate student and promise of professional success? What are the applicants greatest strengths and weaknesses? Please state the extent of your acquaintance with the applicant. If possible, please compare the student with any others in the same field at a similar stage in his/her career. Please give your evaluation of the applicant&rsquo;s qualifications for an assistantship.</p>
 				
 						<p class="note"><strong>Please Note:</strong> Please provide the same kind of recommendation you would supply were you to print and mail your letter. Hence, we strongly recommend that you compose your letter normally, save it, then copy it into the space provided in this form. We also strongly recommend that you save your written recommendation in a text editor such as Notepad before copying and pasting it into the space provided on the form.</p>

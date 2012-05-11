@@ -135,7 +135,12 @@
 		<p><span class="field">Motivation for the Proposed Program of Study:</span> <strong><span class="value">{{RECOMMENDATION_MOTIVATION}}</span></strong></p>
 	
 		  <p>&nbsp;</p>
-	
+		<p><span class="field">This recommendation may be used for:</span> <span class="value">{{RECOMMENDATION_REUSE}}</span></p>
+		<p><span class="value" style='margin-left: 10px;'>{{RECOMMENDATION_REUSE_PROGRAMS}}</span></p>
+
+		<p><span class="field">This recommendation may be used for:</span> <span class="value">{{RECOMMENDATION_LIFESPAN}}</span></p>
+
+		  <p>&nbsp;</p>	
 		<p>Recommendation:</p>
 	
 		<p><b><pre>{{RECOMMENDATION_TEXT}}</pre></b></p>
