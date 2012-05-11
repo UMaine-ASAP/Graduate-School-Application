@@ -74,9 +74,9 @@ if (count($batch)!=0) {
 
 		//path to put app, then copy.
 		$pdfout = $newFolder."/UMGradApp_".$applicant[3]."_".$userid.".pdf";
-		chmod($pdfin, 0777) or $errors .= "LINE:".__LINE__."Error chmoding $pdfin";
+		//chmod($pdfin, 0777) or $errors .= "LINE:".__LINE__."Error chmoding $pdfin";
 		if (!copy($pdfin,$pdfout)) $emailMessage .= "Application PDF not found: UMGradApp_".$userid.", ".$name."\n";
-		chmod($pdfin, 0222);
+		//chmod($pdfin, 0222);
 		//glob essays, because extension is unknown
 		// $essays = glob("../essays/".$userid."_essay.*");
 		$essays = glob($GLOBALS['essays_path'].$userid."_essay.*");
@@ -84,7 +84,7 @@ if (count($batch)!=0) {
 		//if multiple essays of different extensions, all are sent.
 		foreach($essays as $tmpessay) {
 			//Get extension from essay file
-			chmod($tmpessay, 0777);
+			//chmod($tmpessay, 0777);
 			$extension = pathinfo($tmpessay, PATHINFO_EXTENSION);
 			//Generate output path for essay
 			// $essayout = $newFolder."/UMGradApp_".$applicant[3]."_".$userid."_Essay.".$extension;
@@ -94,7 +94,7 @@ if (count($batch)!=0) {
 			
 			//Copy essay to destination
 			if (!copy($tmpessay,$essayout)) $errors .= "LINE:".__LINE__."Essay copy failed: ".$tmpessay."\n";
-			chmod($tmpessay, 0222);
+			//chmod($tmpessay, 0222);
 		}
 		//glob resumés, because extension is unknown
 		$resumes = glob($GLOBALS['resumes_path'].$userid."_resume.*");
@@ -102,7 +102,7 @@ if (count($batch)!=0) {
 		//if multiple resumes of different extensions, all are sent.
 		foreach($resumes as $tmpresume) {
 			//Get extension from essay file
-			chmod($tmpresume, 0777);
+			//chmod($tmpresume, 0777);
 			$extension = pathinfo($tmpresume, PATHINFO_EXTENSION);
 			//Generate output path for resume
 			// $resumeout = $newFolder."/UMGradApp_".$applicant[3]."_".$userid."_Resume.".$extension;
@@ -110,7 +110,7 @@ if (count($batch)!=0) {
 			
 			//Copy essay to destination
 			if (!copy($tmpresume,$resumeout)) $errors .= "LINE:".__LINE__."Resume copy failed: ".$tmpresume."\n";
-			chmod($tmpresume, 0222);
+			//chmod($tmpresume, 0222);
 		}
 		
 	}
@@ -128,13 +128,13 @@ if (count($batch)!=0) {
 	// $emailMessage .= count($rcmds)." recommendations submitted.\n";
 	foreach($rcmds as $tmp) {
 		//Get extension from essay file
-		chmod($tmp, 0777);
+		//chmod($tmp, 0777);
 		$base = pathinfo($tmp, PATHINFO_BASENAME);
 		//Generate output path for essay
 		$tmpout = $rcfldr.$base;
 		//Copy essay to destination
 		if (!copy($tmp,$tmpout)) $errors .= "LINE:".__LINE__."Recommendation copy failed: ".$tmp."\n";
-		chmod($tmp, 0222);
+		//chmod($tmp, 0222);
 		//unlink($tmp);//delete recommendation
 	}
 	
