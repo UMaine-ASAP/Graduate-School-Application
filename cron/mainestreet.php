@@ -18,7 +18,7 @@
 		$result = $db->query("SELECT * FROM applicants WHERE applicant_id = %d", $userid);
 		$user = $result[0];
 		
-		$temp = $user['applicant_id']."\t";
+		$temp  = $user['applicant_id']."\t";
 		$temp .= $user['given_name']."\t";
 		$temp .= $user['family_name']."\t";
 		$temp .= $user['middle_name']."\t";
@@ -153,8 +153,7 @@
 		for ($a = 0; $a < $blanks; $a++)
 			$temp .= "\t";
 
-		// $temp .= $user['residency_status']."\t";
-		// $temp .= $user['student_type']."\t";
+		// residency status and student type
 		$temp .= "\t";
 		$temp .= $student_t;
 
@@ -165,12 +164,15 @@
 			$temp .= $user['application_fee_transaction_type']."\t";
 			$temp .= $appsubdate[2]."/".$appsubdate[1]."/".$appsubdate[0]."\t";
 			$temp .= $user['application_fee_transaction_amount']."\t";
+			$temp .= $user['application_fee_transaction_payment_method'] . "\t";// transaction payment method
 		} else {
 			//value is 'N' - use all blanks
 			$temp .= "\t"; //transaction type
 			$temp .= "\t"; //date
 			$temp .= "\t"; //transaction amount
+			$type .= "\t"; //transaction payment method
 		}
+
 		$temp .= "\n"; //skip application_fee_transaction_number
 
 		return $temp;
