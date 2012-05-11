@@ -43,10 +43,10 @@ if($has_been_submitted == 0){
 	//Send Payment
 
 	//Generate transaction ID
-	$trans_id = '*'.$user.'*'.time();
+	$trans_id = 'UMGRAD' . '*' . $user . '*' . time();
 
 	//update database transaction_id
-	//$db->iquery("UPDATE applicants SET application_fee_transaction_number='%s' WHERE applicant_id=%d", $trans_id, $user);
+	$db->iquery("UPDATE applicants SET application_fee_transaction_number='%s' WHERE applicant_id=%d", $trans_id, $user);
 
 	//Fetch application cost
 	$app_cost_query = $db->query("SELECT application_fee_transaction_amount FROM applicants WHERE applicant_id=%d", $user);
@@ -57,6 +57,7 @@ if($has_been_submitted == 0){
 	$data.='UMS_APP_ID='.$GLOBALS["touchnet_app_id"].'&';
 	$data.='EXT_TRANS_ID='.$trans_id.'&';
 	$data.='AMT=' . $app_cost;
+
 	$header = array("MIME-Version: 1.0","Content-type: application/x-www-form-urlencoded","Contenttransfer-encoding: text");
 
 	//Execute request
@@ -69,19 +70,26 @@ if($has_been_submitted == 0){
 	curl_setopt($ch, CURLOPT_POST, TRUE);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data); 
 	curl_setopt($ch, CURLPROTO_HTTPS, TRUE);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-
-
+//	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 10); //Max time to connect
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); //Put result in variable
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
 	curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+
 	if ( ! $result = curl_exec($ch) ) {
 		trigger_error(curl_error($ch));
 	}
 	curl_close($ch);
 
+	/** print curl results **/
+
+	//Insert base url into result after head tag so that redirects are correct
+	$baseTag = "<base href='" . $GLOBALS['touchnet_proxy_url'] . "' >";
+	$pos = strpos($result, '<head>') + strlen('<head>');
+	$result = substr_replace($result, $baseTag, $pos, 0);
+
+	echo $result;
+
 } else {
 	header('Location: ../application/pages/lockout.php');
 }
-
-?>
