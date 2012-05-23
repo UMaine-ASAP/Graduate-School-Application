@@ -5,6 +5,29 @@ include_once "corefuncs.php";
 
 $user = check_ses_vars();
 
+// Solution and replacement values found at http://php.tonnikala.org/manual/en/function.utf8-decode.php
+function cleanInput($text) {
+    $badwordchars=array(
+        "\xe2\x80\x98", // left single quote
+        "\xe2\x80\x99", // right single quote
+        "\xe2\x80\x9c", // left double quote
+        "\xe2\x80\x9d", // right double quote
+        "\xe2\x80\x94", // em dash
+        "\xe2\x80\xa6" // elipses
+    );
+    $fixedwordchars=array(
+        "&#8216;",
+        "&#8217;",
+        '&#8220;',
+        '&#8221;',
+        '&mdash;',
+        '&#8230;'
+    );
+    $text=str_replace($badwordchars,$fixedwordchars,$text);
+
+	return $text;
+}
+
 if($user && isset($_POST['user']) && $_POST['user'] == $user) {
 	$validData = true;
 	$errorMessage = "";
@@ -15,6 +38,9 @@ if($user && isset($_POST['user']) && $_POST['user'] == $user) {
 
 $db = new Database();
 $db->connect();
+
+//Clean characters somewhat
+$_POST['value'] = cleanInput($_POST['value']);
 
 if($user && $_POST) {
 	if ($validData = isValid($_POST['field'], $_POST['value'], &$errorMessage)) {
@@ -529,7 +555,7 @@ function filter_date_range($value) {
 }
 
 function filter_generic($value) {
-	$invalid_chars = str_split("\"#$%&'*+\\/=?^_`{|}~;><");
+	$invalid_chars = array();//str_split("\"#$%&'*+\\/=?^_`{|}~;><");
 	foreach($invalid_chars as $char)
 		if (strpos($value, $char) !== false)
 			return false;
