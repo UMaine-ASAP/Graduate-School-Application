@@ -30,17 +30,8 @@ if($touchnet_production) {
 	$touchnet_app_id = "UMGRAD";
 	//Touchnet Payment Proxy
 	$touchnet_proxy_url = "https://beech.unet.maine.edu/UPayProxy/checkAuth";
-
-	//Touchnet Database User
-	$touchnet_db_user = "TNUMGRAD";
-	//Touchnet Database Password
-	$touchnet_db_pass = "B21gkS";
-	//Touchnet Database Host
-	$touchnet_db_host = "admapps.db.unet.maine.edu";
-	//Touchnet Database Port
-	$touchnet_db_port = "1521";
-	//Touchnet Database Table
-	$touchnet_db_name = "UPAY_REQUESTS";
+	//Posting Key
+	$touchnet_posting_key = "6#us8$";
 
 } else {
 	//Touchnet Site ID
@@ -48,18 +39,10 @@ if($touchnet_production) {
 	//Touchnet Application ID
 	$touchnet_app_id = "UMGRAD";
 	//Touchnet Payment Proxy
-	$touchnet_proxy_url = "https://beech.unet.maine.edu/UPayDev/checkAuth";
-
-	//Touchnet Database User
-	$touchnet_db_user = "TNUMGRAD";
-	//Touchnet Database Password
-	$touchnet_db_pass = "B21gkS";
-	//Touchnet Database Host
-	$touchnet_db_host = "admdev.db.unet.maine.edu";
-	//Touchnet Database Port
-	$touchnet_db_port = "1521";
-	//Touchnet Database Table
-	$touchnet_db_name = "UPAY_REQUESTS";
+    $touchnet_proxy_url = "https://secure.touchnet.com:8443/C22921test_upay/web/index.jsp";	
+	//$touchnet_proxy_url = "https://beech.unet.maine.edu/UPayDev/checkAuth";
+    //Posting Key
+	$touchnet_posting_key = "+73ht$";
 }
 
 
