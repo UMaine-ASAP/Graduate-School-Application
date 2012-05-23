@@ -42,4 +42,3 @@
 	} else {
 		header('Location: ../application/pages/lockout.php');
 	}
-?>
