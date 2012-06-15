@@ -17,8 +17,10 @@
 	
 	function strip_numeric_indexes(&$a) {
 		$result = array();
-		foreach($a as $id_key => $value){
-			if(!is_numeric($id_key)) $result[strtoupper($id_key)] = $value;
+		if (is_array($a)) {
+			foreach($a as $id_key => $value){
+				if(!is_numeric($id_key)) $result[strtoupper($id_key)] = $value;
+			}
 		}
 		return $result;
 	}

@@ -123,62 +123,63 @@
 		$applicant_data = $db->query("SELECT * FROM applicants WHERE applicants.applicant_id=%d LIMIT 1", $user);
 		$applicant_data = $applicant_data[0];
 		
-		foreach($applicant_data as $id_key => $form_value) {
-		
-			if($id_key == "social_security_number") {
-				$key = $GLOBALS['key'];
-				$ssn = $db->query("SELECT AES_DECRYPT(social_security_number, '$key') AS social_security_number FROM applicants WHERE applicants.applicant_id=%d LIMIT 1", $user);
-				$ssn = $ssn[0][0];
-				$form_value = $ssn;
-			}
-
-			$key_terms = explode("_",$id_key);
-			// echo "key_terms is <br />\n";
-			// print_r($key_terms);
-			// echo "\n<br />id_key is $id_key<br />\n";
-
-			if(isset($key_terms[1]) && $key_terms[1] == "repeatable") {
-				// Code to make multiples form elements
-				$tableName = $key_terms[0];
-				$replace[strtoupper($tableName)."_TABLE_NAME"] = $tableName;
-				$replace[strtoupper($tableName)."_TEMPLATE_PATH"] = "templates/".$tableName."_repeatable.php";
-				$replace[strtoupper($tableName)."_LIST"] = $tableName."_list";
-				
-				//For each element to be drawn
-				$repeat_data = $db->query("SELECT %s_id FROM `%s` WHERE applicant_id=%d", $tableName, $tableName, $user);
-				if(count($repeat_data) == 0 AND $tableName != "extrareferences")
-					$db->iquery("INSERT INTO `%s` (applicant_id, %s_id) VALUES (%d, 1)", $tableName, $tableName, $user);		
-				$repeat_data = $db->query("SELECT %s_id FROM `%s` WHERE applicant_id=%d", $tableName, $tableName, $user);	
-				
-				$repeat_count = count($repeat_data);
-				$replace[strtoupper($tableName)."_COUNT"] = $repeat_count;
-				$repeatable_element = '';
-				
-				for($i = 0; $i < $repeat_count;$i++) {
-					$repeat_content = new Template();
-					$repeat_content->changeTemplate($replace[strtoupper($tableName)."_TEMPLATE_PATH"]);
-					$data = $db->query("SELECT * FROM `%s` WHERE applicant_id=%d AND %s_id=%d", $tableName, $user, $tableName, $repeat_data[$i][0]);
-					$data = $data[0];
-
-					foreach($data as $sub_id_key => $subvalue) {
-						if(!is_numeric($id_key)) $repeat_replace[strtoupper($sub_id_key)] = $subvalue;
+		if(is_array($applicant_data)) {
+			foreach($applicant_data as $id_key => $form_value) {
+			
+				if($id_key == "social_security_number") {
+					$key = $GLOBALS['key'];
+					$ssn = $db->query("SELECT AES_DECRYPT(social_security_number, '$key') AS social_security_number FROM applicants WHERE applicants.applicant_id=%d LIMIT 1", $user);
+					$ssn = $ssn[0][0];
+					$form_value = $ssn;
+				}
+	
+				$key_terms = explode("_",$id_key);
+				// echo "key_terms is <br />\n";
+				// print_r($key_terms);
+				// echo "\n<br />id_key is $id_key<br />\n";
+	
+				if(isset($key_terms[1]) && $key_terms[1] == "repeatable") {
+					// Code to make multiples form elements
+					$tableName = $key_terms[0];
+					$replace[strtoupper($tableName)."_TABLE_NAME"] = $tableName;
+					$replace[strtoupper($tableName)."_TEMPLATE_PATH"] = "templates/".$tableName."_repeatable.php";
+					$replace[strtoupper($tableName)."_LIST"] = $tableName."_list";
+					
+					//For each element to be drawn
+					$repeat_data = $db->query("SELECT %s_id FROM `%s` WHERE applicant_id=%d", $tableName, $tableName, $user);
+					if(count($repeat_data) == 0 AND $tableName != "extrareferences")
+						$db->iquery("INSERT INTO `%s` (applicant_id, %s_id) VALUES (%d, 1)", $tableName, $tableName, $user);		
+					$repeat_data = $db->query("SELECT %s_id FROM `%s` WHERE applicant_id=%d", $tableName, $tableName, $user);	
+					
+					$repeat_count = count($repeat_data);
+					$replace[strtoupper($tableName)."_COUNT"] = $repeat_count;
+					$repeatable_element = '';
+					
+					for($i = 0; $i < $repeat_count;$i++) {
+						$repeat_content = new Template();
+						$repeat_content->changeTemplate($replace[strtoupper($tableName)."_TEMPLATE_PATH"]);
+						$data = $db->query("SELECT * FROM `%s` WHERE applicant_id=%d AND %s_id=%d", $tableName, $user, $tableName, $repeat_data[$i][0]);
+						$data = $data[0];
+	
+						foreach($data as $sub_id_key => $subvalue) {
+							if(!is_numeric($id_key)) $repeat_replace[strtoupper($sub_id_key)] = $subvalue;
+						}
+						
+						//Replace -> Parse -> Render Repeatable Content
+						$repeat_replace['INDEX'] = $data[$tableName.'_id'];
+						$repeat_replace['TABLE_NAME'] = $tableName;
+						$repeat_replace['COUNT_INDEX'] = $i+1;
+						$repeat_content->changeArray($repeat_replace);
+						$repeatable_element .= $repeat_content->parse();					
 					}
 					
-					//Replace -> Parse -> Render Repeatable Content
-					$repeat_replace['INDEX'] = $data[$tableName.'_id'];
-					$repeat_replace['TABLE_NAME'] = $tableName;
-					$repeat_replace['COUNT_INDEX'] = $i+1;
-					$repeat_content->changeArray($repeat_replace);
-					$repeatable_element .= $repeat_content->parse();					
+					//Replace Form Elements
+					$replace[strtoupper($id_key)] = $repeatable_element;
+				}else {
+					if(!is_numeric($id_key)) $replace[strtoupper($id_key)] = $form_value; 
 				}
-				
-				//Replace Form Elements
-				$replace[strtoupper($id_key)] = $repeatable_element;
-			}else {
-				if(!is_numeric($id_key)) $replace[strtoupper($id_key)] = $form_value; 
-			}
-		}
-		
+			} //end foreach
+		} // end of if is_array
 		//Replace -> Parse -> Render iSection Content
 		$replace['USER'] = $user;
 

@@ -109,33 +109,40 @@
 	$personal_data = $app_data[0];
 	
 	//Redirect back
-	foreach ($app_data as $adata)
-		foreach($adata as $f => $data)
-			if(!$data && !$f == 'permanent_addr2')
+	foreach ($app_data as $adata) {
+		foreach($adata as $f => $data) {
+			if(!$data && !$f == 'permanent_addr2') {
 				header("location:app_manager.php?warning=Your application is not complete.");
+			}
+		}
+	}
+	
 	
 	//Build Required Personal Info
 	$req_info_content = new Template();
 	$req_info_content->changeTemplate("templates/section_required_info.tpl");
 	$req_info_replace = array();
 
-	foreach($personal_data as $pfield => $pvalue){
-		if(!is_numeric($pfield))
-			$req_info_replace[strtoupper($pfield)] = $pvalue;
+	if( is_array($personal_data) ) {
 
-		if($pvalue == "") {
-			switch($pfield) {
-				case "permanent_addr1":
-					$req_info_replace[strtoupper($pfield)] = "[Address Missing]";
-					break;
-				case "permanent_postal":
-					$req_info_replace[strtoupper($pfield)] = "[Zipcode Missing]";
-					break;
-				case "permanent_state":
-					$req_info_replace[strtoupper($pfield)] = "[State Missing]";
-					break;
-				default:
-					break;
+		foreach($personal_data as $pfield => $pvalue){
+			if(!is_numeric($pfield))
+				$req_info_replace[strtoupper($pfield)] = $pvalue;
+	
+			if($pvalue == "") {
+				switch($pfield) {
+					case "permanent_addr1":
+						$req_info_replace[strtoupper($pfield)] = "[Address Missing]";
+						break;
+					case "permanent_postal":
+						$req_info_replace[strtoupper($pfield)] = "[Zipcode Missing]";
+						break;
+					case "permanent_state":
+						$req_info_replace[strtoupper($pfield)] = "[State Missing]";
+						break;
+					default:
+						break;
+				}
 			}
 		}
 	}
