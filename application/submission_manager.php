@@ -17,8 +17,12 @@
 	$error_list = get_error_list($db);
 
 	//Redirect if not complete
-	if($error_list != "") {
-		if( !isset($_SESSION) ) { session_start(); }
+	if($error_list != "") 
+	{
+		if( !isset($_SESSION) ) 
+		{ 
+			session_start(); 
+		}
 		$_SESSION['submitted'] = TRUE;
 		session_write_close();
 		header("location:app_manager.php");
@@ -39,7 +43,8 @@
 	//	header("location:lockout.php");
 	//}
 	
-	if(!is_array($sub) || $sub[0][0] == 1){
+	if(!is_array($sub) || $sub[0][0] == 1)
+	{
 		header("location:pages/lockout.php");	
 	}
 	//*********************************************************************************************
@@ -60,10 +65,12 @@
 	$result = $db->query("SELECT DISTINCT applicant_id FROM progress WHERE applicant_id=%d", $user);	
 	
 	//If user is new create section progess values
-	if(!$result) {
+	if(!$result) 
+	{
 		$sections = $db->query("SELECT * FROM structure");
 		$sectionCount = count($sections);
-		for($i = 0; $i < $sectionCount ;$i++) {
+		for($i = 0; $i < $sectionCount ;$i++) 
+		{
 			$db->iquery("INSERT INTO progress VALUES(%d, %d,'INCOMPLETE','') ", $user, $sections[$i]['id']);
 		}
 	}
@@ -78,7 +85,8 @@
 	
 	$section_content = '';
 	//Create each section
-	foreach($app_progress as $isection) {
+	foreach($app_progress as $isection) 
+	{
 		$isection_content = new Template();
 		$isection_content->changeTemplate("templates/node_isection.tpl");
 						
@@ -109,9 +117,12 @@
 	$personal_data = $app_data[0];
 	
 	//Redirect back
-	foreach ($app_data as $adata) {
-		foreach($adata as $f => $data) {
-			if(!$data && !$f == 'permanent_addr2') {
+	foreach ($app_data as $adata) 
+	{
+		foreach($adata as $f => $data) 
+		{
+			if(!$data && !$f == 'permanent_addr2') 
+			{
 				header("location:app_manager.php?warning=Your application is not complete.");
 			}
 		}
@@ -123,14 +134,18 @@
 	$req_info_content->changeTemplate("templates/section_required_info.tpl");
 	$req_info_replace = array();
 
-	if( is_array($personal_data) ) {
+	if( is_array($personal_data) ) 
+	{
 
-		foreach($personal_data as $pfield => $pvalue){
+		foreach($personal_data as $pfield => $pvalue)
+		{
 			if(!is_numeric($pfield))
 				$req_info_replace[strtoupper($pfield)] = $pvalue;
 	
-			if($pvalue == "") {
-				switch($pfield) {
+			if($pvalue == "") 
+			{
+				switch($pfield) 
+				{
 					case "permanent_addr1":
 						$req_info_replace[strtoupper($pfield)] = "[Address Missing]";
 						break;
@@ -160,7 +175,8 @@
 	$flag=0;
 	$program_content = "";
 
-	foreach($app_data as $app_program){
+	foreach($app_data as $app_program)
+	{
 		$iprogram_content = new Template();
 		$iprogram_content->changeTemplate("templates/node_sub_program.tpl");
 		
