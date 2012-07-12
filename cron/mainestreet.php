@@ -170,7 +170,7 @@
 			$temp .= "\t"; //transaction type
 			$temp .= "\t"; //date
 			$temp .= "\t"; //transaction amount
-			$type .= "\t"; //transaction payment method
+			$temp .= "\t"; //transaction payment method
 		}
 
 		$temp .= "\n"; //skip application_fee_transaction_number
