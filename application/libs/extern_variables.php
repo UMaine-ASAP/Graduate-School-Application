@@ -29,7 +29,7 @@ if($touchnet_production) {
 	//Touchnet Application ID
 	$touchnet_app_id = "UMGRAD";
 	//Touchnet Payment Proxy
-	$touchnet_proxy_url = "https://beech.unet.maine.edu/UPayProxy/checkAuth";
+	$touchnet_proxy_url = "https://secure.touchnet.com/C22921_upay/web/index.jsp";
 	//Posting Key
 	$touchnet_posting_key = "6#us8$";
 
