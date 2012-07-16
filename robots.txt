@@ -7,6 +7,5 @@ Disallow: /peoplesoft/
 Disallow: /recommendations/
 Disallow: /recommender.php
 Disallow: /script.php
-Disallow: /tcpdf/
 Disallow: /templates/
 Disallow: /testscripts/
