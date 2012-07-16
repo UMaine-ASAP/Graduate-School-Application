@@ -1,4 +1,15 @@
 <?php
+	/*
+	 * Mail Pay Later
+	 *
+	 * This script is part of the processing used when an application is submitted without payment.
+	 * This script is not meant to be called directly, but during the processing stage for non-payment submission.
+	 * See success.php
+	 *
+	 * Assumptions: - completed application
+	 *
+	*/ 
+
 	include_once "../application/libs/database.php";
 	include_once "../application/libs/corefuncs.php";
 	include_once "../application/libs/variables.php";
