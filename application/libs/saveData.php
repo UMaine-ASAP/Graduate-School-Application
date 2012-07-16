@@ -897,4 +897,3 @@ function filter_email($email) {
 	return false;
 }
 
-?>

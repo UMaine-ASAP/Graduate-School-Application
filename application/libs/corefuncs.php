@@ -93,4 +93,4 @@ function sendRecoverMessage($email, $code) {
 	mail($email, $subject, $mail_body_plain, $header); //mail command	
 }
 
-?>
+

@@ -32,5 +32,4 @@
 
 	$results = substr($results,0,strlen($results)-1);
 	print $results;
-	
-?>
+

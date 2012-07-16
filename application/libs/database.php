@@ -329,4 +329,4 @@ class Database
 		return $str;
 	}
 }
-?>
+

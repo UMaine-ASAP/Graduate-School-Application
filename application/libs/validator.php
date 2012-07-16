@@ -254,4 +254,3 @@ function get_error_list($db = null) {
 	return $error_list;
 }
 
-?>

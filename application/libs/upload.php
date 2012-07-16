@@ -62,4 +62,4 @@ function uploadFile($name, $upload_path, $user) {
 		die("Error: Not an allowed file type");
 	}
 }
-?>
+

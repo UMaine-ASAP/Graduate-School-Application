@@ -109,4 +109,3 @@ function sendReferenceEmail( $reference ) {
 	return "SUCCESS: Email Sent";
 }
 
-?>
