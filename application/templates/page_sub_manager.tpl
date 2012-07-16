@@ -111,13 +111,13 @@
 	$("#submitPayNow").click(function() {
 			$("#submitPayNow").attr("disabled", "true");
 			$("#submitPayLater").attr("disabled", "true");
-			var url = "../pdf_export/send_payment.php";    
+			var url = "../pdf_export/submit_with_payment.php";    
 			window.location.href = url;
 });
 	$("#submitPayLater").click(function() {
 			$("#submitPayLater").attr("disabled", "true");
 			$("#submitPayNow").attr("disabled", "true");
-			var url = "../pdf_export/success.php";
+			var url = "../pdf_export/submit_without_payment.php";
 			window.location.href = url;
 });
 </script>
