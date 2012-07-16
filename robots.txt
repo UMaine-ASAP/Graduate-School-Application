@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: /acquia_marinatempates/
 Disallow: /application/
 Disallow: /essays/
 Disallow: /pdf_export/
