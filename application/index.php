@@ -1,1 +1,2 @@
-<?php include_once "app_manager.php"; ?>
+<?php 
+include_once "app_manager.php";
