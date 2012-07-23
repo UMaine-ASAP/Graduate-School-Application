@@ -22,6 +22,13 @@ class Database
 		$this->database_name = isset($name)?$name:$GLOBALS["db_name"];
 	}
 
+	static function get()
+	{
+		$db = new Database();
+		$db->connect();
+		return $db;
+	}
+
 	function connect()
 	{
 		$this->database_link = new mysqli(
