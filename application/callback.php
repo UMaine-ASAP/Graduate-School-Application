@@ -50,7 +50,7 @@ if ($status == "success"
 	$error_message  = "A touchnet payment was made unsucessfully ";
 	$error_message .= " *** Payment Status: $status ";
 	$error_message .= ($key != $GLOBALS['touchnet_posting_key']) ? " *** Passed in key '$key' does not match actual key" : '';
-	$error_message .= ($stored_transaction_id == $trans_id) ? " *** Passed in transaction id '$trans_id' does not match stored transaction id" : "";
+	$error_message .= ($stored_transaction_id != $trans_id) ? " *** Passed in transaction id '$trans_id' does not match stored transaction id " : "";
 	error_log($error_message);
 }
 
