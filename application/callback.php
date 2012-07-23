@@ -20,6 +20,9 @@ $transID 	 = $identifier_array[2];
 $result = $db->query('SELECT application_fee_transaction_number FROM applicants WHERE applicant_id=%d', $applicantID);
 $stored_transaction_id = $result[0];
 
+mail("timothy.d.baker@umit.maine.edu", "SYSTEM-GRAD-APPLICATION: Touchnet payment made", "payment data:\n " . json_encode($_POST));
+
+
 // Process successful payments
 if ($status == "success" 
 	&& $key == $GLOBALS['touchnet_posting_key']
