@@ -100,4 +100,3 @@ $grad_images = $grad_app_root . "images/";
 
 $mainestreet_group_name = "gradmainstreet";
 $gradschool_group_name = "gradoffice";
-?>
