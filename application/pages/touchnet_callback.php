@@ -1,7 +1,7 @@
 <?php
 
-require_once "libs/database.php";
-require_once "libs/variables.php";
+require_once "../libs/database.php";
+require_once "../libs/variables.php";
 
 $db = new Database();
 $db->connect();
