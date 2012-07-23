@@ -43,6 +43,12 @@ if ($status == "success"
 
 	$db->iquery("UPDATE applicants SET application_fee_transaction_payment_method='%s' WHERE applicants.applicant_id=%d", $payment_method, $applicantID);
 
+} else {
+	$error_message  = "A touchnet payment was made unsucessfully ";
+	$error_message .= " *** Payment Status: $status ";
+	$error_message .= ($key != $GLOBALS['touchnet_posting_key']) ? " *** Passed in key '$key' does not match actual key" : '';
+	$error_message .= ($stored_transaction_id == $trans_id) ? " *** Passed in transaction id '$trans_id' does not match stored transaction id" : "";
+	error_log($error_message);
 }
 
 $db->close();
