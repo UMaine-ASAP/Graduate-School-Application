@@ -23,13 +23,11 @@ class Database
 	{ 
     	if (!self::$database_instance) 
     	{ 
-    		print "creating object<br>";
     	    self::$database_instance = new Database(); 
     	    self::$instance_count = 1;
     	    self::$database_instance->connect();
 	    } else { 
     	    self::$instance_count++;
-	    	print "getting reference " . self::$instance_count . " <br>"; 
 	    }
 
     	return self::$database_instance; 
@@ -48,11 +46,8 @@ class Database
     	if( self::$instance_count < 0) self::$instance_count = 0;
 
     	if( self::$instance_count == 0 && self::$database_instance) {    		
-			print "destroying object<br>";
 			self::$database_instance->close();
 			self::$database_instance = null;
-    	} else {
-    		print "decremented counter " . self::$instance_count . " <br>";
     	}
 
 	}
@@ -68,7 +63,7 @@ class Database
 
 		/* check connection */
 		if (mysqli_connect_errno(self::$database_link)) {
-		    printf("Connect failed: %s\n", mysqli_connect_error());
+		    error_log("Connect failed: %s\n", mysqli_connect_error());
 		    exit();
 		}
 	}
