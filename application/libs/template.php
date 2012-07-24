@@ -6,6 +6,13 @@
  		  PHP.
 ************************************************************************/
 
+function template_parse($template_file, $replace_data) {
+	$process_template = new Template();
+	$process_template->changeTemplate($template_file);
+	$process_template->changeArray($replace_data);
+	return $process_template->parse();
+}
+
 class Template
 {
 	var $template;
@@ -64,7 +71,7 @@ class Template
 		}
 		$findreplace = $this->replaceArray;
 		$data_file = fopen($this->template, "r") or die("Could not open Template file ('$this->template').");
-		$template_html = '';
+		if(!isset($template_html)) $template_html = "";
 		while(!feof($data_file)) $template_html .= fgets($data_file, 4096);
 		fclose($data_file);
 		

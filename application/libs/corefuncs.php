@@ -1,8 +1,8 @@
 <?php
 
+// Libraries
 include_once "variables.php";
 include_once "database.php";
-
 include_once "template.php";
 
 /**
@@ -60,13 +60,6 @@ function sanitizeString ( $var ) {
 
 function is_odd( $int ) {
   return( $int & 1 );
-}
-
-function template_parse($template_file, $replace_data) {
-	$process_template = new Template();
-	$process_template->changeTemplate($template_file);
-	$process_template->changeArray($replace_data);
-	return $process_template->parse();
 }
 
 
