@@ -1,4 +1,4 @@
-<?
+<?php
 
 include_once "variables.php";
 include_once "database.php";
@@ -20,14 +20,16 @@ function check_ses_vars() {
 			return 0;
 		}
 		//Make sure user is valid
-		$db = new Database();
-		$db->connect();
+		$db = Database::getInstance();
+
 		$user_check = $db->query("SELECT applicant_id FROM applicants WHERE applicant_id = %d", $_SESSION['UMGradSession']);
 
 		if( is_array($user_check) ) {
 			$_SESSION['lastAccess'] = $latestAccess;
+			$db->close();
 			return $_SESSION['UMGradSession'];	
 		} else {
+			$db->close();
 			return 0;
 		}
 	}

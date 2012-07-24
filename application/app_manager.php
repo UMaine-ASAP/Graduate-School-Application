@@ -5,6 +5,8 @@
 	include_once "libs/validator.php";
 	include_once "templates/template.php";
 
+	// Controllers
+	include_once "controllers/application.php";
 
 	//*********************************************************************************************
 	// Determine User and Current Page
@@ -16,18 +18,17 @@
 	//@TODO: Eventually have it find first not completed page;
 	$page_id = isset($_GET['page']) ? $_GET['page'] : 2; //2 is page one
 
+	$application = Application::getActiveApplication();
 	//*********************************************************************************************
 	// Open database link
 	//*********************************************************************************************
-	$db = new Database();
-	$db->connect();
+	$db = Database::getInstance();
 	
 	//*********************************************************************************************
 	//redirect to lockout page if user has submitted an application SMB 1/29/10 10:44AM
 	//*********************************************************************************************
-	$sub = $db->query("SELECT applicants.has_been_submitted FROM applicants WHERE applicants.applicant_id = %d",  $user);
 
-	if( !is_array($sub) || $sub[0][0] == 1){
+	if( $application->hasBeenSubmitted() ){
 		header("location:./pages/lockout.php");
 	}
 	
@@ -46,7 +47,6 @@
 		|| isset($_GET['warning']) 		 && $_GET['warning'] 
 		|| isset($_SESSION['submitted']) && $_SESSION['submitted']
 		){
-		//session_write_close();
 
 		$error_list = get_error_list($db);
 
@@ -68,7 +68,7 @@
 	//Test database for user's existence
 	$result = $db->query("SELECT DISTINCT applicant_id FROM progress WHERE applicant_id=%d", $user);	
 
-	//If user is new create section progess values
+	//If user is new, create section progess values
 	if(!$result) {
 		$sections = $db->query("SELECT * FROM structure WHERE include=1 ORDER BY `order`");
 		$sectionCount = count($sections);
@@ -85,7 +85,9 @@
 	
 	$app_status = $app_progress[0];		//Store application progress
 	unset($app_progress[0]);		//Pop application progress off render stack
+
 	$section_content = '';
+
 	//Create each section	
 	foreach($app_progress as $isection) {
 		$isection_content = new Template();
@@ -133,6 +135,7 @@
 				$key_terms = explode("_",$id_key);
 	
 				if(isset($key_terms[1]) && $key_terms[1] == "repeatable") {
+
 					// Code to make multiples form elements
 					$tableName = $key_terms[0];
 					$replace[strtoupper($tableName)."_TABLE_NAME"] = $tableName;
@@ -174,6 +177,7 @@
 				}
 			} //end foreach
 		} // end of if is_array
+
 		//Replace -> Parse -> Render iSection Content
 		$replace['USER'] = $user;
 

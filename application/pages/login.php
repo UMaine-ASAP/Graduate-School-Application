@@ -4,8 +4,8 @@ include_once '../libs/database.php';
 include_once '../libs/variables.php';
 
 // connect to database
-$db = new Database();
-$db->connect();
+$db = Database::getInstance();
+
 
 $signin_msg = "";
 $success_msg = "";	
