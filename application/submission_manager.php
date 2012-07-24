@@ -1,15 +1,24 @@
 <?php
+	// Libraries
 	include_once "libs/database.php";
 	include_once "libs/template.php";
 	include_once "libs/corefuncs.php";
 	include_once "libs/validator.php";
 
-	//*********************************************************************************************
-	// Database Login
-	//*********************************************************************************************
-	$db = new Database();
-	$db->connect();
+	// Controllers
+	include_once "controllers/application.php";
+	include_once "controllers/applicant.php";
 
+	//*********************************************************************************************
+	// Determine User
+	//*********************************************************************************************
+	$user = check_ses_vars();
+	$user = ($user)?$user:header("location:pages/login.php");
+
+	$applicant = Applicant::getActiveApplicant();
+	$application = Application::getActiveApplication();
+
+	$db = Database::getInstance();
 
 	//*********************************************************************************************
 	// Validate Application and redirect if not complete
@@ -29,37 +38,17 @@
 	}
 	
 	//*********************************************************************************************
-	// Determine User
-	//*********************************************************************************************
-	$user = check_ses_vars();
-	$user = ($user)?$user:header("location:pages/login.php");
-	
-	//*********************************************************************************************
 	//redirect to lockout page if user has submitted an application SMB 1/29/10 10:44AM
 	//*********************************************************************************************
-	$sub = $db->query("SELECT applicants.has_been_submitted FROM applicants WHERE applicants.applicant_id = %d", $user);
-	
-	//if($sub[0][0] == 1) {
-	//	header("location:lockout.php");
-	//}
-	
-	if(!is_array($sub) || $sub[0][0] == 1)
+
+	if( $application->hasBeenSubmitted() )
 	{
 		header("location:pages/lockout.php");	
 	}
-	//*********************************************************************************************
-	// Test Submission and Verify
-	//*********************************************************************************************
-	//if($_POST['final_submit_app']){
-		//Send info to proxy
-		//If okay go to payment
-	//}
 	
 	//*********************************************************************************************
 	// Start Building Page Content
 	//*********************************************************************************************
-	$app_manager_content = new Template();
-	$app_manager_content->changeTemplate("templates/page_sub_manager.tpl");
 	
 	//Test database for user's existence
 	$result = $db->query("SELECT DISTINCT applicant_id FROM progress WHERE applicant_id=%d", $user);	
@@ -80,25 +69,25 @@
 	//*********************************************************************************************
 	$app_progress = $db->query("SELECT * FROM progress,structure WHERE progress.applicant_id=%d AND structure.id=progress.structure_id", $user);
 	
-	$app_status = $app_progress[0];		//Store application progress
+	$app_status = $app_progress[0];	//Store application progress
 	unset($app_progress[0]);		//Pop application progress off render stack
 	
 	$section_content = '';
+
 	//Create each section
 	foreach($app_progress as $isection) 
 	{
-		$isection_content = new Template();
-		$isection_content->changeTemplate("templates/node_isection.tpl");
 						
-		//Replace -> Parse -> Render iSection Content
+		//Replacement Data
 		$isection_replace = array();
-		$isection_replace['FORM_ID'] = $isection['structure_id'];
-		$isection_replace['SECTION_NAME'] = $isection['name'];
+
+		$isection_replace['PAGE_ID'] 		= $isection['structure_id'];
+		$isection_replace['SECTION_NAME'] 	= $isection['name'];
 		$isection_replace['SECTION_STATUS'] = $isection['status'];
-		$isection_replace['SECTION_IMAGE'] = '';
-		$isection_replace['SECTION_NOTES'] = $isection['notes'];
-		$isection_content->changeArray($isection_replace);
-		$section_content .= $isection_content->parse();
+		$isection_replace['SECTION_IMAGE'] 	= '';
+		$isection_replace['SECTION_NOTES'] 	= $isection['notes'];
+
+		$section_content .= template_parse("templates/node_isection.tpl", $isection_replace);
 	}
 	
 	//*********************************************************************************************
@@ -106,7 +95,7 @@
 	//*********************************************************************************************
 	
 	//Query All Required Fields for Submission Page
-	$qry = "SELECT applicants.given_name, applicants.family_name, applicants.permanent_addr1, applicants.permanent_addr2, ";
+	$qry  = "SELECT applicants.given_name, applicants.family_name, applicants.permanent_addr1, applicants.permanent_addr2, ";
 	$qry .= "applicants.permanent_city, applicants.permanent_state, applicants.permanent_postal , applicants.permanent_country ,applicants.primary_phone, ";
 	$qry .= "applicants.email, appliedprograms.start_semester, appliedprograms.start_year, ";
 	$qry .= "appliedprograms.academic_program, appliedprograms.appliedprograms_id ";
@@ -128,10 +117,7 @@
 		}
 	}
 	
-	
 	//Build Required Personal Info
-	$req_info_content = new Template();
-	$req_info_content->changeTemplate("templates/section_required_info.tpl");
 	$req_info_replace = array();
 
 	if( is_array($personal_data) ) 
@@ -161,68 +147,79 @@
 			}
 		}
 	}
-		
-	//Replace -> Parse -> Render iSection Content
-	$req_info_content->changeArray($req_info_replace);
-	$req_info_section = $req_info_content->parse();
+	
+	// Get Required information content
+	$req_info_section = template_parse("templates/section_required_info.tpl", $req_info_replace);
 				
 	//retrieve application cost from database
 	$cost = $db->query("SELECT first_program, additional_programs FROM application_cost");	
-	$first_program = $cost[0]['first_program'];
+
+	$first_program 		 = $cost[0]['first_program'];
 	$additional_programs = $cost[0]['additional_programs'];
 	
 	//Build Degree List
-	$flag=0;
+	$number_programs_applied_to = 0;
 	$program_content = "";
 
 	foreach($app_data as $app_program)
 	{
-		$iprogram_content = new Template();
-		$iprogram_content->changeTemplate("templates/node_sub_program.tpl");
-		
-		//Replace -> Parse -> Render iSection Content
+		// Replacement Data
 		$program_replace = array();
-		$program_replace['INDEX'] = $app_program['appliedprograms_id'];
-		$program_replace['PROGRAM_NAME'] = $db->getFirst("SELECT description_app FROM um_academic WHERE academic_program='%s'", $app_program['academic_program']);
-		$program_replace['PROGRAM_STATUS'] = ($flag==0)?"$". $first_program .".00":"$". $additional_programs .".00";
-		$program_replace['PROGRAM_NOTES'] = $app_program['start_semester']." ".$app_program['start_year'];
-		$iprogram_content->changeArray($program_replace);
-		$program_content .= $iprogram_content->parse();
+
+		$program_replace['INDEX'] 			= $app_program['appliedprograms_id'];
+		$program_replace['PROGRAM_NAME'] 	= $db->getFirst("SELECT description_app FROM um_academic WHERE academic_program='%s'", $app_program['academic_program']);
+		$program_replace['PROGRAM_STATUS'] 	= ($number_programs_applied_to==0)?"$". $first_program .".00":"$". $additional_programs .".00";
+		$program_replace['PROGRAM_NOTES'] 	= $app_program['start_semester']." ".$app_program['start_year'];
 		
-		$flag++;
+		// Add program information
+		$program_content .= template_parse("templates/node_sub_program.tpl", $program_replace);
+
+		$number_programs_applied_to++;
 	}
 	
 	//Calculate Total Cost	
-	$total_cost = $first_program + $additional_programs * ($flag - 1);
+	$total_cost = $first_program + $additional_programs * ($number_programs_applied_to - 1);
 	//update database application_fee_transaction_amount
 	$db->iquery("UPDATE applicants SET application_fee_transaction_amount='%s' WHERE applicant_id=%d", $total_cost, $user);
 	
 	//*********************************************************************************************
 	//Replace -> Parse -> Render Final Page Content
 	//*********************************************************************************************
-	$amc_replace = array();
-	$amc_replace['TITLE'] = "UMaine Graduate Application";
-	$amc_replace['ID'] = $user;
-	$amc_replace['ONEUP'] = time();
-	$amc_replace['NAME'] =  $db->getFirst("SELECT given_name FROM applicants WHERE applicant_id=%d", $user);
-	$amc_replace['LAST_NAME'] =  $db->getFirst("SELECT family_name FROM applicants WHERE applicant_id=%d", $user);
-	$amc_replace['EMAIL'] =  $db->getFirst("SELECT login_email FROM applicants WHERE applicant_id=%d", $user);
-	$amc_replace['GRADHOMEPAGE'] = $GLOBALS['graduate_homepage'];
-	$amc_replace['FAVICON'] = $GLOBALS['grad_images'] . "grad_favicon.ico";
-	//$amc_replace['WARNINGS'] = ($error_list)?$error_list:"Please submit all information that you can.<br />Press the \"Submit Application\" button when you are ready.";
-	$amc_replace['SECTION_CONTENT'] = $section_content;
-	$amc_replace['USER'] = $user;
-	$amc_replace['SERVER_NAME'] = $GLOBALS['server_name'];
-	$amc_replace['PERSONAL_INFO'] = $req_info_section;
-	$amc_replace['PROGRAM_LIST'] = $program_content;
-	$amc_replace['PROGRAM_COUNT'] = $flag;
-	$amc_replace['S'] = ($flag > 1)?"s":"";
-	$amc_replace['TOTAL_COST'] = "$".number_format($total_cost,2);
-	$amc_replace['TOTAL_AMT'] = number_format($total_cost,2);
-	$amc_replace['DATE'] = date('F j, Y');
 
-	$app_manager_content->changeArray($amc_replace);
-	print $app_manager_content->parse();
+	/** Replacement Data **/
+	$amc_replace = array();
+
+	// Top Level Data
+	$amc_replace['TITLE'] 		 = "UMaine Graduate Application";
+	$amc_replace['ID'] 			 = $applicant->getID();
+	$amc_replace['GRADHOMEPAGE'] = $GLOBALS['graduate_homepage'];
+	$amc_replace['FAVICON'] 	 = $GLOBALS['grad_images'] . "grad_favicon.ico";
+	$amc_replace['SERVER_NAME']  = $GLOBALS['server_name'];
+
+	// User Data
+	$amc_replace['USER'] 			= $applicant->getID();
+	$amc_replace['NAME'] 			= $applicant->getGivenName();
+	$amc_replace['LAST_NAME'] 		= $applicant->getFamilyName();
+	$amc_replace['EMAIL'] 			= $applicant->getEmail();
+	$amc_replace['PERSONAL_INFO'] 	= $req_info_section;
+
+	// Page Content
+	$amc_replace['SECTION_CONTENT'] = $section_content;
+
+	// Program and Cost
+	$amc_replace['PROGRAM_LIST'] 	= $program_content;
+	$amc_replace['PROGRAM_COUNT'] 	= $number_programs_applied_to;
+	$amc_replace['TOTAL_COST'] 		= "$".number_format($total_cost,2);
+	$amc_replace['TOTAL_AMT'] 		= number_format($total_cost,2);
+
+	// Extra
+	$amc_replace['ONEUP'] 	= time();
+	$amc_replace['S'] 		= ($number_programs_applied_to > 1)?"s":"";
+	$amc_replace['DATE'] 	= date('F j, Y');
+
 	
+	/** Render Data **/
+	print template_parse("templates/page_sub_manager.tpl", $amc_replace);
+
 	$db->close();
-?>
+
