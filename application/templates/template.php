@@ -6,7 +6,7 @@
  		  PHP.
 ************************************************************************/
 
-if ( !class_exists('Template') ) {
+if ( class_exists('Template') ) { return; }
 
 class Template
 {
@@ -83,4 +83,3 @@ class Template
 
 }
 
-} // End check for class existence
