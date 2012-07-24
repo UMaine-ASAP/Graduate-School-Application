@@ -6,33 +6,68 @@
 
 include_once "variables.php";
 
+
 class Database
 {
-	var $database_name;
-	var $database_user;
-	var $database_pass;
-	var $database_host;	
-	var $database_link;
-		
-	function Database($user=null, $pass=null, $host=null, $name=null)
+	private static $database_name;
+	private static $database_user;
+	private static $database_pass;
+	private static $database_host;	
+	private static $database_link;
+	
+	private static $database_instance;
+	private static $instance_count;
+
+	// Used to create database object
+	public static function getInstance() 
+	{ 
+    	if (!self::$database_instance) 
+    	{ 
+    		print "creating object<br>";
+    	    self::$database_instance = new Database(); 
+    	    self::$instance_count = 1;
+    	    self::$database_instance->connect();
+	    } else { 
+    	    self::$instance_count++;
+	    	print "getting reference " . self::$instance_count . " <br>"; 
+	    }
+
+    	return self::$database_instance; 
+	}  
+
+	private function Database($user=null, $pass=null, $host=null, $name=null)
 	{
-		$this->database_user = isset($user)?$user:$GLOBALS["db_user"];
-		$this->database_pass = isset($pass)?$pass:$GLOBALS["db_pass"];
-		$this->database_host = isset($host)?$host:$GLOBALS["db_host"];
-		$this->database_name = isset($name)?$name:$GLOBALS["db_name"];
+		self::$database_name = isset($name)?$name:$GLOBALS["db_name"];		
+		self::$database_user = isset($user)?$user:$GLOBALS["db_user"];
+		self::$database_pass = isset($pass)?$pass:$GLOBALS["db_pass"];
+		self::$database_host = isset($host)?$host:$GLOBALS["db_host"];
+	}
+
+	function __destruct() {
+    	self::$instance_count--;
+    	if( self::$instance_count < 0) self::$instance_count = 0;
+
+    	if( self::$instance_count == 0 && self::$database_instance) {    		
+			print "destroying object<br>";
+			self::$database_instance->close();
+			self::$database_instance = null;
+    	} else {
+    		print "decremented counter " . self::$instance_count . " <br>";
+    	}
+
 	}
 
 	function connect()
 	{
-		$this->database_link = new mysqli(
-			$this->database_host,
-			$this->database_user,
-			$this->database_pass,
-			$this->database_name
+		self::$database_link = new mysqli(
+			self::$database_host,
+			self::$database_user,
+			self::$database_pass,
+			self::$database_name			
 		);
 
 		/* check connection */
-		if (mysqli_connect_errno($this->database_link)) {
+		if (mysqli_connect_errno(self::$database_link)) {
 		    printf("Connect failed: %s\n", mysqli_connect_error());
 		    exit();
 		}
@@ -40,12 +75,17 @@ class Database
 	
     function close()
 	{
-		if(isset($this->database_link))
-			$this->database_link->close();
+		// Only allow close after all instances are gone
+		if(self::$instance_count != 0) {
+			$this->__destruct();
+		} else {
+		if(isset(self::$database_link))
+			self::$database_link->close();
+		}
 	}
 
 	function isConnected() {
-		return $this->database_link == TRUE; //return boolean not a reference
+		return self::$database_link == TRUE; //return boolean not a reference
 	}
 
 	function query(/*$query, [[, $args [, $... ]]*/)
@@ -78,7 +118,7 @@ class Database
 				$diff_ways_to_quote[] = $type1."?".$type2;
 		$query = str_replace($diff_ways_to_quote, "?", $query);
 
-		if($stmt = $this->database_link->prepare($query)) {
+		if($stmt = self::$database_link->prepare($query)) {
 
 			//Bind parameters
 			if( count($args) != 0) {
@@ -136,7 +176,7 @@ class Database
 			if($args)
 	  			$query = vsprintf($query, $this->escapeArgs($args));
 
-			if(($result = $this->database_link->query($query)) instanceof MySQLi_Result) {
+			if(($result = self::$database_link->query($query)) instanceof MySQLi_Result) {
 				$i = 0;
 				while($row = $result->fetch_object()) {
 					$returnArray[$i] = array();
@@ -183,7 +223,7 @@ class Database
 				$diff_ways_to_quote[] = $type1."?".$type2;
 		$query = str_replace($diff_ways_to_quote, "?", $query);
 
-		if($stmt = $this->database_link->prepare($query)) {
+		if($stmt = self::$database_link->prepare($query)) {
 	
 			//Bind parameters
 			if( count($args) != 0) {			
@@ -210,7 +250,7 @@ class Database
 			if($args)
 	  			$query = vsprintf($query, $this->escapeArgs($args));
 
-			if(($result = $this->database_link->query($query)) instanceof MySQLi_Result)
+			if(($result = self::$database_link->query($query)) instanceof MySQLi_Result)
 			 	$result->close();
 		}
 	}
@@ -246,7 +286,7 @@ class Database
 				$diff_ways_to_quote[] = $type1."?".$type2;
 		$query = str_replace($diff_ways_to_quote, "?", $query);
 
-		if($stmt = $this->database_link->prepare($query)) {
+		if($stmt = self::$database_link->prepare($query)) {
 
 			//Bind parameters
 			if( count($args) != 0) {			
@@ -295,7 +335,7 @@ class Database
 			if($args)
 	  			$query = vsprintf($query, $this->escapeArgs($args));
 
-			if(($result = $this->database_link->query($query)) instanceof MySQLi_Result) {
+			if(($result = self::$database_link->query($query)) instanceof MySQLi_Result) {
 				if($row = $result->fetch_row())
 					$returnValue = $row[0];
 				$result->close();
@@ -322,8 +362,8 @@ class Database
 	{
 		if (get_magic_quotes_gpc())
 			$str = stripslashes($str);
-		if($this->database_link)
-			$str = $this->database_link->real_escape_string($str);
+		if(self::$database_link)
+			$str = self::$database_link->real_escape_string($str);
 		else
 			$str = addslashes($str);
 		return $str;
