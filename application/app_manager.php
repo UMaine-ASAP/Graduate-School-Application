@@ -26,11 +26,7 @@
 	//redirect to lockout page if user has submitted an application SMB 1/29/10 10:44AM
 	//*********************************************************************************************
 	$sub = $db->query("SELECT applicants.has_been_submitted FROM applicants WHERE applicants.applicant_id = %d",  $user);
-	//redirect to lockout page if app has been submitted, remove if the code above is used in the future
-	// if($sub[0][0] == 1){
-	// 		header("location:lockout.php");
-	// 	}
-	
+
 	if( !is_array($sub) || $sub[0][0] == 1){
 		header("location:./pages/lockout.php");
 	}
@@ -134,9 +130,6 @@
 				}
 	
 				$key_terms = explode("_",$id_key);
-				// echo "key_terms is <br />\n";
-				// print_r($key_terms);
-				// echo "\n<br />id_key is $id_key<br />\n";
 	
 				if(isset($key_terms[1]) && $key_terms[1] == "repeatable") {
 					// Code to make multiples form elements
@@ -193,23 +186,33 @@
 	// Replace -> Parse -> Render Final Page Content
 	//*********************************************************************************************
 	$amc_replace = array();
-	$amc_replace['TITLE'] = "UMaine Graduate Application";
-	$amc_replace['ID'] = $user;
-	$amc_replace['NAME'] =  $db->getFirst("SELECT given_name FROM applicants WHERE applicant_id=%d", $user);
-	$amc_replace['NAME'] = ($amc_replace['NAME'])?", ".$amc_replace['NAME']:"";
-	$amc_replace['EMAIL'] =  $db->getFirst("SELECT login_email FROM applicants WHERE applicant_id=%d", $user);
+
+	// Top Level
+	$amc_replace['TITLE'] 		 = "UMaine Graduate Application";
 	$amc_replace['GRADHOMEPAGE'] = $GLOBALS['graduate_homepage'];
-	$amc_replace['FAVICON'] = $GLOBALS['grad_images'] . "grad_favicon.ico";
-	$amc_replace['WARNINGS'] = ( isset($error_list) && $error_list != '' ) ? $error_list : "Please submit all information that you can.<br />Press the &ldquo;Review Application&rdquo; button when you are ready.";
+	$amc_replace['FAVICON'] 	 = $GLOBALS['grad_images'] . "grad_favicon.ico";
+
+	// User Data
+	$amc_replace['ID'] 		= $user;
+	$amc_replace['NAME'] 	=  $db->getFirst("SELECT given_name FROM applicants WHERE applicant_id=%d", $user);
+	$amc_replace['NAME'] 	= ($amc_replace['NAME'])?", ".$amc_replace['NAME']:"";
+	$amc_replace['EMAIL'] 	=  $db->getFirst("SELECT login_email FROM applicants WHERE applicant_id=%d", $user);
+	
+	// Application Data
+	$amc_replace['WARNINGS'] 		= ( isset($error_list) && $error_list != '' ) ? $error_list : "Please submit all information that you can.<br />Press the &ldquo;Review Application&rdquo; button when you are ready.";
 	$amc_replace['SECTION_CONTENT'] = $section_content;
-	$amc_replace['USER'] = $user;
-	$amc_replace['FORM'] = $form_content;
-	$amc_replace['SERVER_NAME'] = $GLOBALS['server_name'];
-	$amc_replace['ESSAY_NAME'] = $db->getFirst("SELECT essay_file_name FROM applicants WHERE applicant_id=%d", $user);
-	$amc_replace['RESUME_NAME'] = $db->getFirst("SELECT resume_file_name FROM applicants WHERE applicant_id=%d", $user);
+	$amc_replace['USER'] 			= $user;
+	$amc_replace['FORM'] 			= $form_content;
+
+	// Extra Data
+	$amc_replace['SERVER_NAME'] 	= $GLOBALS['server_name'];
+	$amc_replace['ESSAY_NAME'] 		= $db->getFirst("SELECT essay_file_name FROM applicants WHERE applicant_id=%d", $user);
+	$amc_replace['RESUME_NAME'] 	= $db->getFirst("SELECT resume_file_name FROM applicants WHERE applicant_id=%d", $user);
 	$date = getDate();
 	$amc_replace['FIRST_START_YEAR'] = $date['year'];
 
+
+	// Output page	
 	$app_manager_content->changeArray($amc_replace);
 	print $app_manager_content->parse();
 	
