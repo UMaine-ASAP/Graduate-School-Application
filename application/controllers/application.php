@@ -1,5 +1,6 @@
 <?php
 
+// Libraries
 require_once __DIR__ . "/../libs/database.php";
 require_once __DIR__ . "/../libs/corefuncs.php";
 
@@ -13,8 +14,14 @@ class Application
        $this->db = Database::getInstance();
 	}
 
+   function __destruct()
+   {
+   		$this->db->close();
+   }
+
 	/** Get a new application object from current session data **/
-	public static function getActiveApplication() {
+	public static function getActiveApplication()
+	{
 		$id = check_ses_vars();
 		if($id == 0) { 
 			return NULL;
@@ -24,7 +31,8 @@ class Application
 	}
 
 	/** Get a new application object by passed in id **/
-	public static function getApplication($id) {
+	public static function getApplication($id)
+	{
 		$instance = new self();
        if( is_integer($id) ) {
 	       $instance->application_id = $id;
@@ -44,8 +52,6 @@ class Application
 		return $has_been_submitted;
 	}
 
-   function __destruct() {
-   		$this->db->close();
-   }
+
 }
 
