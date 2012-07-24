@@ -6,6 +6,8 @@
  		  PHP.
 ************************************************************************/
 
+if ( !class_exists('Template') ) {
+
 class Template
 {
 	var $template;
@@ -80,4 +82,5 @@ class Template
 	}
 
 }
-?>
+
+} // End check for class existence
