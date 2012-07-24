@@ -52,7 +52,7 @@ class Database
 
 	}
 
-	function connect()
+	private function connect()
 	{
 		self::$database_link = new mysqli(
 			self::$database_host,
