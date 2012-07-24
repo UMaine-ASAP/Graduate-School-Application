@@ -35,7 +35,7 @@
 	//*********************************************************************************************
 	// Test Submission and Verify
 	//*********************************************************************************************
-	if( isset($_POST['submit_app']) && $_POST['submit_app']) {
+	if( isset($_POST['submit_app']) ) {
 		if( !isset($_SESSION) ) { session_start(); }
 		$_SESSION['submitted'] = true;
 	}
@@ -43,11 +43,8 @@
 	//*********************************************************************************************
 	// Test Submission and Verify
 	//*********************************************************************************************
-	if(    isset($_POST['submit_app']) 	 && $_POST['submit_app'] 
-		|| isset($_GET['warning']) 		 && $_GET['warning'] 
-		|| isset($_SESSION['submitted']) && $_SESSION['submitted']
-		){
-
+	if( isset($_POST['submit_app']) || isset($_GET['warning']) || isset($_SESSION['submitted']) )
+	{
 		$error_list = get_error_list($db);
 
 		//Redirect if complete
@@ -62,8 +59,6 @@
 	//*********************************************************************************************
 	// Start Building Page Content
 	//*********************************************************************************************
-	$app_manager_content = new Template();
-	$app_manager_content->changeTemplate("templates/page_app_manager.tpl");
 	
 	//Test database for user's existence
 	$result = $db->query("SELECT DISTINCT applicant_id FROM progress WHERE applicant_id=%d", $user);	
@@ -188,10 +183,12 @@
 	}
 	
 	//*********************************************************************************************
-	// Replace -> Parse -> Render Final Page Content
+	// Render Final Page Content
 	//*********************************************************************************************
-	$amc_replace = array();
 
+	/** Replacement Data **/
+	$amc_replace = array();
+	
 	// Top Level
 	$amc_replace['TITLE'] 		 = "UMaine Graduate Application";
 	$amc_replace['GRADHOMEPAGE'] = $GLOBALS['graduate_homepage'];
@@ -217,9 +214,8 @@
 	$amc_replace['FIRST_START_YEAR'] = $date['year'];
 
 
-	// Output page	
-	$app_manager_content->changeArray($amc_replace);
-	print $app_manager_content->parse();
+	/** Render Page	**/
+	print template_parse("templates/page_app_manager.tpl", $amc_replace);
 	
 	
 	//*********************************************************************************************

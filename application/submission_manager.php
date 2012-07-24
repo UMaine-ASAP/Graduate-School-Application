@@ -183,7 +183,7 @@
 	$db->iquery("UPDATE applicants SET application_fee_transaction_amount='%s' WHERE applicant_id=%d", $total_cost, $user);
 	
 	//*********************************************************************************************
-	//Replace -> Parse -> Render Final Page Content
+	//Render Final Page Content
 	//*********************************************************************************************
 
 	/** Replacement Data **/
