@@ -1,18 +1,46 @@
 <?php
-
-include "../libs/variables.php";
-include "../libs/database.php";
+// Libraries
+include_once __DIR__ . "/../libs/variables.php";
+include_once __DIR__ . "/../libs/database.php";
 
 class Applicant {
 	private $applicant_id;
 	private $db;
-	function Applicant()
+
+	/**
+	 * Applicant
+	 * 
+	 * Class constructor. Not intended for direct use. Use getActiveApplicant() or getApplicant() instead.
+	 * 
+	 * @return void
+	 */
+	private function Applicant()
 	{
        $this->db = Database::getInstance();
 	}
 
-	/** Get a new applicant object from current session data **/
-	public static function getActiveApplicant() {
+	/**
+	 * __destruct
+	 * 
+	 * Class deconstructor
+	 * 
+	 * @return void
+	 */
+   function __destruct()
+   {
+   		$this->db->close();
+   }
+
+
+	/**
+	 * getActiveApplicant
+	 * 
+	 * Static function to get applicant object from current session data
+	 * 
+	 * @return 	Object 		Applicant object
+	 */
+	public static function getActiveApplicant()
+	{
 		$id = check_ses_vars();
 		if($id == 0) { 
 			return NULL;
@@ -21,8 +49,17 @@ class Applicant {
 		}
 	}
 
-	/** Get a new applicant object by passed in id **/
-	public static function getApplicant($id) {
+	/**
+	 * getApplicant
+	 * 
+	 * Static function returning applicant with given id
+	 * 
+	 * @param 	int 		identifier of applicant to create object for
+	 * 
+	 * @return 	Object 		Applicant object for given identifier
+	 */
+	public static function getApplicant($id)
+	{
 		$instance = new self();
        if( is_integer($id) ) {
 	       $instance->applicant_id = $id;
@@ -32,34 +69,67 @@ class Applicant {
        }		
 	}
 
-	public function getFullName()
+	/**
+	 * getID
+	 * 
+	 * Returns identifier of applicant. This is the unique id in the database.
+	 * 
+	 * @return 	Int 		Identifier of applicant
+	 */
+	public function getID()
 	{
-		$result  = $this->db->query('SELECT given_name, middle_name, family_name FROM applicants WHERE applicant_id=%d', $this->applicant_id);
-		$fullName = $result[0]['given_name'] . " " . $result[0]['middle_name'] . " " . $result[0]['family_name'];
-		return $fullName;
+		return $this->applicant_id;
 	}
 
-   function __destruct() {
-   		print "destroyed applicant<br>";
-   		$this->db->close();
-   }
+	/**
+	 * getFullName
+	 * 
+	 * @return 	String 		Full name of applicant
+	 */
+	public function getFullName()
+	{
+		return $this->getGivenName . " " . $this->getMiddleName . " " . $this->getFamilyName;
+	}
+
+	/**
+	 * getGivenName
+	 * 
+	 * @return 	String 		Given name (first name) of applicant
+	 */
+	public function getGivenName()
+	{
+		return $this->db->getFirst("SELECT given_name FROM applicants WHERE applicant_id=%d", $this->applicant_id);
+	}
+
+	/**
+	 * getMiddleName
+	 * 
+	 * @return 	String 		Middle name of applicant
+	 */
+	public function getMiddleName()
+	{
+		return $this->db->getFirst("SELECT middle_name FROM applicants WHERE applicant_id=%d", $this->applicant_id);
+	}
+
+	/**
+	 * getFamilyName
+	 * 
+	 * @return 	String 		Family name (last name) of applicant
+	 */
+	public function getFamilyName()
+	{
+		return $this->db->getFirst("SELECT family_name FROM applicants WHERE applicant_id=%d", $this->applicant_id);
+	}
+
+	/**
+	 * getEmail
+	 * 
+	 * @return 	String 		email of applicant
+	 */
+	public function getEmail()
+	{
+		return $this->db->getFirst("SELECT login_email FROM applicants WHERE applicant_id=%d", $this->applicant_id);
+	}
+
+
 }
-
-
-$applicant = Applicant::getApplicant(2);
-print $applicant->getFullName();
-print "<br><br>";
-
-$applicant2 = Applicant::getApplicant(1);
-print $applicant2->getFullName();
-print "<br><br>";
-
-unset($applicant);
-
-$applicant3 = Applicant::getApplicant(3);
-print $applicant3->getFullName();
-print "<br><br>";
-
-unset($applicant2);
-
-echo "<br>end<br>";
