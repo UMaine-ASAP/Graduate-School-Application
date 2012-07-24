@@ -3,6 +3,8 @@
 include_once "variables.php";
 include_once "database.php";
 
+include_once "template.php";
+
 /**
 * Session Creation
 **/
@@ -59,6 +61,14 @@ function sanitizeString ( $var ) {
 function is_odd( $int ) {
   return( $int & 1 );
 }
+
+function template_parse($template_file, $replace_data) {
+	$process_template = new Template();
+	$process_template->changeTemplate($template_file);
+	$process_template->changeArray($replace_data);
+	return $process_template->parse();
+}
+
 
 function sendSuccessMessage($email, $code) {
 	$sender_name = "University of Maine Graduate School"; // sender's name

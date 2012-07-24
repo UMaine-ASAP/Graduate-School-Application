@@ -1,6 +1,6 @@
 <?php
 	include_once "lib/tcpdf/tcpdf.php";
-	include_once "../application/libs/template.php";
+
 	include_once "../application/libs/variables.php";
 	include_once "../application/libs/database.php";
 	include_once "../application/libs/corefuncs.php";
@@ -8,12 +8,6 @@
 	//********************************************************************************************
 	// Helper Functions
 	//********************************************************************************************
-	function template_parse($template_file, $replace_data) {
-		$process_template = new Template();
-		$process_template->changeTemplate($template_file);
-		$process_template->changeArray($replace_data);
-		return $process_template->parse();
-	}
 	
 	function strip_numeric_indexes(&$a) {
 		$result = array();
