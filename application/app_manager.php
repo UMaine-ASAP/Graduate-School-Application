@@ -7,14 +7,14 @@
 
 
 	//*********************************************************************************************
-	// Determine User and page_id
+	// Determine User and Current Page
 	//*********************************************************************************************
 	$user = check_ses_vars();
 	$user = ($user)?$user:header("location:pages/login.php");
 	
-	//Eventually have it find first not completed page;
-	$page_id = isset($_GET['form_id']) ? $_GET['form_id'] : 2; //2 is page one
-
+	// Get current page number
+	//@TODO: Eventually have it find first not completed page;
+	$page_id = isset($_GET['page']) ? $_GET['page'] : 2; //2 is page one
 
 	//*********************************************************************************************
 	// Open database link
@@ -93,13 +93,14 @@
 						
 		//Replace -> Parse -> Render iSection Content
 		$isection_replace = array();
-		$isection_replace['FORM_ID'] = $isection['structure_id'];
-		$isection_replace['SECTION_NAME'] = $isection['name'];
+
+		$isection_replace['PAGE_ID'] 		= $isection['structure_id'];
+		$isection_replace['SECTION_NAME'] 	= $isection['name'];
 		$isection_replace['SECTION_STATUS'] = $isection['status'];
-		$isection_replace['SECTION_IMAGE'] = '';
-		$isection_replace['SECTION_NOTES'] = $isection['notes'];
-		// highlight the current page in the sidebar
-		$isection_replace['SECTION_HERE'] = ($page_id == $isection['structure_id'])?'here':'';
+		$isection_replace['SECTION_IMAGE'] 	= '';
+		$isection_replace['SECTION_NOTES'] 	= $isection['notes'];
+		$isection_replace['SECTION_HERE'] 	= ($page_id == $isection['structure_id'])?'here':''; // highlight the current page in the sidebar
+
 		$isection_content->changeArray($isection_replace);
 		$section_content .= $isection_content->parse();
 	}
