@@ -10,7 +10,9 @@
 		<title>Recommendation Submittal Successful</title>
 		<link rel="stylesheet" type="text/css" href="../styles/app_manager_style.css" media="screen,print" />
 		<link rel="stylesheet" type="text/css" href="../styles/sub_manager_style.css" media="screen,print" />
-		<script type="text/javascript" src="../application/libs/form_helper.js"></script>
+
+		<!-- Javascript libraries -->
+		<script type="text/javascript" src="../application/libs/js/form_helper.js"></script>
 	</head>
 	
 	<body>

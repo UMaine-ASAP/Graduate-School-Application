@@ -2,6 +2,7 @@
 ///////////////////////
 // Database Settings
 ///////////////////////
+date_default_timezone_set('America/Los_Angeles');
 
 //Database User
 $db_user = "root";
@@ -10,7 +11,7 @@ $db_pass = "";
 //Database Host
 $db_host = "localhost";
 //Database Table
-$db_name = "grad5app";
+$db_name = "gradschool_application";
 //DES Encryption Key
 $key = "asp0df8ijapwonlkjs0a7sd092";
 
@@ -89,7 +90,7 @@ $gradschool_path = "/Users/gradd2app/gradschool/";
 //To be accessed through sftp
 $mainestreet_path = "/Users/grad1mainst/mainestreet/";
 //Graduate Application document root
-$grad_app_root = "http://".$server_name."/grad_application/application/";
+$grad_app_root = "http://".$server_name."/gradschool/application/";
 // Images folder inside application root
 $grad_images = $grad_app_root . "images/";
 

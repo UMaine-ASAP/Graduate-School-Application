@@ -10,20 +10,20 @@
 
 		<link rel="stylesheet" type="text/css" href="styles/app_manager_style.css" media="screen,print" />
 		<!--[if IE]><link rel="stylesheet" type="text/css" href="styles/ie_app_manager_style.css" media="screen,print" /><![endif]--> 
-
-		<!-- JQUERY -->
 		<link type="text/css" href="styles/jquery/redmond/jquery-ui-1.8.2.custom.css" rel="Stylesheet" />
-		<script type="text/javascript" src="libs/jquery/jquery-1.4.2.min.js"></script>
-		<script type="text/javascript" src="libs/jquery/jquery-ui-1.8.2.custom.min.js"></script>
-		<script type="text/javascript" src="libs/jquery/jquery.validate.js"></script>
-		<!-- END JQUERY -->
 
-		<script type="text/javascript" src="libs/ajaxupload.3.5.js" ></script>
+		<!-- Javascript libraries -->
+		<script type="text/javascript" src="libs/js/ajaxupload.3.5.js" ></script>
+		<script type="text/javascript" src="libs/js/form_helper.js"></script>
+		<script type="text/javascript" src="libs/js/jquery/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="libs/js/jquery/jquery-ui-1.8.2.custom.min.js"></script>
+		<script type="text/javascript" src="libs/js/jquery/jquery.validate.js"></script>
 
-		<script type="text/javascript" src="libs/form_helper.js"></script>
-		<script type="text/javascript" src="libs/state.js"></script>
-		<script type="text/javascript" src="libs/country.js"></script>
-		<script type="text/javascript" src="libs/academics.js"></script>
+		<!-- Data -->		
+		<script type="text/javascript" src="models/state.js"></script>
+		<script type="text/javascript" src="models/country.js"></script>
+		<script type="text/javascript" src="models/academics.js"></script>
+
 		<script type="text/javascript" charset="utf-8">
 			// stop the Return/Enter key from submitting the form
 			document.onkeypress = stopRKey;

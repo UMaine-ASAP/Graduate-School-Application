@@ -12,20 +12,21 @@
 
 	<link rel="stylesheet" type="text/css" href="styles/app_manager_style.css" media="screen,print" />
 	<link rel="stylesheet" type="text/css" href="styles/sub_manager_style.css" media="screen,print" />
-
-	<!-- JQUERY -->
 	<link type="text/css" href="styles/jquery/redmond/jquery-ui-1.8.2.custom.css" rel="Stylesheet" />
-	<script type="text/javascript" src="libs/jquery/jquery-1.4.2.min.js"></script>
-	<script type="text/javascript" src="libs/jquery/jquery-ui-1.8.2.custom.min.js"></script>
-	<script type="text/javascript" src="libs/jquery/jquery.validate.js"></script>
-	<!-- END JQUERY -->
 
-	<script type="text/javascript" src="libs/ajaxupload.3.5.js" ></script>
 
-	<script type="text/javascript" src="libs/form_helper.js"></script>
-	<script type="text/javascript" src="libs/state.js"></script>
-	<script type="text/javascript" src="libs/country.js"></script>
-	<script type="text/javascript" src="libs/academics.js"></script>
+
+	<!-- Javascript libraries -->
+	<script type="text/javascript" src="libs/js/ajaxupload.3.5.js" ></script>
+	<script type="text/javascript" src="libs/js/form_helper.js"></script>
+	<script type="text/javascript" src="libs/js/jquery/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="libs/js/jquery/jquery-ui-1.8.2.custom.min.js"></script>
+	<script type="text/javascript" src="libs/js/jquery/jquery.validate.js"></script>
+
+	<!-- Data -->
+	<script type="text/javascript" src="models/state.js"></script>
+	<script type="text/javascript" src="models/country.js"></script>
+	<script type="text/javascript" src="models/academics.js"></script>
 </head>
 
 <body>
@@ -95,7 +96,7 @@
 			<!-- Creates button -->
 			<div id="buttons" class="hidden" style="margin-left:3px;padding-left:6px;">
 
-				<form id="pdf_export" method="post" action="../pdf_export/pdf_export_user.php">
+				<form id="pdf_export" method="post" action="scripts/downloadApplication.php">
 					<input type="submit" id="final_submit_app" name="final_submit_app" value="Download Printable Application" target="_blank"/>
 				</form>
 				<p>Note: the application will download to your computer as a PDF file which contains personal information. If you are on a public computer, please make sure to delete this PDF when you are done with it.</p>
@@ -111,13 +112,13 @@
 	$("#submitPayNow").click(function() {
 			$("#submitPayNow").attr("disabled", "true");
 			$("#submitPayLater").attr("disabled", "true");
-			var url = "../pdf_export/submit_with_payment.php";    
+			var url = "scripts/submit_with_payment.php";    
 			window.location.href = url;
 });
 	$("#submitPayLater").click(function() {
 			$("#submitPayLater").attr("disabled", "true");
 			$("#submitPayNow").attr("disabled", "true");
-			var url = "../pdf_export/submit_without_payment.php";
+			var url = "scripts/submit_without_payment.php";
 			window.location.href = url;
 });
 </script>

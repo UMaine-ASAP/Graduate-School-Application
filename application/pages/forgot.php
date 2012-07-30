@@ -275,8 +275,8 @@ else if ($_GET) {
 		<link rel="shortcut icon" href="../images/grad_favicon.ico" />
 		<title>Reset Password</title>
 		<link rel="stylesheet" href="../styles/reset-min.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-		<script type="text/javascript" src="../libs/jquery/jquery-1.3.2.min.js"></script>
-		<script type="text/javascript" charset="utf-8" src="../libs/jqueryjquery.validate.js"></script>
+		<script type="text/javascript" src="../libs/js/jquery/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="../libs/js/jquery/jquery.validate.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function(){
 				$("#recoverForm").validate({
@@ -376,8 +376,8 @@ else {
 		<link rel="shortcut icon" href="../images/grad_favicon.ico" />
 		<title>Forgot Password</title>
 		<link rel="stylesheet" href="../styles/reset-min.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-		<script type="text/javascript" src="../libs/jquery/jquery-1.3.2.min.js"></script>
-		<script type="text/javascript" charset="utf-8" src="../libs/jquery/jquery.validate.js"></script>
+		<script type="text/javascript" src="../libs/js/jquery/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="../libs/js/jquery/jquery.validate.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function(){
 				$("#recoverForm").validate();

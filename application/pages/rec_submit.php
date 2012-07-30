@@ -28,11 +28,13 @@ if 	( isset($_POST['submit'])
 			// they might not have javascript)
 			// save stuff to database
 			
-			include_once "../../pdf_export/lib/tcpdf/tcpdf.php";
-			include_once "../libs/variables.php";
-			include_once "../libs/template.php";
-			include_once "../libs/database.php";
-			include_once "../libs/corefuncs.php";
+			require_once "../libs/variables.php";
+			require_once "../libs/corefuncs.php";
+
+			require_once "../libs/database.php";
+			require_once "../libs/template.php";
+			require_once "../libs/MPDF52/mpdf.php";
+			require_once "../libs/tcpdf/tcpdf.php";
 
 			$userid = $_GET['userid'];
 			
@@ -229,7 +231,6 @@ if 	( isset($_POST['submit'])
 
 			
 			/*==== MPDF ====*/
-			include('../../pdf_export/lib/MPDF52/mpdf.php');
 			$mpdf = new mPDF();
 			$mpdf->WriteHTML( utf8_encode($pdfhtml) );
 			

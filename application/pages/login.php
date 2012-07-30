@@ -157,15 +157,14 @@ $db->close();
 <head>
 	<title>Apply to the University of Maine Graduate School</title>
 	<link rel="stylesheet" href="../styles/reset-min.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-	<script type="text/javascript" src="../libs/sha1-min.js" charset="utf-8"></script>
-	<script type="text/javascript" src="../libs/browser_check.js" charset="utf-8"></script>
-
-	<!-- JQUERY -->
 	<link type="text/css" href="../styles/jquery/redmond/jquery-ui-1.8.2.custom.css" rel="Stylesheet" />
-	<script type="text/javascript" src="../libs/jquery/jquery-1.4.2.min.js"></script>
-	<script type="text/javascript" src="../libs/jquery/jquery-ui-1.8.2.custom.min.js"></script>
-	<script type="text/javascript" src="../libs/jquery/jquery.validate.js"></script>
-	<!-- END JQUERY -->
+
+	<!-- Javascript libraries -->
+	<script type="text/javascript" src="../libs/js/sha1-min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../libs/js/browser_check.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../libs/js/jquery/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="../libs/js/jquery/jquery-ui-1.8.2.custom.min.js"></script>
+	<script type="text/javascript" src="../libs/js/jquery/jquery.validate.js"></script>
 
 
 	<!-- <script type="text/javascript" charset="utf-8">

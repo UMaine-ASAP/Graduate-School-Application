@@ -1,23 +1,27 @@
 <?php
 // Libraries
-include_once "libs/database.php";
-include_once "libs/corefuncs.php";
 include_once "libs/variables.php";
-include_once "libs/validator.php";
+include_once "libs/corefuncs.php";
+include_once "libs/database.php";
 include_once "libs/template.php";
+include_once "libs/validator.php";
+
 
 // Controllers
+include_once "controllers/applicant.php";
 include_once "controllers/application.php";
+
+redirect_Unauthorized_User("../application/pages/login.php");
 
 //*********************************************************************************************
 // Determine User and Current Page
 //*********************************************************************************************
-$user = check_ses_vars();
-$user = ($user)?$user:header("location:pages/login.php");
+$applicant = Applicant::getActiveApplicant();
+$user = $applicant->getID();
 
-// Get current page number
-//@TODO: Eventually have it find first not completed page;
-$page_id = isset($_GET['page']) ? $_GET['page'] : 2; //2 is page one
+
+// Get current page number (2 is page one)
+$page_id = isset($_GET['page']) ? $_GET['page'] : 2;
 
 $application = Application::getActiveApplication();
 //*********************************************************************************************

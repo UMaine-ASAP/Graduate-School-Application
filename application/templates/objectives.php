@@ -107,7 +107,7 @@
 		var status=$('#essay_status');
 		var filename=$('#essay_name');
 		new AjaxUpload(upload, {
-			action: 'libs/upload-essay.php',
+			action: 'scripts/upload/upload-essay.php',
 			name: 'essay',
 			onSubmit: function(file, ext){
 				 if (! (ext && /^(pdf|doc|txt|rtf|docx)$/.test(ext))){
@@ -136,7 +136,7 @@
 		var status=$('#resume_status');
 		var filename=$('#resume_name');
 		new AjaxUpload(upload, {
-			action: 'libs/upload-resume.php',
+			action: 'scripts/upload/upload-resume.php',
 			name: 'resume',
 			onSubmit: function(file, ext){
 				 if (! (ext && /^(pdf|doc|txt|rtf|docx)$/.test(ext))){

@@ -63,6 +63,15 @@ function is_odd( $int ) {
 }
 
 
+function redirect_Unauthorized_User($nonauthenticatedDestination)
+{
+	$user = check_ses_vars();
+	if( $user == 0) {
+		header("location:" . $nonauthenticatedDestination);
+		exit();
+	}
+}
+
 function sendSuccessMessage($email, $code) {
 	$sender_name = "University of Maine Graduate School"; // sender's name
 	$sender_email = "noreply@umaine.edu"; // sender's e-mail address

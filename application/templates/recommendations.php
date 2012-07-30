@@ -11,7 +11,7 @@
  } 
  function requestRecommendation(button, reference) {
  	$.ajax({
- 		url: 'libs/email_reference.php',
+ 		url: 'scripts/email_reference.php',
  		type: 'POST', 		
  		data: 'reference=' + reference,
  		success: function(data) {
