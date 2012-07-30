@@ -38,23 +38,16 @@ if( $application->hasBeenSubmitted() ){
 }
 
 //*********************************************************************************************
-// Test Submission and Verify
-//*********************************************************************************************
-if( isset($_POST['submit_app']) ) {
-	if( !isset($_SESSION) ) { session_start(); }
-	$_SESSION['submitted'] = true;
-}
-
-//*********************************************************************************************
-// Test Submission and Verify
+// Test for Submission and Verify
 //*********************************************************************************************
 if( isset($_POST['submit_app']) || isset($_GET['warning']) || isset($_SESSION['submitted']) )
-{
+	if( !isset($_SESSION) ) { session_start(); }
+	$_SESSION['submitted'] = true;
+
 	$error_list = get_error_list($db);
 
 	//Redirect if complete
 	if($error_list == "") {
-		if( !isset($_SESSION) ) { session_start(); }
 		unset($_SESSION['submitted']);
 		session_write_close();
 		header("location:submission_manager.php");
@@ -67,6 +60,7 @@ if( isset($_POST['submit_app']) || isset($_GET['warning']) || isset($_SESSION['s
 
 //Test database for user's existence
 $result = $db->query("SELECT DISTINCT applicant_id FROM progress WHERE applicant_id=%d", $user);	
+
 
 //If user is new, create section progess values
 if(!$result) {
@@ -111,79 +105,92 @@ foreach($app_progress as $isection) {
 // Build Form
 //*********************************************************************************************
 
-
+//@TODO: Should check if the page id is actually a valid id
 if($page_id){
-	$result = $db->query("SELECT path FROM structure WHERE id=%d", $page_id);
-	$build_form = new Template();
-	$build_form->changeTemplate($result[0]['path']);
-	$replace = array();
-	
-	//Check if data is already entered and populate fields
+
+	$replace = array(); // Array used to store form variables to parse
+
+	// Get applicant Data
 	$applicant_data = $db->query("SELECT * FROM applicants WHERE applicants.applicant_id=%d LIMIT 1", $user);
 	$applicant_data = $applicant_data[0];
 	
-	if(is_array($applicant_data)) {
+	if( is_array($applicant_data) ) {
+
+		// Pass all applicant data to template - @TODO: Not the most efficient way of doing this ...
 		foreach($applicant_data as $id_key => $form_value) {
-		
+			// Exclude numeric fields
+			if ( is_numeric($id_key) ) continue;
+
+			// Decrypt Social Security Number
 			if($id_key == "social_security_number") {
 				$key = $GLOBALS['key'];
 				$ssn = $db->query("SELECT AES_DECRYPT(social_security_number, '$key') AS social_security_number FROM applicants WHERE applicants.applicant_id=%d LIMIT 1", $user);
-				$ssn = $ssn[0][0];
-				$form_value = $ssn;
+				$form_value = $ssn[0][0];
 			}
 
+			// Check if this is a repeatable field
 			$key_terms = explode("_",$id_key);
+			$isRepeatable = isset($key_terms[1]) && $key_terms[1] == "repeatable";
 
-			if(isset($key_terms[1]) && $key_terms[1] == "repeatable") {
+			// Build form element for repeatable fields
+			if( $isRepeatable ) {
 
-				// Code to make multiples form elements
-				$tableName = $key_terms[0];
-				$replace[strtoupper($tableName)."_TABLE_NAME"] = $tableName;
-				$replace[strtoupper($tableName)."_TEMPLATE_PATH"] = "templates/".$tableName."_repeatable.php";
-				$replace[strtoupper($tableName)."_LIST"] = $tableName."_list";
+				$tableName 		= $key_terms[0];
+				$tableNameUpper = strtoupper($tableName);
 				
-				//For each element to be drawn
-				$repeat_data = $db->query("SELECT %s_id FROM `%s` WHERE applicant_id=%d", $tableName, $tableName, $user);
-				if(count($repeat_data) == 0 AND $tableName != "extrareferences")
-					$db->iquery("INSERT INTO `%s` (applicant_id, %s_id) VALUES (%d, 1)", $tableName, $tableName, $user);		
-				$repeat_data = $db->query("SELECT %s_id FROM `%s` WHERE applicant_id=%d", $tableName, $tableName, $user);	
-				
+				// Get Repeating data
+				$repeat_data = $db->query("SELECT %s_id FROM `%s` WHERE applicant_id=%d ORDER BY %s_id DESC", $tableName, $tableName, $user, $tableName);
 				$repeat_count = count($repeat_data);
-				$replace[strtoupper($tableName)."_COUNT"] = $repeat_count;
-				$repeatable_element = '';
-				
-				for($i = 0; $i < $repeat_count;$i++) {
-					$repeat_content = new Template();
-					$repeat_content->changeTemplate($replace[strtoupper($tableName)."_TEMPLATE_PATH"]);
+				$repeatable_element = "";
+
+				// Set a blank value if no values have been set yet
+				if($repeat_count == 0 AND $tableName != "extrareferences") {
+					$db->iquery("INSERT INTO `%s` (applicant_id, %s_id) VALUES (%d, 1)", $tableName, $tableName, $user);		
+				}
+								
+				// Process each repeatable value
+				for($i = 0; $i < $repeat_count; $i++) {
+					// Get the data for this repeatable
 					$data = $db->query("SELECT * FROM `%s` WHERE applicant_id=%d AND %s_id=%d", $tableName, $user, $tableName, $repeat_data[$i][0]);
 					$data = $data[0];
 
-					foreach($data as $sub_id_key => $subvalue) {
-						if(!is_numeric($id_key)) $repeat_replace[strtoupper($sub_id_key)] = $subvalue;
+					/** Set template values **/
+					$repeat_replace['INDEX'] 		= $data["${tableName}_id"]; // Store the current index
+					$repeat_replace['TABLE_NAME'] 	= $tableName;				// Set the table name for reference
+					$repeat_replace['COUNT_INDEX'] 	= $i+1;						// Store the current count
+
+					// Set the field values
+					foreach($data as $repeatable_field_name => $value) {
+						if( is_numeric($repeatable_field_name) ) continue; // Don't process numeric fields
+						$repeat_replace[strtoupper($repeatable_field_name)] = $value;
 					}
-					
-					//Replace -> Parse -> Render Repeatable Content
-					$repeat_replace['INDEX'] = $data[$tableName.'_id'];
-					$repeat_replace['TABLE_NAME'] = $tableName;
-					$repeat_replace['COUNT_INDEX'] = $i+1;
-					$repeat_content->changeArray($repeat_replace);
-					$repeatable_element .= $repeat_content->parse();					
+
+					// Add the parsed template
+					$repeatable_element .= template_parse($replace["${tableNameUpper}_TEMPLATE_PATH"], $repeat_replace);					
 				}
 				
-				//Replace Form Elements
-				$replace[strtoupper($id_key)] = $repeatable_element;
-			}else {
-				if(!is_numeric($id_key)) $replace[strtoupper($id_key)] = $form_value; 
+				// Set the output
+				$replace['USER'] = $user;
+				$replace["${tableNameUpper}_TABLE_NAME"] 	= $tableName;
+				$replace["${tableNameUpper}_TEMPLATE_PATH"] = "templates/${tableName}_repeatable.php";
+				$replace["${tableNameUpper}_LIST"] 			= "${$tableName}_list";
+				$replace["${tableNameUpper}_COUNT"] 		= $repeat_count;
+
+				$replace[strtoupper($id_key)] 				= $repeatable_element;
+
+			} else { 
+				// Process as a normal, nonrepeatable field (just use the field's value)
+				$replace[strtoupper($id_key)] = $form_value;
 			}
 		} //end foreach
 	} // end of if is_array
 
-	//Replace -> Parse -> Render iSection Content
-	$replace['USER'] = $user;
+	// Process the form template
+	$result = $db->query("SELECT path FROM structure WHERE id=%d", $page_id);
+	$form_template_name = $result[0]['path'];
 
-	$build_form->changeArray($replace);
-	$form_content = $build_form->parse();
-} else {
+	$form_content = template_parse($form_template_name, $replace);
+} else { // The page is not valid
 	$form_content = "Please select a page.";
 }
 
@@ -215,6 +222,7 @@ $amc_replace['FORM'] 			= $form_content;
 $amc_replace['SERVER_NAME'] 	= $GLOBALS['server_name'];
 $amc_replace['ESSAY_NAME'] 		= $db->getFirst("SELECT essay_file_name FROM applicants WHERE applicant_id=%d", $user);
 $amc_replace['RESUME_NAME'] 	= $db->getFirst("SELECT resume_file_name FROM applicants WHERE applicant_id=%d", $user);
+
 $date = getDate();
 $amc_replace['FIRST_START_YEAR'] = $date['year'];
 

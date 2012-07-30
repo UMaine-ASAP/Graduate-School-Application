@@ -55,3 +55,5 @@ The **Graduate School Application** is the prospective student online applicatio
 - **README.md**			This readme file
 
 
+## Notes
+fields in the applicant table named fieldname_repeatable are processed as repeatable fields in app_manager.php under the assumption that "fieldname" is actually the table name holding the repeatable data and the value in the field is the number of repeatable element

@@ -9,16 +9,17 @@ include_once "libs/validator.php";
 include_once "controllers/application.php";
 include_once "controllers/applicant.php";
 
+redirect_Unauthorized_User("pages/login.php");
+
 //*********************************************************************************************
 // Determine User
 //*********************************************************************************************
-$user = check_ses_vars();
-$user = ($user)?$user:header("location:pages/login.php");
-
-$applicant = Applicant::getActiveApplicant();
+$applicant 	 = Applicant::getActiveApplicant();
 $application = Application::getActiveApplication();
-
 $db = Database::getInstance();
+
+
+$user = $applicant->getID();
 
 //*********************************************************************************************
 // Validate Application and redirect if not complete
@@ -179,6 +180,7 @@ foreach($app_data as $app_program)
 
 //Calculate Total Cost	
 $total_cost = $first_program + $additional_programs * ($number_programs_applied_to - 1);
+
 //update database application_fee_transaction_amount
 $db->iquery("UPDATE applicants SET application_fee_transaction_amount='%s' WHERE applicant_id=%d", $total_cost, $user);
 
