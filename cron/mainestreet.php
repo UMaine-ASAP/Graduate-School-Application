@@ -157,23 +157,23 @@
 		$temp .= "\t";
 		$temp .= $student_t;
 
-		$temp .= $user['application_fee_payment_status']."\t";
+		$temp .= $user['application_fee_payment_status'] . "\t";
 
 		$appsubdate = explode("-", $user['application_fee_transaction_date']);
 		if ($user['application_fee_payment_status']=='Y') {
-			$temp .= $user['application_fee_transaction_type']."\t";
-			$temp .= $appsubdate[2]."/".$appsubdate[1]."/".$appsubdate[0]."\t";
-			$temp .= $user['application_fee_transaction_amount']."\t";
-			$temp .= $user['application_fee_transaction_payment_method'] . "\t";// transaction payment method
+			$temp .= $user['application_fee_transaction_type'] . "\t";
+			$temp .= $appsubdate[2]."/".$appsubdate[1]."/".$appsubdate[0] . "\t";
+			$temp .= $user['application_fee_transaction_amount'] . "\t";
+			$temp .= $user['application_fee_transaction_number'] . "\t";// external transaction id for Touchnet
 		} else {
 			//value is 'N' - use all blanks
 			$temp .= "\t"; //transaction type
 			$temp .= "\t"; //date
 			$temp .= "\t"; //transaction amount
-			$temp .= "\t"; //transaction payment method
+			$temp .= "\t"; // external transaction id for Touchnet
 		}
 
-		$temp .= "\n"; //skip application_fee_transaction_number
+		$temp .= "\n"; // End Application
 
 		return $temp;
 	}
