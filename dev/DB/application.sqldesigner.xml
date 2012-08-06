@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, http://code.google.com/p/wwwsqldesigner/ -->
+<!-- Active URL: http://repos/wwwsqldesigner/ -->
+<sql>
+<datatypes db="mysql">
+	<group label="Numeric" color="rgb(238,238,170)">
+	 	<type label="TINYINT" length="0" sql="TINYINT" quote=""/>
+	 	<type label="SMALLINT" length="0" sql="SMALLINT" quote=""/>
+	 	<type label="MEDIUMINT" length="0" sql="MEDIUMINT" quote=""/>
+	 	<type label="INT" length="0" sql="INT" quote=""/>
+		<type label="Integer" length="0" sql="INTEGER" quote=""/>
+		<type label="BIGINT" length="0" sql="BIGINT" quote=""/>
+		<type label="Decimal" length="1" sql="DECIMAL" re="DEC" quote=""/>
+		<type label="Single precision" length="0" sql="FLOAT" quote=""/>
+		<type label="Double precision" length="0" sql="DOUBLE" re="DOUBLE" quote=""/>
+	</group>
+
+	<group label="Character" color="rgb(255,200,200)">
+		<type label="Char" length="1" sql="CHAR" quote="'"/>
+		<type label="Varchar" length="1" sql="VARCHAR" quote="'"/>
+		<type label="Text" length="0" sql="MEDIUMTEXT" re="TEXT" quote="'"/>
+		<type label="Binary" length="1" sql="BINARY" quote="'"/>
+		<type label="Varbinary" length="1" sql="VARBINARY" quote="'"/>
+		<type label="BLOB" length="0" sql="BLOB" re="BLOB" quote="'"/>
+	</group>
+
+	<group label="Date &amp; Time" color="rgb(200,255,200)">
+		<type label="Date" length="0" sql="DATE" quote="'"/>
+		<type label="Time" length="0" sql="TIME" quote="'"/>
+		<type label="Datetime" length="0" sql="DATETIME" quote="'"/>
+		<type label="Year" length="0" sql="YEAR" quote=""/>
+		<type label="Timestamp" length="0" sql="TIMESTAMP" quote="'"/>
+	</group>
+	
+	<group label="Miscellaneous" color="rgb(200,200,255)">
+		<type label="ENUM" length="1" sql="ENUM" quote=""/>
+		<type label="SET" length="1" sql="SET" quote=""/>
+		<type label="Bit" length="0" sql="bit" quote=""/>
+	</group>
+</datatypes><table x="18" y="33" name="Applicant">
+<row name="applicant_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="login_email" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<row name="password" null="1" autoincrement="0">
+<datatype>VARCHAR(155)</datatype>
+<default>NULL</default></row>
+<row name="is_email_confirmed" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="login_email_code" null="1" autoincrement="0">
+<datatype>VARCHAR(40)</datatype>
+<default>NULL</default></row>
+<row name="forgot_password_code" null="1" autoincrement="0">
+<datatype>VARCHAR(40)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>applicant_id</part>
+</key>
+</table>
+<table x="401" y="1074" name="Admin_accounts">
+<row name="admin_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="username" null="1" autoincrement="0">
+<datatype>VARCHAR(100)</datatype>
+<default>NULL</default></row>
+<row name="password" null="1" autoincrement="0">
+<datatype>VARCHAR(160)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>admin_id</part>
+</key>
+<comment>User accounts for application management system</comment>
+</table>
+<table x="295" y="9" name="Application">
+<row name="application_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="applicant_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="Applicant" row="applicant_id" />
+</row>
+<row name="application_type_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_type" row="application_type_id" />
+</row>
+<row name="application_degree_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_DATA_TYPE_degree" row="application_degree_id" />
+</row>
+<row name="application_certificate_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_DATA_TYPE_certficate" row="application_certificate_id" />
+</row>
+<row name="created_date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="last_modified" null="1" autoincrement="0">
+<datatype>TIMESTAMP</datatype>
+<default>NULL</default></row>
+<row name="start_year" null="1" autoincrement="0">
+<datatype>INT(4)</datatype>
+<default>NULL</default></row>
+<row name="start_semester" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="desired_housing" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="waive_reference_viewing_rights" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="has_umaine_correspondent" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="umaine_correspondent_details" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="has_accepted_terms_of_agreement" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="transaction_id" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default><relation table="APPLICATION_DATA_transaction" row="transaction_id" />
+</row>
+<row name="has_been_submitted" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="submitted_date" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<row name="has_been_pushed" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="pushed_date" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>application_id</part>
+</key>
+</table>
+<table x="1227" y="20" name="APPLICATION_DATA_gre">
+<row name="gre_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="application_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="Application" row="application_id" />
+</row>
+<row name="d" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<row name="verbal" null="1" autoincrement="0">
+<datatype>INT(3)</datatype>
+<default>NULL</default></row>
+<row name="quantitative" null="1" autoincrement="0">
+<datatype>INT(3)</datatype>
+<default>NULL</default></row>
+<row name="analytical" null="1" autoincrement="0">
+<datatype>DECIMAL(2,1)</datatype>
+<default>NULL</default></row>
+<row name="subject" null="1" autoincrement="0">
+<datatype>VARCHAR(32)</datatype>
+<default>NULL</default></row>
+<row name="has_been_reported" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="score" null="1" autoincrement="0">
+<datatype>INT(3)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>gre_id</part>
+</key>
+</table>
+<table x="2030" y="962" name="APPLICATION_DATA_international">
+<row name="international_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="application_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="Application" row="application_id" />
+</row>
+<row name="toefl_date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<row name="toefl_score" null="1" autoincrement="0">
+<datatype>INT(3)</datatype>
+<default>NULL</default></row>
+<row name="has_us_career" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="us_career_details" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="has_further_studies" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="further_studies_details" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="has_home_career" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="home_career_details" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="finance_details" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="us_emergency_contact_name" null="1" autoincrement="0">
+<datatype>VARCHAR(55)</datatype>
+<default>NULL</default></row>
+<row name="us_emergency_contact_relationship" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="us_emergency_contact_information_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_DATA_contact_information" row="contact_information_id" />
+</row>
+<row name="home_emergency_contact_name" null="1" autoincrement="0">
+<datatype>VARCHAR(55)</datatype>
+<default>NULL</default></row>
+<row name="home_emergency_contact_relationship" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="home_emergency_contact_information_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_DATA_contact_information" row="contact_information_id" />
+</row>
+<row name="is_toefl_taken" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="is_toefl_reported" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>international_id</part>
+</key>
+</table>
+<table x="879" y="417" name="APPLICATION_DATA_civil_violation">
+<row name="civil_violations_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="application_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="Application" row="application_id" />
+</row>
+<row name="type" null="1" autoincrement="0">
+<datatype>VARCHAR(12)</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<row name="details" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>civil_violations_id</part>
+</key>
+</table>
+<table x="874" y="255" name="APPLICATION_DATA_disciplinary_violation">
+<row name="disciplinary_violation_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="application_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="Application" row="application_id" />
+</row>
+<row name="type" null="1" autoincrement="0">
+<datatype>VARCHAR(12)</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<row name="details" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>disciplinary_violation_id</part>
+</key>
+</table>
+<table x="56" y="957" name="Academic_program">
+<row name="academic_program_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="program_code" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="plan_code" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="department_code" null="1" autoincrement="0">
+<datatype>VARCHAR(3)</datatype>
+<default>NULL</default></row>
+<row name="department" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="department_heading" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="degree_code" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="degree_name" null="1" autoincrement="0">
+<datatype>VARCHAR(4)</datatype>
+<default>NULL</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="nebhe_ct" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="nebhe_ma" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="nebhe_nh" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="nebhe_ri" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="nebhe_vt" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="isActive" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>academic_program_id</part>
+</key>
+</table>
+<table x="39" y="364" name="APPLICATION_Structure">
+<row name="structure_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="application_type_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_type" row="application_type_id" />
+</row>
+<row name="name" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<row name="path" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<row name="isIncluded" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="order" null="1" autoincrement="0">
+<datatype>INT(3)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>structure_id</part>
+</key>
+</table>
+<table x="40" y="218" name="APPLICATION_type">
+<row name="application_type_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>application_type_id</part>
+</key>
+</table>
+<table x="929" y="85" name="APPLICATION_DATA_progress">
+<row name="application_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="Application" row="application_id" />
+</row>
+<row name="structure_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_Structure" row="structure_id" />
+</row>
+<row name="status" null="1" autoincrement="0">
+<datatype>ENUM('INCOMPLETE','IN PROGRESS','PENDING','COMPLETE')</datatype>
+<default>NULL</default></row>
+<row name="notes" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>application_id</part>
+</key>
+</table>
+<table x="858" y="583" name="APPLICATION_DATA_previous_school">
+<row name="previous_school_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="application_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="Application" row="application_id" />
+</row>
+<row name="name" null="1" autoincrement="0">
+<datatype>VARCHAR(55)</datatype>
+<default>NULL</default></row>
+<row name="city" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="state" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="country" null="1" autoincrement="0">
+<datatype>VARCHAR(3)</datatype>
+<default>NULL</default></row>
+<row name="code" null="1" autoincrement="0">
+<datatype>VARCHAR(4)</datatype>
+<default>NULL</default></row>
+<row name="start_date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<row name="end_date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<row name="major" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="degree_earned" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="degree_earned_date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>previous_school_id</part>
+</key>
+</table>
+<table x="1256" y="274" name="APPLICATION_DATA_language">
+<row name="language_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="application_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="Application" row="application_id" />
+</row>
+<row name="language" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="writing_proficiency" null="1" autoincrement="0">
+<datatype>VARCHAR(4)</datatype>
+<default>NULL</default></row>
+<row name="reading_proficiency" null="1" autoincrement="0">
+<datatype>VARCHAR(4)</datatype>
+<default>NULL</default></row>
+<row name="speaking_proficiency" null="1" autoincrement="0">
+<datatype>VARCHAR(4)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>language_id</part>
+</key>
+</table>
+<table x="1196" y="458" name="APPLICATION_DATA_references">
+<row name="reference_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="application_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="Application" row="application_id" />
+</row>
+<row name="first_name" null="1" autoincrement="0">
+<datatype>VARCHAR(32)</datatype>
+<default>NULL</default></row>
+<row name="last_name" null="1" autoincrement="0">
+<datatype>VARCHAR(32)</datatype>
+<default>NULL</default></row>
+<row name="email" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<row name="relationship" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="contact_information_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_DATA_contact_information" row="contact_information_id" />
+</row>
+<row name="is_submitting_online" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="request_has_been_sent" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="submitted_date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="filename" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>reference_id</part>
+</key>
+</table>
+<table x="24" y="562" name="APPLICATION_cost">
+<row name="cost_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="application_type_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_type" row="application_type_id" />
+</row>
+<row name="cost" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="is_price_for_application_after_first" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>0</default></row>
+<key type="PRIMARY" name="">
+<part>cost_id</part>
+</key>
+</table>
+<table x="1026" y="974" name="APPLICATION_DATA_primary">
+<row name="application_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="Application" row="application_id" />
+</row>
+<row name="given_name" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="middle_name" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="family_name" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="suffix" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="alternate_name" null="1" autoincrement="0">
+<datatype>VARCHAR(55)</datatype>
+<default>NULL</default></row>
+<row name="email" null="1" autoincrement="0">
+<datatype>VARCHAR(100)</datatype>
+<default>NULL</default></row>
+<row name="primary_phone" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="secondary_phone" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="mailing_contact_information_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_DATA_contact_information" row="contact_information_id" />
+</row>
+<row name="has_mailing_perm" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="permanent_contact_information_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_DATA_contact_information" row="contact_information_id" />
+</row>
+<row name="date_of_birth" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="birth_city" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="birth_state" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="birth_country" null="1" autoincrement="0">
+<datatype>CHAR(3)</datatype>
+<default>NULL</default></row>
+<row name="gender" null="1" autoincrement="0">
+<datatype>CHAR(1)</datatype>
+<default>NULL</default></row>
+<row name="is_us_citizen" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="us_state" null="1" autoincrement="0">
+<datatype>CHAR(2)</datatype>
+<default>NULL</default></row>
+<row name="residency_status" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="green_card_link" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<row name="country_of_citizenship" null="1" autoincrement="0">
+<datatype>CHAR(3)</datatype>
+<default>NULL</default></row>
+<row name="social_security_number" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="ethnicity_amind" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="ethnicity_asian" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="ethnicity_black" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="ethnicity_hispa" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="ethnicity_pacif" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="ethnicity_white" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="ethnicity_unspec" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="english_years_school" null="1" autoincrement="0">
+<datatype>VARCHAR(15)</datatype>
+<default>NULL</default></row>
+<row name="english_years_univ" null="1" autoincrement="0">
+<datatype>VARCHAR(15)</datatype>
+<default>NULL</default></row>
+<row name="english_years_private" null="1" autoincrement="0">
+<datatype>VARCHAR(15)</datatype>
+<default>NULL</default></row>
+<row name="present_occupation" null="1" autoincrement="0">
+<datatype>VARCHAR(55)</datatype>
+<default>NULL</default></row>
+<row name="undergrad_gpa" null="1" autoincrement="0">
+<datatype>DECIMAL(3,2)</datatype>
+<default>NULL</default></row>
+<row name="postbacc_gpa" null="1" autoincrement="0">
+<datatype>DECIMAL(3,2)</datatype>
+<default>NULL</default></row>
+<row name="extracurricular_activities" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="academic_honors" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="employment_history" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="has_taken_gmat" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="has_reported_gmat" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="gmat_date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<row name="gmat_quantitative" null="1" autoincrement="0">
+<datatype>INT(2)</datatype>
+<default>NULL</default></row>
+<row name="gmat_verbal" null="1" autoincrement="0">
+<datatype>INT(2)</datatype>
+<default>NULL</default></row>
+<row name="gmat_analytical" null="1" autoincrement="0">
+<datatype>DECIMAL(2,1)</datatype>
+<default>NULL</default></row>
+<row name="gmat_score" null="1" autoincrement="0">
+<datatype>INT(3)</datatype>
+<default>NULL</default></row>
+<row name="has_taken_mat" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="has_reported_mat" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="mat_date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<row name="mat_score" null="1" autoincrement="0">
+<datatype>VARCHAR(3)</datatype>
+<default>NULL</default></row>
+<row name="has_prev_um_app" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="prev_um_grad_app_date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<row name="prev_um_grad_app_dept" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="prev_um_grad_degree" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="prev_um_grad_degree_date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<row name="has_prev_um_grad_withdraw" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="prev_um_grad_withdraw_date" null="1" autoincrement="0">
+<datatype>VARCHAR(7)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>application_id</part>
+</key>
+</table>
+<table x="589" y="351" name="APPLICATION_DATA_transaction">
+<row name="transaction_id" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<row name="status" null="1" autoincrement="0">
+<datatype>CHAR(1)</datatype>
+<default>NULL</default></row>
+<row name="type" null="1" autoincrement="0">
+<datatype>VARCHAR(6)</datatype>
+<default>NULL</default></row>
+<row name="completed_date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="amount" null="1" autoincrement="0">
+<datatype>DECIMAL(5,2)</datatype>
+<default>NULL</default></row>
+<row name="payment_method" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="is_completed" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>transaction_id</part>
+</key>
+</table>
+<table x="362" y="639" name="APPLICATION_DATA_TYPE_degree">
+<row name="application_degree_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="academic_program" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="academic_plan" null="1" autoincrement="0">
+<datatype>VARCHAR(10)</datatype>
+<default>NULL</default></row>
+<row name="academic_major" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="academic_minor" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="student_type" null="1" autoincrement="0">
+<datatype>VARCHAR(5)</datatype>
+<default>NULL</default></row>
+<row name="academic_load" null="1" autoincrement="0">
+<datatype>CHAR(1)</datatype>
+<default>NULL</default></row>
+<row name="is_seeking_financial_aid" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="is_seeking_assistantship" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="desired_assistantship_department" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="is_applying_nebhe" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="resume_id" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default><relation table="APPLICATION_DATA_Supporting_document" row="document_id" />
+</row>
+<row name="essay_id" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default><relation table="APPLICATION_DATA_Supporting_document" row="document_id" />
+</row>
+<key type="PRIMARY" name="">
+<part>application_degree_id</part>
+</key>
+</table>
+<table x="15" y="793" name="APPLICATION_DATA_TYPE_certficate">
+<row name="application_certificate_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="preenroll_courses" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>application_certificate_id</part>
+</key>
+</table>
+<table x="668" y="1031" name="APPLICATION_DATA_Supporting_document">
+<row name="document_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="filename" null="1" autoincrement="0">
+<datatype>VARCHAR(70)</datatype>
+<default>NULL</default></row>
+<row name="type" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>document_id</part>
+</key>
+</table>
+<table x="1405" y="1204" name="APPLICATION_DATA_contact_information">
+<row name="contact_information_id" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="street_address_1" null="1" autoincrement="0">
+<datatype>VARCHAR(55)</datatype>
+<default>NULL</default></row>
+<row name="street_address_2" null="1" autoincrement="0">
+<datatype>VARCHAR(55)</datatype>
+<default>NULL</default></row>
+<row name="city" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="state" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="postal" null="1" autoincrement="0">
+<datatype>VARCHAR(15)</datatype>
+<default>NULL</default></row>
+<row name="primary_phone" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="secondary_phone" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
+<default>NULL</default></row>
+<row name="country" null="1" autoincrement="0">
+<datatype>VARCHAR(3)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>contact_information_id</part>
+</key>
+</table>
+</sql>
