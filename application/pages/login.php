@@ -95,6 +95,8 @@ if ($_POST) {
 		$create_msg = "";
 		
 		// the user wants to create a new account
+		$given_name 		=$_POST['create_given_name'];
+		$last_name 		= $_POST['create_last_name'];
 		$email 			  = $_POST['create_email'];
 		$email_confirm    = $_POST['create_email_confirm'];
 		$password 		  = $_POST['create_password'];
@@ -106,10 +108,16 @@ if ($_POST) {
 		$dupe = (is_array($dupe_result)) ? $dupe_result[0] : '';
 		
 		// validate form
-		if (empty($email) || empty($email_confirm) || empty($password) || empty($password_confirm) || $email != $email_confirm || $password != $password_confirm || $dupe != '') {
+		if (empty($email) || empty($given_name) || empty($last_name) || empty($email_confirm) || empty($password) || empty($password_confirm) || $email != $email_confirm || $password != $password_confirm || $dupe != '') {
 			// errors
 			if (empty($email) || $email == 'e-mail address') {
 				$create_msg .= "<p class='warning'>You did not enter an email address</p>";
+			}
+			if (empty($given_name)) {
+				$create_msg .= "<p class='warning'>You did not enter a given name</p>";
+			}
+			if (empty($last_name)) {
+				$create_msg .= "<p class='warning'>You did not enter a last name</p>";
 			}
 			if (empty($email_confirm)) {
 				$create_msg .= "<p class='warning'>You did not confirm your email address</p>";
@@ -137,7 +145,7 @@ if ($_POST) {
 
 			$code = getHash(time()+$last_index+1); // use this code for the confirmation email
 
-			$db->iquery("INSERT INTO `applicants` (`login_email`, `password`, `login_email_code`) VALUES('%s', '%s', '%s')", $email, sha1($password), $code);
+			$db->iquery("INSERT INTO `applicants` (`login_email`, `password`, `login_email_code`, `given_name`, `family_name`) VALUES('%s', '%s', '%s', '%s', '%s')", $email, sha1($password), $code, $given_name, $last_name);
 
 			$success_msg .= "<p class='success'>Account created. Please check your email for a link to confirm your email address.</p>";
 
@@ -358,7 +366,14 @@ $db->close();
 			<form method="post" accept-charset="utf-8" id="createForm">
 				<fieldset id="" class="">
 					<legend>Create a New Account</legend>
-					
+					<label for="create_given_name">
+						<p class="title">given name</p>
+						<input class="required given" type="text" name="create_given_name" value="" id="create_given_name" size="27"/>
+					</label>
+					<label for="create_last_name">
+						<p class="title">last name</p>
+						<input class="required last_name" type="text" name="create_last_name" value="" id="create_last_name" size="27"/>
+					</label>
 					<label for="create_email">
 						<p class="title">e-mail address</p>
 						<input class="required email" type="text" name="create_email" value="" id="create_email" size="27"/>
