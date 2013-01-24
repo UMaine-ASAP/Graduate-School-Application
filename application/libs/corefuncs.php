@@ -1,58 +1,10 @@
 <?php
 
 // Libraries
-include_once "variables.php";
+include_once "config.php";
 include_once "database.php";
 include_once "template.php";
 
-/**
-* Session Creation
-**/
-function set_ses_vars($ID) {
-	$_SESSION['UMGradSession'] = $ID;
-	$_SESSION['lastAccess'] = time();
-}
-
-function check_ses_vars() {
-	if( !isset($_SESSION) ) { session_start(); }
-	if(isset($_SESSION['UMGradSession']) && isset($_SESSION['lastAccess'])) {
-		$latestAccess = time();
-		if($latestAccess - $_SESSION['lastAccess'] > $GLOBALS["session_timeout"]) {
-			user_logout();
-			return 0;
-		}
-		//Make sure user is valid
-		$db = Database::getInstance();
-
-		$user_check = $db->query("SELECT applicant_id FROM applicants WHERE applicant_id = %d", $_SESSION['UMGradSession']);
-
-		if( is_array($user_check) ) {
-			$_SESSION['lastAccess'] = $latestAccess;
-			$db->close();
-			return $_SESSION['UMGradSession'];	
-		} else {
-			$db->close();
-			return 0;
-		}
-	}
-	return 0;
-}
-
-/**
-* Login
-**/
-function user_login($id) {
-	if( !isset($_SESSION) ) { session_start(); }
-	set_ses_vars($id);
-}
-
-function user_logout() {
-	if( !isset($_SESSION) ) { session_start(); }
-
-	session_unset();
-	unset($_SESSION['UMGradSession']);
-	unset($_SESSION['lastAccess']);
-}
 
 function sanitizeString ( $var ) {
 	return( filter_var($var, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW) );
@@ -105,6 +57,25 @@ function sendRecoverMessage($email, $code) {
 	$mail_body_plain .= "\r\rThe University of Maine, Graduate School\r5755 Stodder Hall\rOrono, Maine 04469\r(207) 581-3291\r" . $GLOBALS['graduate_homepage'];
 
 	mail($email, $subject, $mail_body_plain, $header); //mail command	
+}
+
+/**
+ * 
+ * Source: ????
+ */
+function getHash( $index )
+{
+  $validCharacters = 'abcdefghijklmnopqerstuv0123456789';
+  $mod = strlen($validCharacters);
+  $hash = '';
+  $tmp = $index;
+
+  while( $tmp > $mod )
+  {
+    $hash .= substr($validCharacters, $tmp%$mod,1);
+    $tmp = floor( $tmp / $mod );
+  }
+  return $hash;
 }
 
 

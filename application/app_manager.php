@@ -10,6 +10,7 @@ include_once "libs/validator.php";
 // Controllers
 include_once "controllers/applicant.php";
 include_once "controllers/application.php";
+include_once "controllers/ApplicationManager.php";
 
 redirect_Unauthorized_User("../application/pages/login.php");
 
@@ -41,13 +42,19 @@ if( $application->hasBeenSubmitted() ){
 // Test for Submission and Verify
 //*********************************************************************************************
 if( isset($_POST['submit_app']) || isset($_GET['warning']) || isset($_SESSION['submitted']) )
-	if( !isset($_SESSION) ) { session_start(); }
+{
+	if( !isset($_SESSION) ) 
+	{ 
+		session_start(); 
+	}
+
 	$_SESSION['submitted'] = true;
 
 	$error_list = get_error_list($db);
 
 	//Redirect if complete
-	if($error_list == "") {
+	if($error_list == "")
+	{
 		unset($_SESSION['submitted']);
 		session_write_close();
 		header("location:submission_manager.php");
@@ -166,17 +173,18 @@ if($page_id){
 					}
 
 					// Add the parsed template
-					$repeatable_element .= template_parse($replace["${tableNameUpper}_TEMPLATE_PATH"], $repeat_replace);					
+					$repeatable_element .= template_parse('templates/' . strtolower($tableNameUpper) . "_repeatable.php", $repeat_replace);					
+
 				}
 				
 				// Set the output
 				$replace['USER'] = $user;
 				$replace["${tableNameUpper}_TABLE_NAME"] 	= $tableName;
-				$replace["${tableNameUpper}_TEMPLATE_PATH"] = "templates/${tableName}_repeatable.php";
-				$replace["${tableNameUpper}_LIST"] 			= "${$tableName}_list";
+				$replace["${tableNameUpper}_TEMPLATE_PATH"] 	= "templates/${tableName}_repeatable.php";
+				$replace["${tableNameUpper}_LIST"] 		= "${$tableName}_list";
 				$replace["${tableNameUpper}_COUNT"] 		= $repeat_count;
 
-				$replace[strtoupper($id_key)] 				= $repeatable_element;
+				$replace[strtoupper($id_key)] 			= $repeatable_element;
 
 			} else { 
 				// Process as a normal, nonrepeatable field (just use the field's value)
@@ -203,8 +211,8 @@ $amc_replace = array();
 
 // Top Level
 $amc_replace['TITLE'] 		 = "UMaine Graduate Application";
-$amc_replace['GRADHOMEPAGE'] = $GLOBALS['graduate_homepage'];
-$amc_replace['FAVICON'] 	 = $GLOBALS['grad_images'] . "grad_favicon.ico";
+$amc_replace['GRADHOMEPAGE'] 	 = $GLOBALS['graduate_homepage'];
+$amc_replace['FAVICON'] 	 	 = $GLOBALS['grad_images'] . "grad_favicon.ico";
 
 // User Data
 $amc_replace['ID'] 		= $user;
@@ -214,14 +222,14 @@ $amc_replace['EMAIL'] 	=  $db->getFirst("SELECT login_email FROM applicants WHER
 
 // Application Data
 $amc_replace['WARNINGS'] 		= ( isset($error_list) && $error_list != '' ) ? $error_list : "Please submit all information that you can.<br />Press the &ldquo;Review Application&rdquo; button when you are ready.";
-$amc_replace['SECTION_CONTENT'] = $section_content;
+$amc_replace['SECTION_CONTENT'] 	= $section_content;
 $amc_replace['USER'] 			= $user;
 $amc_replace['FORM'] 			= $form_content;
 
 // Extra Data
-$amc_replace['SERVER_NAME'] 	= $GLOBALS['server_name'];
+$amc_replace['SERVER_NAME'] 		= $GLOBALS['server_name'];
 $amc_replace['ESSAY_NAME'] 		= $db->getFirst("SELECT essay_file_name FROM applicants WHERE applicant_id=%d", $user);
-$amc_replace['RESUME_NAME'] 	= $db->getFirst("SELECT resume_file_name FROM applicants WHERE applicant_id=%d", $user);
+$amc_replace['RESUME_NAME'] 		= $db->getFirst("SELECT resume_file_name FROM applicants WHERE applicant_id=%d", $user);
 
 $date = getDate();
 $amc_replace['FIRST_START_YEAR'] = $date['year'];

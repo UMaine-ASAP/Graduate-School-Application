@@ -1,0 +1,156 @@
+{% extends 'basic_layout.twig' %}
+
+{% block title %}Apply to the University of Maine Graduate School{% endblock %}
+{% block head %}
+	<link type="text/css" href="{{WEBROOT}}/styles/jquery/redmond/jquery-ui-1.8.2.custom.css" rel="Stylesheet" />
+
+	<!-- Javascript libraries -->
+	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery-ui-1.8.2.custom.min.js"></script>
+	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery.validate.js"></script>
+
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function(){
+			$("#createForm").validate({
+				rules: {
+					create_email_confirm: {equalTo: "#create_email"},
+					create_password: "required",
+					create_password_confirm: {equalTo: "#create_password", required: true}
+				}
+			});
+			
+			$("#signinForm").validate({
+				rules: {
+					
+				}
+			})
+		});
+	</script>
+	<style type="text/css" media="screen">
+
+	.login fieldset {
+
+		height:100%;
+		min-height:50px;
+
+		margin:3px;
+		padding:10px 9px 7px;
+
+		background: #b4c8cf;
+		-moz-border-radius:4px;
+		-webkit-border-radius:4px;
+		border-left:1px solid #9FAEB3;
+		border-top:1px solid #9FAEB3;
+	}
+
+	.login legend {
+		background-color:transparent;
+		padding-bottom:10px;
+		font-weight:bold;
+		background: #b4c8cf;
+		padding: 4px;
+		-moz-border-radius:4px;
+		-webkit-border-radius:4px;
+		border:1px solid #9FAEB3;
+	}
+
+	
+	#signin, #create_account {
+		width:20em;
+		float:left;
+		padding:1em;
+	}
+	
+	#signin {
+		background:#dfe9ed;
+		-moz-border-radius:8px;
+		-webkit-border-radius:8px;
+		margin:0px 4em 0px .7em;
+	}
+	
+	#signin * [type='text'], #signin * [type='password'] {
+		padding:2px;
+	}
+	
+	#create_account {
+		background:#dfe9ed;
+		-moz-border-radius:8px;
+		-webkit-border-radius:8px;
+	}
+	
+
+
+	
+	</style>
+{% endblock %}
+
+{% block content %}
+		<h1>Online Application</h1>
+
+		<div style="clear:both"></div>
+
+		<div id="signin" class='login'>
+			<div id="success_msg">{{SUCCESS_MESSAGE}}</div>
+			<div id='errors'>{{ flash['errors'] | raw }}</div>
+			<form id="signinForm" method="post" accept-charset="utf-8">
+				<fieldset id="" class="">
+					<legend>Sign In</legend>
+					<label for="email">
+						<p class="title">e-mail address</p>
+						<input type="text" spellcheck="false" class="required email" name="email" id="email" size="27"/>
+					</label>
+					<label for="password">
+						<p class="title">password</p>
+						<input type="password" class="required" name="password" id="password" size="27"/>
+					</label>
+
+					<div style="clear:both; height: 6px;"></div>
+
+					<input type="hidden" name="form_name" value="signIn" id="whichform"/>
+					<input type="submit" name="signin" value="Sign In"/>
+					<a href="{{WEBROOT}}/forgot">forgot password?</a>
+
+					<div style="clear:both"></div>
+				</fieldset>
+				<p class="message"><strong>Note:</strong> if you are not applying for a degree, please use the <a href="{{WEBROOT}}/documents/file/Nondegree.pdf">graduate nondegree application/registration form</a>.</p>
+			</form>
+		</div>
+
+		<div id="create_account" class='login'>
+			<form method="post" accept-charset="utf-8" id="createForm">
+				<fieldset id="" class="">
+					<legend>Create a New Account</legend>
+					<div id='errors'>{{ flash['account-creation-errors'] | raw}}</div>
+					<label for="create_email">
+						<p class="title">e-mail address</p>
+						<input class="required email" type="text" name="create_email" value="" id="create_email" size="27"/>
+					</label>
+					<label for="create_email_confirm">
+						<p class="title">confirm e-mail</p>
+						<input class="required email" type="text" name="create_email_confirm" value="" id="create_email_confirm" size="27"/>
+					</label>
+					<label for="create_password">
+						<p class="title">create password</p>
+						<input class="create_password" minLength="2" type="password" name="create_password" value="" id="create_password" size="27"/>
+					</label>
+					<label for="create_password_confirm">
+						<p class="title">confirm password</p>
+						<input class="create_password_confirm" minLength="2" type="password" name="create_password_confirm" value="" id="create_password_confirm" size="27"/>
+					</label>
+
+					<div style="clear:both; height: 6px;"></div>
+
+					<input type="hidden" name="form_name" value="createAccount" id="whichform"/>
+					<input type="submit" name="create" value="Create Account"/>
+
+					<div style="clear:both"></div>
+				</fieldset>
+			</form>
+			{% if CREATE_MESSAGE %}
+				<div id="create_msg">{{CREATE_MESSAGE}}</div>
+			{% endif %}
+
+		</div>
+		
+		<div style="clear:both;"></div>
+{% endblock %}

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 	include_once "../application/libs/variables.php";
 	include_once "../application/libs/database.php";

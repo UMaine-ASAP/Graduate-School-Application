@@ -1,0 +1,30 @@
+
+.section-icon-personal-information
+{
+	background-image: url('../images/icon-personal-information.png');
+}
+
+.section-icon-international
+{
+	background-image: url('../images/icon-international.png');
+}
+
+.section-icon-educational-history
+{
+	background-image: url('../images/icon-educational-history.png');
+}
+
+.section-icon-educational-objectives
+{
+	background-image: url('../images/icon-educational-objectives.png');
+}
+
+.section-icon-letters-of-recommendation
+{
+	background-image: url('../images/icon-letters-of-recommendation.png');
+}
+
+.active {
+	background-color: #dfe9ed;
+	margin-right: -10px;
+}

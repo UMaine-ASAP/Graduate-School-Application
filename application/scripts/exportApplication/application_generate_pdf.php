@@ -2,7 +2,7 @@
 	require_once __DIR__ . "/../../libs/tcpdf/tcpdf.php";
 	require_once __DIR__ . "/../../libs/MPDF52/mpdf.php";
 
-	require_once __DIR__ . "/../../libs/variables.php";
+	require_once __DIR__ . "/../../config.php";
 	require_once __DIR__ . "/../../libs/database.php";
 	require_once __DIR__ . "/../../libs/corefuncs.php";
 

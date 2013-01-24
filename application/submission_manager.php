@@ -14,8 +14,8 @@ redirect_Unauthorized_User("pages/login.php");
 //*********************************************************************************************
 // Determine User
 //*********************************************************************************************
-$applicant 	 = Applicant::getActiveApplicant();
-$application = Application::getActiveApplication();
+$applicant 	= Applicant::getActiveApplicant();
+$application   = Application::getActiveApplication();
 $db = Database::getInstance();
 
 
@@ -78,15 +78,12 @@ $section_content = '';
 //Create each section
 foreach($app_progress as $isection) 
 {
-					
-	//Replacement Data
-	$isection_replace = array();
-
-	$isection_replace['PAGE_ID'] 		= $isection['structure_id'];
-	$isection_replace['SECTION_NAME'] 	= $isection['name'];
-	$isection_replace['SECTION_STATUS'] = $isection['status'];
-	$isection_replace['SECTION_IMAGE'] 	= '';
-	$isection_replace['SECTION_NOTES'] 	= $isection['notes'];
+	$isection_replace = array( 'PAGE_ID' 		=> $isection['structure_id'],
+						  'SECTION_NAME' 	=> $isection['name'],
+						  'SECTION_STATUS' 	=> $isection['status',
+						  'SECTION_IMAGE' 	=> '',
+						  'SECTION_NOTES' 	=> $isection['notes']
+						 );
 
 	$section_content .= template_parse("templates/node_isection.tpl", $isection_replace);
 }
@@ -194,9 +191,9 @@ $amc_replace = array();
 // Top Level Data
 $amc_replace['TITLE'] 		 = "UMaine Graduate Application";
 $amc_replace['ID'] 			 = $applicant->getID();
-$amc_replace['GRADHOMEPAGE'] = $GLOBALS['graduate_homepage'];
-$amc_replace['FAVICON'] 	 = $GLOBALS['grad_images'] . "grad_favicon.ico";
-$amc_replace['SERVER_NAME']  = $GLOBALS['server_name'];
+$amc_replace['GRADHOMEPAGE'] 	 = $GLOBALS['graduate_homepage'];
+$amc_replace['FAVICON'] 	 	 = $GLOBALS['grad_images'] . "grad_favicon.ico";
+$amc_replace['SERVER_NAME'] 	 = $GLOBALS['server_name'];
 
 // User Data
 $amc_replace['USER'] 			= $applicant->getID();
@@ -209,7 +206,7 @@ $amc_replace['PERSONAL_INFO'] 	= $req_info_section;
 $amc_replace['SECTION_CONTENT'] = $section_content;
 
 // Program and Cost
-$amc_replace['PROGRAM_LIST'] 	= $program_content;
+$amc_replace['PROGRAM_LIST'] 		= $program_content;
 $amc_replace['PROGRAM_COUNT'] 	= $number_programs_applied_to;
 $amc_replace['TOTAL_COST'] 		= "$".number_format($total_cost,2);
 $amc_replace['TOTAL_AMT'] 		= number_format($total_cost,2);

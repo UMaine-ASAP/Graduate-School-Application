@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	
+	<head>
+		<link rel="shortcut icon" href="{{FAVICON}}" />		
+	    <!-- charset must remain utf-8 to be handled properly by Processing -->
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>{% block title %}{% endblock %}</title>
+		<link rel="shortcut icon" href="{{WEBROOT}}/images/grad_favicon.ico" />
+
+		<link rel="stylesheet" href="{{WEBROOT}}/styles/reset-min.css" type="text/css" />
+		<link rel="stylesheet" href="{{WEBROOT}}/styles/base-theme.css" type="text/css" />
+
+		<!-- Scripts -->
+		<script type="text/javascript" src="{{WEBROOT}}/js/browser_check.js" charset="utf-8"></script>
+		<script>
+		var WEBROOT = '{{WEBROOT}}';
+		</script>
+		{% block head %}{% endblock %}
+	</head>
+	
+	<body onLoad="doBrowserCheck();">
+		<div id='page'>
+			<div class="gradHeader"><a href="{{GRADHOMEPAGE}}">&nbsp;</a></div>
+			<div id="content">
+				<div class="topHeader">
+					{% if ISLOGGEDIN %}
+						Welcome <span style="font-weight:bold;">{{EMAIL}}</span>&nbsp;&nbsp;&nbsp;[&nbsp;<a href="/logout" style="color:#FFF;">Sign Out</a>&nbsp;]
+					{% endif %}
+				</div>
+
+				<div id='sidebar_pane'>
+					{% block sidebar %}{% endblock %}
+				</div>
+
+					{% block content %}
+					{% endblock %}				
+			</div>
+			<div class='push'></div>
+			
+		</div>
+		<div id='site-footer-container'>
+			<div class="gradFooter">
+				The University of Maine, Orono, Maine 04469 <br />
+					(207) 581-3291 <br />
+				A Member of the University of Maine System
+			</div>
+		</div>
+
+	</body>
+</html>

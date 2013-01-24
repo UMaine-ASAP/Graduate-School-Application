@@ -1,0 +1,88 @@
+{% extends 'basic_layout.twig' %}
+
+{% block title %}{% block pageName %}{% endblock %}{% endblock %}
+
+{% block head %}
+	<!-- Stylesheets -->
+	<link type="text/css" href="{{WEBROOT}}/styles/jquery/redmond/jquery-ui-1.8.2.custom.css" rel="Stylesheet" />
+	<link rel="stylesheet" type="text/css" href="{{WEBROOT}}/styles/app_manager_style.css" media="screen,print" />
+	<link rel="stylesheet" type="text/css" href="{{WEBROOT}}/styles/section.css" media="screen,print" />
+
+	<!--
+	<link rel="stylesheet" type="text/css" href="{{WEBROOT}}/styles/sub_manager_style.css" media="screen,print" />
+	-->
+
+	<!-- Javascript libraries -->
+	<script type="text/javascript" src="{{WEBROOT}}/js/ajaxupload.3.5.js" ></script>
+	<script type="text/javascript" src="{{WEBROOT}}/js/form_helper.js"></script>
+	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery-ui-1.8.2.custom.min.js"></script>
+	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery.validate.js"></script>
+
+	<!-- Data -->		
+	<script type="text/javascript" src="{{WEBROOT}}/js/state.js"></script>
+	<script type="text/javascript" src="{{WEBROOT}}/js/country.js"></script>
+	<script type="text/javascript" src="{{WEBROOT}}/js/academics.js"></script>
+
+	<script type="text/javascript" charset="utf-8">
+		// stop the Return/Enter key from submitting the form
+		document.onkeypress = stopRKey;
+
+		$(document).ready(function(){
+		    $("#validate_wrapper").validate({
+			errorElement: "div",
+			wrapper: "span",
+			errorPlacement: function(error, element) {
+				var vis = element.is(":visible");
+				if (!vis)
+				    element.show();// must be visible to get .position
+				var offset = element.position();
+				if (!vis)
+				    element.hide();// restore visibility
+
+				error.insertBefore(element);
+				error.addClass('error_wrapper');
+				error.css('position', 'absolute');
+				var left = offset.left + element.outerWidth();
+				var top = offset.top - (error.outerHeight() - element.outerHeight())/2;
+				error.css('left', left);
+				//error.css('top', top);
+			}
+		    });
+		});
+
+	</script>
+{% endblock %}
+
+{% block sidebar %}
+	<div id="header"> Welcome {{NAME}} </div>
+	<div id="progress"> Please submit all information that you can.<br>Press the “Review Application” button when you are ready. {{WARNINGS}} </div>
+
+	<div id="sections"> {{SECTION_LINKS | raw }} </div>
+	<div id="footer">
+		<form id="submit_form" method="post">
+			<input type="submit" id="submit_app" name="submit_app" value="Review Application"/>
+		</form>
+		<form id="sign_out" method="link" action="pages/logout.php">
+			<input type="submit" id="sign_out" name="sign_out" value="Sign Out"/>
+		</form>
+		<input type="button" name="save_button" value="Save" id="save_button" onClick="alert('Yoprogress has been saved')" />
+	</div>
+{% endblock %}
+
+{% block content %}
+	
+	<noscript>
+		<meta http-equiv="refresh" content="5; URL=pages/no_javascript.php">
+		<style type="text/css" media="screen">#form_pane, .topHeader, #sidebar_pane {display:none;}</style>
+		<p id='noscript'>You do not have javascript enabled. In a moment you will be redirected to a page with instructions to enable JavaScript. If you are not redirected in five seconds, click <a href="pages/no_javascript.php">here</a>.</p>
+	
+	</noscript>
+
+	<form id="validate_wrapper">
+		<div id='form_pane'>
+		{% block form %}{% endblock %}
+		</div>
+	</form>
+	
+{% endblock %}

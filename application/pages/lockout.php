@@ -10,14 +10,7 @@
 		<title>UMaine Graduate Application</title>
 		<link rel="stylesheet" type="text/css" href="../styles/app_manager_style.css" media="screen,print" />
 
-		<!-- Javascript libraries -->
-		<script type="text/javascript" src="../libs/js/form_helper.js"></script>
-		<script type="text/javascript" src="../libs/js/jquery/jquery-1.4.2.min.js"></script>
-
 		<!-- Data -->		
-		<script type="text/javascript" src="../models/state.js"></script>
-		<script type="text/javascript" src="../models/country.js"></script>
-		<script type="text/javascript" src="../models/academics.js"></script>
 		<style type="text/css">
 			a:link, a:visited {
 				color:#008AA3;
@@ -37,20 +30,6 @@
 		<div id="mainbody">
 			<div class="gradHeader"><a href="<?php echo($GLOBALS['graduate_homepage']);?>">&nbsp;</a></div>
 			<div class="topHeader"></div>
-			<!--
-			<div id="sidebar_pane">
-				<div id="header">
-					Welcome,
-				</div>
-				<div id="progress">
-				</div>
-				<div id="sections">
-				</div>
-				<div id="footer">
-			
-				</div>
-			</div>
-			-->
 			<div id="form_pane" style="min-height:500px; margin:0px auto; max-width:650px;">
 				<h1 style="text-align:center;">You have already submitted an application</h1>
 				<br/>

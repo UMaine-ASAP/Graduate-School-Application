@@ -1,0 +1,17 @@
+{% extends 'basic_layout.twig' %}
+
+{% block title %}{{TITLE}}{% endblock %}
+
+{% block content %}
+	<h1 style="text-align:center;">{{APPLICATION_RESULT_MESSAGE}}
+	<br/>
+	<br/>
+	<a href="{{GRADHOMEPAGE}}">Click here to return to the Graduate School homepage</a></h1>
+	<br/>
+	<br/>
+	<p style="text-align:center;">If you wish to apply again, please contact the University of Maine Graduate School 
+	<br/> at (207) 581-3291 or email <a href="mailto:graduate@maine.edu">graduate@maine.edu</a>
+	</p>
+	<br/>
+	<p style='text-align:center;'>{{ADDITIONAL_MESSAGE}}</p>
+{% endblock %}

@@ -29,11 +29,10 @@ The **Graduate School Application** is the prospective student online applicatio
 	- **controllers/** 				Object classes for controlling applicant and application data access
 	- **images/** 					Images for the website
 	- **libs/** 					External and developed libraries in the system
-		- **js/** 						All javascript libraries
-
+	- **js/** 					All javascript libraries
 	- **models/** 					All data-specific scripts used in other locations
 	- **pages/** 					Web pages
-	- **scripts/** 					Various system scripts to perform actions and get data
+	- **scripts/** 				Various system scripts to perform actions and get data
 	- **styles/**					CSS styles for the site
 	- **templates/** 				Templates for forms and pages
 	- **app_manager.php** 			Runs all general application pages (form pages)
@@ -48,11 +47,11 @@ The **Graduate School Application** is the prospective student online applicatio
 	- **app_cleanup.php** 	Script run by cron.php to delete applications older than 6 months (currently not used and needs work)
 
 
-- **tests/**			Unit tests and initial database setup script
+- **tests/**			Unit tests, migration from v1.0, and initial database setup script
 
 - **robots.txt** 		Exclude directories for search engines
 
-- **README.md**			This readme file
+- **README.md**		This readme file
 
 
 ## Notes
