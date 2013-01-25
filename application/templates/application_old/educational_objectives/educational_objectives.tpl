@@ -21,8 +21,8 @@
 		<legend>Assistantship Request</legend>
 		<label for="desire_assistantship">
 			<p class="title">Do you wish to apply for an assistantship?</p>
-			<label for="desire_assistantship_yes"><input type="radio" id="desire_assistantship_yes" name="desire_assistantship" value="1"  onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-			<label for="desire_assistantship_no"><input type="radio" id="desire_assistantship_no" name="desire_assistantship" value="0"  onclick="visibility(this.name+'_section','none')" onchange="saveCheckValue(event,{{USER}});" checked/> No</label>
+			<label for="desire_assistantship_yes"><input type="radio" id="desire_assistantship_yes" name="desire_assistantship" value="1"  onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event);" /> Yes</label>
+			<label for="desire_assistantship_no"><input type="radio" id="desire_assistantship_no" name="desire_assistantship" value="0"  onclick="visibility(this.name+'_section','none')" onchange="saveCheckValue(event);" checked/> No</label>
 			</label>
 		<script type="text/javascript">checkInitValue('desire_assistantship_yes',"{{DESIRE_ASSISTANTSHIP}}");</script>
 		<script type="text/javascript">checkInitValue('desire_assistantship_no',"{{DESIRE_ASSISTANTSHIP}}");</script>
@@ -59,7 +59,7 @@
 		<label for="apply_nebhe">
 			<p class="title">Do you intend to apply for certification of eligibility under the New England Regional Student Program?</p>	
 			<label for="apply_nebhe_yes"><input type="radio" id="apply_nebhe_yes" name="apply_nebhe" value="1" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-			<label for="apply_nebhe_no"><input type="radio" id="apply_nebhe_no" name="apply_nebhe" value="0" onchange="saveCheckValue(event,{{USER}});" checked/> No</label>
+			<label for="apply_nebhe_no"><input type="radio" id="apply_nebhe_no" name="apply_nebhe" value="0" onchange="saveCheckValue(event);" checked/> No</label>
 		</label>
 		<script type="text/javascript">checkInitValue('apply_nebhe_yes',"{{APPLY_NEBHE}}");</script>
 		<script type="text/javascript">checkInitValue('apply_nebhe_no',"{{APPLY_NEBHE}}");</script>
@@ -78,8 +78,8 @@
 		<div>
 			<label for="um_correspond">
 				<p class="title">Have you spoken to or corresponded with any member of the University of Maine faculty regarding your application?</p>
-				<label for="um_correspond_yes"><input type="radio" id="um_correspond_yes" name="um_correspond" value="1"  onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-				<label for="um_correspond_no"><input type="radio" id="um_correspond_no" name="um_correspond" value="0"  onclick="visibility(this.name+'_section','none')" onchange="saveCheckValue(event,{{USER}});" checked/> No</label>
+				<label for="um_correspond_yes"><input type="radio" id="um_correspond_yes" name="um_correspond" value="1"  onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event);" /> Yes</label>
+				<label for="um_correspond_no"><input type="radio" id="um_correspond_no" name="um_correspond" value="0"  onclick="visibility(this.name+'_section','none')" onchange="saveCheckValue(event);" checked/> No</label>
 			</label>
 			<script type="text/javascript">checkInitValue('um_correspond_yes',"{{UM_CORRESPOND}}");</script>
 			<script type="text/javascript">checkInitValue('um_correspond_no',"{{UM_CORRESPOND}}");</script>
@@ -89,7 +89,7 @@
 			<div class="hidden" id="um_correspond_section">
 				<label for="um_correspond_details">
 					<p class="title">If so, please provide a name or names</p>
-					<input type="text" size="55" maxlength="55" id="um_correspond_details" name="um_correspond_details" value="{{UM_CORRESPOND_DETAILS}}" onblur="saveValue(event,{{USER}});" />
+					<input type="text" size="55" maxlength="55" id="um_correspond_details" name="um_correspond_details" value="{{UM_CORRESPOND_DETAILS}}" onblur="saveValue(event);" />
 				</label>	
 			</div>
 			<script type="text/javascript">showOrNot('um_correspond_section',"{{UM_CORRESPOND}}");</script>

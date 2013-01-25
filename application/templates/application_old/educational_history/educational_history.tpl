@@ -10,51 +10,51 @@
 
 	<label for="prev_um_app">
 		<p class="required title">Have you previously applied to the University of Maine? *</p>
-		<label for="prev_um_app_yes"><input type="radio" id="prev_um_app_yes" name="prev_um_app" value="1" class="prev_um_app" onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-		<label for="prev_um_app_no"><input type="radio" id="prev_um_app_no" name="prev_um_app" value="0" class="prev_um_app" onclick="visibility(this.name+'_section','none')" onchange="saveCheckValue(event,{{USER}});" checked/> No</label>
+		<label for="prev_um_app_yes"><input type="radio" id="prev_um_app_yes" name="prev_um_app" value="1" class="prev_um_app" onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event);" /> Yes</label>
+		<label for="prev_um_app_no"><input type="radio" id="prev_um_app_no" name="prev_um_app" value="0" class="prev_um_app" onclick="visibility(this.name+'_section','none')" onchange="saveCheckValue(event);" checked/> No</label>
 	</label>
-	<script type="text/javascript">checkInitValue('prev_um_app_yes',"{{PREV_UM_APP}}");</script>
-	<script type="text/javascript">checkInitValue('prev_um_app_no',"{{PREV_UM_APP}}");</script>
+	<script type="text/javascript">checkInitValue('prev_um_app_yes',"{{application.personal.prevUMGradApp_exists}}");</script>
+	<script type="text/javascript">checkInitValue('prev_um_app_no',"{{application.personal.prevUMGradApp_exists}}");</script>
 
 	<div style="clear:both;"></div>
 
 	<div class="hidden" id="prev_um_app_section">
 		<label for="prev_um_grad_app">
 			<p class="title">For a graduate program?</p>
-			<label for="prev_um_grad_app_yes"><input type="radio" id="prev_um_grad_app_yes" name="prev_um_grad_app" value="1" onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-			<label for="prev_um_grad_app_no"><input type="radio" id="prev_um_grad_app_no" name="prev_um_grad_app" value="" onclick="visibility(this.name+'_section','none')" onchange="saveCheckValue(event,{{USER}});" checked/> No</label>
+			<label for="prev_um_grad_app_yes"><input type="radio" id="prev_um_grad_app_yes" name="application.personal.prevUMGradApp_exists" value="1" onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event);" /> Yes</label>
+			<label for="prev_um_grad_app_no"><input type="radio" id="prev_um_grad_app_no" name="application.personal.prevUMGradApp_exists" value="" onclick="visibility(this.name+'_section','none')" onchange="saveCheckValue(event);" checked/> No</label>
 		</label>
-		<script type="text/javascript">checkInitValue('prev_um_grad_app_yes',"{{PREV_UM_GRAD_APP}}");</script>
-		<script type="text/javascript">checkInitValue('prev_um_grad_app_no',"{{PREV_UM_GRAD_APP}}");</script>
+		<script type="text/javascript">checkInitValue('prev_um_grad_app_yes',"{{application.personal.prevUMGradApp_exists}}");</script>
+		<script type="text/javascript">checkInitValue('prev_um_grad_app_no',"{{application.personal.prevUMGradApp_exists}}");</script>
 
 		<div style="clear:both"></div>
 
 		<div class="hidden" id="prev_um_grad_app_section">
 			<label for="prev_um_grad_app_date">
 				<p class="title">When did you apply?</p>
-				<input type="text" size="14" maxlength="7" id="prev_um_grad_app_date" name="prev_um_grad_app_date" value="{{PREV_UM_GRAD_APP_DATE}}" onblur="saveValue(event,{{USER}});" />
+				<input type="text" size="14" maxlength="7" id="prev_um_grad_app_date" name="application.personal.prevUMGradApp_date" value="{{application.personal.prevUMGradApp_date}}" onblur="saveValue(event);" />
 				<p class="help">mm/yyyy</p>
 			</label>
 
 			<label for="prev_um_grad_app_dept">
 				<p class="title">To which department?</p>
-				<select id="prev_um_grad_app_dept" name="prev_um_grad_app_dept" value="{{PREV_UM_GRAD_APP_DEPT}}" onchange="saveValue(event,{{USER}});">
+				<select id="prev_um_grad_app_dept" name="application.personal.prevUMGradApp_dept" value="{{application.personal.prevUMGradApp_dept}}" onchange="saveValue(event);">
 					<option value="">- None -</option>
-					<script type="text/javascript">drawDeptMenu('prev_um_grad_app_dept',{{USER}},null,null,"{{PREV_UM_GRAD_APP_DEPT}}");</script>
+					<script type="text/javascript">drawDeptMenu('prev_um_grad_app_dept',null,null,"{{application.personal.prevUMGradApp_dept}}");</script>
 				</select>
 			</label>
-			<!--<script type="text/javascript">dynamicInitSelectValue('prev_um_grad_app_dept',"{{PREV_UM_GRAD_APP_DEPT}}");</script>-->
+			<!--<script type="text/javascript">dynamicInitSelectValue('prev_um_grad_app_dept',"{{application.personal.prevUMGradApp_dept}}");</script>-->
 
 			<div style="clear:both"></div>
 
 			<label for="prev_um_grad_degree">
 				<p class="title">Degree awarded</p>
-				<input type="text" size="31" maxlength="30" id="prev_um_grad_degree" name="prev_um_grad_degree" value="{{PREV_UM_GRAD_DEGREE}}" onblur="saveValue(event,{{USER}});" />
+				<input type="text" size="31" maxlength="30" id="prev_um_grad_degree" name="application.personal.prevUMGradApp_degree" value="{{application.personal.prevUMGradApp_degree}}" onblur="saveValue(event);" />
 			</label>
 	
 			<label for="prev_um_grad_degree_date">
 				<p class="title">Date awarded</p>
-				<input type="text" size="14" maxlength="7" id="prev_um_grad_degree_date" name="prev_um_grad_degree_date" value="{{PREV_UM_GRAD_DEGREE_DATE}}" onblur="saveValue(event,{{USER}});" />
+				<input type="text" size="14" maxlength="7" id="prev_um_grad_degree_date" name="application.personal.prevUMGradApp_date" value="{{application.personal.prevUMGradApp_date}}" onblur="saveValue(event);" />
 				<div class="help">mm/yyyy</div>
 			</label>
 
@@ -62,26 +62,26 @@
 
 			<label for="prev_um_grad_withdraw"  width="2000">
 				<p class="title">Did you withdraw?</p>
-				<label for="prev_um_grad_withdraw_yes"><input type="radio" id="prev_um_grad_withdraw_yes" name="prev_um_grad_withdraw" value="1" onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-				<label for="prev_um_grad_withdraw_no"><input type="radio" id="prev_um_grad_withdraw_no" name="prev_um_grad_withdraw" value="0" onclick="visibility(this.name+'_section','none')"onchange="saveCheckValue(event,{{USER}});" checked /> No</label>
+				<label for="prev_um_grad_withdraw_yes"><input type="radio" id="prev_um_grad_withdraw_yes" name="application.personal.prevUMGradWithdraw_exists" value="1" onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event);" /> Yes</label>
+				<label for="prev_um_grad_withdraw_no"><input type="radio" id="prev_um_grad_withdraw_no" name="application.personal.prevUMGradWithdraw_exists" value="0" onclick="visibility(this.name+'_section','none')"onchange="saveCheckValue(event);" checked /> No</label>
 			</label>
-			<script type="text/javascript">checkInitValue('prev_um_grad_withdraw_yes',"{{PREV_UM_GRAD_WITHDRAW}}");</script>
-			<script type="text/javascript">checkInitValue('prev_um_grad_withdraw_no',"{{PREV_UM_GRAD_WITHDRAW}}");</script>
+			<script type="text/javascript">checkInitValue('prev_um_grad_withdraw_yes',"{{application.personal.prevUMGradWithdraw_exists}}");</script>
+			<script type="text/javascript">checkInitValue('prev_um_grad_withdraw_no',"{{application.personal.prevUMGradWithdraw_exists}}");</script>
 	
 			<div style="clear:both;"></div>
 
 			<div class="hidden" id="prev_um_grad_withdraw_section">
 				<label for="prev_um_grad_withdraw_date">
 					<p class="title">Date withdrawn</p>
-					<input type="text" size="14" maxlength="7" id="prev_um_grad_withdraw_date" name="prev_um_grad_withdraw_date" value="{{PREV_UM_GRAD_WITHDRAW_DATE}}" onblur="saveValue(event,{{USER}});" />
+					<input type="text" size="14" maxlength="7" id="prev_um_grad_withdraw_date" name="application.personal.prevUMGradWithdraw_date" value="{{application.personal.prevUMGradWithdraw_date}}" onblur="saveValue(even);" />
 					<div class="help">mm/yyyy</div>
 				</label>
 			</div>
-			<script type="text/javascript">showOrNot('prev_um_grad_withdraw_section',{{PREV_UM_GRAD_WITHDRAW}});</script>
+			<script type="text/javascript">showOrNot('prev_um_grad_withdraw_section',{{application.personal.prevUMGradWithdraw_exists}});</script>
 		</div>
-		<script type="text/javascript">showOrNot('prev_um_grad_app_section',{{PREV_UM_GRAD_APP}});</script>
+		<script type="text/javascript">showOrNot('prev_um_grad_app_section',{{application.personal.prevUMGradApp_exists}});</script>
 	</div>
-	<script type="text/javascript">showOrNot('prev_um_app_section',{{PREV_UM_APP}});</script>
+	<script type="text/javascript">showOrNot('prev_um_app_section',{{application.personal.prevUMGradApp_exists}});</script>
 
 	<div style="clear:both"></div>
 </fieldset><!-- end fieldset "previous_app" -->
@@ -113,13 +113,13 @@
 
 	<label for="undergrad_gpa">
 		<p class="title">Cumulative undergraduate grade point average</p>
-		<input type="text" size="4" maxlength="4" id="undergrad_gpa" name="undergrad_gpa" value="{{UNDERGRAD_GPA}}" onblur="saveValue(event,{{USER}});" />
+		<input type="text" size="4" maxlength="4" id="undergrad_gpa" name="application.personal.undergradGPA" value="{{application.personal.undergradGPA}}" onblur="saveValue(event);" />
 		<p class="help">If possible, please indicate your cumulative GPA on a 4.0 scale (A=4.0).</p>
 	</label>
 
 	<label for="postbacc_gpa">
 		<p class="title">Cumulative post-baccalaureate grade point average</p>
-		<input type="text" size="4" maxlength="4" id="postbacc_gpa" name="postbacc_gpa" value="{{POSTBACC_GPA}}" onblur="saveValue(event,{{USER}});" />
+		<input type="text" size="4" maxlength="4" id="postbacc_gpa" name="application.personal.postbaccGPA" value="{{application.personal.postbaccGPA}}" onblur="saveValue(event);" />
 		<p class="help">If possible, please indicate your cumulative GPA on a 4.0 scale (A=4.0).</p>
 	</label>
 
@@ -127,7 +127,7 @@
 
 	<label for="preenroll_courses">
 		<p class="title">List, by title, all course work you expect to take or courses you expect to take before enrolling at UM. <b>Please have a supplementary transcript sent to the Graduate School when grades are available.</b></p>
-		<textarea cols="60" rows="5" id="preenroll_courses" name="preenroll_courses" value="" onblur="saveValue(event,{{USER}});">{{PREENROLL_COURSES}}</textarea>
+		<textarea cols="60" rows="5" id="preenroll_courses" name="application.personal.preenroll_courses" value="" onblur="saveValue(event);">{{application.personal.preenroll_courses}}</textarea>
 	</label>
 
 	<div style="clear:both"></div>
@@ -142,8 +142,8 @@
 	<label for="disciplinary_violation">
 		<p class="required title">Have you ever been found responsible for a disciplinary violation at a post-secondary educational institution you have attended (or the international equivalent) whether related to academic misconduct or behavioral misconduct, that resulted in your suspension, removal, dismissal or expulsion from the institution? *
 </p>
-		<label for="disciplinary_violation_yes"><input type="radio" id="disciplinary_violation_yes" name="disciplinary_violation" value="1" onclick="visibility(this.name+'_section','block')" class="disciplinary_violation" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-		<label for="disciplinary_violation_no"><input type="radio" id="disciplinary_violation_no" name="disciplinary_violation" value="0" onclick="visibility(this.name+'_section','none')" class="disciplinary_violation" onchange="saveCheckValue(event,{{USER}});" checked /> No</label>
+		<label for="disciplinary_violation_yes"><input type="radio" id="disciplinary_violation_yes" name="disciplinary_violation" value="1" onclick="visibility(this.name+'_section','block')" class="disciplinary_violation" onchange="saveCheckValue(event);" /> Yes</label>
+		<label for="disciplinary_violation_no"><input type="radio" id="disciplinary_violation_no" name="disciplinary_violation" value="0" onclick="visibility(this.name+'_section','none')" class="disciplinary_violation" onchange="saveCheckValue(event);" checked /> No</label>
 	</label>
 	<script type="text/javascript">checkInitValue('disciplinary_violation_yes',"{{DISCIPLINARY_VIOLATION}}");</script>
 	<script type="text/javascript">checkInitValue('disciplinary_violation_no',"{{DISCIPLINARY_VIOLATION}}");</script>
@@ -171,8 +171,8 @@
 
 	<label for="criminal_violation">
 		<p class="required title">Have you ever been convicted of a misdemeanor, felony or other crime, or adjudicated of committing a juvenile crime? *</p>
-		<label for="criminal_violation_yes"><input type="radio" id="criminal_violation_yes" name="criminal_violation" value="1" onchange="saveCheckValue(event,{{USER}});" onclick="visibility(this.name+'_section','block')" /> Yes</label>
-		<label for="criminal_violation_no"><input type="radio" id="criminal_violation_no" name="criminal_violation" value="0" onchange="saveCheckValue(event,{{USER}});" onclick="visibility(this.name+'_section','none')" checked/> No</label>
+		<label for="criminal_violation_yes"><input type="radio" id="criminal_violation_yes" name="criminal_violation" value="1" onchange="saveCheckValue(event);" onclick="visibility(this.name+'_section','block')" /> Yes</label>
+		<label for="criminal_violation_no"><input type="radio" id="criminal_violation_no" name="criminal_violation" value="0" onchange="saveCheckValue(event);" onclick="visibility(this.name+'_section','none')" checked/> No</label>
 	</label>
 	<script type="text/javascript">checkInitValue('criminal_violation_yes',"{{CRIMINAL_VIOLATION}}");</script>
 	<script type="text/javascript">checkInitValue('criminal_violation_no',"{{CRIMINAL_VIOLATION}}");</script>
@@ -206,8 +206,8 @@
 
 		<label for="gre_taken">
 			<p class="title">Have you taken or plan to take the GRE?</p>
-			<label for="gre_taken_yes"><input type="radio" id="gre_taken_yes" name="gre_taken" value="1" onchange="saveCheckValue(event,{{USER}});" onclick="visibility(this.name+'_section','block')" /> Yes</label>
-			<label for="gre_taken_no"><input type="radio" id="gre_taken_no" name="gre_taken" value="0" checked onchange="saveCheckValue(event,{{USER}});" onclick="visibility(this.name+'_section','none')" /> No</label>
+			<label for="gre_taken_yes"><input type="radio" id="gre_taken_yes" name="gre_taken" value="1" onchange="saveCheckValue(event);" onclick="visibility(this.name+'_section','block')" /> Yes</label>
+			<label for="gre_taken_no"><input type="radio" id="gre_taken_no" name="gre_taken" value="0" checked onchange="saveCheckValue(event);" onclick="visibility(this.name+'_section','none')" /> No</label>
 		</label>
 		<script type="text/javascript">checkInitValue('gre_taken_yes',"{{GRE_TAKEN}}");</script>
 		<script type="text/javascript">checkInitValue('gre_taken_no',"{{GRE_TAKEN}}");</script>
@@ -237,53 +237,53 @@
 		<label for="gmat_taken">
 			<p class="title">Have you taken or plan to take the GMAT?</p>
 			<label for="gmat_taken_yes"><input type="radio" id="gmat_taken_yes" name="gmat_taken" value="1" onchange="saveCheckValue(event,{{USER}});" onclick="visibility(this.name+'_section','block')" /> Yes</label>
-			<label for="gmat_taken_no"><input type="radio" id="gmat_taken_no" name="gmat_taken" value="0" checked onchange="saveCheckValue(event,{{USER}});" onclick="visibility(this.name+'_section','none')" /> No</label>
+			<label for="gmat_taken_no"><input type="radio" id="gmat_taken_no" name="gmat_taken" value="0" checked onchange="saveCheckValue(event);" onclick="visibility(this.name+'_section','none')" /> No</label>
 		</label>
-		<script type="text/javascript">checkInitValue('gmat_taken_yes',"{{GMAT_TAKEN}}");</script>
-		<script type="text/javascript">checkInitValue('gmat_taken_no',"{{GMAT_TAKEN}}");</script>
+		<script type="text/javascript">checkInitValue('gmat_taken_yes',"{{application.personal.gmat_hasTaken}}");</script>
+		<script type="text/javascript">checkInitValue('gmat_taken_no',"{{application.personal.gmat_hasTaken}}");</script>
 
 		<div style="clear:both;"></div>
 
 		<div class="hidden" id="gmat_taken_section">
 			<label for="gmat_date">
 				<p class="title">Date of Exam</p>
-				<input type="text" size="14" maxlength="7" id="gmat_date" name="gmat_date" value="{{GMAT_DATE}}" onblur="saveValue(event,{{USER}});" /
+				<input type="text" size="14" maxlength="7" id="gmat_date" name="application.personal.gmat_date" value="{{application.personal.gmat_date}}" onblur="saveValue(event);" /
 				<p class="help">mm/yyyy</p>
 			</label>
 
 			<label for="gmat_verbal">
 				<p>Verbal</p>
-				<input type="text" size="2" maxlength="2" id="gmat_verbal" name="gmat_verbal" value="{{GMAT_VERBAL}}" class="gmat_verbal" onblur="saveValue(event,{{USER}});" />
+				<input type="text" size="2" maxlength="2" id="gmat_verbal" name="application.personal.gmat_verbal" value="{{application.personal.gmat_verbal}}" class="gmat_verbal" onblur="saveValue(event);" />
 			</label>
 
 			<label for="gmat_quantitative">
 				<p class="title">Quantitative</p>
-				<input type="text" size="2" maxlength="2" id="gmat_quantitative" name="gmat_quantitative" value="{{GMAT_QUANTITATIVE}}" class="gmat_quantitative" onblur="saveValue(event,{{USER}});" />
+				<input type="text" size="2" maxlength="2" id="gmat_quantitative" name="application.personal.gmat_quantitative" value="{{application.personal.gmat_quantitative}}" class="gmat_quantitative" onblur="saveValue(event,{{USER}});" />
 			</label>
 
 			<label for="gmat_analytical">
 				<p class="title">Analytical</p>
-				<input type="text" size="3" maxlength="3" id="gmat_analytical" name="gmat_analytical" value="{{GMAT_ANALYTICAL}}" class="gmat_analytical" onblur="saveValue(event,{{USER}});" />
+				<input type="text" size="3" maxlength="3" id="gmat_analytical" name="application.personal.gmat_analytical" value="{{application.personal.gmat_analytical}}" class="gmat_analytical" onblur="saveValue(event);" />
 			</label>
 
 			<label for="gmat_score">
 				<p class="title">Total Score</p>
-				<input type="text" size="3" maxlength="3" id="gmat_score" name="gmat_score" value="{{GMAT_SCORE}}" class="gmat_score" onblur="saveValue(event,{{USER}});" />
+				<input type="text" size="3" maxlength="3" id="gmat_score" name="application.personal.gmat_score" value="{{application.personal.gmat_score}}" class="gmat_score" onblur="saveValue(event);" />
 			</label>
 
 			<div style="clear:both;"></div>
 
 			<label for="gmat_reported">
 				<p class="title">Has this score been reported to the University of Maine?</p>
-				<label for="gmat_reported_yes"><input type="radio" id="gmat_reported_yes" name="gmat_reported" value="1" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-				<label for="gmat_reported_no"><input type="radio" id="gmat_reported_no" name="gmat_reported" value="0"checked onchange="saveCheckValue(event,{{USER}});" /> No</label>
+				<label for="gmat_reported_yes"><input type="radio" id="gmat_reported_yes" name="application.personal.gmat_hasReported" value="1" onchange="saveCheckValue(event);" /> Yes</label>
+				<label for="gmat_reported_no"><input type="radio" id="gmat_reported_no" name="application.personal.gmat_hasReported" value="0"checked onchange="saveCheckValue(event);" /> No</label>
 			</label>
-			<script type="text/javascript">checkInitValue('gmat_reported_yes',"{{GMAT_REPORTED}}");</script>
-			<script type="text/javascript">checkInitValue('gmat_reported_no',"{{GMAT_REPORTED}}");</script>
+			<script type="text/javascript">checkInitValue('gmat_reported_yes',"{{application.personal.gmat_hasReported}}");</script>
+			<script type="text/javascript">checkInitValue('gmat_reported_no',"{{application.personal.gmat_hasReported}}");</script>
 
 			<div style="clear:both"></div>
 		</div>
-		<script type="text/javascript">showOrNot('gmat_taken_section',{{GMAT_TAKEN}});</script>
+		<script type="text/javascript">showOrNot('gmat_taken_section',{{application.personal.gmat_hasTaken}});</script>
 
 		<div style="clear:both"></div>
 	</fieldset><!-- end fieldset "gmat" -->
@@ -295,39 +295,39 @@
 
 		<label for="mat_taken">
 			<p class="title">Have you taken or plan to take the MAT?</p>
-			<label for="mat_taken_yes"><input type="radio" id="mat_taken_yes" name="mat_taken" value="1" onchange="saveCheckValue(event,{{USER}});" onclick="visibility(this.name+'_section','block')" />Yes </label>
-			<label for="mat_taken_no"><input type="radio" id="mat_taken_no" name="mat_taken" value="0" checked onchange="saveCheckValue(event,{{USER}});" onclick="visibility(this.name+'_section','none')" /> No</label>
+			<label for="mat_taken_yes"><input type="radio" id="mat_taken_yes" name="application.personal.mat_hasTaken" value="1" onchange="saveCheckValue(event);" onclick="visibility(this.name+'_section','block')" />Yes </label>
+			<label for="mat_taken_no"><input type="radio" id="mat_taken_no" name="application.personal.mat_hasTaken" value="0" checked onchange="saveCheckValue(event);" onclick="visibility(this.name+'_section','none')" /> No</label>
 		</label>
-		<script type="text/javascript">checkInitValue('mat_taken_yes',"{{MAT_TAKEN}}");</script>
-		<script type="text/javascript">checkInitValue('mat_taken_no',"{{MAT_TAKEN}}");</script>
+		<script type="text/javascript">checkInitValue('mat_taken_yes',"{{application.personal.mat_hasTaken}}");</script>
+		<script type="text/javascript">checkInitValue('mat_taken_no',"{{application.personal.mat_hasTaken}}");</script>
 
 		<div style="clear:both;"></div>
 
 		<div class="hidden" id="mat_taken_section">
 			<label for="mat_date">
 				<p class="title">Date of Exam</p>
-				<input type="text" size="14" maxlength="7" id="mat_date" name="mat_date" value="{{MAT_DATE}}" onblur="saveValue(event,{{USER}});" />
+				<input type="text" size="14" maxlength="7" id="mat_date" name="application.personal.mat_date" value="{{application.personal.mat_date}}" onblur="saveValue(event);" />
 				<div class="help">mm/yyyy</div>
 			</label>
 
 			<label for="mat_score">
 				<p class="title">MAT Score</p>
-				<input type="text" size="3" maxlength="3" id="mat_score" name="mat_score" value="{{MAT_SCORE}}" class="mat_score" onblur="saveValue(event,{{USER}});" />
+				<input type="text" size="3" maxlength="3" id="mat_score" name="application.personal.mat_score" value="{{application.personal.mat_score}}" class="mat_score" onblur="saveValue(event);" />
 			</label>
 
 			<div style="clear:both;"></div>
 
 			<label for="mat_reported">
 				<p class="title">Has this score been reported to the University of Maine?</p>
-				<label for="mat_reported_yes"><input type="radio" id="mat_reported_yes" name="mat_reported" value="1" onchange="saveCheckValue(event,{{USER}});" /> Yes</label>
-				<label for="mat_reported_no"><input type="radio" id="mat_reported_no" name="mat_reported" value="0"checked onchange="saveCheckValue(event,{{USER}});" /> No</label>
+				<label for="mat_reported_yes"><input type="radio" id="mat_reported_yes" name="application.personal.mat_hasReported" value="1" onchange="saveCheckValue(event);" /> Yes</label>
+				<label for="mat_reported_no"><input type="radio" id="mat_reported_no" name="application.personal.mat_hasReported" value="0"checked onchange="saveCheckValue(event);" /> No</label>
 			</label>
-			<script type="text/javascript">checkInitValue('mat_reported_yes',"{{MAT_REPORTED}}");</script>
-			<script type="text/javascript">checkInitValue('mat_reported_no',"{{MAT_REPORTED}}");</script>
+			<script type="text/javascript">checkInitValue('mat_reported_yes',"{{application.personal.mat_hasReported}}");</script>
+			<script type="text/javascript">checkInitValue('mat_reported_no',"{{application.personal.mat_hasReported}}");</script>
 
 			<div style="clear:both"></div>
 		</div>
-		<script type="text/javascript">showOrNot('mat_taken_section',{{MAT_TAKEN}});</script>
+		<script type="text/javascript">showOrNot('mat_taken_section',{{application.personal.mat_hasTaken}});</script>
 
 		<div style="clear:both;"></div>
 	</fieldset><!-- end fieldset "mat" -->
@@ -342,18 +342,18 @@
 
 	<label for="present_occupation">
 		<p class="title">Present Occupation</p>
-		<input type="text" size="30" maxlength="30" id="present_occupation" name="present_occupation" value="{{PRESENT_OCCUPATION}}" onblur="saveValue(event,{{USER}});" />
+		<input type="text" size="30" maxlength="30" id="present_occupation" name="application.personal.presentOccupation" value="{{application.personal.presentOccupation}}" onblur="saveValue(event);" />
 	</label>
 
 	<label for="employment_history">
 		<p class="title"><b>Employment/Extra-Curricular Activities</b><br />List any employment or other activities related to your proposed program of study. If you have taught, name subjects. List published articles or books, research completed or in progress, or any other creative work.</p>
-		<textarea cols="60" rows="5" id="employment_history" name="employment_history" value="" onblur="saveValue(event,{{USER}});">{{EMPLOYMENT_HISTORY}}</textarea>
+		<textarea cols="60" rows="5" id="employment_history" name="application.personal.employmentHistory" value="" onblur="saveValue(event);">{{application.personal.employmentHistory}}</textarea>
 	</label>
 
 	<label for="academic_honors">
 		<p class="title"><b>Honors/Scholarships</b><br />
 		List any honors, prizes or scholarships previously awarded to you on the basis of academic achievement, or any honor societies to which you have been elected.</p>
-		<textarea cols="60" rows="5" id="academic_honors" name="academic_honors" value="" onblur="saveValue(event,{{USER}});">{{ACADEMIC_HONORS}}</textarea>
+		<textarea cols="60" rows="5" id="academic_honors" name="application.personal.academicHonors" value="" onblur="saveValue(event);">{{application.personal.academicHonors}}</textarea>
 	</label>
 
 	<div style="clear:both;"></div>
