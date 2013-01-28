@@ -68,7 +68,7 @@ class Reference extends Entity
 class Personal extends Entity
 {
 	protected $tableName = 'APPLICATION_Primary';
-	protected $columnId  = '';
+	protected $columnId  = 'applicationId';
 }
 
 
@@ -79,7 +79,6 @@ class Application extends Entity
 	protected $columnId  = 'applicant_id';
 
 
-	public $applicationId;
 	public $applicantId;
 
 	public $applicant; // @TODO: set
@@ -146,6 +145,8 @@ class Application extends Entity
 		 }
 		return parent::__get($name);
 	}
+
+
 
 	/**
 	 * Class Constructor

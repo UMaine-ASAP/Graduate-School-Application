@@ -260,8 +260,10 @@ class Database
 	}
 
 
-	function iquery(/*$query, [[, $args [, $... ]]*/)
+	public static function iquery(/*$query, [[, $args [, $... ]]*/)
 	{
+		self::createConnection();
+		
 		$args = func_get_args();
 		$query = array_shift($args);
 
@@ -313,7 +315,7 @@ class Database
 			$args = func_get_args();
 			$query = array_shift($args);
 			if($args)
-	  			$query = vsprintf($query, $this->escapeArgs($args));
+	  			$query = vsprintf($query, self::escapeArgs($args));
 
 			if(($result = self::$database_link->query($query)) instanceof MySQLi_Result)
 			 	$result->close();

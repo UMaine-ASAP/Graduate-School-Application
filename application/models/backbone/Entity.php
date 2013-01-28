@@ -14,10 +14,24 @@ class Entity
 {
 	protected $entityName; 	// store the name of the entity
 	protected $tableName;
-	protected $columnId;	
+	protected $columnId;
+
+	protected $values;
+	protected $is_dirty;
+
+	private $whereClause;
+	private $whereReplacements;
+
+
 
 	function Entity($name = '')
 	{
+		$this->is_dirty = array();
+		$this->values = array();
+
+		$this->whereClause = '%s = %s';
+		$this->whereReplacements = array('1', '1');	
+
 		if ($name == '') {
 			$this->entityName = get_class($this);
 		} else {
@@ -30,10 +44,6 @@ class Entity
 		return forward_static_call_array(array($this->entityName.'DBAccess', "$function"), $arguments);
 	}
 
-	public function save()
-	{
-		return callFunctionOnDB('save', $this);
-	}
 
 	public function delete()
 	{
@@ -50,50 +60,89 @@ class Entity
 	 * 
 	 * @return 	null
 	 */		
-	protected function loadData($data)
+	public function loadData($data)
 	{
 		foreach($data as $key=>$value)
 		{
-			if ( ! (isset($this->$key) || property_exists($this, $key) ) )
-			{
-				throw new Exception("ENTITY ERROR: Property $key in " . get_class($this) . ' does not exist!');
-			}
-			$this->{$key} = $value;
+			$this->setValue($key, $value);
 		}
+		return $this;
+	}
+
+	// Set value without making dirty
+	private function setValue($key, $value) 
+	{
+
+		$this->values[$key] = "$value";
 	}
 
 	public static function factory($entityName)
 	{
-		return new EntityTemplate($entityName);
+		return new Entity($entityName);
 	}
 
-	public function query($query, $whereValues)
+	public function query($query, $args)
 	{
-		return Database::getFirst($query, $this->tableName, $whereValues[0], $whereValues[1]);
-	}
-}
-
-class EntityTemplate
-{
-	private $entityName;
-	private $whereClause;
-	private $whereReplacements;
-
-	function EntityTemplate($name)
-	{
-		$this->entityName = $name;
-		$this->whereClause = '%s = %s';
-		$this->whereReplacements = array('1', '1');		
+		// Add tablename to query
+		$args = array_merge( array($query, $this->tableName), $args);
+		return call_user_func_array( array('Database', 'getFirst'), $args);		
 	}
 
-	public function createFromDatabase($row)
+	public function __get($name)
 	{
-		foreach($row as $column=>$value) 
+
+		if( isset($this->values[$name]) )
 		{
-			$this->$column = $value;
+			return $this->values[$name];
 		}
-		return $this;
 	}
+
+	public function __set($key, $value)
+	{	
+
+		if( isset($this->values[$key]) )
+		{
+			$this->is_dirty[] = $key;
+			$this->values[$key] = $value;
+		} else {
+			//throw new Exception("Key $key does not exist");
+		}
+	}
+
+
+	public function save()
+	{
+		$query = "UPDATE %s SET ";
+
+		$is_first = true; 
+		foreach($this->is_dirty as $dirty_column) {
+			if($is_first) 
+			{
+				$is_first = false;
+			} else {
+				$query .= ",";
+			}
+			$query .= " `%s`='%s'";
+		}
+
+		$query .= " WHERE `%s` = %d";
+
+		// Set args
+		$args = array($query, $this->tableName);
+
+		foreach($this->is_dirty as $dirty_column) {
+			$args[] = $dirty_column;
+			$args[] = $this->values[$dirty_column];
+		}
+
+		// set where clause
+		$args[] = $this->columnId;
+		$args[] = $this->values['id'];
+
+		$result = call_user_func_array( array('Database', 'iquery'), $args);
+	}
+
+
 
 	public function whereEqual($fieldName, $value)
 	{
@@ -112,8 +161,17 @@ class EntityTemplate
 		{
 			return null;
 		} else {
-			$this->createFromDatabase($result);
-			return $this;			
+
+			// find the unique identifier
+			if( isset($result[$entity->columnId]) )
+			{
+				$entity->setValue('id', $result[$entity->columnId]);
+			} else {
+				throw new Exception("ID not found when loading.");
+			}
+			$entity->loadData($result);
+
+			return $entity;
 		}
 	}	
 }

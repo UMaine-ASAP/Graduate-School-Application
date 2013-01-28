@@ -19,6 +19,7 @@ require_once 'models/errorTracker.php';
 
 // Libraries
 require_once 'libs/email.php';
+require_once 'libs/inputSanitation.php';
 
 require_once 'libs/Slim/Slim.php';
 Slim\Slim::registerAutoloader();
@@ -395,20 +396,46 @@ $app->get('/no-javascript', function() {
  * 
  * Save a field from the application
  */
-$app->post('/saveData', $authenticated, $applicaitonNotSubmitted, function() use ($app) {
+$app->post('/saveData', function() use ($app) {
+
+	if ( ! ApplicantManager::applicantIsLoggedIn() )
+	{
+		echo "Please Log in Again";
+		return;
+	}
+
+	// Get data
 	$field = $app->request()->post('field');
 	$value = $app->request()->post('value');
+	$value = InputSanitation::cleanInput($value);
 
 	$application = ApplicationManager::getActiveApplication();
 
 	// Field stores the path within the application to the data in the form location1.location2. ... .fieldName
-	$fieldNames = explode('.', $field);
-	if( count($fieldNames) == 1) {
-		$application->$fieldNames[0] = $value;
-	} else if( count($fieldNames) == 2) {
-		print_r($application->$fieldNames[0]);
-//		$application->$fieldNames[0]->$fieldNames[1] = $value;
-//		echo $application->$fieldNames[0]->$fieldNames[1];
+
+	$parentObject = null;
+	$fieldName = null;
+
+	$pathDetails = explode('.', $field);
+	if( count($pathDetails) == 1) {
+		$parentObject = $application;
+		$fieldName = $pathDetails[0];
+	} else if( count($pathDetails) == 2) {
+		$parentObject = $application->$pathDetails[0];
+		$fieldName = $pathDetails[1];
+	}
+
+	$errorMessage = '';
+	$isValidValue = InputSanitation::isValid($field, $value, $errorMessage);
+
+	if($isValidValue)
+	{
+		// Save changes
+		echo $isValidValue;
+		$parentObject->$fieldName = $value;
+		$parentObject->save();
+	} else {
+		echo $errorMessage;
 	}
 
 

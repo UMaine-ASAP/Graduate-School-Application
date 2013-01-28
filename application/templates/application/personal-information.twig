@@ -18,17 +18,17 @@
 
 			<label for="middle_name">
 				<p class="title">Middle name</p>
-				<input type="text" size="30" maxlength="30" id="middle_name" name="middle_name" value="{{application.personal.middleName}}" onblur="saveValue(event);"/>
+				<input type="text" size="30" maxlength="30" id="middle_name" name="personal.middleName" value="{{application.personal.middleName}}" onblur="saveValue(event);"/>
 			</label>
 
 			<label for="family_name">
 				<p class="required title">Last or Family name *</p>
-				<input type="text" size="30" maxlength="30" id="family_name" name="family_name" value="{{application.personal.familyName}}" onblur="saveValue(event);"/>
+				<input type="text" size="30" maxlength="30" id="family_name" name="personal.familyName" value="{{application.personal.familyName}}" onblur="saveValue(event);"/>
 			</label>
 		
 			<label for="suffix">
 				<p class="title">Suffix</p>
-				<select id="suffix" name="suffix" value="{{application.personal.suffix}}" onchange="saveValue(event);">
+				<select id="suffix" name="personal.suffix" value="{{application.personal.suffix}}" onchange="saveValue(event);">
 					<option value=""	 >- None -</option>
 					<option value="ESQ." >Esq</option>
 					<option value="II"   > II</option>
@@ -43,7 +43,7 @@
 	
 			<label for="alternate_name">
 				<p class="title">Name used on previous records</p>
-				<input type="text" size="30" maxlength="30" id="alternate_name" name="alternate_name" value="{{application.personal.alternativeName}}" onblur="saveValue(event);">
+				<input type="text" size="30" maxlength="30" id="personal.alternativeName" name="personal.alternativeName" value="{{application.personal.alternativeName}}" onblur="saveValue(event);">
 			</label>
 	
 	</fieldset><!-- end fieldset "name" -->
@@ -55,17 +55,17 @@
 	<fieldset class="nested">
 		<label for="primary_phone">
 			<p class="title">Primary Phone Number </p>
-			<input type="text" size="55" maxlength="15" id="primary_phone" name="primary_phone" value="{{application.personal.primaryPhone}}" onblur="saveValue(event);">
+			<input type="text" size="55" maxlength="15" id="primary_phone" name="personal.primaryPhone" value="{{application.personal.primaryPhone}}" onblur="saveValue(event);">
 		</label>
 					
 		<label for="secondary_phone">
 			<p class="title">Secondary Phone Number</p>
-			<input type="text" size="55" maxlength="15" id="secondary_phone" name="secondary_phone" value="{{application.personal.secondaryPhone}}" onblur="saveValue(event);">
+			<input type="text" size="55" maxlength="15" id="secondary_phone" name="personal.secondaryPhone" value="{{application.personal.secondaryPhone}}" onblur="saveValue(event);">
 		</label>
 				
 		<label for="email">
 			<p class="required title">Email *</p>
-			<input type="text" size="55" id="email" name="email" value="{{application.personal.email}}" onblur="saveValue(event);">
+			<input type="text" size="55" id="email" name="personal.email" value="{{application.personal.email}}" onblur="saveValue(event);">
 		</label>
 	</fieldset>
 	<div style="clear:both"></div>	
@@ -74,33 +74,33 @@
 			
 					<label for="permanent_addr1">
 						<p class="required title">Street *</p>
-						<input type="text" size="55" maxlength="55" id="permanent_addr1" name="permanent_addr1" value="{{application.personal.permanentMailing.streetAddress1}}" onblur="saveValue(event);">
+						<input type="text" size="55" maxlength="55" id="permanent_addr1" name="personal.permanentMailing.streetAddress1" value="{{application.personal.permanentMailing.streetAddress1}}" onblur="saveValue(event);">
 					</label>
 					
 					<label for="permanent_addr2">
 						<p class="title">Additional</p>
-						<input type="text" size="55" maxlength="55" id="permanent_addr2" name="permanent_addr2" value="{{application.personal.permanentMailing.streetAddress2}}" onblur="saveValue(event);">
+						<input type="text" size="55" maxlength="55" id="permanent_addr2" name="personal.permanentMailing.streetAddress2" value="{{application.personal.permanentMailing.streetAddress2}}" onblur="saveValue(event);">
 					</label>
 					
 					<label for="permanent_city">
 						<p class="required title">City *</p>
-						<input type="text" size="30" maxlength="30" id="permanent_city" name="permanent_city" value="{{application.personal.permanentMailing.city}}" onblur="saveValue(event);">
+						<input type="text" size="30" maxlength="30" id="permanent_city" name="personal.permanentMailing.city" value="{{application.personal.permanentMailing.city}}" onblur="saveValue(event);">
 					</label>
 					
 					<label for="permanent_state">
 						<p class="required title">State/Province *</p>
-						<select id="permanent_state" name="permanent_state" size="1" onchange="saveValue(event);"></select>
+						<select id="permanent_state" name="personal.permanentMailing.state" size="1" onchange="saveValue(event);"></select>
 						<script type="text/javascript">getStateOptions('permanent_state',"{{application.personal.permanentMailing.state}}");</script>
 					</label>
 					
 					<label for="permanent_postal">
 						<p class="required title">Postal Code *</p>
-						<input type="text" size="15" maxlength="15" id="permanent_postal" name="permanent_postal" value="{{application.personal.permanentMailing.postal}}" onblur="saveValue(event);">
+						<input type="text" size="15" maxlength="15" id="permanent_postal" name="personal.permanentMailing.postal" value="{{application.personal.permanentMailing.postal}}" onblur="saveValue(event);">
 					</label>
 					
 					<label for="permanent_country">
 						<p class="required title">Country *</p>
-						<select id="permanent_country" name="permanent_country" size="1" onchange="saveValue(event);"></select>
+						<select id="permanent_country" name="personal.permanentMailing.country" size="1" onchange="saveValue(event);"></select>
 						<script type="text/javascript">getCountryOptions('permanent_country', "{{application.personal.permanentMailing.country}}");</script>
 					</label>
 				

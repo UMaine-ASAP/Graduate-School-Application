@@ -1,213 +1,176 @@
 <?php
-require_once "database.php";
-require_once "variables.php";
-include_once "corefuncs.php";
 
-$user = check_ses_vars();
+class InputSanitation
+{
+
 
 // Solution and replacement values found at http://php.tonnikala.org/manual/en/function.utf8-decode.php
-function cleanInput($text) {
-    $badwordchars=array(
-        "\xe2\x80\x98", // left single quote
-        "\xe2\x80\x99", // right single quote
-        "\xe2\x80\x9c", // left double quote
-        "\xe2\x80\x9d", // right double quote
-        "\xe2\x80\x94", // em dash
-        "\xe2\x80\xa6" // elipses
-    );
-    $fixedwordchars=array(
-        "&#8216;",
-        "&#8217;",
-        '&#8220;',
-        '&#8221;',
-        '&mdash;',
-        '&#8230;'
-    );
-    $text=str_replace($badwordchars,$fixedwordchars,$text);
+public static function cleanInput($text) {
+     $badWordChars=array(
+     	"\xe2\x80\x98", // left single quote
+     	"\xe2\x80\x99", // right single quote
+     	"\xe2\x80\x9c", // left double quote
+     	"\xe2\x80\x9d", // right double quote
+     	"\xe2\x80\x94", // em dash
+     	"\xe2\x80\xa6" // elipses
+     );
+     $fixedWordChars=array(
+     	"&#8216;",
+     	"&#8217;",
+     	'&#8220;',
+     	'&#8221;',
+     	'&mdash;',
+     	'&#8230;'
+     );
+	$text=str_replace($badWordChars, $fixedWordChars, $text);
 
 	return $text;
 }
 
-if($user && isset($_POST['user']) && $_POST['user'] == $user) {
-	$validData = true;
-	$errorMessage = "";
-} else {
-	$validData = false;
-	$errorMessage = "Please log in again.";
-}
-
-$db = new Database();
-$db->connect();
-
 //Clean characters somewhat
-$_POST['value'] = cleanInput($_POST['value']);
 
-if($user && $_POST) {
-	if ($validData = isValid($_POST['field'], $_POST['value'], &$errorMessage)) {
-		if(!$_POST['table']) {	
-			if(strtoupper($_POST['field']) == "SOCIAL_SECURITY_NUMBER") {
-				$key = $GLOBALS['key'];
-				$db->iquery("UPDATE applicants SET social_security_number=AES_ENCRYPT('%s', '%s') WHERE applicant_id=%d", $_POST['value'], $key, $user);
-			} else {
-				$db->iquery("UPDATE `applicants` SET %s='%s' WHERE applicants.applicant_id=%d", $_POST['field'], $_POST['value'], $user);
-			}
+// if($user && $_POST) {
+// 	if ($validData = isValid($_POST['field'], $_POST['value'], &$errorMessage)) {
+// 		if(!$_POST['table']) {	
+// 			if(strtoupper($_POST['field']) == "SOCIAL_SECURITY_NUMBER") {
+// 				$key = $GLOBALS['key'];
+// 				$db->iquery("UPDATE applicants SET social_security_number=AES_ENCRYPT('%s', '%s') WHERE applicant_id=%d", $_POST['value'], $key, $user);
+// 			} else {
+// 				$db->iquery("UPDATE `applicants` SET %s='%s' WHERE applicants.applicant_id=%d", $_POST['field'], $_POST['value'], $user);
+// 			}
+// 		} else {
+// 			if(!$db->getFirst("SELECT %s_id FROM `%s` WHERE applicant_id=%d AND %s_id=%d", $_POST['table'], $_POST['table'], $user, $_POST['table'], $_POST['index'])) {
+// 				$db->iquery("INSERT INTO `%s` (applicant_id, %s_id) VALUES (%d, %d)", $_POST['table'], $_POST['table'], $user, $_POST['index']);
+// 				$count = $db->getFirst("SELECT %s_repeatable FROM `applicants` WHERE applicant_id=%d", $_POST['table'], $user);
+// 				$db->iquery("UPDATE `applicants` SET %s_repeatable=%d WHERE applicants.applicant_id=%d", $_POST['table'], $count+1, $user);
+// 			}
+// 			$db->iquery("UPDATE `%s` SET %s='%s' WHERE %s.applicant_id=%d AND %s_id=%d", $_POST['table'], $_POST['field'], $_POST['value'], $_POST['table'], $user, $_POST['table'], $_POST['index']);
+// 		}
+// 	}
+// }
+
+
+// return the result of the data save, including validation results, for form_helper.js to handle
+//if ($validData) echo true;
+//else echo $errorMessage;
+
+
+private static $filterErrorMessages = array(
+	'filter_phone' 		=> 'Invalid phone number',
+	'filter_email' 		=> 'Invalid email address',
+	'filter_zipcode' 		=> 'Invalid postal code',
+	'filter_long_date' 		=> 'Invalid dater',
+	'filter_ssn' 			=> 'Invalid social security number',
+	'filter_suffix' 		=> 'Invalid option',
+	'filter_state' 		=> 'Invalid option',
+	'filter_country' 		=> 'Invalid option',
+	'filter_gender' 		=> 'Invalid option',
+	'filter_residency'		=> 'Invalid option',
+	'filter_boolean'		=> 'Invalid option',
+	'filter_proficiency' 	=> 'Invalid option',
+	'filter_short_date'		=> 'Invalid date',
+	'filter_toefl_score'	=> 'Invalid value'
+	);
+
+private static function filterResult($value, $option, $message='') {
+	$valid = false;
+	switch($option) {
+		case 'filter_boolean':
+			$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+		break;
+		default:
+			$valid = filter_var($value, FILTER_CALLBACK, array('options' => $option));
+		break;
+	}
+
+	if($valid) 
+	{
+		if($message != '') { return $message; }
+		// check if filter is valid
+
+		if( isset( self::$filterErrorMessages[$option] ) ) {
+			return self::$filterErrorMessages[$option];
 		} else {
-			if(!$db->getFirst("SELECT %s_id FROM `%s` WHERE applicant_id=%d AND %s_id=%d", $_POST['table'], $_POST['table'], $user, $_POST['table'], $_POST['index'])) {
-				$db->iquery("INSERT INTO `%s` (applicant_id, %s_id) VALUES (%d, %d)", $_POST['table'], $_POST['table'], $user, $_POST['index']);
-				$count = $db->getFirst("SELECT %s_repeatable FROM `applicants` WHERE applicant_id=%d", $_POST['table'], $user);
-				$db->iquery("UPDATE `applicants` SET %s_repeatable=%d WHERE applicants.applicant_id=%d", $_POST['table'], $count+1, $user);
-			}
-			$db->iquery("UPDATE `%s` SET %s='%s' WHERE %s.applicant_id=%d AND %s_id=%d", $_POST['table'], $_POST['field'], $_POST['value'], $_POST['table'], $user, $_POST['table'], $_POST['index']);
+			// Filter
 		}
 	}
 }
 
-/*
-$validData = false;
-$errorMessage = strtoupper($_POST['field']);
-//*/
+private static $databaseFieldTypes =  array(
 
-// return the result of the data save, including validation results, for form_helper.js to handle
-if ($validData) echo true;
-else echo $errorMessage;
+	// Personal
+	'personal.primaryPhone' 		=> 'filter_phone',
+	'personal.secondaryPhone' 	=> 'filter_phone',
+	'personal.suffix' 			=> 'filter_suffix',
+	'personal.email' 			=> 'filter_email',
 
-$db->close();
+	'personal.permanentMail.postal' 	=> 'filter_zipcode',
+	'personal.permanentMail.state' 	=> 'filter_state',
+	'personal.permanentMail.country' 	=> 'filter_country',
+
+	'personal.isMailingDifferentFromPermanent' 	=> 'filter_boolean',
+	'personal.mailing.postal' 				=> 'filter_postal',
+	'personal.mailing.state'  				=> 'filter_state',
+	'personal.mailing.country' 				=> 'filter_country',
+
+	'personal.dateOfBirth' 			=> 'filter_long_date',
+	'personal.socialSecurityNumber'	=> 'filter_ssn',
+	'personal.gender'				=> 'filter_gender',
+	'personal.birthState'			=> 'filter_state',
+	'personal.birthCountry'			=> 'filter_country',
+	'personal.countryOfCitizenship'	=> 'filter_country',
+	'personal.usState'				=> 'filter_state',
+	'personal.residencyStatus'		=> 'filter_residency',
+
+	'personal.greenCardLink' => '',
+
+	// Ethnicity
+	// TODO these should probably be booleans?
+	'personal.ethnicity_hispa'	=> 'equals_HISPA',
+	'personal.ethnicity_amind'	=> 'equals_amind',
+	'personal.ethnicity_asian'	=> 'equals_asian',
+	'personal.ethnicity_black'	=> 'equals_black',
+	'personal.ethnicity_pacif'	=> 'equals_pacif',
+	'personal.ethnicity_white'	=> 'equals_white',
+	'personal.ethnicity_unspec'	=> 'equals_unspec',
+
+	// Language
+	'personal.isEnglishPrimary'		=> 'filter_boolean',
+	'language.proficiency_writing'	=> 'filter_proficiency',
+	'language.proficiency_reading'	=> 'filter_proficiency',
+	'language.proficiency_speaking'	=> 'filter_proficiency',
+
+	// International
+	'international.isInternationalStudent'	=> 'filter_boolean',
+	'international.toefl_hasTaken'		=> 'filter_boolean',
+	'international.toefl_hasReported'		=> 'filter_boolean'
+	'international.toefl_date'			=> 'filter_short_date',
+	'international.toefl_score'			=> 'filter_toefl_score'
+	'international.usEmergencyCotact.primaryPhone' => 'filter_phone',
+	'international.usEmergencyCotact.state' => 'filter_state',	
+
+	// Previous School
+	'previousSchool.name'	=> 'filter_generic'
+
+	);
 
 
-
-
-function isValid($name, $value, $message) {
-	$message = "";
+public static function isValid($name, $value, &$errorMessage) {
+	$errorMessage = "";
 	if(!$value) return TRUE;
-	$name = strtoupper($name);
 	$valid = FALSE;
 	$tested = FALSE;
 
-	//Not finnished. need to comb through the database.
-	//Also need to test
 
-	###Personal Information###
-	//Contact Information
-	if($name == "PRIMARY_PHONE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_phone'));
-		$message = "Invalid phone number.";
-	} else if($name == "SECONDARY_PHONE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_phone'));
-		$message = "Invalid phone number.";
-	} else if($name == "SUFFIX") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_suffix'));
-		$message = "Invalid option.";
-	} else if($name == "EMAIL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_email'));
-		$message = "Invalid email address.";
+	$message = self::filterResult($value, $databaseFieldTypes);
 
-	//Address Information
-	} else if($name == "PERMANENT_POSTAL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_zipcode'));
-		$message = "Invalid postal code.";
-	} else if($name == "PERMAN_STATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_state'));
-		$message = "Invalid option.";
-	} else if($name == "PERMAN_COUNTRY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
-		$message = "Invalid option.";
-	} else if($name == "MAILING_POSTAL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_zipcode'));
-		$message = "Invalid postal code.";
+
 	} else if($name == "MAILING_PERM") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "MAILING_STATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_state'));
-		$message = "Invalid option.";
-	} else if($name == "MAILING_COUNTRY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
-		$message = "Invalid option.";
-
-	//Birth Information
-	} else if($name == "DATE_OF_BIRTH") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_long_date'));
-		$message = "Invalid date.";
-	} else if($name == "SOCIAL_SECURITY_NUMBER") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_ssn'));
-		$message = "Invalid social security number.";
-	} else if($name == "GENDER") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gender'));
-		$message = "Invalid option.";
-	} else if($name == "BIRTH_STATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_state'));
-		$message = "Invalid option.";
-	} else if($name == "BIRTH_COUNTRY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
-		$message = "Invalid option.";
-	} else if($name == "COUNTRY_OF_CITIZENSHIP") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
-		$message = "Invalid option.";
-	} else if($name == "US_STATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_state'));
-		$message = "Invalid option.";
-	} else if($name == "RESIDENCY_STATUS") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_residency'));
+		
 		$message = "Invalid option.";
 
 
-	//Ethnic Information
-	} else if($name == "ETHNICITY_HISPA") {
-		$valid = $value == "HISPA";
-		$message = "Invalid option.";
-	} else if($name == "ETHNICITY_AMIND") {
-		$valid = $value == "AMIND";
-		$message = "Invalid option.";
-	} else if($name == "ETHNICITY_ASIAN") {
-		$valid = $value == "ASIAN";
-		$message = "Invalid option.";
-	} else if($name == "ETHNICITY_BLACK") {
-		$valid = $value == "BLACK";
-		$message = "Invalid option.";
-	} else if($name == "ETHNICITY_PACIF") {
-		$valid = $value == "PACIF";
-		$message = "Invalid option.";
-	} else if($name == "ETHNICITY_WHITE") {
-		$valid = $value == "WHITE";
-		$message = "Invalid option.";
-	} else if($name == "ETHNICITY_AMIND") {
-		$valid = $value == "AMIND";
-		$message = "Invalid option.";
 
-	//Language Information
-	} else if($name == "ENGLISH_PRIMARY") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "WRITING_PROFICIENCY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_proficiency'));
-		$message = "Invalid option.";
-	} else if($name == "READING_PROFICIENCY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_proficiency'));
-		$message = "Invalid option.";
-	} else if($name == "SPEAKING_PROFICIENCY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_proficiency'));
-		$message = "Invalid option.";
-
-
-	###International Information###
-	//Language Information
-	} else if($name == "INTERNATIONAL") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	
-	//TOEFL Exam
-	} else if($name == "TOEFL_TAKEN") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "TOEFL_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
-	} else if($name == "TOEFL_SCORE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_toefl_score'));
-		$message = "Invalid value.";
-	} else if($name == "TOEFL_REPORTED") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
 
 	//Future Plans
 	} else if($name == "FURTHER_STUDIES") {
@@ -400,92 +363,6 @@ function isValid($name, $value, $message) {
 		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 		$message = "Invalid option.";
 
-	//Recomendation 1
-	} else if($name == "REFERENCE1_ONLINE") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "REFERENCE1_FIRST") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_name'));
-		$message = "Contains invalid characters.";
-	} else if($name == "REFERENCE1_LAST") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_name'));
-		$message = "Contains invalid characters.";
-	} else if($name == "REFERENCE1_EMAIL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_email'));
-		$message = "Invalid email address.";
-	} else if($name == "REFERENCE1_RELATIONSHIP") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_relationship'));
-		$message = "Invalid value.";
-	} else if($name == "REFERENCE1_PHONE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_phone'));
-		$message = "Invalid phone number.";
-	} else if($name == "REFERENCE1_STATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_state'));
-		$message = "Invalid value.";
-	} else if($name == "REFERENCE1_POSTAL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_zipcode'));
-		$message = "Invalid postal code.";
-	} else if($name == "REFERENCE1_COUNTRY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
-		$message = "Invalid value.";
-
-	//Recomendation 2
-	} else if($name == "REFERENCE2_ONLINE") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "REFERENCE2_FIRST") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_name'));
-		$message = "Contains invalid characters.";
-	} else if($name == "REFERENCE2_LAST") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_name'));
-		$message = "Contains invalid characters.";
-	} else if($name == "REFERENCE2_EMAIL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_email'));
-		$message = "Invalid email address.";
-	} else if($name == "REFERENCE2_RELATIONSHIP") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_relationship'));
-		$message = "Invalid value.";
-	} else if($name == "REFERENCE2_PHONE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_phone'));
-		$message = "Invalid phone number.";
-	} else if($name == "REFERENCE1_STATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_state'));
-		$message = "Invalid value.";
-	} else if($name == "REFERENCE2_POSTAL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_zipcode'));
-		$message = "Invalid postal code.";
-	} else if($name == "REFERENCE2_COUNTRY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
-		$message = "Invalid value.";
-
-	//Recomendation 3
-	} else if($name == "REFERENCE3_ONLINE") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "REFERENCE3_FIRST") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_name'));
-		$message = "Contains invalid characters.";
-	} else if($name == "REFERENCE3_LAST") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_name'));
-		$message = "Contains invalid characters.";
-	} else if($name == "REFERENCE3_EMAIL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_email'));
-		$message = "Invalid email address.";
-	} else if($name == "REFERENCE3_RELATIONSHIP") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_relationship'));
-		$message = "Invalid value.";
-	} else if($name == "REFERENCE3_PHONE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_phone'));
-		$message = "Invalid phone number.";
-	} else if($name == "REFERENCE3_STATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_state'));
-		$message = "Invalid value.";
-	} else if($name == "REFERENCE3_POSTAL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_zipcode'));
-		$message = "Invalid postal code.";
-	} else if($name == "REFERENCE3_COUNTRY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
-		$message = "Invalid value.";
 
 	//Additional References
 	} else if($name == "REFERENCE_ONLINE") {
@@ -537,8 +414,10 @@ function isValid($name, $value, $message) {
 		$message = "Contains invalid characters.";
 	}
 
-	return $valid;
+	return $message == ''; // return if error message exists
 }
+
+} // End InputSanitation Class
 
 //format mm/yyyy-mm/yyyy
 function filter_date_range($value) {
@@ -896,4 +775,5 @@ function filter_email($email) {
    else
 	return false;
 }
+
 
