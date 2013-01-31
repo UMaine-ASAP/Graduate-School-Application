@@ -151,8 +151,8 @@
 <datatype>INT</datatype>
 <default>NULL</default><relation table="Application" row="applicationId" />
 </row>
-<row name="d" null="1" autoincrement="0">
-<datatype>VARCHAR(7)</datatype>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATETIME(7)</datatype>
 <default>NULL</default></row>
 <row name="verbal" null="1" autoincrement="0">
 <datatype>INT(3)</datatype>
@@ -514,7 +514,7 @@
 <part>costId</part>
 </key>
 </table>
-<table x="1026" y="974" name="APPLICATION_Primary">
+<table x="975" y="964" name="APPLICATION_Primary">
 <row name="applicationId" null="1" autoincrement="1">
 <datatype>INT</datatype>
 <default>NULL</default><relation table="Application" row="applicationId" />
@@ -689,7 +689,7 @@
 <row name="prevUMGradWithdraw_exists" null="1" autoincrement="0">
 <datatype>TINYINT</datatype>
 <default>NULL</default></row>
-<row name="prevUMGradWithdraw_Date" null="1" autoincrement="0">
+<row name="prevUMGradWithdraw_date" null="1" autoincrement="0">
 <datatype>VARCHAR(7)</datatype>
 <default>NULL</default></row>
 <key type="PRIMARY" name="">
@@ -787,7 +787,7 @@
 <part>supportingDocumentId</part>
 </key>
 </table>
-<table x="1471" y="1206" name="APPLICATION_ContactInformation">
+<table x="1427" y="1208" name="APPLICATION_ContactInformation">
 <row name="contactInformationId" null="1" autoincrement="1">
 <datatype>INT</datatype>
 <default>NULL</default></row>

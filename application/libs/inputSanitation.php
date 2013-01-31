@@ -54,7 +54,7 @@ public static function cleanInput($text) {
 //if ($validData) echo true;
 //else echo $errorMessage;
 
-
+// @pragma filterErrorMessages
 private static $filterErrorMessages = array(
 	'filter_phone' 		=> 'Invalid phone number',
 	'filter_email' 		=> 'Invalid email address',
@@ -69,7 +69,8 @@ private static $filterErrorMessages = array(
 	'filter_boolean'		=> 'Invalid option',
 	'filter_proficiency' 	=> 'Invalid option',
 	'filter_short_date'		=> 'Invalid date',
-	'filter_toefl_score'	=> 'Invalid value'
+	'filter_toefl_score'	=> 'Invalid value',
+	'filter_generic'		=> 'Invalid option'
 	);
 
 private static function filterResult($value, $option, $message='') {
@@ -83,7 +84,7 @@ private static function filterResult($value, $option, $message='') {
 		break;
 	}
 
-	if($valid) 
+	if( !$valid ) 
 	{
 		if($message != '') { return $message; }
 		// check if filter is valid
@@ -91,21 +92,26 @@ private static function filterResult($value, $option, $message='') {
 		if( isset( self::$filterErrorMessages[$option] ) ) {
 			return self::$filterErrorMessages[$option];
 		} else {
-			// Filter
+			// Filter error message did not exist -> freak out!
+			throw new Exception("Internal Error Saving Data");
 		}
 	}
 }
 
+// @pragma databaseFieldTypes
 private static $databaseFieldTypes =  array(
 
 	// Personal
+	'personal.givenName'		=> 'filter_generic',
+	'personal.middleName'		=> 'filter_generic',
+	'personal.familyName'		=> 'filter_generic',		
 	'personal.primaryPhone' 		=> 'filter_phone',
 	'personal.secondaryPhone' 	=> 'filter_phone',
 	'personal.suffix' 			=> 'filter_suffix',
 	'personal.email' 			=> 'filter_email',
 
 	'personal.permanentMail.postal' 	=> 'filter_zipcode',
-	'personal.permanentMail.state' 	=> 'filter_state',
+	'personal.permanentMail.state' 	=> 'filter_state', 
 	'personal.permanentMail.country' 	=> 'filter_country',
 
 	'personal.isMailingDifferentFromPermanent' 	=> 'filter_boolean',
@@ -125,7 +131,7 @@ private static $databaseFieldTypes =  array(
 	'personal.greenCardLink' => '',
 
 	// Ethnicity
-	// TODO these should probably be booleans?
+	// TODO these should probably be booleans? 
 	'personal.ethnicity_hispa'	=> 'equals_HISPA',
 	'personal.ethnicity_amind'	=> 'equals_amind',
 	'personal.ethnicity_asian'	=> 'equals_asian',
@@ -143,9 +149,9 @@ private static $databaseFieldTypes =  array(
 	// International
 	'international.isInternationalStudent'	=> 'filter_boolean',
 	'international.toefl_hasTaken'		=> 'filter_boolean',
-	'international.toefl_hasReported'		=> 'filter_boolean'
+	'international.toefl_hasReported'		=> 'filter_boolean',
 	'international.toefl_date'			=> 'filter_short_date',
-	'international.toefl_score'			=> 'filter_toefl_score'
+	'international.toefl_score'			=> 'filter_toefl_score',
 	'international.usEmergencyCotact.primaryPhone' => 'filter_phone',
 	'international.usEmergencyCotact.state' => 'filter_state',	
 
@@ -162,12 +168,19 @@ public static function isValid($name, $value, &$errorMessage) {
 	$tested = FALSE;
 
 
-	$message = self::filterResult($value, $databaseFieldTypes);
+	$option = self::$databaseFieldTypes[$name];
+	// Ensure option is valid
+	if( $option != null && array_key_exists($option, self::$filterErrorMessages) ) {
+		$errorMessage = self::filterResult($value, self::$databaseFieldTypes[$name]);
+	} else {
+		// throw new Exception("key not found");
+		$errorMessage = 'internal error on field ' . $name; // @pragma TEMPONLY_REMOVEME
+	}
 
 
-	} else if($name == "MAILING_PERM") {
+	if($name == "MAILING_PERM") {
 		
-		$message = "Invalid option.";
+		$errorMessage = "Invalid option.";
 
 
 
@@ -414,10 +427,19 @@ public static function isValid($name, $value, &$errorMessage) {
 		$message = "Contains invalid characters.";
 	}
 
-	return $message == ''; // return if error message exists
+	return $errorMessage == ''; // return if error message exists
 }
 
 } // End InputSanitation Class
+
+
+function filter_generic($value) {
+	$invalid_chars = array();//str_split("\"#$%&'*+\\/=?^_`{|}~;><");
+	foreach($invalid_chars as $char)
+		if (strpos($value, $char) !== false)
+			return false;
+	return $value;
+}
 
 //format mm/yyyy-mm/yyyy
 function filter_date_range($value) {
@@ -431,14 +453,6 @@ function filter_date_range($value) {
 		return false;
 	}
 	//filter_long_date;
-}
-
-function filter_generic($value) {
-	$invalid_chars = array();//str_split("\"#$%&'*+\\/=?^_`{|}~;><");
-	foreach($invalid_chars as $char)
-		if (strpos($value, $char) !== false)
-			return false;
-	return $value;
 }
 
 //format mm/dd/yyyy

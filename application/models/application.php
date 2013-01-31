@@ -146,7 +146,14 @@ class Application extends Entity
 		return parent::__get($name);
 	}
 
-
+	public function __isset($name)
+	{
+		if ($name == 'personal') 
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Class Constructor

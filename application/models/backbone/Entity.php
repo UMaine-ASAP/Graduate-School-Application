@@ -109,12 +109,21 @@ class Entity
 		}
 	}
 
+	public function __isset($name)
+	{
+		if ( array_key_exists($name, $this->values) ) 
+		{
+			return true;
+		}
+		return false;
+	}
 
 	public function save()
 	{
 		$query = "UPDATE %s SET ";
 
 		$is_first = true; 
+		if ($this->is_dirty == array()) return;
 		foreach($this->is_dirty as $dirty_column) {
 			if($is_first) 
 			{
@@ -128,6 +137,7 @@ class Entity
 		$query .= " WHERE `%s` = %d";
 
 		// Set args
+
 		$args = array($query, $this->tableName);
 
 		foreach($this->is_dirty as $dirty_column) {
@@ -139,6 +149,7 @@ class Entity
 		$args[] = $this->columnId;
 		$args[] = $this->values['id'];
 
+		// run query
 		$result = call_user_func_array( array('Database', 'iquery'), $args);
 	}
 

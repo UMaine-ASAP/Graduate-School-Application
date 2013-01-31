@@ -52,6 +52,18 @@ $app = new \Slim\Slim(array(
 $WEBROOT = "http://gradapp";
 
 
+class internalErrors
+{
+	// Saving data errors
+	const ERROR_SAVING_FIELDNOTFOUND  = 1001;
+	const ERROR_SAVING_FIELDNOTLOADED = 1002;
+
+	static public function generateError($errorCode)
+	{
+		return "Internal Error " + $errorCode;
+	}
+}
+
 /*----------------------------------------------------*/
 /* Helper Functions
 /*----------------------------------------------------*/
@@ -106,8 +118,9 @@ function render_section($path, $args = array(), $sections, $currentLocation)
 	return render($path, $args);
 }
 
+// @pragma MiddleWare
 /*----------------------------------------------------*/
-/* Middleware Functions
+/* @pragma Middleware Functions
 /*----------------------------------------------------*/
 
 /**
@@ -117,6 +130,8 @@ function render_section($path, $args = array(), $sections, $currentLocation)
  * 
  * Validate that user is logged in
  */
+// @pragma authenticated Middleware
+
 $authenticated = function() use ($app) {
 	$isLoggedIn = ApplicantManager::applicantIsLoggedIn();
 	if( !$isLoggedIn ) 
@@ -134,6 +149,8 @@ $authenticated = function() use ($app) {
  * 
  * Validate that application has not already been submitted
  */
+// @pragma applicationNot Submitted Middleware
+
 $applicationNotSubmitted = function() {
 	$application = ApplicationManager::getActiveApplication();
 	// Redirect if application has already been submitted
@@ -146,7 +163,7 @@ $applicationNotSubmitted = function() {
 
 
 /*----------------------------------------------------*/
-/* Initial Routing and Login/Registration
+/* @pragma Initial Routing and Login/Registration
 /*----------------------------------------------------*/
 
 /**
@@ -156,6 +173,7 @@ $applicationNotSubmitted = function() {
  * 
  * Route logged in users to application page, otherwise send to login page
  */
+// @pragma Root Request
 $app->get('/', function() {
 	$app = Slim\Slim::getInstance();
 	// route to correct page
@@ -181,6 +199,7 @@ $app->get('/login', function() use($app) {
 });
 
 
+// @pragma Login Request
 /**
  * Login - Submission
  * 
@@ -265,10 +284,13 @@ $app->post('/login', function() use ($app) {
 });
 
 
+// @pragma Confirm Account Request
 /**
  * Account - Confirm
  * 
  * Script
+ * 
+ *  @pragma MiddleWare
  * 
  * Validate new account from emailed link
  */
@@ -386,9 +408,10 @@ $app->get('/no-javascript', function() {
 });
 
 /*----------------------------------------------------*/
-/* Application
+/* @pragma Application
 /*----------------------------------------------------*/
 
+// @pragma Application - Save Data
 /**
  * Application
  * 
@@ -425,15 +448,22 @@ $app->post('/saveData', function() use ($app) {
 		$fieldName = $pathDetails[1];
 	}
 
+	if ($parentObject == null ) {
+		echo internalErrors::generateError(internalErrors::ERROR_SAVING_FIELDNOTLOADED);
+		return;
+	}
+
+
 	$errorMessage = '';
 	$isValidValue = InputSanitation::isValid($field, $value, $errorMessage);
+
 
 	if($isValidValue)
 	{
 		// Save changes
-		echo $isValidValue;
 		$parentObject->$fieldName = $value;
 		$parentObject->save();
+
 	} else {
 		echo $errorMessage;
 	}
@@ -446,51 +476,8 @@ $app->post('/saveData', function() use ($app) {
  * 
  * Get Request
  * 
- * Render application section personal-information
+ * Render next application section
  */
-$app->get('/application/section/personal-information', $authenticated, $applicationNotSubmitted, function () {
-
-	// USER
-	// GIVEN_NAME
-	// MIDDLE_NAME
-	// FAMILY_NAME
-	// SUFFIX
-	// ALTERNATE_NAME
-	// PRIMARY_PHONE
-	// SECONDARY_PHONE
-	// EMAIL
-	// PERMANENT_ADDR1
-	// PERMANENT_ADDR2
-	// PERMANENT_CITY
-	// PERMANENT_STATE
-	// PERMANENT_POSTAL
-	// PERMANENT_COUNTRY
-
-	// MAILING_PERM
-	// MAiLING_ADDR1
-	// MAILING_ADDR2
-	// MAILING_CITY
-	// MAILING_STATE
-	// MAILING_POSTAL
-	// MAILING_COUNTY
-	
-	// DATE_OF_BIRTH
-	// GENDER
-	// SOCIAL_SECURITY_NUMBER
-	// BIRTH_CITY
-	// BIRTH_STATE
-	// BIRTH_COUNTRY
-
-	// COUNTRY_OF_CITIZENSHIP
-
-	$applicant 	= ApplicantManager::getActiveApplicant();
-	$application 	= ApplicationManager::getActiveApplication();
-
-	//print_r($application);
-	render_section('application/personal-information.twig', array('application' => $application, 'applicant'=>$applicant), $application->sections, 'personal-information');
-
-});
-
 $app->get('/application/section/next', $authenticated, $applicationNotSubmitted, function() {
 	$current_section = $_SESSION['current-application-section'];
 
@@ -511,6 +498,23 @@ $app->get('/application/section/next', $authenticated, $applicationNotSubmitted,
 
 });
 
+// @pragma Application Section personal-information
+/**
+ * Application
+ * 
+ * Get Request
+ * 
+ * Render application section personal-information
+ */
+$app->get('/application/section/personal-information', $authenticated, $applicationNotSubmitted, function () {
+	$applicant 	= ApplicantManager::getActiveApplicant();
+	$application 	= ApplicationManager::getActiveApplication();
+
+	//echo $application->personal->email;
+	render_section('application/personal-information.twig', array('application' => $application, 'applicant'=>$applicant), $application->sections, 'personal-information');
+});
+
+// @pragma Application Section international
 /**
  * Application
  * 
@@ -524,8 +528,56 @@ $app->get('/application/section/international', $authenticated, $applicationNotS
 	$application 	= ApplicationManager::getActiveApplication();
 
 	render_section('application/international.twig', array('application' => $application), $application->sections, 'international');
-
 });
+
+// @pragma Application Section educational-history
+/**
+ * Application
+ * 
+ * Get Request
+ * 
+ * Render application section educational history
+ */
+$app->get('/application/section/educational-history', $authenticated, $applicationNotSubmitted, function () {
+
+	$applicant 	= ApplicantManager::getActiveApplicant();
+	$application 	= ApplicationManager::getActiveApplication();
+
+	render_section('application/educational-history.twig', array('application' => $application), $application->sections, 'educational-history');
+});
+
+// @pragma Application Section educational-objectives
+/**
+ * Application
+ * 
+ * Get Request
+ * 
+ * Render application section educational objectives
+ */
+$app->get('/application/section/educational-objectives', $authenticated, $applicationNotSubmitted, function () {
+
+	$applicant 	= ApplicantManager::getActiveApplicant();
+	$application 	= ApplicationManager::getActiveApplication();
+
+	render_section('application/educational-objectives.twig', array('application' => $application), $application->sections, 'educational-objectives');
+});
+
+
+/**
+ * Application
+ * 
+ * Get Request
+ * 
+ * Render application section Letters of recommendation
+ */
+$app->get('/application/section/letters-of-recommendation', $authenticated, $applicationNotSubmitted, function () {
+
+	$applicant 	= ApplicantManager::getActiveApplicant();
+	$application 	= ApplicationManager::getActiveApplication();
+
+	render_section('application/letters-of-recommendation.twig', array('application' => $application), $application->sections, 'letters-of-recommendation');
+});
+
 
 /**
  * Application - Download
@@ -600,7 +652,7 @@ $app->get('/application/submit-without-payment', $authenticated, $applicationNot
 
 
 /*----------------------------------------------------*/
-/* Application Payment
+/* @pragma Application Payment
 /*
 /* Touchnet (the external payment system) redirects or calls these pages. They are not used directly by the application
 /*----------------------------------------------------*/
@@ -661,7 +713,6 @@ $app->get('/payment/failed', function() {
 			)
 		);	
 });
-
 
 /**
  * Payment - Callback Update
@@ -726,7 +777,7 @@ $app->post('/payment/callback-update', function() {
 
 
 /*----------------------------------------------------*/
-/* Recommendation
+/* @pragma Recommendation
 /*----------------------------------------------------*/
 
 
@@ -770,7 +821,7 @@ $app->get('/recommendation/thank-you', function() {
 });
 
 /*----------------------------------------------------*/
-/* Testing
+/* @pragma Testing
 /*----------------------------------------------------*/
 
 $app->get('/test/emailSystem', function() {
@@ -792,7 +843,7 @@ $app->get('/test/entity', function() {
 
 
 /*----------------------------------------------------*/
-/* Run App
+/* @pragma Run App
 /*----------------------------------------------------*/
 
 $app->run();
