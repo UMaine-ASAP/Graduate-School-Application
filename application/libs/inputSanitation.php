@@ -102,6 +102,7 @@ private static function filterResult($value, $option, $message='') {
 private static $databaseFieldTypes =  array(
 
 	// Personal
+
 	'personal.givenName'		=> 'filter_generic',
 	'personal.middleName'		=> 'filter_generic',
 	'personal.familyName'		=> 'filter_generic',		
@@ -127,8 +128,33 @@ private static $databaseFieldTypes =  array(
 	'personal.countryOfCitizenship'	=> 'filter_country',
 	'personal.usState'				=> 'filter_state',
 	'personal.residencyStatus'		=> 'filter_residency',
+	'personal.greenCardLink' 		=> 'filter_generic',
 
-	'personal.greenCardLink' => '',
+	'personal.undergradGPA'		=> 'filter_gpa',
+	'personal.postbaccGPA'		=> 'filer_gpa',
+
+	'personal.gmat_hasTaken' 		=> 'filter_boolean',
+	'personal.gmat_hasReported'		=> 'filter_boolean',
+	'personal.gmat_date'			=> 'filter_short_date',
+	'personal.gmat_quantitative' 	=> 'filter_gmat_quantitative',
+	'personal.gmat_verbal'			=> 'filter_gmat_verbal',
+	'personal.gmat_analytical'		=> 'filter_gmat_analytical',
+	'personal.gmat_score'			=> 'filter_gmat_score',
+
+	'personal.mat_hasTaken'		=> 'filter_boolean',
+	'personal.mat_hasReported'	=> 'filter_boolean',
+	'personal.mat_date'			=> 'filter_short_date',
+	'personal.mat_score'		=> 'filter_score',
+
+	'personal.prevUMApp_exists'	=> 'filter_boolean',
+
+	'personal.prevUMGradApp_exists'		=> 'filter_boolean',
+	'personal.prevUMGradApp_date' 		=> 'filter_short_date',
+	'personal.prevUMGradApp_dept'		=> 'filter_short_date',
+	'personal.prevUMGradApp_degree'		=> 'filter_boolean',
+	'personal.prevUMGradApp_degreeDate'	=> 'filter_short_date',
+	'personal.prevUMGradWithdraw_exists' => 'filter_boolean',
+	'personal.prevUMGradWithdraw_date'	=> 'filter_short_date',
 
 	// Ethnicity
 	// TODO these should probably be booleans? 
@@ -151,12 +177,72 @@ private static $databaseFieldTypes =  array(
 	'international.toefl_hasTaken'		=> 'filter_boolean',
 	'international.toefl_hasReported'		=> 'filter_boolean',
 	'international.toefl_date'			=> 'filter_short_date',
-	'international.toefl_score'			=> 'filter_toefl_score',
-	'international.usEmergencyCotact.primaryPhone' => 'filter_phone',
-	'international.usEmergencyCotact.state' => 'filter_state',	
+
+	'international.toefl_score'			=> 'filter_toefl_score'
+	'international.usEmergencyContact.primaryPhone' => 'filter_phone',
+	'international.usEmergencyContact.state' => 'filter_state',	
+	'international.usEmergencyContact.zip'	=> 'filter_zipcode',
+	'international.homeEmergencyContact.phone'	=> 'filter_phone',
+	'international.homeEmergencyContact.country' => 'filter_country',
+	'international.hasFurtherStudies'	=> 'filter_boolean',
+	'international.hasUSCareer'			=> 'filter_boolean',
+	'international.hasHomeCareer'		=> 'filter_boolean',
 
 	// Previous School
-	'previousSchool.name'	=> 'filter_generic'
+	'previousSchool.name'		=> 'filter_generic',
+	'previousSchool.city'		=> 'filter_generic',
+	'previousSchool.state'		=> 'filter_state',
+	'previousSchool.country'	=> 'filter_country',
+	'previousSchool.code'		=> 'filter_generic',
+	'previousSchool.startDate' 	=> 'filter_short_date',
+	'previousSchool.endDate'	=> 'filter_short_date',
+	'previousSchool.major'		=> 'filter_generic',
+	'previousSchool.degreeEarned_name' => "filter_generic",
+	'previousSchool.degreeEarned_date' => "filter_short_date",
+
+	//GRE
+	'gre.hasTaken'			=> 'filter_boolean',
+	'gre.date'				=> 'filter_short_date',
+	'gre.verbal'			=> 'filter_gre_verbal',
+	'gre.quantitative'		=> 'filter_gre_quantitative',
+	'gre.analytical'		=> 'filter_gre_analytical',
+	'gre.subject'			=> 'filter_gre_subject',
+	'gre.hasBeenReported'	=> 'filter_boolean',
+	'gre.score'				=> 'filter_gre_score',
+
+	// References
+	'reference.firstName'			=> 'filter_name',
+	'reference.lastName'			=> 'filter_name',
+	'reference.email'				=> 'filter_email',
+	'reference.relationship'		=> 'filter_relationship',
+	'reference.isSubmittingOnline'	=> 'filter_boolean',
+	'reference.requestHasBeenSent'	=> 'filter_boolean',
+	'reference.submittedDate'		=> 'filter_long_date',
+	'reference.phone'				=> 'filter_phone',
+	'reference.state'				=> 'filter_state',
+	'reference.postal'				=> 'filter_zipcode',
+	'reference.country'				=> 'filter_country',
+	'reference.englishYearsSchool'	=> 'filter_date_range',
+	'reference.englishYearsUniv'	=> 'filter_date_range',
+	'reference.englishYearsPrivate'	=> 'filter_date_range',
+
+	'degree.attendanceLoad'			=> 'filter_attendance_load',
+	'degree.studentType'			=> 'filter_student_type',
+	'degree.isSeekingAssistantship'	=> 'filter_boolean',
+	'degree.isApplyingNebhe'		=> 'filter_boolean',
+
+	'application.startYear'			=> 'filter_generic',
+	'application.startSemester'		=> 'filter_semester',
+	'application.hasUmaineCorrespondent'	=> 'filter_boolean',
+	'application.waiveReferenceViewingRights'	=> 'filter_boolean',
+	'application.asAcceptedTermsOfAgreement'	=> 'filter_boolean',
+
+
+	'disciplinaryViolation.exists'	=> 'filter_boolean',
+	'disciplinaryViolation.date'	=> 'filter_short_date',
+
+	'criminalViolation.exists'		=> 'filter_boolean',
+	'criminalViolation.date'		=> 'fileter_date',
 
 	);
 
@@ -178,247 +264,56 @@ public static function isValid($name, $value, &$errorMessage) {
 	}
 
 
-	if($name == "MAILING_PERM") {
-		
-		$errorMessage = "Invalid option.";
 
 
 
-
+	
 	//Future Plans
-	} else if($name == "FURTHER_STUDIES") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "US_CAREER") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "HOME_CAREER") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
 
 	//United States Emergency Contact
-	} else if($name == "US_EMERGENCY_CONTACT_PHONE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_phone'));
-		$message = "Invalid phone number.";
-	} else if($name == "US_EMERGENCY_CONTACT_STATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_state'));
-		$message = "Invalid phone number.";
-	} else if($name == "US_EMERGENCY_CONTACT_ZIP") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_zipcode'));
-		$message = "Invalid postal code.";
 
 	//Home Country Emergency Contact
-	} else if($name == "HOME_EMERGENCY_CONTACT_PHONE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_phone'));
-		$message = "Invalid phone number.";
-	} else if($name == "HOME_EMERGENCY_CONTACT_COUNTRY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
-		$message = "Invalid phone number.";
 
 
-
-	###Educational Histotry###
+	###Educational History###
 	//Previous Application to University of Maine
-	} else if($name == "PREV_UM_APP") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "PREV_UM_GRAD_APP") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "PREV_UM_GRAD_APP_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
-	} else if($name == "PREV_UM_GRAD_DEGREE_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
-	} else if($name == "PREV_UM_GRAD_WITHDRAW") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "PREV_UM_GRAD_WITHDRAW_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
+
 
 	//Previously Attended Institutions
-	} else if($name == "PREVIOUS_SCHOOLS_STATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_state'));
-		$message = "Invalid option.";
-	} else if($name == "PREVIOUS_SCHOOLS_COUNTRY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
-		$message = "Invalid option.";
-	} else if($name == "PREVIOUS_SCHOOLS_FROM_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
-	} else if($name == "PREVIOUS_SCHOOLS_TO_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
-	} else if($name == "PREVIOUS_SCHOOLS_DEGREE_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
+
 
 	//Grade Information
-	} else if($name == "UNDERGRAD_GPA") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gpa'));
-		$message = "Invalid value.";
-	} else if($name == "POSTBACC_GPA") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gpa'));
-		$message = "Invalid value.";
+
 
 	//Disciplinary Violations
-	} else if($name == "DISCIPLINARY_VIOLATION") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "DVIOLATION_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
+
 
 	//Criminal Information
-	} else if($name == "CRIMINAL_VIOLATION") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "CVIOLATION_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
+
 
 	//GRE
-	} else if($name == "GRE_TAKEN") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "GRE_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
-	} else if($name == "GRE_VERBAL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gre_verbal'));
-		$message = "Invalid score.";
-	} else if($name == "GRE_QUANTITATIVE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gre_quantitative'));
-		$message = "Invalid score.";
-	} else if($name == "GRE_ANALYTICAL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gre_analytical'));
-		$message = "Invalid score.";
-	} else if($name == "GRE_SCORE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gre_score'));
-		$message = "Invalid score.";
-	} else if($name == "GRE_SUBJECT") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gre_subject'));
-		$message = "Invalid score.";
-	} else if($name == "GRE_REPORTED") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
+
 
 	//GMAT
-	} else if($name == "GMAT_TAKEN") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid score.";
-	} else if($name == "GMAT_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
-	} else if($name == "GMAT_VERBAL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gmat_verbal'));
-		$message = "Invalid score.";
-	} else if($name == "GMAT_QUANTITATIVE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gmat_quantitative'));
-		$message = "Invalid score.";
-	} else if($name == "GMAT_ANALYTICAL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gmat_analytical'));
-		$message = "Invalid score.";
-	} else if($name == "GMAT_SCORE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_gmat_score'));
-		$message = "Invalid score.";
-	} else if($name == "GMAT_REPORTED") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
+
 
 	//MAT
-	} else if($name == "MAT_TAKEN") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "MAT_DATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_short_date'));
-		$message = "Invalid date.";
-	} else if($name == "MAT_SCORE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_mat_score'));
-		$message = "Invalid score.";
-	} else if($name == "MAT_REPORTED") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
 
 
 	###Educational Objectives###
 	//Academic Programs
-	} else if($name == "STUDENT_TYPE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_student_type'));
-		$message = "Invalid value.";
-	} else if($name == "START_SEMESTER") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_semester'));
-		$message = "Invalid value.";
-	} else if($name == "START_YEAR") {
-		$valid = filter_var($value, FILTER_VALIDATE_INT);
-		$message = "Invalid value.";
+	//degree
 
 	//Rest
-	} else if($name == "ATTENDANCE_LOAD") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_attendance_load'));
-		$message = "Invalid value.";
-	} else if($name == "DESIRE_ASSISTANTSHIP") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "APPLY_NEBHE") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "UM_CORRESPOND") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
 
 
 	###Letters of Recommendation###
 	//Waiver of Viewing Rights
-	} else if($name == "WAIVE_VIEW_RIGHTS") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
 
 
 	//Additional References
-	} else if($name == "REFERENCE_ONLINE") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
-	} else if($name == "REFERENCE_FIRST") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_name'));
-		$message = "Contains invalid characters.";
-	} else if($name == "REFERENCE_LAST") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_name'));
-		$message = "Contains invalid characters.";
-	} else if($name == "REFERENCE_EMAIL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_email'));
-		$message = "Invalid email address.";
-	} else if($name == "REFERENCE_PHONE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_phone'));
-		$message = "Invalid phone number.";
-	} else if($name == "REFERENCE_RELATIONSHIP") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_relationship'));
-		$message = "Invalid value.";
-	} else if($name == "REFERENCE_STATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_state'));
-		$message = "Invalid value.";
-	} else if($name == "REFERENCE_POSTAL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_zipcode'));
-		$message = "Invalid postal code.";
-	} else if($name == "REFERENCE_COUNTRY") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_country'));
-		$message = "Invalid value.";
-	} else if($name == "ENGLISH_YEARS_SCHOOL") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_date_range'));
-		$message = "Incorrect Date Format";
-	} else if($name == "ENGLISH_YEARS_UNIV") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_date_range'));
-		$message = "Incorrect Date Format";
-	} else if($name == "ENGLISH_YEARS_PRIVATE") {
-		$valid = filter_var($value, FILTER_CALLBACK, array('options' => 'filter_date_range'));
-		$message = "Incorrect Date Format";
 
 	###Submission Manager###
-	} else if($name == "ACCEPT_TERMS") {
-		$valid = null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		$message = "Invalid option.";
 
 
 	###Default###
