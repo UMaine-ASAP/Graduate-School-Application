@@ -24,16 +24,16 @@ The **Graduate School Application** is the prospective student online applicatio
 ## File Structure
 - **applicant_files/** 		Contains folders for all applicant related files (essay, resume, recommendations, and pdf generated applications). This same folder is also used by the application management system
 
-- **application/** 				Contains all of the logic for the system
+- **application/** 				Contains all of the application logic
 
 	- **controllers/** 				Object classes for controlling applicant and application data access
 	- **images/** 					Images for the website
-	- **libs/** 					External and developed libraries in the system
-	- **js/** 					All javascript libraries
-	- **models/** 					All data-specific scripts used in other locations
+	- **libs/** 					External and internal frameworks used in the system
+	- **js/** 					All javascript code
+	- **styles/**					CSS styles for the site
+	- **models/** 					All data objects used in the application
 	- **pages/** 					Web pages
 	- **scripts/** 				Various system scripts to perform actions and get data
-	- **styles/**					CSS styles for the site
 	- **templates/** 				Templates for forms and pages
 	- **app_manager.php** 			Runs all general application pages (form pages)
 	- **index.php** 				points to app_manager.php
