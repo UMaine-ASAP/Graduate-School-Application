@@ -44,9 +44,6 @@ $app = new \Slim\Slim(array(
     'view' => new \Slim\Extras\Views\Twig()
 ));
 
-$WEBROOT = "http://gradapp";
-
-
 class internalErrors {
 	// Saving data errors
 	const ERROR_SAVING_FIELDNOTFOUND  = 1001;
@@ -61,6 +58,11 @@ class internalErrors {
 /*----------------------------------------------------*/
 /* Helper Functions
 /*----------------------------------------------------*/
+function redirect($destination)
+{
+	$GLOBALS['app']->redirect($GLOBALS['WEBROOT'] . $destination);
+}
+
 function render($path, $args = array()) {
 	$app = \Slim\Slim::getInstance();
 
@@ -125,7 +127,7 @@ $authenticated = function() use ($app) {
 	$isLoggedIn = ApplicantManager::applicantIsLoggedIn();
 	if( !$isLoggedIn ) 
 	{
-		$app->redirect('/login');
+		redirect('/login');
 	}
 	return $isLoggedIn;
 };
@@ -163,9 +165,9 @@ $app->get('/', function() {
 	$app = Slim\Slim::getInstance();
 	// route to correct page
 	if( ApplicantManager::applicantIsLoggedIn() ) {
-		$app->redirect('/application');
+		redirect('/application');
 	} else {
-		$app->redirect('/login');
+		redirect('/login');
 	}
 });
 
@@ -209,7 +211,7 @@ $app->post('/login', function() use ($app) {
 				$applicantLoggedInErrorMessage = ApplicantManager::loginApplicant($email, $password);
 				if( $applicantLoggedInErrorMessage == '' )
 				{
-					$app->redirect('/application/section/personal-information');				
+					redirect('/application/section/personal-information');				
 				} else {
 					$error_messages->add( $applicantLoggedInErrorMessage );
 					
@@ -222,7 +224,7 @@ $app->post('/login', function() use ($app) {
 			// Display Errors
 			$app->flash('errors', $error_messages->render() );
 			//print_r($app->flash);
-			$app->redirect('/login');
+			redirect('/login');
 
 		break;
 		case 'createAccount':
@@ -250,16 +252,16 @@ $app->post('/login', function() use ($app) {
 				sendSuccessMessage($email, $code);				
 
 				$app->flash('success', 'Account created. Please check your email for a link to confirm your email address.' );
-				$app->redirect('/login');
+				redirect('/login');
 			} else {
 				// Display Errors
 				$app->flash('account-creation-errors', $error_messages->render() );
-				$app->redirect('/login');
+				redirect('/login');
 			}
 		break;
 		default:
 			$app->flash('warning', 'Internal Error 601');			
-			$app->redirect('/login');
+			redirect('/login');
 		break;
 	}
 });
@@ -282,7 +284,7 @@ $app->get('/account/confirm', function() use ($app) {
 	if( !isset($_GET['email']) or !isset($_GET['code']) )
 	{
 		$app->flash('warning', 'Malformed Link');
-		$app->redirect('/login');
+		redirect('/login');
 		exit(0);
 	}
 
@@ -292,7 +294,7 @@ $app->get('/account/confirm', function() use ($app) {
 	if ( !$accountValidates )
 	{
 		$app->flash('warning', 'Malformed Link');
-		$app->redirect('/login');
+		redirect('/login');
 		exit(0);		
 	}
 
@@ -301,13 +303,13 @@ $app->get('/account/confirm', function() use ($app) {
 	if ( $accountValidated ) {
 		// Account has already been confirmed
 		$app->flash('warning', 'You have already confirmed your email address. Please sign in below.');
-		$app->redirect('/login');
+		redirect('/login');
 		exit(0);
 	} else {
 		// Account Confirmed
 		Applicant::validateAccount($email, $code);
 		$app->flash('success', 'You have been confirmed. Please sign in.');
-		$app->redirect('/login');
+		redirect('/login');
 		exit(0);
 	}
 });
@@ -320,7 +322,7 @@ $app->get('/account/confirm', function() use ($app) {
  */
 $app->get('/logout', function() use ($app) {
 	user_logout();
-	$app->redirect('/login');
+	redirect('/login');
 });
 
 
@@ -489,11 +491,11 @@ $app->get('/application/section/next', $authenticated, $applicationNotSubmitted,
 			// goto app review page
 		} else {
 			$next_section = $sections[$index+1];
-			return $app->redirect('/application/section/' . $next_section);
+			return redirect('/application/section/' . $next_section);
 		}
 	}
 	// Error, return to first page with warning
-	return $app->redirect('/application/section/' . $sections[0]);
+	return redirect('/application/section/' . $sections[0]);
 });
 
 /**
@@ -513,11 +515,11 @@ $app->get('/application/section/previous', $authenticated, $applicationNotSubmit
 			// error, there is no previous for the first section
 		} else {
 			$next_section = $sections[$index-1];
-			return $app->redirect('/application/section/' . $next_section);
+			return redirect('/application/section/' . $next_section);
 		}
 	}
 	// Error, return to first page with warning
-	return $app->redirect('/application/section/' . $sections[0]);
+	return redirect('/application/section/' . $sections[0]);
 });
 
 
