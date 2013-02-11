@@ -58,9 +58,14 @@ class internalErrors {
 /*----------------------------------------------------*/
 /* Helper Functions
 /*----------------------------------------------------*/
+function makeLink($destination)
+{
+	return $GLOBALS['WEBROOT'] . $destination;
+}
+
 function redirect($destination)
 {
-	$GLOBALS['app']->redirect($GLOBALS['WEBROOT'] . $destination);
+	$GLOBALS['app']->redirect( makeLink($destination) );
 }
 
 function render($path, $args = array()) {
@@ -625,8 +630,10 @@ $app->get('/application/submit-with-payment', $authenticated, $applicationNotSub
 	
 		//Send Payment
 		$application->submitWithPayment(true);
+		
 	} else {
-		header('Location: ../application/pages/lockout.php');	
+		// no more lockout
+		// @TODO: return to main page with error -> already submitted
 	}
 });
 
@@ -652,9 +659,10 @@ $app->get('/application/submit-without-payment', $authenticated, $applicationNot
 		// Update application
 		$application->submitWithPayment(false);
 	
-		header('Location: ../application/success.php');
+		// @TODO: Display submitted without payment template
 	} else {
-		header('Location: ../application/pages/lockout.php');
+		// no more lockout
+		// @TODO: return to main page with error -> already submitted
 	}
 });
 
