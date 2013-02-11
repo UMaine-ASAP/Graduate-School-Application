@@ -70,9 +70,9 @@
 {% block content %}
 	
 	<noscript>
-		<meta http-equiv="refresh" content="5; URL=pages/no_javascript.php">
+		<meta http-equiv="refresh" content="5; URL={{WEBROOT}}/no-javascript">
 		<style type="text/css" media="screen">#form_pane, .topHeader, #sidebar_pane {display:none;}</style>
-		<p id='noscript'>You do not have javascript enabled. In a moment you will be redirected to a page with instructions to enable JavaScript. If you are not redirected in five seconds, click <a href="pages/no_javascript.php">here</a>.</p>
+		<p id='noscript'>You do not have javascript enabled. In a moment you will be redirected to a page with instructions to enable JavaScript. If you are not redirected in five seconds, click <a href="{{WEBROOT}}/no-javascript">here</a>.</p>
 	
 	</noscript>
 
