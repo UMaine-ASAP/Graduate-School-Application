@@ -55,15 +55,15 @@
 	<div id="sections"> {{SECTION_LINKS | raw }} </div>
 	<div id="footer">
 		
-		<form id="submit_form" method="post">
-			<input type="submit" id="submit_app" name="submit_app" value="Review Application"/>
+		<form id="submit_form" method="GET">
+			<input type="submit" id="submit_app" name="review_application" value="Review Application"/>
 		</form>
 
-		<form id="sign_out" method="link" action="/logout">
+		<form id="sign_out" method="link" action="{{WEBROOT}}/logout">
 			<input type="submit" id="sign_out" name="sign_out" value="Sign Out"/>
 		</form>
 		
-		<input type="button" name="save_button" value="Save" id="save_button" onClick="alert('Yoprogress has been saved')" />
+		<input type="button" name="save_button" value="Save" id="save_button" onClick="alert('Your progress has been saved')" />
 	</div>
 {% endblock %}
 

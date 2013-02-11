@@ -3,7 +3,7 @@
 	 -->
 {% macro previousLink(name) %} 
 	<span style="float:left;">
-		<a href="/application/section/previous" ><span class="chevron">&#0171;</span> {{name | default('Previous Section')}}</a>
+		<a href="{{WEBROOT}}/application/section/previous" ><span class="chevron">&#0171;</span> {{name | default('Previous Section')}}</a>
 	</span>
 {% endmacro %}
 
@@ -13,7 +13,7 @@
 	 -->
 {% macro nextLink(name) %} 
 <span style="float:right;">
-	<a href="/application/section/next">{{name | default('Next Section')}} <span class="chevron">&#0187;</span></a>
+	<a href="{{WEBROOT}}/application/section/next">{{name | default('Next Section')}} <span class="chevron">&#0187;</span></a>
 </span>
 {% endmacro %}
 
