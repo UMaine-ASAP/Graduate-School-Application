@@ -1,5 +1,4 @@
 <?php
-	require_once __DIR__ . "/../../libs/tcpdf/tcpdf.php";
 	require_once __DIR__ . "/../../libs/MPDF52/mpdf.php";
 
 	require_once __DIR__ . "/../../config.php";
@@ -412,8 +411,3 @@ function generate_application_pdf($output_mode) {
 	return;
 } //End Function Generate Application PDF
 	
-
-//============================================================+
-// END OF FILE                                                 
-//============================================================+
-?>

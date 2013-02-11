@@ -141,8 +141,13 @@ class Database
 	public static function getFirst()
 	{
 		$result = call_user_func_array('self::query', func_get_args());
-
-		return $result[0];
+	
+		if( $result != array() )
+		{
+			return $result[0];
+		} else {
+			return null;
+		}
 	}
 
 	public static function query(/*$query, [[, $args [, $... ]]*/)

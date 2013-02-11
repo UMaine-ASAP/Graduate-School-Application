@@ -8,6 +8,10 @@
 session_cache_limiter(false);
 session_start();
 
+// Data
+require_once "config.php";
+require_once "models/databaseConfig.php";
+
 // Base Classes
 require_once "models/backbone/Entity.php";
 require_once "models/backbone/Manager.php";
@@ -32,28 +36,17 @@ require_once 'libs/Slim/Twig.php';
 // Start Slim and Twig
 
 
+// Configure Input Sanitation values
+InputSanitation::initialize($GLOBALS['databaseFields']);
 
 $app = new \Slim\Slim(array(
     'view' => new \Slim\Extras\Views\Twig()
 ));
-// $app->add(new \Slim\Middleware\SessionCookie(array(
-//     'expires' => '20 minutes',
-//     'path' => '/',
-//     'domain' => null,
-//     'secure' => false,
-//     'httponly' => false,
-//     'name' => 'slim_session',
-//     'secret' => 'CHANGE_ME',
-//     'cipher' => MCRYPT_RIJNDAEL_256,
-//     'cipher_mode' => MCRYPT_MODE_CBC
-// )));
-
 
 $WEBROOT = "http://gradapp";
 
 
-class internalErrors
-{
+class internalErrors {
 	// Saving data errors
 	const ERROR_SAVING_FIELDNOTFOUND  = 1001;
 	const ERROR_SAVING_FIELDNOTLOADED = 1002;
@@ -70,7 +63,7 @@ class internalErrors
 function render($path, $args = array()) {
 	$app = \Slim\Slim::getInstance();
 
-	$args['WEBROOT']		= $WEBROOT;
+	$args['WEBROOT']		= $GLOBALS['WEBROOT'];
 	$args['GRADHOMEPAGE']	= $GLOBALS['graduate_homepage'];
 	$args['GRADIMAGESPATH']	= $GLOBALS['grad_images'];
 
@@ -84,8 +77,7 @@ function render($path, $args = array()) {
 	return $app->render($path, $args);
 }
 
-function createHTMLForSection($name, $currentLocation)
-{
+function createHTMLForSection($name, $currentLocation) {
 	$html = '';
 	$link_title = ucwords( str_replace('-', ' ', $name));
 	if( $currentLocation == $name ) {
@@ -93,15 +85,14 @@ function createHTMLForSection($name, $currentLocation)
 	} else {
 		$html .= "<div class='isection section-icon-$name'>";
 	}
-	$html .= "<a href='" . $_GLOBALS['WEBROOT'] . "/application/section/$name'>";
+	$html .= "<a href='" . $GLOBALS['WEBROOT'] . "/application/section/$name'>";
 	$html .= "<p>$link_title</p>";
 	$html .= "</a>";
 	$html .= '</div>';
 	return $html;
 }
 
-function render_section($path, $args = array(), $sections, $currentLocation)
-{
+function render_section($path, $args = array(), $sections, $currentLocation) {
 	$_SESSION['current-application-section'] = $currentLocation;
 
 	$sectionHTML = '';
@@ -126,12 +117,9 @@ function render_section($path, $args = array(), $sections, $currentLocation)
 /**
  * Authenticated
  * 
- * Middleware
- * 
  * Validate that user is logged in
  */
 // @pragma authenticated Middleware
-
 $authenticated = function() use ($app) {
 	$isLoggedIn = ApplicantManager::applicantIsLoggedIn();
 	if( !$isLoggedIn ) 
@@ -144,8 +132,6 @@ $authenticated = function() use ($app) {
 
 /**
  * Application Not Submitted
- * 
- * Middleware
  * 
  * Validate that application has not already been submitted
  */
@@ -169,8 +155,6 @@ $applicationNotSubmitted = function() {
 /**
  * Root
  * 
- * Get Request
- * 
  * Route logged in users to application page, otherwise send to login page
  */
 // @pragma Root Request
@@ -188,8 +172,6 @@ $app->get('/', function() {
 /**
  * Login
  * 
- * Get Request
- * 
  * Render login page
  */
 $app->get('/login', function() use($app) {
@@ -202,8 +184,6 @@ $app->get('/login', function() use($app) {
 // @pragma Login Request
 /**
  * Login - Submission
- * 
- * Post Request
  * 
  * Validate log in attempt and direct to application
  */
@@ -286,9 +266,7 @@ $app->post('/login', function() use ($app) {
 
 // @pragma Confirm Account Request
 /**
- * Account - Confirm
- * 
- * Script
+ * Account - Confirm Script
  * 
  *  @pragma MiddleWare
  * 
@@ -337,8 +315,6 @@ $app->get('/account/confirm', function() use ($app) {
 /**
  * Logout
  * 
- * Get Request
- * 
  * Logs out user
  */
 $app->get('/logout', function() use ($app) {
@@ -350,8 +326,6 @@ $app->get('/logout', function() use ($app) {
 /**
  * Register - Submission
  * 
- * Post Request
- * 
  * Register User
  */
 $app->post('/account/register', function() {
@@ -360,8 +334,6 @@ $app->post('/account/register', function() {
 
 /**
  * Forgot Password
- * 
- * Get Request
  * 
  * Forgot password page
  */
@@ -373,8 +345,6 @@ $app->get('/account/forgot-password', function() {
 /**
  * Reset Password
  * 
- * Get Request
- * 
  * Reset password page
  */
 $app->get('/account/reset-password', function() {
@@ -385,8 +355,6 @@ $app->get('/account/reset-password', function() {
 /**
  * Lock Out
  * 
- * Get Request
- * 
  * Application already submitted - lockout page
  */
 $app->get('/lockout', function() {
@@ -396,8 +364,6 @@ $app->get('/lockout', function() {
 
 /**
  * No Javascript
- * 
- * Get Request
  * 
  * Javascript not detected, alerting user
  */
@@ -414,9 +380,7 @@ $app->get('/no-javascript', function() {
 // @pragma Application - Save Data
 /**
  * Application
- * 
- * Save Data
- * 
+ *  
  * Save a field from the application
  */
 $app->post('/saveData', function() use ($app) {
@@ -438,14 +402,31 @@ $app->post('/saveData', function() use ($app) {
 
 	$parentObject = null;
 	$fieldName = null;
+	$id = -1;
 
-	$pathDetails = explode('.', $field);
+	$pathDetails = explode('-', $field);
 	if( count($pathDetails) == 1) {
 		$parentObject = $application;
 		$fieldName = $pathDetails[0];
 	} else if( count($pathDetails) == 2) {
 		$parentObject = $application->$pathDetails[0];
 		$fieldName = $pathDetails[1];
+	} else if( count($pathDetails) == 3) {
+
+		// the last value may be an id
+		if( strpos($pathDetails[2], '#') !== false )
+		{
+			$id = (int) substr($pathDetails[2], 1);
+
+			// id is associated with the first item and indicates a repeatable
+			echo $id;
+
+			$parentObject = $application->$pathDetails[0];
+			$fieldName = $pathDetails[1];
+		} else {
+			$parentObject = $application->$pathDetails[0]->$pathDetails[1];
+			$fieldName = $pathDetails[2];
+		}
 	}
 
 	if ($parentObject == null ) {
@@ -455,8 +436,8 @@ $app->post('/saveData', function() use ($app) {
 
 
 	$errorMessage = '';
-	$isValidValue = InputSanitation::isValid($field, $value, $errorMessage);
 
+	$isValidValue = InputSanitation::isValid($field, $value, $errorMessage);
 
 	if($isValidValue)
 	{
@@ -468,17 +449,34 @@ $app->post('/saveData', function() use ($app) {
 		echo $errorMessage;
 	}
 
+});
+
+/**
+ * 
+ */
+$app->get('/application/getTemplate/:name', function($name) use ($app) {
+
+	switch($name)
+	{
+		case 'language':
+			$language = Language::createNew();
+			$data = array(
+				'language' => $language,
+				'hide' => false);
+			return $app->render("repeatable/language.twig", $data);
+		break;
+		default:
+		return '';
+	}
 
 });
 
 /**
  * Application
  * 
- * Get Request
- * 
  * Render next application section
  */
-$app->get('/application/section/next', $authenticated, $applicationNotSubmitted, function() {
+$app->get('/application/section/next', $authenticated, $applicationNotSubmitted, function() use ($app) {
 	$current_section = $_SESSION['current-application-section'];
 
 	$application 	= ApplicationManager::getActiveApplication();
@@ -490,19 +488,41 @@ $app->get('/application/section/next', $authenticated, $applicationNotSubmitted,
 			// goto app review page
 		} else {
 			$next_section = $sections[$index+1];
-			return $app->redirect('/application/section' . $next_section);
+			return $app->redirect('/application/section/' . $next_section);
 		}
 	}
 	// Error, return to first page with warning
 	return $app->redirect('/application/section/' . $sections[0]);
-
 });
+
+/**
+ * Application
+ * 
+ * Render previous application section
+ */
+$app->get('/application/section/previous', $authenticated, $applicationNotSubmitted, function() use ($app) {
+	$current_section = $_SESSION['current-application-section'];
+
+	$application 	= ApplicationManager::getActiveApplication();
+	$sections 	= $application->sections;
+
+	$index=array_search($current_section, $sections);
+	if( $index !== False ) {
+		if($index == 0) {
+			// error, there is no previous for the first section
+		} else {
+			$next_section = $sections[$index-1];
+			return $app->redirect('/application/section/' . $next_section);
+		}
+	}
+	// Error, return to first page with warning
+	return $app->redirect('/application/section/' . $sections[0]);
+});
+
 
 // @pragma Application Section personal-information
 /**
  * Application
- * 
- * Get Request
  * 
  * Render application section personal-information
  */
@@ -510,15 +530,12 @@ $app->get('/application/section/personal-information', $authenticated, $applicat
 	$applicant 	= ApplicantManager::getActiveApplicant();
 	$application 	= ApplicationManager::getActiveApplication();
 
-	//echo $application->personal->email;
 	render_section('application/personal-information.twig', array('application' => $application, 'applicant'=>$applicant), $application->sections, 'personal-information');
 });
 
 // @pragma Application Section international
 /**
  * Application
- * 
- * Get Request
  * 
  * Render application section international
  */
@@ -534,8 +551,6 @@ $app->get('/application/section/international', $authenticated, $applicationNotS
 /**
  * Application
  * 
- * Get Request
- * 
  * Render application section educational history
  */
 $app->get('/application/section/educational-history', $authenticated, $applicationNotSubmitted, function () {
@@ -549,8 +564,6 @@ $app->get('/application/section/educational-history', $authenticated, $applicati
 // @pragma Application Section educational-objectives
 /**
  * Application
- * 
- * Get Request
  * 
  * Render application section educational objectives
  */
@@ -566,8 +579,6 @@ $app->get('/application/section/educational-objectives', $authenticated, $applic
 /**
  * Application
  * 
- * Get Request
- * 
  * Render application section Letters of recommendation
  */
 $app->get('/application/section/letters-of-recommendation', $authenticated, $applicationNotSubmitted, function () {
@@ -580,9 +591,7 @@ $app->get('/application/section/letters-of-recommendation', $authenticated, $app
 
 
 /**
- * Application - Download
- * 
- * Script/Get Request
+ * Application - Download Script
  * 
  * Downloads pdf of current application
  */
@@ -593,9 +602,7 @@ $app->get('/application/download', $authenticated, $applicationNotSubmitted, fun
 
 
 /**
- * Application - Submit with payment
- * 
- * Script/Get Request
+ * Application - Submit with payment Script
  * 
  * Submit applicaiton with payment
  */
@@ -622,9 +629,7 @@ $app->get('/application/submit-with-payment', $authenticated, $applicationNotSub
 
 
 /**
- * Application - Submit without payment
- * 
- * Script/Get Request
+ * Application - Submit without payment Script
  * 
  * Submit applicaiton without payment
  */
@@ -661,8 +666,6 @@ $app->get('/application/submit-without-payment', $authenticated, $applicationNot
 /**
  * Payment - Success
  * 
- * Get Request
- * 
  * Payment was successful message
  */
 $app->get('/payment/success', function() {
@@ -679,8 +682,6 @@ $app->get('/payment/success', function() {
 
 /**
  * Payment - Cancel
- * 
- * Get Request
  * 
  * Payment was cancelled message
  */
@@ -699,8 +700,6 @@ $app->get('/payment/cancel', function() {
 /**
  * Payment - Failure
  * 
- * Get Request
- * 
  * Payment process failed message
  */
 $app->get('/payment/failed', function() {
@@ -715,9 +714,7 @@ $app->get('/payment/failed', function() {
 });
 
 /**
- * Payment - Callback Update
- * 
- * Script / Get Request
+ * Payment - Callback Update Script
  * 
  * Indicates payment was successful. Data about payment details is sent to application for records.
  */
@@ -780,11 +777,8 @@ $app->post('/payment/callback-update', function() {
 /* @pragma Recommendation
 /*----------------------------------------------------*/
 
-
 /**
  * Recommendation
- * 
- * Get Request
  * 
  * Render recommendation page
  */
@@ -796,8 +790,6 @@ $app->get('/recommendation/:application_id/:reference_id', function($application
 /**
  * Recommendation - Submission
  * 
- * Post Request
- * 
  * Process recommendation
  */
 $app->post('/recommendation/:application_id/:reference_id', function($application_id, $reference_id) {
@@ -807,8 +799,6 @@ $app->post('/recommendation/:application_id/:reference_id', function($applicatio
 
 /**
  * Recommendation - Thank You
- * 
- * Get Request
  * 
  * Render thank you page for recommendation
  */
@@ -833,10 +823,6 @@ $app->get('/test/emailSystem', function() {
 
 $app->get('/test/entity', function() {
 
-//	$dbArray = Database::query("SELECT * FROM applicants");
-//	$entity = createFromDatabase($dbArray[0]);
-
-//	print_r($entity);
 	$entity = Entity::factory('Applicant')->first(1);
 
 });

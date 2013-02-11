@@ -1,0 +1,34 @@
+{% import "forms.macro.twig" as forms %}
+{% import "application/section.macro.twig" as section %}
+<div id="languages_{{language.id}}" class="{% if hide %}hidden{% endif %} language">
+	<fieldset class="nested">
+		{{ section.removeSubSectionButton('languages_'+ language.id ) }}
+
+		{{ forms.input( {'title':'Language',
+					'name':'languages-name-#' ~ language.id,
+					'value':language.name,
+					'size':20,
+					'maxLength':20
+				 } ) }}
+
+		{{ forms.select( {'title':'Writing Proficiency',
+					'name': 'languages-writingProficiency-#' ~ language.id,
+					'value': language.writingProficiency,
+					'options': language.options_proficiency
+				 }) }}
+
+		{{ forms.select( {'title':'Reading Proficiency',
+					'name':'languages-readingProficiency-#' ~ language.id,
+					'value': language.readingProficiency,
+					'options': language.options_proficiency
+				 }) }}
+
+		{{ forms.select( {'title':'Speaking Proficiency',
+					'name':'languages-speakingProficiency-#' ~ language.id,
+					'value': language.speakingProficiency,
+					'options': language.options_proficiency
+				 }) }}
+
+	</fieldset>
+	<div style="clear:both;"></div>
+</div>

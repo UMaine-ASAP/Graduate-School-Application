@@ -17,7 +17,12 @@ function saveValue(e,table_name,index) {
 	else if (e.srcElement) targ = e.srcElement;
 	if (targ.nodeType == 3) // defeat Safari bug
 		targ = targ.parentNode;
-		
+	
+	// Map check box input to correct value
+	if(targ.type == 'checkbox') {
+		targ.value = targ.checked ? '1' : '0';
+	}
+
 	if(!table_name) table_name = '';
 	if(!index) index = '';
 	$.ajax({
@@ -62,20 +67,6 @@ function saveCheckValue(e,table_name,index) {
 	});
 }
 
-function initValue_old(element,value) {
-	str = "";
-	var e = document.getElementById(element);
-	var quit = false;
-	
-	for(i=0;i<e.length && !quit;i++) {
-		if(e[i].value == value) { 
-			e[i].selected = true;
-			quit = true;
-		}
-	}
-}
-
-
 function initValue(element,value) {
 	var element = document.getElementById(element);
 	if(element.length == 1){
@@ -99,33 +90,22 @@ function checkInitValue(element, value) {
 }
 
 function addItem(table) {
-	$.get("templates/"+table+"_repeatable.php",function(data){
-		//Get information for replacement
-		form_item = data;		
-		user = document.getElementById("user_id").value;
-		
-		index = null;
-		$.get("libs/nextIndex.php",{tablename:table,username:user,random:new Date().getTime()},function(nextIndex){
+	$.get(WEBROOT + "/application/getTemplate/"+table,function(data){
+		index = $('.' + table).size() + 1;
 
-			index = Number(nextIndex);
+		var groupSelector = '#' + table + 's'; 
+		var itemSelector = '#' + table + 's_' + index;
 
-			//Replace relevant template items
-			form_item = form_item.replace(/{{TABLE_NAME}}/g,table);
-			form_item = form_item.replace(/{{INDEX}}/g,index);
-			form_item = form_item.replace(/{{USER}}/g,user);
-			form_item = form_item.replace(/{{HIDE}}/g,"hidden");
-			form_item = form_item.replace(/{{([A-Z]|[0-9]|_)+}}/g,""); 		//Remove extra template items
-			
-			$("#"+table+"_list").append(form_item); 					//Add Form Item
-			$("#"+table+"_"+index+" fieldset").fadeIn();
-			$("#"+table+"_"+index).slideDown();
+		console.log( $(itemSelector) );
 
-		},"text");		
-		
-	},"text");	
+		$(groupSelector).append(data);
+		$(itemSelector).fadeIn();
+		$(itemSelector).slideDown();
+	}, "text");
 }
-
-function removeItem(id) {	
+		
+		
+function removeItem(id) {
 	var d = document.getElementById(id)
 	$("#"+d.id+" fieldset").fadeOut();
 	$(d).slideUp("normal",function() {
@@ -166,8 +146,8 @@ function visSlideDown(elementID) {
 
 function showOrNot(element,showVal) {
 	var el = document.getElementById(element);
-	if(showVal == 1) el.style.display = 'block';
-	else if (showVal == 0) el.style.display = 'none';
+	if(showVal || showVal == 1) el.style.display = 'block';
+	else if (!showVal || showVal == 0) el.style.display = 'none';
 }
 
 function stopRKey(evt) { 

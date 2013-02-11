@@ -8,10 +8,6 @@
 	<link rel="stylesheet" type="text/css" href="{{WEBROOT}}/styles/app_manager_style.css" media="screen,print" />
 	<link rel="stylesheet" type="text/css" href="{{WEBROOT}}/styles/section.css" media="screen,print" />
 
-	<!--
-	<link rel="stylesheet" type="text/css" href="{{WEBROOT}}/styles/sub_manager_style.css" media="screen,print" />
-	-->
-
 	<!-- Javascript libraries -->
 	<script type="text/javascript" src="{{WEBROOT}}/js/ajaxupload.3.5.js" ></script>
 	<script type="text/javascript" src="{{WEBROOT}}/js/form_helper.js"></script>
@@ -19,9 +15,7 @@
 	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery-ui-1.8.2.custom.min.js"></script>
 	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery.validate.js"></script>
 
-	<!-- Data -->		
-	<script type="text/javascript" src="{{WEBROOT}}/js/state.js"></script>
-	<script type="text/javascript" src="{{WEBROOT}}/js/country.js"></script>
+	<!-- Accessors -->
 	<script type="text/javascript" src="{{WEBROOT}}/js/academics.js"></script>
 
 	<script type="text/javascript" charset="utf-8">
@@ -60,12 +54,15 @@
 
 	<div id="sections"> {{SECTION_LINKS | raw }} </div>
 	<div id="footer">
+		
 		<form id="submit_form" method="post">
 			<input type="submit" id="submit_app" name="submit_app" value="Review Application"/>
 		</form>
-		<form id="sign_out" method="link" action="pages/logout.php">
+
+		<form id="sign_out" method="link" action="/logout">
 			<input type="submit" id="sign_out" name="sign_out" value="Sign Out"/>
 		</form>
+		
 		<input type="button" name="save_button" value="Save" id="save_button" onClick="alert('Yoprogress has been saved')" />
 	</div>
 {% endblock %}

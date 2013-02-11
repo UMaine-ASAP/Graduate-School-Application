@@ -1,0 +1,98 @@
+<!-- Macro: Input
+	Create an HTML input Element
+	values:
+		name 		- The corresponding database field name identifier
+		title 		- the display title for the field
+		type			- type of html input. Default is text
+		value 		- The current value to display in the field
+		size			- The width of the input
+		maxLength 	- The maximum number of characters allowed
+		isRequired 	- Whether this field is required or not
+		help 		- Help text to display to and guide the user
+
+	 -->
+{% macro input(values) %} <!-- title, id, name, value, size, isRequired, maxLength, type -->
+	<label for='{{ values['name'] }}'>
+		<p class='{% if values['isRequired'] %}required{% endif %} title'>{{ values['title'] }} {% if values['isRequired'] %}*{% endif %}</p>
+ 	   	<input type="{{ values['type']|default('text') }}" id='{{ values['name']}}' name="{{ values['name'] }}" value="{{ values['value']|e }}" size="{{ values['size']|default(30) }}" maxlength="{{ values['maxLength']|default(values['size'])|default(30) }}" onblur='saveValue(event);'/>
+		{% if values['help'] %}
+			<p class="help">{{ values['help'] }}</p>
+		{% endif %}
+
+ 	</label>
+{% endmacro %}
+
+<!-- Macro: Select
+	Create a Select Field Element
+	values:
+		name 		- The corresponding database field name identifier
+		title 		- the display title for the field
+		value 		- The current value to display in the field
+		options 		- Associative array of values and names (value=>name)
+		isRequired 	- Whether this field is required or not
+
+	 -->
+{% macro select(values) %}
+	<label for='{{ values['name'] }}'>
+		<p class='{% if values['isRequired'] %}required{% endif %} title'>{{ values['title'] }} {% if values['isRequired'] %}*{% endif %}</p>
+		<select id='{{ values['name'] }}' name="{{ values['name'] }}" value="currentValue" onchange="saveValue(event);">
+			{% for value,name in values['options'] %}
+				<option value="{{value}}">{{name}}</option>
+			{% endfor %}
+		</select>
+		<script type="text/javascript">initValue('{{ values['name'] }}','{{ values['value'] }}')</script>
+ 	</label>
+{% endmacro %}
+
+<!-- Macro: Boolean
+	Create a Boolean Field Element
+	values:
+		name 		- The corresponding database field name identifier
+		title 		- the display title for the field
+		value 		- The current value to display in the field
+		showOnTrue	- Determines whether to show corresponding section on true or false. default is true		
+	 -->
+{% macro boolean(values) %}
+	<label for="{{values['name']}}">
+		<p class="title">{{values['title']}}</p>
+		<label for="{{values['name']}}_yes"><input type="radio" id="{{values['name']}}_yes" name="{{values['name']}}" value="1" onclick="visibility(this.name+'_section','none')" onchange="saveValue(event);" > Yes</label>
+		<label for="{{values['name']}}_no"><input type="radio" id="{{values['name']}}_no" name="{{values['name']}}" value="0" onclick="visibility(this.name+'_section','block')" onchange="saveValue(event);" checked> No</label>
+	</label>
+	<script type="text/javascript">checkInitValue('{{values['name']}}_yes',"{{values['value']}}");</script>
+	<script type="text/javascript">checkInitValue('{{values['name']}}_no',"{{values['value']}}");</script>
+{% endmacro %}
+
+
+<!-- Macro: Boolean Display
+	Create a Boolean Field Element the toggles the display of a corresponding section
+	values:
+		title 		- The display title for the field
+		name 		- The corresponding database field name identifier
+		value 		- The current value to display in the field
+		showOnTrue	- Determines whether to show corresponding section on true or false. default is true
+	 -->
+{% macro booleanDisplay(values) %}
+	{{ _self.boolean(values) }}
+	<script type="text/javascript">
+		$().ready(function() {
+			showOrNot('{{values['name']}}_section', {% if (values['showOnTrue'] is not defined) or values['showOnTrue']  %} {{values['value']}} {% else %} !{{values['value']}} {% endif %} );
+		});
+	</script>
+{% endmacro %}
+
+
+<!-- Macro: Checkbox
+	Create a Checkbox Field Element
+	values:
+		title 		- The display title for the field
+		name 		- The corresponding database field name identifier
+		value 		- The current value (0 or 1) to indicate checked or not checked
+	 -->
+{% macro checkbox(values) %}
+		<label for="{{ values['name'] }}" class="one_line"><input type="checkbox" id="{{ values['name'] }}" name="{{ values['name'] }}" value="1" onchange="saveValue(event);"/>{{ values['title'] }}</label>
+	<script type="text/javascript"> 
+		checkInitValue('{{ values['name'] }}',"{{ values['value'] }}");
+	</script>
+{% endmacro %}
+
+

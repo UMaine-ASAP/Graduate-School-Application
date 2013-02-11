@@ -1,0 +1,56 @@
+<!-- Macro: Previous-Link
+	Create an HTML link to the previous section
+	 -->
+{% macro previousLink(name) %} 
+	<span style="float:left;">
+		<a href="/application/section/previous" ><span class="chevron">&#0171;</span> {{name | default('Previous Section')}}</a>
+	</span>
+{% endmacro %}
+
+
+<!-- Macro: Next-Link
+	Create an HTML link to the next section
+	 -->
+{% macro nextLink(name) %} 
+<span style="float:right;">
+	<a href="/application/section/next">{{name | default('Next Section')}} <span class="chevron">&#0187;</span></a>
+</span>
+{% endmacro %}
+
+<!-- Macro: Build Pager
+	Create a pager linking to previous and/or next sections
+	 -->
+{% macro buildPager(includePreviousLink, includeNextLink) %}
+	<div id="pager">
+		<p>
+			{% if includePreviousLink %}
+				{% if includePreviousLink is sameas(false) or includePreviousLink is sameas(true) %}
+					{{ _self.previousLink() }}
+				{% else %}
+					{{ _self.previousLink(includePreviousLink) }}
+				{% endif %}
+			{% endif %}
+			{% if includeNextLink %}
+				{% if includeNextLink is sameas(false) or includeNextLink is sameas(true) %}
+					{{ _self.nextLink() }}
+				{% else %}
+					{{ _self.nextLink(includeNextLink) }}
+				{% endif %}
+
+			{% endif %}
+		</p>
+	</div>
+{% endmacro %}
+
+
+<!-- Macro: Add Subsection Button
+	 -->
+{% macro addSubSectionButton(title, name) %}
+	<button onClick="addItem('{{name}}');" class="button green small add" type="button" title="Add">+ {{title}}</button>
+{% endmacro %}
+
+<!-- Macro: remove Subsection Button
+	 -->
+{% macro removeSubSectionButton(id) %}
+	<button class="button red small remove" type="button" onClick='removeItem("{{id}}"); return false;' title="Remove">Remove</button>
+{% endmacro %}

@@ -1,4 +1,5 @@
 {% extends 'application/section.twig' %}
+{% import "application/section.macro.twig" as section %}
 
 {% block form %}
 
@@ -53,6 +54,7 @@
 		<label for="waive_view_rights">
 			<p class="message">The Family Education Rights and Privacy Act of 1974 (P.L. 93-380) gives students access to information in their application files. However, to ensure the references will be free to write a candid letter of recommendation, an applicant may waive the right to see letters of reference.</p>
 			<p class="required title">Please select an option below: *</p>
+
 			<label for="waive_view_rights_yes"><input type="radio" id="waive_view_rights_yes" name="waive_view_rights" value="1" class="waive_view_rights" onchange="saveCheckValue(event);"> Yes, I wish to waive my right to see letters of reference.</label><br />
 			<label for="waive_view_rights_no"><input type="radio" id="waive_view_rights_no" name="waive_view_rights" value="0" class="waive_view_rights" onchange="saveCheckValue(event);" /> No, I do not wish to waive my right to see letters of reference.</label>
 		</label>
@@ -83,15 +85,22 @@
 
 			<div style="clear:both"></div>
 
-			<label for="reference1_first">
-				<p class="required title">First Name *</p>
-				<input type="text" size="30" maxlength="30" id="reference1_first" name="reference1_first" value="{{REFERENCE1_FIRST}}" class="reference1_first" onblur="saveValue(event);"/>
-			</label>
-			
-			<label for="reference1_last">
-				<p class="required title">Last Name *</p>
-				<input type="text" size="30" maxlength="30" id="reference1_last" name="reference1_last" value="{{REFERENCE1_LAST}}" class="reference1_last" onblur="saveValue(event);"/>
-			</label>
+			{{ forms.input( {'title':'First Name', 
+						'name':'reference-firstName',
+						'value':reference.firstName,
+						'size': 30,
+						'maxLength':30,
+						'isRequired':true
+					} ) }}
+
+			{{ forms.input( {'title':'Last Name', 
+						'name':'reference-lastName',
+						'value':reference.lastName,
+						'size': 30,
+						'maxLength':30,
+						'isRequired':true
+					} ) }}
+
 			
 			<label for="reference1_email">
 				<p class="title">E-Mail</p>
@@ -384,11 +393,7 @@
 
 	<div style="clear:both"></div>
 
-	<div id="pager">
-		<p><span style="float:left;"><a href="app_manager.php?form_id=5"><span class="chevron">&#0171;</span> Previous Section</a></span>
-		<span style="float:right;"><a href="submission_manager.php">Review Application <span class="chevron">&#0187;</span></a></span></p>
-	</div>
-	
+	{{ section.buildPager(true, 'Review Application') }}	
 	<div style="clear:both"></div>
 </fieldset><!-- end fieldset "letters_of_recommendation" -->
 </form>

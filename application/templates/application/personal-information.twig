@@ -1,4 +1,6 @@
 {% extends 'application/section.twig' %}
+{% import "forms.macro.twig" as forms %}
+{% import "application/section.macro.twig" as section %}
 
 {% block form %}
 
@@ -11,176 +13,188 @@
 	<fieldset id="name" name="name" class="nested">
 		<legend>Name</legend>
 
-			<label for="given_name">
-				<p class="required title">First or Given name *</p>
-				<input type="text" size="30" maxlength="30" id="given_name" name="personal.givenName" value="{{application.personal.givenName}}" onblur="saveValue(event);"/>
-			</label>
+		{{ forms.input({'title':'First or Given Name', 
+					'name':'personal-givenName', 
+					'value':application.personal.givenName,
+					'isRequired':true
+				} ) }}
 
-			<label for="middle_name">
-				<p class="title">Middle name</p>
-				<input type="text" size="30" maxlength="30" id="middle_name" name="personal.middleName" value="{{application.personal.middleName}}" onblur="saveValue(event);"/>
-			</label>
+		{{ forms.input( {'title':'Middle Name', 
+					'name':'personal-middleName', 
+					'value':application.personal.middleName,
+				} ) }}
 
-			<label for="family_name">
-				<p class="required title">Last or Family name *</p>
-				<input type="text" size="30" maxlength="30" id="family_name" name="personal.familyName" value="{{application.personal.familyName}}" onblur="saveValue(event);"/>
-			</label>
-		
-			<label for="suffix">
-				<p class="title">Suffix</p>
-				<select id="suffix" name="personal.suffix" value="{{application.personal.suffix}}" onchange="saveValue(event);">
-					<option value=""	 >- None -</option>
-					<option value="ESQ." >Esq</option>
-					<option value="II"   > II</option>
-					<option value="III"  >III</option>
-					<option value="IV"   > IV</option>
-					<option value="V"    >  V</option>
-					<option value="JR"   > Jr</option>
-					<option value="SR"   > Sr</option>
-				</select>
-				<script type="text/javascript">initValue('suffix',"{{application.personal.suffix}}")</script>
-			</label>
-	
-			<label for="alternate_name">
-				<p class="title">Name used on previous records</p>
-				<input type="text" size="30" maxlength="30" id="personal.alternativeName" name="personal.alternativeName" value="{{application.personal.alternativeName}}" onblur="saveValue(event);">
-			</label>
+		{{ forms.input( {'title':'Last or Family Name', 
+					'name':'personal-familyName', 
+					'value':application.personal.familyName,
+					'isRequired':true
+				} ) }}
+
+		{{ forms.select( {'title':'Suffix', 
+					'name':'personal-suffix',
+					'value':application.personal.suffix, 
+					'options': application.options_suffix
+				}) }}
+
+		{{ forms.input( {'title':'Name used on previous records', 
+					'name':'personal-alternativeName', 
+					'value':application.personal.alternativeName,
+				} ) }}
 	
 	</fieldset><!-- end fieldset "name" -->
+	
 	<div style="clear:both"></div>	
-
 
 <fieldset id="contact_info" name="contact_info">
 	<legend>Contact Information</legend>
 	<fieldset class="nested">
-		<label for="primary_phone">
-			<p class="title">Primary Phone Number </p>
-			<input type="text" size="55" maxlength="15" id="primary_phone" name="personal.primaryPhone" value="{{application.personal.primaryPhone}}" onblur="saveValue(event);">
-		</label>
-					
-		<label for="secondary_phone">
-			<p class="title">Secondary Phone Number</p>
-			<input type="text" size="55" maxlength="15" id="secondary_phone" name="personal.secondaryPhone" value="{{application.personal.secondaryPhone}}" onblur="saveValue(event);">
-		</label>
-				
-		<label for="email">
-			<p class="required title">Email *</p>
-			<input type="text" size="55" id="email" name="personal.email" value="{{application.personal.email}}" onblur="saveValue(event);">
-		</label>
+		{{ forms.input( {'title':'Primary Phone Number', 
+					'name':'personal-primaryPhone', 
+					'value':application.personal.primaryPhone,
+					'size': 55,
+					'maxLength':15
+				} ) }}
+
+		{{ forms.input( {'title':'Secondary Phone Number', 
+					'name':'personal-secondaryPhone',
+					'value':application.personal.secondaryPhone,
+					'size': 55,
+					'maxLength':15
+				} ) }}
+
+		{{ forms.input( {'title':'Email', 
+					'name':'personal-email',
+					'value':application.personal.email,
+					'size': 55,
+					'maxLength':55,
+					'isRequired':true
+				} ) }}
+
 	</fieldset>
+	
 	<div style="clear:both"></div>	
-		<fieldset id="permanent_addr" name="permanent_addr" class="nested">
-			<legend>Permanent Address</legend>
-			
-					<label for="permanent_addr1">
-						<p class="required title">Street *</p>
-						<input type="text" size="55" maxlength="55" id="permanent_addr1" name="personal.permanentMailing.streetAddress1" value="{{application.personal.permanentMailing.streetAddress1}}" onblur="saveValue(event);">
-					</label>
-					
-					<label for="permanent_addr2">
-						<p class="title">Additional</p>
-						<input type="text" size="55" maxlength="55" id="permanent_addr2" name="personal.permanentMailing.streetAddress2" value="{{application.personal.permanentMailing.streetAddress2}}" onblur="saveValue(event);">
-					</label>
-					
-					<label for="permanent_city">
-						<p class="required title">City *</p>
-						<input type="text" size="30" maxlength="30" id="permanent_city" name="personal.permanentMailing.city" value="{{application.personal.permanentMailing.city}}" onblur="saveValue(event);">
-					</label>
-					
-					<label for="permanent_state">
-						<p class="required title">State/Province *</p>
-						<select id="permanent_state" name="personal.permanentMailing.state" size="1" onchange="saveValue(event);"></select>
-						<script type="text/javascript">getStateOptions('permanent_state',"{{application.personal.permanentMailing.state}}");</script>
-					</label>
-					
-					<label for="permanent_postal">
-						<p class="required title">Postal Code *</p>
-						<input type="text" size="15" maxlength="15" id="permanent_postal" name="personal.permanentMailing.postal" value="{{application.personal.permanentMailing.postal}}" onblur="saveValue(event);">
-					</label>
-					
-					<label for="permanent_country">
-						<p class="required title">Country *</p>
-						<select id="permanent_country" name="personal.permanentMailing.country" size="1" onchange="saveValue(event);"></select>
-						<script type="text/javascript">getCountryOptions('permanent_country', "{{application.personal.permanentMailing.country}}");</script>
-					</label>
+	
+	<fieldset id="permanent_addr" name="permanent_addr" class="nested">
+		<legend>Permanent Address</legend>
+
+			{{ forms.input( {'title':'Street', 
+						'name': 'personal-permanentMailing-streetAddress1',
+						'value': application.personal.permanentMailing.streetAddress1,
+						'size':  55,
+						'maxLength': 55,
+						'isRequired': true
+					} ) }}
+
+			{{ forms.input( {'title':'Additional', 
+						'name':'personal-permanentMailing-streetAddress2',
+						'value':application.personal.permanentMailing.streetAddress2,
+						'size': 55,
+						'maxLength':55,
+					} ) }}
+
+			{{ forms.input( {'title':'City', 
+						'name':'personal-permanentMailing-city',
+						'value':application.personal.permanentMailing.city,
+						'size': 30,
+						'maxLength':30,
+						'isRequired':true
+					} ) }}
+
+			{{ forms.select( {'title':'State/Province', 
+						'name':'personal-permanentMailing-state',
+						'value':application.personal.permanentMailing.state, 
+						'options': application.options_state,
+						'isRequired':true
+					 }) }}
+
+			{{ forms.input( {'title':'Postal Code',
+						'name':'personal-permanentMailing-postal',
+						'value':application.personal.permanentMailing.postal,
+						'isRequired':true
+					} ) }}
+
+			{{ forms.select( {'title':'Country', 
+						'name':'personal-permanentMailing-country',
+						'value':application.personal.permanentMailing.country, 
+						'options': application.options_country,
+						'isRequired':true
+					 }) }}
 				
 		</fieldset><!-- end fieldset "permanent_addr" -->
 
 		<fieldset id="mailing_addr" name="mailing_addr" class="nested">
 			<legend>Mailing Address</legend>
 			
-			<label for="mailing_perm">
-				<p class="title">Is your mailing address the same as your permanent address?</p>
-				<label for="mailing_perm_yes"><input type="radio" id="mailing_perm_yes" name="mailing_perm" value="1" onclick="visibility(this.name+'_section','none')" onchange="saveCheckValue(event);" > Yes</label>
-				<label for="mailing_perm_no"><input type="radio" id="mailing_perm_no" name="mailing_perm" value="0" onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event);" checked> No</label>
-			</label>
-			<script type="text/javascript">checkInitValue('mailing_perm_yes',"{{application.personal.ismailingDifferentFromPermanent}}");</script>
-			<script type="text/javascript">checkInitValue('mailing_perm_no',"{{application.personal.ismailingDifferentFromPermanent}}");</script>
+			{{ forms.booleanDisplay( {'title':'Is your mailing address the same as your permanent address?',
+					'name':'personal-isMailingDifferentFromPermanent',
+					'value':application.personal.isMailingDifferentFromPermanent,
+					'showOnTrue':false
+				} ) }}
 
 			<div style="clear:both;"></div>
 
-			<div id="mailing_perm_section">
+			<div id="personal-isMailingDifferentFromPermanent_section">
 
-				<label for="mailing_addr1">
-					<p class="title">Street</p>
-					<input type="text" size="55" maxlength="55" id="mailing_addr1" name="mailing_addr1" value="{{application.personal.mailing.streetAddress1}}" onblur="saveValue(event);">
-				</label>
+				{{ forms.input( {'title':'Street',
+						'name':'personal-mailing-streetAddress1',
+						'value':application.personal.mailing.streetAddress1,
+						'size': 55,
+						'maxLength':55,
+					} ) }}
+
+				{{ forms.input({'title':'Additional',
+							'name':'personal-mailing-streetAddress2',
+							'value':application.personal.mailing.streetAddress2,
+							'size': 55,
+							'maxLength':55,
+						 } ) }}
+
+				{{ forms.input( {'title':'City',
+							'name':'personal-mailing-city',
+							'value':application.personal.mailing.city,
+						 } ) }}
 				
-				<label for="mailing_addr2">
-					<p class="title">Additional</p>
-					<input type="text" size="55" maxlength="55" id="mailing_addr2" name="mailing_addr2" value="{{application.personal.mailing.streetAddress2}}" onblur="saveValue(event);">
-				</label>
+				{{ forms.select( {'title':'State/Province', 
+							'name':'personal-mailing-state',
+							'value':application.personal.mailing.state, 
+							'options': application.options_state
+					 }) }}				
+
+				{{ forms.input( {'title':'Postal Code',
+							'name':'personal-mailing-postal',
+							'value':application.personal.mailing.postal,
+							'size': 15,
+							'maxLength':15,
+						 } ) }}
 				
-				<label for="mailing_city">
-					<p class="title">City</p>
-					<input type="text" size="30" maxlength="30" id="mailing_city" name="mailing_city" value="{{application.personal.mailing.city}}" onblur="saveValue(event);">
-				</label>
-				
-				<label for="mailing_state">
-					<p class="title">State/Province</p>
-					<select id="mailing_state" name="mailing_state" size="1" onchange="saveValue(event);"></select>
-					<script type="text/javascript">getStateOptions('mailing_state', "{{MAILING_STATE}}");</script>
-				</label>
-				
-				<label for="mailing_postal">
-					<p class="title">Postal Code</p>
-					<input type="text" size="15" maxlength="15" id="mailing_postal" name="mailing_postal" value="{{application.personal.mailing.postal}}" onblur="saveValue(event);">
-				</label>
-				
-				<label for="mailing_country">
-					<p class="title">Country</p>
-					<select id="mailing_country" name="mailing_country" size="1" onchange="saveValue(event);"></select>
-					<script type="text/javascript">getCountryOptions('mailing_country',"{{application.personal.mailing.country}}");</script>
-				</label>
+			{{ forms.select( {'title':'Country', 
+						'name':'personal-mailing-country',
+						'value':application.personal.mailing.country, 
+						'options': application.options_country
+					 }) }}
+
 			</div>
-			<script type="text/javascript">showOrNot('mailing_perm_section',!{{application.personal.ismailingDifferentFromPermanent}});</script>
-
 		</fieldset> <!-- end fieldset "mailing_addr" -->
 		
 		<div style="clear:both;"></div>			
 	</fieldset><!-- end fieldset "contact_information" -->
 
 	<fieldset class="nested">
-		
-		<label for="date_of_birth">
-			<p class="required title">Date of Birth *</p>
-			<input type="date_of_birth" size="10" maxlength="10" id="date_of_birth" name="date_of_birth" value="{{application.personal.birth_date}}" onblur="saveValue(event);">
-			<p class="help">mm/dd/yyyy</p>
 
-			<!-- DATE PICKER <script type="text/javascript" defer="defer">$(document).ready(function() {$('#date_of_birth').datepicker({dateFormat: "mm/dd/yy", constrainInput: false});});</script> -->
+		{{ forms.input({'title':'Date of Birth',
+					'name':'personal-birth_date',
+					'value':application.personal.birth_date,
+					'size': 10,
+					'maxLength':10,
+					'isRequired':true,
+					'help':'mm/dd/yyyy'
+				} ) }}
 
-		</label>
-
-		<label for="gender">
-			<p class="title">Gender</p>
-			<select id="gender" name="gender" onchange="saveValue(event);">
-				<option value=""	>- None -</option>
-				<option value="M" 	>Male</option>
-				<option value="F" 	>Female</option>
-				<option value="O" 	>Other</option>
-			</select>
-			<script type="text/javascript">initValue('gender',"{{application.personal.gender}}")</script>
-		</label>
+		{{ forms.select( {'title':'Gender', 
+						'name':'personal-gender',
+						'value':application.personal.gender, 
+						'options': application.options_gender
+					 }) }}
 
 		<!--  ssn verification scripts at end of code -->
 		
@@ -195,54 +209,51 @@
 		<fieldset id="birth_location" name="birth_location" class="nested">
 			<legend>Birth Location</legend>
 		
-			<label for="birth_city">
-				<p class="title">City</p>
-				<input type="text" size="36" maxlength="30" id="birth_city" name="birth_city" value="{{application.personal.birth_city}}" onblur="saveValue(event);">
-			</label>
-			
-			<label for="birth_state">
-				<p class="title">State/Province</p>
-				<select id="birth_state" name="birth_state" size="1" onchange="saveValue(event);"></select>
-				<script type="text/javascript">getStateOptions('birth_state');</script>
-				<script type="text/javascript">initValue('birth_state',"{{application.personal.birth_state}}")</script>
-			</label>
-							
-			<label for="birth_country">
-				<p class="title">Country</p>
-				<select id="birth_country" name="birth_country" size="1" onchange="saveValue(event);"></select>
-				<script type="text/javascript">getCountryOptions('birth_country');</script>
-				<script type="text/javascript">initValue('birth_country',"{{application.personal.birth_country}}")</script>
-			</label>
+			{{ forms.input({'title':'City',
+						'name':'personal-birth_city',
+						'value':application.personal.birth_city,
+						'size': 36,
+						'maxLength':30
+					} ) }}			
+					
+			{{ forms.select( {'title':'State/Province', 
+						'name':'personal-birth_state',
+						'value':application.personal.birth_state, 
+						'options': application.options_state
+					 }) }}
+
+			{{ forms.select( {'title':'Country', 
+						'name':'personal-birth_country',
+						'value':application.personal.birth_country, 
+						'options': application.options_country
+					 }) }}
+
 		
 			<div style="clear:both;"></div>
 		</fieldset> <!-- end fieldset "birth_location" -->
 
 		<fieldset class="nested">
-	
-			<label for="country_of_citizenship">
-				<p class="required title">Country of Citizenship *</p>
-				<select id="country_of_citizenship" name="country_of_citizenship" size="1" onchange="saveValue(event);"></select>
-				<script type="text/javascript">getCountryOptions('country_of_citizenship');</script>
-				<script type="text/javascript">initValue('country_of_citizenship',"{{application.personal.countryOfCitizenship}}")</script>
-			</label>
-			
-			<label for="us_state">
-				<p class="required title">Legal resident of *</p>
-				<select id="us_state" name="us_state" size="1" onchange="saveValue(event);"></select>
-				<script type="text/javascript">getStateOptions('us_state');</script>
-				<script type="text/javascript">initValue('us_state',"{{application.personal.us_state}}")</script>
-			</label>
-			
-			<label for="residency_status">
-				<p class="required title">Residency Status *</p>
-				<select id="residency_status" name="residency_status" onchange="saveValue(event);">
-					<option value=""					>- None -</option>
-					<option value="US resident" 		>US Resident</option>
-					<option value="non-resident alien" 	>Non-Resident Alien</option>
-					<option value="resident alien green card"	>Resident Alien (Green Card)</option>
-				</select>
-				<script type="text/javascript">initValue('residency_status',"{{application.personal.residencyStatus}}")</script>
-			</label>
+
+			{{ forms.select( {'title':'Country of Citizenship', 
+						'name':'personal-countryOfCitizenship',
+						'value':application.personal.countryOfCitizenship, 
+						'options': application.options_country,
+						'isRequired':true
+					 }) }}
+
+			{{ forms.select( {'title':'Legal Resident of', 
+						'name':'personal-us_state',
+						'value':application.personal.us_state, 
+						'options': application.options_state,
+						'isRequired':true
+					 }) }}
+
+			{{ forms.select( {'title':'Residency Status', 
+						'name':'personal-residencyStatus',
+						'value':application.personal.residencyStatus, 
+						'options': application.options_residencyStatus,
+						'isRequired':true
+					}) }}
 
 			<div style="clear:both;"></div>
 
@@ -257,35 +268,46 @@
 	-->
 
 		<fieldset id="ethnicity" name="ethnicity" class="nested">
+
 			<legend>Ethnic Information</legend>
+			
 			<p class="message">Note on Ethnicity:
 			Colleges and universities are asked by many, including the federal government, accrediting associations, college guides, newspapers and our own college/university communities, to describe the racial/ethnic backgrounds of our students and employees. In order to respond to these requests, we ask you to answer the following two questions:</p>
-			<label for="ethnicity_hispa">
-				<p class="title">Do you consider yourself to be Hispanic/Latino</p>
-				<label for="ethnicity_hispa_yes"><input type="radio" id="ethnicity_hispa_yes" name="ethnicity_hispa" value="HISPA" onchange="saveCheckValue(event);" /> Yes</label>
-				<label for="ethnicity_hispa_no"><input type="radio" id="ethnicity_hispa_no" name="ethnicity_hispa" value="" checked onchange="saveCheckValue(event);" /> No</label>
-			</label>
-			<script type="text/javascript">checkInitValue('ethnicity_hispa_yes',"{{application.personal.ethnicity_hispa}}");</script>
-			<script type="text/javascript">checkInitValue('ethnicity_hispa_no',"{{application.personal.ethnicity_hispa}}");</script>
+
+			{{ forms.boolean( {'title':'Do you consider yourself to be Hispanic/Latino',
+							'name':'personal-ethnicity_hispa',
+							'value':application.personal.ethnicity_hispa
+				} ) }}
 
 			<div style="clear:both;"></div>
 		
 			<label for="ethnicity" class="one_line">
 				<p class="title">In addition, select one or more of the following racial categories to describe yourself:</p>
-				<label for="ethnicity_amind" class="one_line"><input type="checkbox" id="ethnicity_amind" name="ethnicity_amind" value="AMIND" onchange="saveCheckValue(event);"/>American Indian/Native Alaskan</label>
-				<label for="ethnicity_asian" class="one_line"><input type="checkbox" id="ethnicity_asian" name="ethnicity_asian" value="ASIAN" onchange="saveCheckValue(event);"/>Asian</label>
-				<label for="ethnicity_black" class="one_line"><input type="checkbox" id="ethnicity_black" name="ethnicity_black" value="BLACK" onchange="saveCheckValue(event);"/>Black/African American</label>
-				<label for="ethnicity_pacif" class="one_line"><input type="checkbox" id="ethnicity_pacif" name="ethnicity_pacif" value="PACIF" onchange="saveCheckValue(event);"/>Native Hawaiian/Pacific Islander</label>
-				<label for="ethnicity_white" class="one_line"><input type="checkbox" id="ethnicity_white" name="ethnicity_white" value="WHITE" onchange="saveCheckValue(event);"/>White</label>
-			</label>
-		
-			<script type="text/javascript">
-				checkInitValue('ethnicity_amind',"{{application.personal.ethnicity_amind}}");
-				checkInitValue('ethnicity_asian',"{{application.personal.ethnicity_asian}}");
-				checkInitValue('ethnicity_black',"{{application.personal.ethnicity_black}}");
-				checkInitValue('ethnicity_pacif',"{{application.personal.ethnicity_pacif}}");
-				checkInitValue('ethnicity_white',"{{application.personal.ethnicity_white}}");
-			</script>
+
+				{{ forms.checkbox( {'title':'American Indian/Native Alaskan', 
+							'name':'personal-ethnicity_amind',
+							'value':application.personal.ethnicity_amind
+						}) }}
+
+				{{ forms.checkbox( {'title':'Asian', 
+							'name':'personal-ethnicity_asian',
+							'value':application.personal.ethnicity_asian
+						}) }}
+
+				{{ forms.checkbox( {'title':'Black/African American', 
+							'name':'personal-ethnicity_black',
+							'value':application.personal.ethnicity_black
+						}) }}
+
+				{{ forms.checkbox( {'title':'Native Hawaiian/Pacific Islander', 
+							'name':'personal-ethnicity_pacif',
+							'value':application.personal.ethnicity_pacif
+						}) }}
+
+				{{ forms.checkbox( {'title':'White', 
+							'name':'personal-ethnicity_white',
+							'value':application.personal.ethnicity_white
+						}) }}
 	
 			<div style="clear:both;"></div>
 		</fieldset><!-- end fieldset "ethnicity" -->
@@ -293,74 +315,71 @@
 	<div style="clear:both;"></div>
 </fieldset><!-- end fieldset "personal_information" -->
 
-<fieldset id="languages" name="languages">
+<fieldset id="fieldset-languages" name="languages">
 	<legend>Language Information</legend>
 	
 	<fieldset id="english" name="english" class="nested">
 		<legend>English Proficiency</legend>
 		
-		<label for="english">
-			<p class="title">Is English your primary language?</p>
-			<label for="english_primary_yes"><input type="radio" id="english_primary_yes" name="english_primary" value="1" onclick="visibility(this.name+'_section','none')" onchange="saveCheckValue(event);" /> Yes</label>
-			<label for="english_primary_no"><input type="radio" id="english_primary_no" name="english_primary" value="0" onclick="visibility(this.name+'_section','block')" onchange="saveCheckValue(event);" checked/> No</label>
-		</label><br /><br /><br />
-		<script type="text/javascript">checkInitValue('english_primary_yes',"{{application.personal.isEnglishPrimary}}");</script>
-		<script type="text/javascript">checkInitValue('english_primary_no',"{{application.personal.isEnglishPrimary}}");</script>
+
+		{{ forms.booleanDisplay( {'title':'Is English your primary language?',
+							'name':'personal-isEnglishPrimary',
+							'value':application.personal.isEnglishPrimary,
+							'showOnTrue':false							
+			} ) }}
+
+		<br /><br /><br />
 	
 		<div style="clear:both;"></div>
 
-		<div class="hidden" id="english_primary_section">
+		<div class="hidden" id="personal-isEnglishPrimary_section">
 			<p class="title">Please indicate the number of years you have studied English (give dates):</p>
 					
-			<label for="english_years_school">
-				<p class="title">In secondary or middle school</p>
-				<input type="text" size="20" maxlength="15" id="english_years_school" name="english_years_school" value="{{application.personal.englishYears_school}}" onblur="saveValue(event);">
-				<label class='help'>mm/yyyy-mm/yyyy</label>
-			</label>
+			{{ forms.input({'title':'In secondary or middle school',
+						'name':'personal-englishYears_school',
+						'value':application.personal.englishYears_school,
+						'size': 20,
+						'maxLength':15,
+						'help':'mm/yyyy-mm/yyyy'
+					} ) }}
 
-			
-			<label for="english_years_univ">
-				<p class="title">In university</p>
-				<input type="text" size="20" maxlength="15" id="english_years_univ" name="english_years_univ" value="{{application.personal.englishYears_univ}}" onblur="saveValue(event);">
-				<label class='help'>mm/yyyy-mm/yyyy</label>				
-			</label>
-			
-			<label for="english_years_private">
-				<p class="title">Under private auspices</p>
-				<input type="text" size="20" maxlength="15" id="english_years_private" name="english_years_private" value="{{application.personal.englishYears_private}}" onblur="saveValue(event);">
-				<label class='help'>mm/yyyy-mm/yyyy</label>
-			</label>
+			{{ forms.input({'title':'In university',
+						'name':'personal-englishYears_univ',
+						'value':application.personal.englishYears_univ,
+						'size': 20,
+						'maxLength':15,
+						'help':'mm/yyyy-mm/yyyy'
+					} ) }}
+
+			{{ forms.input({'title':'Under private auspices',
+						'name':'personal-englishYears_private',
+						'value':application.personal.englishYears_private,
+						'size': 20,
+						'maxLength':15,
+						'help':'mm/yyyy-mm/yyyy'
+					} ) }}
+
 		</div>
-		<script type="text/javascript">showOrNot('english_primary_section',!{{application.personal.isEnglishPrimary}});</script>
 	</fieldset><!-- end fieldset "english" -->
 	
 	<p class="title">Knowledge of other languages and proficiency in each</p>
 
-	<div id="languages_count" class="hidden">{{LANGUAGES_COUNT}}</div> 
-	<div id="{{LANGUAGES_LIST}}">
-		{{LANGUAGES_REPEATABLE}}
+	<div id="languages">
+		{% for language in application.languages %}
+			{% include 'repeatable/language.twig' with {'language':language} %}
+		{% endfor %}
 	</div>
-	<button onClick="addItem('{{LANGUAGES_TABLE_NAME}}');" class="button green small add" type="button" title="Add">+ Add Another Language</button>
+
+	{{ section.addSubSectionButton('Add Another Language', 'language')}}
+
 	<div style="clear:both;"></div>
 	
-	<div id="pager">
-		<p><span style="float:right;"><a href="{{WEB_ROOT}}/application/section/next"> Next Section <span class="chevron">&#0187;</span></a></span></p>
-	</div>
-	
+	{{ section.buildPager(false, true) }}
+
 </fieldset><!-- end fieldset "languages" -->
 		
-
 <!-- FUNCTIONS -->
-<script type="text/javascript" charset="utf-8">
-function isNumberString (InString)  {                         
- if(InString.length==0) return (false);                       
-    var RefString="1234567890";                               
-    for (Count=0; Count < InString.length; Count++)  {        
-       TempChar= InString.substring (Count, Count+1);         
-    if (RefString.indexOf (TempChar, 0)==-1)                  
-       return (false); }                                      
-       return (true); }   
-                                           
+<script type="text/javascript" charset="utf-8">                   
 function confirmSSN(fmssn){                         
   if (!(fmssn == "")) {                             
   var answer=confirm("Is this your Social Security number? " + fmssn); 
@@ -370,6 +389,4 @@ function confirmSSN(fmssn){
 </script>
 
 </form>
-
-
 {% endblock %}

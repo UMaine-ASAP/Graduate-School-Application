@@ -1,4 +1,5 @@
 {% extends 'application/section.twig' %}
+{% import "application/section.macro.twig" as section %}
 
 {% block form %}
 
@@ -188,10 +189,8 @@
 
 	<div style="clear:both"></div>
 
-	<div id="pager">
-		<p><span style="float:left;"><a href="app_manager.php?form_id=4"><span class="chevron">&#0171;</span> Previous Section</a></span>
-		<span style="float:right;"><a href="app_manager.php?form_id=6"> Next Section <span class="chevron">&#0187;</span></a></span></p>
-	</div>
+	{{ section.buildPager(true, true) }}
+
 </fieldset><!-- end fieldset "education_objectives" -->
 </form>
 

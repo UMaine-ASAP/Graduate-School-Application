@@ -55,21 +55,9 @@ function user_logout() {
 
 class Applicant extends Entity
 {
-	protected $tableName = 'applicants';
-	protected $columnId  = 'applicant_id';
+	protected static $tableName = 'applicants';
+	protected static $columnId  = 'applicant_id';
 
-	public $id;
-	public $applicantId;
-	public $loginEmail;
-	public $password;
-
-	public $isEmailConfirmed;
-	public $loginEmailCode;
-	public $forgotPasswordCode;
-
-	public $givenName;
-	public $middleName;
-	public $familyName;
 
 	function __get($name)
 	{
@@ -79,7 +67,7 @@ class Applicant extends Entity
 				return $this->givenName . " " . $this->middleName . " " . $this->familyName;
 			break;
 		}
-		//return parent::__get($name);
+		return parent::__get($name);
 	}
 
 	/**

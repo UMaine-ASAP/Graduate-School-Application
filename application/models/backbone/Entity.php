@@ -12,16 +12,15 @@
  */
 class Entity
 {
-	protected $entityName; 	// store the name of the entity
-	protected $tableName;
-	protected $columnId;
+	protected static $entityName; // store the name of the entity
+	protected static $tableName;	// Database table name
+	protected static $columnId;	// Identifying column
 
-	protected $values;
-	protected $is_dirty;
+	protected $values;	
+	protected $is_dirty;	// Values changed for saving
 
-	private $whereClause;
-	private $whereReplacements;
-
+	private $whereClause;		// WhereEqual structure
+	private $whereReplacements;	// Replacement information
 
 
 	function Entity($name = '')
@@ -33,41 +32,24 @@ class Entity
 		$this->whereReplacements = array('1', '1');	
 
 		if ($name == '') {
-			$this->entityName = get_class($this);
+			static::$entityName = get_class($this);
 		} else {
-			$this->entityName = $name;
+			static::$entityName = $name;
 		}
 	}
 	
-	public function callFunctionOnDB($function, $arguments)
+
+
+	public static function factory($entityName)
 	{
-		return forward_static_call_array(array($this->entityName.'DBAccess', "$function"), $arguments);
+		return new $entityName($entityName);
 	}
 
 
 	public function delete()
 	{
-		return callFunctionOnDB('delete', $this);
 	}
 
-
-	/**
-	 * Load associative data into entity
-	 * 
-	 * This method sets the entities properties using an associative array 
-	 * 
-	 * @param 	associative array 		data to load into entity in format property=>value
-	 * 
-	 * @return 	null
-	 */		
-	public function loadData($data)
-	{
-		foreach($data as $key=>$value)
-		{
-			$this->setValue($key, $value);
-		}
-		return $this;
-	}
 
 	// Set value without making dirty
 	private function setValue($key, $value) 
@@ -76,21 +58,37 @@ class Entity
 		$this->values[$key] = "$value";
 	}
 
-	public static function factory($entityName)
+
+	// @pragma Querying
+
+	public function whereEqual($fieldName, $value)
 	{
-		return new Entity($entityName);
+		$this->whereClause = ' %s = %s ';
+		$this->whereReplacements = array($fieldName, $value);
+		return $this;
+	}
+
+
+
+	public function queryFirst($query, $args)
+	{
+		// Add tablename to query
+		$args = array_merge( array($query, static::$tableName), $args);
+
+		return call_user_func_array( array('Database', 'getFirst'), $args);		
 	}
 
 	public function query($query, $args)
 	{
 		// Add tablename to query
-		$args = array_merge( array($query, $this->tableName), $args);
-		return call_user_func_array( array('Database', 'getFirst'), $args);		
+		$args = array_merge( array($query, static::$tableName), $args);
+
+		return call_user_func_array( array('Database', 'query'), $args);		
 	}
+
 
 	public function __get($name)
 	{
-
 		if( isset($this->values[$name]) )
 		{
 			return $this->values[$name];
@@ -110,7 +108,7 @@ class Entity
 	}
 
 	public function __isset($name)
-	{
+	{		
 		if ( array_key_exists($name, $this->values) ) 
 		{
 			return true;
@@ -138,7 +136,7 @@ class Entity
 
 		// Set args
 
-		$args = array($query, $this->tableName);
+		$args = array($query, static::$tableName);
 
 		foreach($this->is_dirty as $dirty_column) {
 			$args[] = $dirty_column;
@@ -146,43 +144,76 @@ class Entity
 		}
 
 		// set where clause
-		$args[] = $this->columnId;
+		$args[] = static::$columnId;
 		$args[] = $this->values['id'];
 
 		// run query
 		$result = call_user_func_array( array('Database', 'iquery'), $args);
 	}
 
-
-
-	public function whereEqual($fieldName, $value)
+	public function get()
 	{
-		$this->whereClause = ' %s = %s ';
-		$this->whereReplacements = array($fieldName, $value);
-		return $this;
-	}
+		$dataAr = $this->query("SELECT * FROM %s WHERE %s = %d ", $this->whereReplacements);
+
+		$result = array();
+		foreach($dataAr as $data) {
+			$entity = new static::$entityName(static::$entityName);
+			$entity->loadFromDB($data);
+			$result[] = $entity;
+		}
+		return $result;
+	}	
+
 
 	public function first()
 	{
-		$entity = new $this->entityName($this->entityName);
+		$result = $this->queryFirst("SELECT * FROM %s WHERE %s = %d ", $this->whereReplacements);
+		$this->loadFromDB($result);
+		return $this;
+	}	
 
-		$result = $entity->query("SELECT * FROM %s WHERE %s = %d ", $this->whereReplacements);
+	// @pragma Load data
 
-		if( $result == array() )
+	/**
+	 * Load associative data into entity
+	 * 
+	 * This method sets the entities properties using an associative array 
+	 * 
+	 * @param 	associative array 		data to load into entity in format property=>value
+	 * 
+	 * @return 	null
+	 */		
+	public function loadData($data)
+	{
+		foreach($data as $key=>$value)
+		{
+			$this->setValue($key, $value);
+		}
+		return $this;
+	}
+
+
+	// Convert DB Array to entity object
+	protected function loadFromDB($dbData)
+	{
+		if( $dbData == array() )
 		{
 			return null;
 		} else {
+			$columnId = static::$columnId;
 
 			// find the unique identifier
-			if( isset($result[$entity->columnId]) )
+			if( isset($dbData[$columnId]) )
 			{
-				$entity->setValue('id', $result[$entity->columnId]);
+				$this->setValue('id', $dbData[$columnId]);
 			} else {
 				throw new Exception("ID not found when loading.");
 			}
-			$entity->loadData($result);
+			$this->loadData($dbData);
 
-			return $entity;
+			return $this;
 		}
-	}	
+
+
+	}
 }
