@@ -125,12 +125,6 @@ class Language extends ApplicationInternalEntity
 
 }
 
-class Reference extends Entity
-{
-	protected static $tableName = 'APPLICATION_Reference';
-	protected static $columnId  = 'ReferenceId';
-}
-
 class Personal extends Entity
 {
 	protected static $tableName = 'APPLICATION_Primary';
