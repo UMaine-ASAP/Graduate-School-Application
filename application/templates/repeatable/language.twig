@@ -1,7 +1,9 @@
 {% import "forms.macro.twig" as forms %}
 {% import "application/section.macro.twig" as section %}
+
 <div id="languages_{{language.id}}" class="{% if hide %}hidden{% endif %} language">
 	<fieldset class="nested">
+		
 		{{ section.removeSubSectionButton('languages_'+ language.id ) }}
 
 		{{ forms.input( {'title':'Language',

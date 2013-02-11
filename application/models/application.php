@@ -50,6 +50,9 @@ class ApplicationInternalEntity extends Entity
 
 }
 
+// 
+
+
 class Transaction extends ApplicationInternalEntity
 {
 	protected static $tableName = 'APPLICATION_Transaction';

@@ -17,6 +17,7 @@ require_once "models/backbone/Entity.php";
 require_once "models/backbone/Manager.php";
 
 // Models
+require_once 'models/Reference.php';
 require_once 'models/application.php';
 require_once 'models/applicant.php';
 require_once 'models/errorTracker.php';
