@@ -262,7 +262,7 @@ class ApplicationManager extends Manager
 	}
 
 
-
+	
 	public static function getTransaction($transactionId)
 	{
 		Database::getFirst("SELECT * FROM APPLICATION_DATA_transaction WHERE transactionId = %d", $transactionId);

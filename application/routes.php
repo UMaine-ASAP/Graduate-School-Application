@@ -117,9 +117,8 @@ function render_section($path, $args = array(), $sections, $currentLocation) {
 	return render($path, $args);
 }
 
-// @pragma MiddleWare
 /*----------------------------------------------------*/
-/* @pragma Middleware Functions
+/* Middleware Functions
 /*----------------------------------------------------*/
 
 /**
@@ -127,7 +126,6 @@ function render_section($path, $args = array(), $sections, $currentLocation) {
  * 
  * Validate that user is logged in
  */
-// @pragma authenticated Middleware
 $authenticated = function() use ($app) {
 	$isLoggedIn = ApplicantManager::applicantIsLoggedIn();
 	if( !$isLoggedIn ) 
@@ -143,7 +141,6 @@ $authenticated = function() use ($app) {
  * 
  * Validate that application has not already been submitted
  */
-// @pragma applicationNot Submitted Middleware
 
 $applicationNotSubmitted = function() {
 	$application = ApplicationManager::getActiveApplication();
@@ -157,7 +154,7 @@ $applicationNotSubmitted = function() {
 
 
 /*----------------------------------------------------*/
-/* @pragma Initial Routing and Login/Registration
+/* Initial Routing and Login/Registration
 /*----------------------------------------------------*/
 
 /**
@@ -165,7 +162,6 @@ $applicationNotSubmitted = function() {
  * 
  * Route logged in users to application page, otherwise send to login page
  */
-// @pragma Root Request
 $app->get('/', function() {
 	$app = Slim\Slim::getInstance();
 	// route to correct page
@@ -189,7 +185,6 @@ $app->get('/login', function() use($app) {
 });
 
 
-// @pragma Login Request
 /**
  * Login - Submission
  * 
@@ -272,11 +267,10 @@ $app->post('/login', function() use ($app) {
 });
 
 
-// @pragma Confirm Account Request
 /**
  * Account - Confirm Script
  * 
- *  @pragma MiddleWare
+ *  MiddleWare
  * 
  * Validate new account from emailed link
  */
@@ -382,10 +376,9 @@ $app->get('/no-javascript', function() {
 });
 
 /*----------------------------------------------------*/
-/* @pragma Application
+/* Application
 /*----------------------------------------------------*/
 
-// @pragma Application - Save Data
 /**
  * Application
  *  
@@ -395,7 +388,7 @@ $app->post('/saveData', function() use ($app) {
 
 	if ( ! ApplicantManager::applicantIsLoggedIn() )
 	{
-		echo "Please Log in Again";
+		echo "Please <a href='".$GLOBALS['WEBROOT']."/logout'>Log in</a> Again";
 		return;
 	}
 
@@ -460,7 +453,7 @@ $app->post('/saveData', function() use ($app) {
 });
 
 /**
- * 
+ * Create a new item of type $name and pass the template back
  */
 $app->get('/application/getTemplate/:name', function($name) use ($app) {
 
@@ -528,7 +521,6 @@ $app->get('/application/section/previous', $authenticated, $applicationNotSubmit
 });
 
 
-// @pragma Application Section personal-information
 /**
  * Application
  * 
@@ -541,7 +533,6 @@ $app->get('/application/section/personal-information', $authenticated, $applicat
 	render_section('application/personal-information.twig', array('application' => $application, 'applicant'=>$applicant), $application->sections, 'personal-information');
 });
 
-// @pragma Application Section international
 /**
  * Application
  * 
@@ -555,7 +546,6 @@ $app->get('/application/section/international', $authenticated, $applicationNotS
 	render_section('application/international.twig', array('application' => $application), $application->sections, 'international');
 });
 
-// @pragma Application Section educational-history
 /**
  * Application
  * 
@@ -569,7 +559,6 @@ $app->get('/application/section/educational-history', $authenticated, $applicati
 	render_section('application/educational-history.twig', array('application' => $application), $application->sections, 'educational-history');
 });
 
-// @pragma Application Section educational-objectives
 /**
  * Application
  * 
@@ -668,7 +657,7 @@ $app->get('/application/submit-without-payment', $authenticated, $applicationNot
 
 
 /*----------------------------------------------------*/
-/* @pragma Application Payment
+/* Application Payment
 /*
 /* Touchnet (the external payment system) redirects or calls these pages. They are not used directly by the application
 /*----------------------------------------------------*/
@@ -785,7 +774,7 @@ $app->post('/payment/callback-update', function() {
 
 
 /*----------------------------------------------------*/
-/* @pragma Recommendation
+/* Recommendation
 /*----------------------------------------------------*/
 
 /**
@@ -822,7 +811,7 @@ $app->get('/recommendation/thank-you', function() {
 });
 
 /*----------------------------------------------------*/
-/* @pragma Testing
+/* Testing
 /*----------------------------------------------------*/
 
 $app->get('/test/emailSystem', function() {
@@ -840,7 +829,7 @@ $app->get('/test/entity', function() {
 
 
 /*----------------------------------------------------*/
-/* @pragma Run App
+/* Run App
 /*----------------------------------------------------*/
 
 $app->run();
