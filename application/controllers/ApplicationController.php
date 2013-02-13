@@ -86,7 +86,7 @@ class ApplicationController extends Controller
 		}
 
 		// Retrieve applications
-		$applicationsDB = Database::query("SELECT * FROM `Application` WHERE applicantId = %d", $applicant->id);
+		$applicationsDB = Database::query("SELECT * FROM `Application` WHERE applicantId = %d ORDER BY lastModified DESC", $applicant->id);
 		
 		// ensure data exists
 		if($applicationsDB == array())

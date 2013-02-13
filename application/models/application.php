@@ -151,7 +151,7 @@ class Application extends Model
 
 
 	// We need to correctly overide __isset in order to use these our magic variables in Twig
-	static private $magic_getters    = array('type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections');
+	static private $magic_getters    = array('type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'status');
 	static private $availableOptions =array('options_country', 'options_gender', 'options_state', 'options_suffix', 'options_residencyStatus', 'options_type');
 
 	public function __get($name)
@@ -193,6 +193,14 @@ class Application extends Model
 		 	break;
 		 	case 'sections':
 			 	return array('personal-information', 'international', 'educational-history', 'educational-objectives', 'letters-of-recommendation');
+		 	break;
+		 	case 'status':
+		 		if( $this->hasBeenSubmitted == 1)
+		 		{
+		 			return 'Submitted';
+		 		} else {
+		 			return 'In Progress';
+		 		}
 		 	break;
 		 }
 
