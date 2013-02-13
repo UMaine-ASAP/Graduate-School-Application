@@ -30,11 +30,13 @@ class ApplicationController extends Controller
 
 			Database::iquery("INSERT INTO Application(applicationId, applicantId, applicationTypeId) VALUES (null, %d, %d)", $applicant->id, $typeId);
 
-			$result = Database::getFirst("SELECT * FROM Application WHERE applicantId = %d AND applicationId", $newIndex);
+			$result = Database::getFirst("SELECT * FROM Application WHERE applicantId = %d AND applicationId = %d", $applicant->id, $newIndex);
+
 			if($result == array())
 			{
 				return null;
 			}
+
 
 			return new Application($result);
 		} else {
