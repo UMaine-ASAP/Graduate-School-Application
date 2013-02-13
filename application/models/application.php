@@ -222,7 +222,7 @@ class Application extends Model
 		{
 			return true;
 		}
-		return false;
+		return parent::__isset($name);
 	}
 
 	static private function getOptionsFromDB($optionName)
