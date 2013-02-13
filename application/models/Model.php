@@ -48,6 +48,7 @@ class Model
 
 	public function delete()
 	{
+		Database::iquery("DELETE FROM %s WHERE %s=%d", static::$tableName, static::$columnId, $this->values['id']);
 	}
 
 
@@ -216,6 +217,7 @@ class Model
 
 
 	}
+
 
 
 	// Access options in a database table formated as id, value, title

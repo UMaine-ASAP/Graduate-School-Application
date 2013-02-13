@@ -203,6 +203,23 @@ class Application extends Model
 		return parent::__isset($name);
 	}
 
+	// override default model behavior -> we need to check for applicant id too!!!
+	public function delete()
+	{
+		Database::iquery("DELETE FROM Application WHERE applicantId=%d AND applicationId=%d", $this->applicantId, $this->id);
+	}
+
+	// override default model behavior -> we need to make sure we own the application!!!
+	public function save()
+	{
+		// Just to be save check for ownership
+		if( ApplicationController::doesActiveUserOwnApplication($this->id) )
+		{
+			parent::save();
+		}
+	}
+
+
 	/**
 	 * Get Option
 	 * 

@@ -25,10 +25,10 @@ class ApplicationController extends Controller
 				return null;
 			}
 			$applicant = ApplicantController::getActiveApplicant();
-			$result    = Database::getFirst("SELECT applicationId FROM Application WHERE applicantId = %d ORDER BY applicationId", $applicant->id);
+			$result    = Database::getFirst("SELECT applicationId FROM Application ORDER BY applicationId DESC");
 			$newIndex  = $result['applicationId'] + 1;
 
-			Database::iquery("INSERT INTO Application(applicationId, applicantId, applicationTypeId) VALUES (null, %d, %d)", $applicant->id, $typeId);
+			Database::iquery("INSERT INTO Application(applicationId, applicantId, applicationTypeId) VALUES (%d, %d, %d)", $newIndex, $applicant->id, $typeId);
 
 			$result = Database::getFirst("SELECT * FROM Application WHERE applicantId = %d AND applicationId = %d", $applicant->id, $newIndex);
 
@@ -36,8 +36,6 @@ class ApplicationController extends Controller
 			{
 				return null;
 			}
-
-
 			return new Application($result);
 		} else {
 			return null;
@@ -47,11 +45,6 @@ class ApplicationController extends Controller
 	/** Get a new application object from current session data **/
 	public static function getActiveApplication()
 	{
-		// ensure applicant is logged in
-		if( !ApplicantController::applicantIsLoggedIn() ) {
-			return null;
-		}
-
 		// Get id
 		$id = $_SESSION['active-application'];
 
@@ -63,9 +56,23 @@ class ApplicationController extends Controller
 	{
      	if( ! is_integer($applicationId) ) { ERROR::fatal("Passed in application identifier is not an integer."); }
 
-		$applicationDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d", $applicationId);
+		// ensure applicant is logged in
+		$applicant = ApplicantController::getActiveApplicant();
+		if( $applicant == null )
+		{
+			return null;
+		}
+
+		$applicationDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d AND applicantId = %d", $applicationId, $applicant->id);
 
        	return new Application( $applicationDB );
+	}
+
+	public static function doesActiveUserOwnApplication($applicationId)
+	{
+		$applicant = ApplicantController::getActiveApplicant();
+		$result    = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d AND applicantId = %d", $applicationId, $applicant->id);
+		return ( $result != array() ); 
 	}
 
 	public static function allMyApplications()

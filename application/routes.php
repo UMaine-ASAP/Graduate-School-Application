@@ -409,6 +409,9 @@ $app->get('/my-applications', $authenticated, function() use ($app)
 /* Application Actions
 /*-----*/
 
+/**
+ * Create a new application
+ */
 $app->get('/create-application/:typeId', $authenticated, function($typeId) use ($app) {
 	// double check type is valid
 	$application = ApplicationController::createApplication($typeId);
@@ -420,6 +423,19 @@ $app->get('/create-application/:typeId', $authenticated, function($typeId) use (
 		// @TODO set error message
 		redirect('/my-applications');
 	}
+});
+
+/**
+ * Delete an application
+ */
+$app->get('/delete-application/:applicationId', $authenticated, function($applicationId) use ($app) {
+	// double check type is valid
+	$application = ApplicationController::getApplication( (int) $applicationId);
+
+	$application->delete();
+
+	// @TODO set result message
+	redirect('/my-applications');
 });
 
 /**
@@ -438,11 +454,8 @@ $app->get('/edit-application/:id', $authenticated, function($id) use ($app) {
 		redirect('/my-applications');
 	}
 
-	$application = ApplicationController::getApplication($id);
-
 	// Reset current section
 	unset($_SESSION['current-application-section']);
-
 	redirect('/application/section/next');
 });
 
