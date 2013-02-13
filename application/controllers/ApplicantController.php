@@ -1,12 +1,67 @@
 <?php
 
+// Libraries
+include_once __DIR__ . "/../libs/corefuncs.php";
+include_once __DIR__ . "/../config.php";
+
+// Models
 include_once __DIR__ . "/../models/applicant.php";
 
 /** 
- * Manages any database interaction
+ * Manages access to applicant model
  */
 class ApplicantController extends Controller
 {
+
+	/**
+	* Session Creation
+	**/
+	private static function set_ses_vars($ID) {
+		$_SESSION['UMGradSession'] = $ID;
+		$_SESSION['lastAccess'] = time();
+	}
+
+	private static function check_ses_vars() {
+		if( !isset($_SESSION) ) { session_start(); }
+		if(isset($_SESSION['UMGradSession']) && isset($_SESSION['lastAccess'])) {
+			$latestAccess = time();
+			if($latestAccess - $_SESSION['lastAccess'] > $GLOBALS["session_timeout"]) {
+				self::user_logout();
+				return 0;
+			}
+		//Make sure user is valid
+			$user_check = Database::query("SELECT applicantId FROM Applicant WHERE applicantId = %d", $_SESSION['UMGradSession']);
+
+			if( is_array($user_check) ) {
+				$_SESSION['lastAccess'] = $latestAccess;
+				return $_SESSION['UMGradSession'];	
+			} else {
+				return 0;
+			}
+		}
+		return 0;
+	}
+
+	/**
+	* Login
+	**/
+	private static function user_login($id) {
+		if( !isset($_SESSION) ) { session_start(); }
+		self::set_ses_vars($id);
+	}
+
+	private static function user_logout() {
+		if( !isset($_SESSION) ) { session_start(); }
+
+		session_unset();
+		unset($_SESSION['UMGradSession']);
+		unset($_SESSION['lastAccess']);
+	}
+
+	public static function logOutActiveApplicant()
+	{
+		self::user_logout();
+	}
 
 
 	/**
@@ -16,7 +71,7 @@ class ApplicantController extends Controller
 	 */
 	public static function getActiveApplicant()
 	{
-		$id = check_ses_vars();
+		$id = self::check_ses_vars();
 		if($id == 0) { 
 			return NULL;
 		} else {
@@ -43,7 +98,7 @@ class ApplicantController extends Controller
 
    	public static function applicantIsLoggedIn()
    	{
-		$user = check_ses_vars();
+		$user = self::check_ses_vars();
 		if( $user == 0) {
 			return false;
 		}
@@ -69,8 +124,8 @@ class ApplicantController extends Controller
 		}
 		if ($hash == sha1($password) && $confirmed == 1) {
 
-			user_login($id);
-			if (check_ses_vars() != 0) {
+			self::user_login($id);
+			if (self::check_ses_vars() != 0) {
 				return '';
 			}
 		}

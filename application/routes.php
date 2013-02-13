@@ -334,7 +334,7 @@ $app->get('/account/confirm', function() use ($app)
  */
 $app->get('/logout', function() use ($app) 
 {
-	user_logout();
+	ApplicantController::logOutActiveApplicant();
 	redirect('/login');
 });
 
