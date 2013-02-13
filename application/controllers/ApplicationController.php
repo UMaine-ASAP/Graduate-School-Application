@@ -10,24 +10,24 @@ class ApplicationController extends Controller
 	public static function getActiveApplication()
 	{
 		// ensure applicant is logged in
-		//$applicant
+		if( !ApplicantController::applicantIsLoggedIn() ) {
+			return null;
+		}
 
 		// Get id
-		// @TODO: Should be stored in session data
-		$id = 1;
+		$id = $_SESSION['active-application'];
 
 		return ApplicationController::getApplication($id);
 	}
 
 	/** Get a new application object by passed in id **/
-	public static function getApplication($applicantId)
+	public static function getApplication($applicationId)
 	{
-     	if( ! is_integer($applicantId) ) { ERROR::fatal("Passed in application identifier is not an integer."); }
+     	if( ! is_integer($applicationId) ) { ERROR::fatal("Passed in application identifier is not an integer."); }
 
-     	// @TODO: get application from database using application identifier
-		$applicantDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d", $applicantId);
+		$applicationDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d", $applicationId);
 
-       	return new Application( $applicantDB );
+       	return new Application( $applicationDB );
 	}
 
 	public static function allMyApplications()
@@ -41,7 +41,7 @@ class ApplicationController extends Controller
 		}
 
 		// Retrieve applications
-		$applicationsDB = Database::query("SELECT * FROM `Application` WHERE applicationId = %d", $applicant->id);
+		$applicationsDB = Database::query("SELECT * FROM `Application` WHERE applicantId = %d", $applicant->id);
 		
 		// ensure data exists
 		if($applicationsDB == array())
@@ -55,6 +55,31 @@ class ApplicationController extends Controller
 			$result[] = new Application($applicationDBData);
 		}
 		return $result;
+	}
+
+	/**
+	 * Set Active Application
+	 * 
+	 * Sets the application currently being edited
+	 * 
+	 * @return bool 	whether operation was successful or not
+	 */
+	public static function setActiveApplication($applicationId)
+	{
+		// make sure this is an application of the current user
+		$applicant   = ApplicantController::getActiveApplicant();
+		$application = Database::getFirst("SELECT * FROM `Application` WHERE applicantId = %d AND applicationId = %d", $applicant->id, $applicationId);
+		
+		if( $application == array() ) {
+			return false;
+		}
+
+		if( !isset($_SESSION) ) 
+		{ 
+			session_start(); 
+		}
+		$_SESSION['active-application'] = $applicationId;
+		return true;
 	}
 
 	// ********************************************* //

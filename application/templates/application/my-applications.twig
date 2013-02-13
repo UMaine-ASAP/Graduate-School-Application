@@ -9,11 +9,12 @@
 {% block content %}
 
 	<table id='my-Applications'>
+		<form>
+		</form>
 		<thead>
 			<tr>
-				<td>Name</td>
 				<td>Type</td>
-				<td>Date Created</td>
+				<td>Date Started</td>
 				<td>Last Modified</td>				
 				<td>Status</td>
 				<td></td>
@@ -22,9 +23,11 @@
 		<tbody>
 			{% for application in applications %}
 			<tr>
-				<td>test</td>
 				<td>{{application.type}}</td>
+				<td>{{application.createdDate}}</td>
+				<td>{{application.lastModified}}</td>				
 				<td>{{application.has_been_submitted}}</td>
+				<td><a href='/edit-application/{{application.id}}'>Edit</a></td>
 			</tr>
 			{% endfor %}
 		</tbody>

@@ -404,6 +404,34 @@ $app->get('/my-applications', $authenticated, function() use ($app)
 	render('application/my-applications.twig', array('applications'=>$applications));
 });
 
+
+/*-----*/
+/* Application Actions
+/*-----*/
+
+/**
+ * Begin Editing application
+ * 
+ * Sets active application and redirects to the correct starting 
+ * page for the current application
+ */
+$app->get('/edit-application/:id', function($id) use ($app) {
+	$id = (int) $id;
+	$isValidApplication = ApplicationController::setActiveApplication($id);
+
+	if ( ! $isValidApplication )
+	{
+		redirect('/my-applications');
+	}
+
+	$application = ApplicationController::getApplication($id);
+
+	// Reset current section
+	unset($_SESSION['current-application-section']);
+	redirect('/application/section/next');
+
+});
+
 /**
  * Save Data
  *  
@@ -506,7 +534,16 @@ $app->get('/application/getTemplate/:name', function($name) use ($app)
  */
 $app->get('/application/section/next', $authenticated, $applicationNotSubmitted, function() use ($app)
 {
-	$current_section = $_SESSION['current-application-section'];
+	$current_section = '';
+	if( ! isset($_SESSION['active-application']) )
+	{
+		return redirect('/my-applications');
+	}
+
+	if( isset($_SESSION['current-application-section']) ) {
+		$current_section = $_SESSION['current-application-section'];
+	}
+
 
 	$application 	= ApplicationController::getActiveApplication();
 	$sections 	= $application->sections;
@@ -549,6 +586,9 @@ $app->get('/application/section/previous', $authenticated, $applicationNotSubmit
 	return redirect('/application/section/' . $sections[0]);
 });
 
+/*-----*/
+/* Application Pages
+/*-----*/
 
 /**
  * Application
