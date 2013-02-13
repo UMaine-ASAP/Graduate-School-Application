@@ -559,20 +559,28 @@ $app->get('/application/getTemplate/:name', $authenticated, function($name) use 
 
 });
 
-$app->post('/application/remove-section', $authenticated, function() use ($app)
+/**
+ * Deletes a repeatable element
+ */
+$app->post('/application/delete-repeatable', $authenticated, function() use ($app)
 {
 	$id = $app->request()->post('id');
 	$application = ApplicationController::getActiveApplication();
 
-	$tmp = explode('-', $id);
+	// id's are of the form <name>-#<id-number>
+	$tmp  = explode('-', $id);
 	$name = $tmp[0];
-	$id 	= substr($tmp[1], 1);
+	$id   = substr($tmp[1], 1);
 
 	switch($name)
 	{
 		case 'language':
 			$object = Language::getWithId($id);
-			$object->delete();
+
+			if( $object != null )
+			{
+				$object->delete();
+			}
 		break;
 		default:
 		return '';

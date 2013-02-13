@@ -113,7 +113,7 @@ function removeItem(id) {
 	});
 	$.ajax({
 		type: "POST",
-		url: "/application/remove-section",
+		url: "/application/delete-repeatable",
 		data: "id="+id,
 		success: function(data) {
 		}
