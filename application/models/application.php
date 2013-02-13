@@ -24,16 +24,16 @@ class ApplicationInternalModel extends Model
 
 		// Get current index
 		$newIndex = -1;
-		$temp = Database::getFirst("SELECT %s as id FROM %s WHERE applicationId = %d ORDER BY %s DESC", static::$columnId, static::$tableName, $appId, static::$columnId);
+		$temp = Database::getFirst("SELECT %s as id FROM %s WHERE applicationId = %d ORDER BY %s DESC", static::$primaryKeys[0], static::$tableName, $appId, static::$primaryKeys[0]);
 		if( $temp == array())
 		{
 			$newIndex = 1;
 		} else {
 			$newIndex = (int) $temp['id'] + 1;
 		}
-		Database::iquery("INSERT INTO %s(%s, %s) VALUES (%d,%d)", static::$tableName, static::$columnId, 'applicationId', $newIndex, $appId);
+		Database::iquery("INSERT INTO %s(%s, %s) VALUES (%d,%d)", static::$tableName, static::$primaryKeys[0], 'applicationId', $newIndex, $appId);
 
-		$result = Database::getFirst("SELECT * FROM %s WHERE %s=%d AND applicationId = %d", static::$tableName, static::$columnId, $newIndex, $appId);
+		$result = Database::getFirst("SELECT * FROM %s WHERE %s=%d AND applicationId = %d", static::$tableName, static::$primaryKeys[0], $newIndex, $appId);
 		//$result['id'] = $result[static::$columnId];
 
 		$entityName = get_called_class();
@@ -53,45 +53,45 @@ class ApplicationInternalModel extends Model
 
 class Transaction extends ApplicationInternalModel
 {
-	protected static $tableName = 'APPLICATION_Transaction';
-	protected static $columnId  = 'transactionId';
+	protected static $tableName   = 'APPLICATION_Transaction';
+	protected static $primaryKeys = array('transactionId');
 }
 
 class CivilViolations extends ApplicationInternalModel
 {
-	protected static $tableName = 'APPLICATION_CivilViolation';
-	protected static $columnId  = 'civilViolationId';
+	protected static $tableName   = 'APPLICATION_CivilViolation';
+	protected static $primaryKeys = array('civilViolationId');
 }
 
 class DisciplinaryViolations extends ApplicationInternalModel
 {
-	protected static $tableName = 'APPLICATION_DisciplinaryViolation';
-	protected static $columnId  = 'disciplinaryVioliationId';
+	protected static $tableName   = 'APPLICATION_DisciplinaryViolation';
+	protected static $primaryKeys = array('disciplinaryVioliationId');
 }
 
 class PreviousSchool extends ApplicationInternalModel
 {
-	protected static $tableName = 'APPLICATION_PreviousSchool';
-	protected static $columnId  = 'previousSchoolId';
+	protected static $tableName   = 'APPLICATION_PreviousSchool';
+	protected static $primaryKeys = array('previousSchoolId');
 }
 
 class GRE extends ApplicationInternalModel
 {
-	protected static $tableName = 'APPLICATION_GRE';
-	protected static $columnId  = 'GREId';
+	protected static $tableName   = 'APPLICATION_GRE';
+	protected static $primaryKeys = array('GREId');
 }
 
 
 class Progress extends Model
 {
-	protected static $tableName = 'APPLICATION_Process';
-	protected static $columnId  = 'ProcessId';
+	protected static $tableName   = 'APPLICATION_Process';
+	protected static $primaryKeys = array('ProcessId');
 }
 
 class Language extends ApplicationInternalModel
 {
-	protected static $tableName = 'APPLICATION_Language';
-	protected static $columnId  = 'languageId';
+	protected static $tableName   = 'APPLICATION_Language';
+	protected static $primaryKeys = array('languageId', 'applicationId');
 
 	// We need to correctly overide __isset in order to use these our magic variables in Twig
 	static private $magic_getters = array('options_proficiency');
@@ -139,20 +139,20 @@ class Language extends ApplicationInternalModel
 
 class Personal extends Model
 {
-	protected static $tableName = 'APPLICATION_Primary';
-	protected static $columnId  = 'applicationId';
+	protected static $tableName   = 'APPLICATION_Primary';
+	protected static $primaryKeys = array('applicationId');
 }
 
 
 class Application extends Model
 {
-	protected static $tableName = 'Application';
-	protected static $columnId  = 'applicationId';
+	protected static $tableName   = 'Application';
+	protected static $primaryKeys = array('applicationId');
 
 
 	// We need to correctly overide __isset in order to use these our magic variables in Twig
 	static private $magic_getters    = array('type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'status');
-	static private $availableOptions =array('options_country', 'options_gender', 'options_state', 'options_suffix', 'options_residencyStatus', 'options_type');
+	static private $availableOptions = array('options_country', 'options_gender', 'options_state', 'options_suffix', 'options_residencyStatus', 'options_type');
 
 	public function __get($name)
 	{

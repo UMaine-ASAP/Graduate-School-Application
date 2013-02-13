@@ -14,7 +14,7 @@ class Model
 {
 	protected static $entityName; // store the name of the entity
 	protected static $tableName;	// Database table name
-	protected static $columnId;	// Identifying column
+	protected static $primaryKeys;	// Identifying columns
 
 	protected $values;	
 	protected $is_dirty;	// Values changed for saving
@@ -22,6 +22,8 @@ class Model
 	private $whereClause;		// WhereEqual structure
 	private $whereReplacements;	// Replacement information
 
+	private $query; // the query string to run
+	private $args; // the arguments for the query string
 
 	function Model($name = '')
 	{
@@ -36,56 +38,11 @@ class Model
 		} else {
 			static::$entityName = $name;
 		}
+
+		$this->resetQuery();
 	}
 	
 
-
-	public static function factory($entityName)
-	{
-		return new $entityName($entityName);
-	}
-
-
-	public function delete()
-	{
-		Database::iquery("DELETE FROM %s WHERE %s=%d", static::$tableName, static::$columnId, $this->values['id']);
-	}
-
-
-	// Set value without making dirty
-	private function setValue($key, $value) 
-	{
-
-		$this->values[$key] = "$value";
-	}
-
-
-	// @pragma Querying
-
-	public function whereEqual($fieldName, $value)
-	{
-		$this->whereClause = ' %s = %s ';
-		$this->whereReplacements = array($fieldName, $value);
-		return $this;
-	}
-
-
-
-	public function queryFirst($query, $args)
-	{
-		// Add tablename to query
-		$args = array_merge( array($query, static::$tableName), $args);
-
-		return call_user_func_array( array('Database', 'getFirst'), $args);		
-	}
-
-	public function query($query, $args)
-	{
-		// Add tablename to query
-		$args = array_merge( array($query, static::$tableName), $args);
-
-		return call_user_func_array( array('Database', 'query'), $args);		
-	}
 
 
 	public function __get($name)
@@ -117,65 +74,14 @@ class Model
 		return false;
 	}
 
-	public function save()
+
+
+	// Set value without making dirty
+	private function setValue($key, $value) 
 	{
-		$query = "UPDATE %s SET ";
 
-		$is_first = true; 
-		if ($this->is_dirty == array()) return;
-		foreach($this->is_dirty as $dirty_column) {
-			if($is_first) 
-			{
-				$is_first = false;
-			} else {
-				$query .= ",";
-			}
-			$query .= " `%s`='%s'";
-		}
-
-		$query .= " WHERE `%s` = %d";
-		$query .= " AND `applicationId` = %d"; // @TODO: another hack. see note below
-		// Set args
-
-		$args = array($query, static::$tableName);
-
-		foreach($this->is_dirty as $dirty_column) {
-			$args[] = $dirty_column;
-			$args[] = $this->values[$dirty_column];
-		}
-
-		// set where clause
-		$args[] = static::$columnId;
-		$args[] = $this->values['id'];
-
-		// @TODO: need better way to do this. Maybe provide multiple keys?
-		$application = ApplicationController::getActiveApplication();
-		$args[] = $application->id;
-
-		// run query
-		$result = call_user_func_array( array('Database', 'iquery'), $args);
+		$this->values[$key] = "$value";
 	}
-
-	public function get()
-	{
-		$dataAr = $this->query("SELECT * FROM %s WHERE %s = %d ", $this->whereReplacements);
-
-		$result = array();
-		foreach($dataAr as $data) {
-			$entity = new static::$entityName(static::$entityName);
-			$entity->loadFromDB($data);
-			$result[] = $entity;
-		}
-		return $result;
-	}	
-
-
-	public function first()
-	{
-		$result = $this->queryFirst("SELECT * FROM %s WHERE %s = %d ", $this->whereReplacements);
-		$this->loadFromDB($result);
-		return $this;
-	}	
 
 	// @pragma Load data
 
@@ -205,14 +111,25 @@ class Model
 		{
 			return null;
 		} else {
-			$columnId = static::$columnId;
-			// find the unique identifier
-			if( isset($dbData[$columnId]) )
+			// find the primary keys
+			foreach( static::$primaryKeys as $keyNumber=>$primaryKey )
 			{
-				$this->setValue('id', $dbData[$columnId]);
-			} else {
-				throw new Exception("ID not found when loading.");
+				if( isset($dbData[$primaryKey]) )
+				{
+					$idName = 'id' . ($keyNumber + 1);
+					$this->setValue($idName, $dbData[$primaryKey]);
+				} else {
+					throw new Exception("ID $primaryKey for Model $entityName not found when loading.");
+				}
 			}
+
+			// id is a synonym for id1
+			if( count(static::$primaryKeys) != 0 )
+			{
+				$this->setValue('id', $this->values['id1']);				
+			}
+
+			// load remaining data
 			$this->loadData($dbData);
 
 			return $this;
@@ -220,7 +137,6 @@ class Model
 
 
 	}
-
 
 
 	// Access options in a database table formated as id, value, title
@@ -234,4 +150,150 @@ class Model
 		}
 		return $result;
 	}	
+
+
+	// @pragma Querying
+
+	public static function factory($entityName)
+	{
+		return new $entityName($entityName);
+	}
+
+	protected function queryAppendUnique($beginsWhere = TRUE)
+	{
+		// Build Query Tag on - WHERE key1 = %d AND key2 = %d ...
+		$queryPieces = array_map( function($key) { return " `$key` = %d "; }, static::$primaryKeys);
+
+		if( $beginsWhere )
+		{
+			$this->query .= ' WHERE ';
+		}  else {
+			$this->query .= ' AND ';			
+		}
+
+		$this->query .= ' ' . implode(' AND ', $queryPieces);
+
+		// Add args
+		foreach( static::$primaryKeys as $keyNumber=>$key )
+		{
+			$idName = 'id' . ((int)$keyNumber + 1);
+			$this->args[] = $this->values[$idName];
+		}
+	}
+
+	public function delete()
+	{
+		$this->query = "DELETE FROM %s ";
+		$this->args = array(static::$tableName);
+
+		$this->queryAppendUnique();
+		$this->iquery();
+	}
+
+
+	public function whereEqual($fieldName, $value)
+	{
+		$this->whereClause = ' %s = %s ';
+		$this->whereReplacements = array($fieldName, $value);
+		return $this;
+	}
+
+
+
+	public function queryFirst()
+	{
+		// Add tablename to query
+		$args = array_merge( array($this->query), $this->args);
+
+		$result = call_user_func_array( array('Database', 'getFirst'), $args);
+		$this->resetQuery();
+		return $result;		
+	}
+
+	public function query()
+	{
+		// Add tablename to query
+		$args = array_merge( array($this->query), $this->args);
+
+		$result = call_user_func_array( array('Database', 'query'), $args);		
+		$this->resetQuery();
+		return $result;
+	}
+
+	public function iquery()
+	{
+		// Add tablename to query
+		$args = array_merge( array($this->query), $this->args);
+
+		$result = call_user_func_array( array('Database', 'iquery'), $args);
+		$this->resetQuery();
+		return $result;
+	}
+
+	protected function resetQuery()
+	{
+		$this->query = '';
+		$this->args = array();		
+	}
+
+
+	public function save()
+	{
+		$this->query = "UPDATE %s SET ";
+
+		$is_first = true;
+		if ($this->is_dirty == array()) return; // nothing to save
+
+		// build query string
+		foreach($this->is_dirty as $dirty_column) {
+			if($is_first) 
+			{
+				$is_first = false;
+			} else {
+				$this->query .= ",";
+			}
+			$this->query .= " `%s`='%s'";
+		}
+
+		// Set arguments
+		$this->args = array(static::$tableName);
+
+		foreach($this->is_dirty as $dirty_column) {
+			$this->args[] = $dirty_column;
+			$this->args[] = $this->values[$dirty_column];
+		}
+
+		// set to save unique value
+		$this->queryAppendUnique();
+
+		// run query
+		$this->iquery();
+	}
+
+	public function get()
+	{
+		$this->query = "SELECT * FROM %s WHERE %s = %d ";
+		$this->args = array(static::$tableName, $this->whereReplacements[0], $this->whereReplacements[1]);
+		$dataAr = $this->query();
+
+		$result = array();
+		foreach($dataAr as $data) {
+			$entity = new static::$entityName(static::$entityName);
+			$entity->loadFromDB($data);
+			$result[] = $entity;
+		}
+		return $result;
+	}	
+
+
+	public function first()
+	{
+		$this->query = "SELECT * FROM %s WHERE %s = %d ";
+		$this->args = array(static::$tableName, $this->whereReplacements[0], $this->whereReplacements[1]);		
+		$result = $this->queryFirst();
+		$this->loadFromDB($result);
+		return $this;
+	}	
+
+
 }

@@ -3,7 +3,7 @@
 class Applicant extends Model
 {
 	protected static $tableName = 'applicants';
-	protected static $columnId  = 'applicantId';
+	protected static $primaryKeys  = array('applicantId');
 
 
 	function __get($name)
