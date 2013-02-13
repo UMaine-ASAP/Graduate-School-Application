@@ -1,5 +1,6 @@
 <?php
 
+include_once __DIR__ . "/ApplicantController.php";
 include_once __DIR__ . "/../models/application.php";
 
 class ApplicationController extends Controller
@@ -23,17 +24,37 @@ class ApplicationController extends Controller
 	{
      	if( ! is_integer($applicantId) ) { ERROR::fatal("Passed in application identifier is not an integer."); }
 
-     	// @TODO: get application from database
+     	// @TODO: get application from database using application identifier
 		$applicantDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d", $applicantId);
 
        	return new Application( $applicantDB );
-
-     	return new Application(array('applicationId'=>$applicantId));
 	}
 
-	public static function allApplications()
+	public static function allMyApplications()
 	{
-		//Database::
+		$applicant = ApplicantController::getActiveApplicant();
+
+		// Ensure applicant is valid
+		if ($applicant == null)
+		{
+			return null;
+		}
+
+		// Retrieve applications
+		$applicationsDB = Database::query("SELECT * FROM `Application` WHERE applicationId = %d", $applicant->id);
+		
+		// ensure data exists
+		if($applicationsDB == array())
+		{
+			return array();
+		}
+
+		// build results
+		$result = array();
+		foreach ($applicationsDB as $applicationDBData) {
+			$result[] = new Application($applicationDBData);
+		}
+		return $result;
 	}
 
 	// ********************************************* //
@@ -42,7 +63,8 @@ class ApplicationController extends Controller
 	public function hasBeenSubmitted()
 	{
 		$result = $this->db->query('SELECT has_been_submitted FROM applicants WHERE applicant_id=%d', $this->application_id);
-		if( !is_array($result) ) {
+		if( !is_array($result) )
+		{
 			return TRUE;
 		}
 		$has_been_submitted = ($result[0]['has_been_submitted']) ? TRUE : FALSE;
@@ -73,13 +95,13 @@ class ApplicationController extends Controller
 			
 			//Fetch application cost
 			$app_cost_query = $db->query("SELECT application_fee_transaction_amount FROM applicants WHERE applicant_id=%d", $this->applicant_id);
-			$app_cost = $app_cost_query[0][0];
+			$app_cost       = $app_cost_query[0][0];
 			
 			//Build request
 			$data ='UPAY_SITE_ID=' . $GLOBALS["touchnet_site_id"].'&';
-			$data.='UMS_APP_ID='   . $GLOBALS["touchnet_app_id"].'&';
-			$data.='EXT_TRANS_ID=' . $trans_id.'&';
-			$data.='AMT=' . $app_cost;
+			$data .='UMS_APP_ID='   . $GLOBALS["touchnet_app_id"].'&';
+			$data .='EXT_TRANS_ID=' . $trans_id.'&';
+			$data .='AMT=' . $app_cost;
 			
 			$header = array("MIME-Version: 1.0","Content-type: application/x-www-form-urlencoded","Contenttransfer-encoding: text");
 			

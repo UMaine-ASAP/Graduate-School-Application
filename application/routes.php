@@ -399,8 +399,8 @@ $app->get('/no-javascript', function()
 /*----------------------------------------------------*/
 
 $app->get('/my-applications', $authenticated, function() use ($app)
-{
-	$applications = array();
+{	
+	$applications = ApplicationController::allMyApplications();
 	render('application/my-applications.twig', array('applications'=>$applications));
 });
 
