@@ -409,18 +409,32 @@ $app->get('/my-applications', $authenticated, function() use ($app)
 /* Application Actions
 /*-----*/
 
+$app->get('/create-application/:typeId', $authenticated, function($typeId) use ($app) {
+	// double check type is valid
+	$application = ApplicationController::createApplication($typeId);
+
+	if( ! is_null($application) )
+	{
+		redirect('/edit-application/' . $application->id);
+	} else {
+		// @TODO set error message
+		redirect('/my-applications');
+	}
+});
+
 /**
  * Begin Editing application
  * 
  * Sets active application and redirects to the correct starting 
  * page for the current application
  */
-$app->get('/edit-application/:id', function($id) use ($app) {
+$app->get('/edit-application/:id', $authenticated, function($id) use ($app) {
 	$id = (int) $id;
 	$isValidApplication = ApplicationController::setActiveApplication($id);
 
 	if ( ! $isValidApplication )
 	{
+		// application either does not exist or doesn't belong to user
 		redirect('/my-applications');
 	}
 
@@ -428,8 +442,8 @@ $app->get('/edit-application/:id', function($id) use ($app) {
 
 	// Reset current section
 	unset($_SESSION['current-application-section']);
-	redirect('/application/section/next');
 
+	redirect('/application/section/next');
 });
 
 /**
@@ -437,7 +451,7 @@ $app->get('/edit-application/:id', function($id) use ($app) {
  *  
  * Save a field from the application
  */
-$app->post('/saveData', function() use ($app)
+$app->post('/saveData', $authenticated, function() use ($app)
 {
 
 	if ( ! ApplicantController::applicantIsLoggedIn() )
@@ -509,7 +523,7 @@ $app->post('/saveData', function() use ($app)
 /**
  * Create a new item of type $name and pass the template back
  */
-$app->get('/application/getTemplate/:name', function($name) use ($app)
+$app->get('/application/getTemplate/:name', $authenticated, function($name) use ($app)
 {
 
 	switch($name)

@@ -6,6 +6,41 @@ include_once __DIR__ . "/../models/application.php";
 class ApplicationController extends Controller
 {
 
+	/**
+	 * Create Application
+	 * 
+	 * Creates an application of the specified type
+	 * 
+	 * @return Application 	The new application, null if unsuccessful
+	 */
+	public static function createApplication($typeId)
+	{
+		// double check type is valid
+		$types = Application::getOption('options_type');
+
+		if( array_key_exists($typeId, $types) )
+		{
+			// ensure applicant is logged in
+			if( !ApplicantController::applicantIsLoggedIn() ) {
+				return null;
+			}
+			$result   = Database::getFirst("SELECT applicationId FROM Application WHERE applicantId = %d ORDER BY applicationId", $applicant->id);
+			$newIndex = $result['applicationId'] + 1;
+
+			Database::iquery("INSERT INTO Application(applicationId, applicantId, applicationTypeId) VALUES (null, %d, %d)", $applicant->id, $typeId);
+
+			$result = Database::getFirst("SELECT * FROM Application WHERE applicantId = %d AND applicationId", $newIndex);
+			if($result == array())
+			{
+				return null;
+			}
+
+			return new Application($result);
+		} else {
+			return null;
+		}
+	}
+
 	/** Get a new application object from current session data **/
 	public static function getActiveApplication()
 	{
