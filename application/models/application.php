@@ -51,14 +51,10 @@ class ApplicationInternalModel extends Model
 
 }
 
-// 
-
-
 class Transaction extends ApplicationInternalModel
 {
 	protected static $tableName = 'APPLICATION_Transaction';
 	protected static $columnId  = 'transactionId';
-	
 }
 
 class CivilViolations extends ApplicationInternalModel
@@ -140,13 +136,16 @@ class Application extends Model
 
 
 	// We need to correctly overide __isset in order to use these our magic variables in Twig
-	static private $magic_getters = array('transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'options_country', 'options_gender', 'options_state', 'options_suffix', 'options_residencyStatus');
+	static private $magic_getters = array('type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'options_country', 'options_gender', 'options_state', 'options_suffix', 'options_residencyStatus');
 
 	public function __get($name)
 	{
 		// Data
 		 switch($name)
 		 {
+		 	case 'type':
+		 		$result = Database::getFirst('SELECT name FROM APPLICATION_type WHERE applicationTypeId = %d', $this->applicationTypeId);
+		 		return $result['name'];
 		 	case 'transaction':
 			 	return Model::factory('Transaction')->first($this->transactionId);
 		 	break;

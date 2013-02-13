@@ -20,9 +20,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for applications in application %}
+			{% for application in applications %}
 			<tr>
 				<td>test</td>
+				<td>{{application.type}}</td>
 				<td>{{application.has_been_submitted}}</td>
 			</tr>
 			{% endfor %}
