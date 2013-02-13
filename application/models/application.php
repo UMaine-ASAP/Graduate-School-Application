@@ -132,7 +132,7 @@ class Personal extends Model
 class Application extends Model
 {
 	protected static $tableName = 'Application';
-	protected static $columnId  = 'ApplicationId';
+	protected static $columnId  = 'applicationId';
 
 
 	// We need to correctly overide __isset in order to use these our magic variables in Twig
@@ -241,9 +241,9 @@ class Application extends Model
 	 * 
 	 * @return void
 	 */
-	function Application($data)
+	function Application($data=array())
 	{
-		self::loadData($data);
+		self::loadFromDB($data);
 		// @TODO: load data from APPLICATION_Primary
 	}
 
