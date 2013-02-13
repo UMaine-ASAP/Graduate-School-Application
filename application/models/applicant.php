@@ -56,7 +56,7 @@ function user_logout() {
 class Applicant extends Model
 {
 	protected static $tableName = 'applicants';
-	protected static $columnId  = 'applicant_id';
+	protected static $columnId  = 'applicantId';
 
 
 	function __get($name)
@@ -78,7 +78,7 @@ class Applicant extends Model
 	function Applicant($data = array())
 	{
 		$id = $data['applicantId'];
-		self::loadData($data);
+		self::loadFromDB($data);
 	}
 
 }
