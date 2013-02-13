@@ -1,20 +1,19 @@
-	html {
-		background-color: #F3EFE6;
+html {
+	background-color: #F3EFE6;
 	background-attachment: fixed;
 	background-position-x: center;
 	/* This ensures that the site won't shift when you go from a page with scroll bars to a page without, or vice versa */
 	/* fix from http://www.nkuttler.de/2008/09/29/the-biggest-css-annoyance/ */
-    height: 100%;
-    margin-bottom: 1px;
+	height: 100%;
+	margin-bottom: 1px;
+}
 
-	}
-	
-	body {
-		text-align:center;
-		font-family: Verdana, Arial, sans-serif;
-		height: 100%;
-		font-size: 100%;
-	}
+body {
+	text-align:center;
+	font-family: Verdana, Arial, sans-serif;
+	height: 100%;
+	font-size: 100%;
+}
 	
 .gradHeader {
 	background-color: #003263;

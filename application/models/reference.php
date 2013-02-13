@@ -4,7 +4,7 @@
 require_once __DIR__ . "/../libs/database.php";
 require_once __DIR__ . "/../libs/corefuncs.php";
 
-class Reference extends Entity
+class Reference extends Model
 {
 	protected static $tableName = 'APPLICATION_Reference';
 	protected static $columnId  = 'ReferenceId';

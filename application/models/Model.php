@@ -10,7 +10,7 @@
  * @author Tim Westbaker
  * @created 11/8/12
  */
-class Entity
+class Model
 {
 	protected static $entityName; // store the name of the entity
 	protected static $tableName;	// Database table name
@@ -23,7 +23,7 @@ class Entity
 	private $whereReplacements;	// Replacement information
 
 
-	function Entity($name = '')
+	function Model($name = '')
 	{
 		$this->is_dirty = array();
 		$this->values = array();

@@ -13,14 +13,19 @@ require_once "config.php";
 require_once "models/databaseConfig.php";
 
 // Base Classes
-require_once "models/backbone/Entity.php";
-require_once "models/backbone/Manager.php";
+require_once "models/Model.php";
+require_once "controllers/Controller.php";
 
 // Models
-require_once 'models/reference.php';
 require_once 'models/application.php';
 require_once 'models/applicant.php';
+require_once 'models/reference.php';
 require_once 'models/errorTracker.php';
+
+// Controllers
+require_once 'controllers/ApplicationController.php';
+require_once 'controllers/ApplicantController.php';
+
 
 // Libraries
 require_once 'libs/email.php';
@@ -78,10 +83,10 @@ function render($path, $args = array()) {
 	$args['GRADHOMEPAGE']	= $GLOBALS['graduate_homepage'];
 	$args['GRADIMAGESPATH']	= $GLOBALS['grad_images'];
 
-	$args['ISLOGGEDIN']		= ApplicantManager::applicantIsLoggedIn();
+	$args['ISLOGGEDIN']		= ApplicantController::applicantIsLoggedIn();
 	if( $args['ISLOGGEDIN'] )
 	{
-		$applicant = ApplicantManager::getActiveApplicant();
+		$applicant = ApplicantController::getActiveApplicant();
 		$args['EMAIL']	= $applicant->loginEmail;
 	}
 
@@ -114,7 +119,7 @@ function render_section($path, $args = array(), $sections, $currentLocation) {
 		$sectionHTML .= createHTMLForSection($sectionName, $currentLocation);
 	}
 
-	$applicant = ApplicantManager::getActiveApplicant();
+	$applicant = ApplicantController::getActiveApplicant();
 	$args['EMAIL']	= $applicant->loginEmail;
 
 	$args['NAME'] = $applicant->givenName;
@@ -133,7 +138,7 @@ function render_section($path, $args = array(), $sections, $currentLocation) {
  */
 $authenticated = function() use ($app) 
 {
-	$isLoggedIn = ApplicantManager::applicantIsLoggedIn();
+	$isLoggedIn = ApplicantController::applicantIsLoggedIn();
 	if( !$isLoggedIn ) 
 	{
 		redirect('/login');
@@ -148,7 +153,7 @@ $authenticated = function() use ($app)
  */
 $applicationNotSubmitted = function() 
 {
-	$application = ApplicationManager::getActiveApplication();
+	$application = ApplicationController::getActiveApplication();
 	// Redirect if application has already been submitted
 	if( $application->hasBeenSubmitted )
 	{
@@ -170,8 +175,8 @@ $app->get('/', function()
 {
 	$app = Slim\Slim::getInstance();
 	// route to correct page
-	if( ApplicantManager::applicantIsLoggedIn() ) {
-		redirect('/application');
+	if( ApplicantController::applicantIsLoggedIn() ) {
+		redirect('/my-applications');
 	} else {
 		redirect('/login');
 	}
@@ -215,10 +220,10 @@ $app->post('/login', function() use ($app)
 			// Login
 			if( !$error_messages->hasErrors() )
 			{
-				$applicantLoggedInErrorMessage = ApplicantManager::loginApplicant($email, $password);
+				$applicantLoggedInErrorMessage = ApplicantController::loginApplicant($email, $password);
 				if( $applicantLoggedInErrorMessage == '' )
 				{
-					redirect('/application/section/personal-information');				
+					redirect('/my-applications');
 				} else {
 					$error_messages->add( $applicantLoggedInErrorMessage );
 					
@@ -248,12 +253,12 @@ $app->post('/login', function() use ($app)
 			if( empty($password_confirm) ) 				{ $error_messages->add('You did not confirm your password choice'); }
 			if( $email != $email_confirm ) 				{ $error_messages->add('The email address you provided did not match'); }
 			if( $password != $password_confirm ) 			{ $error_messages->add('The passwords you provided did not match'); }
-			if( ApplicantManager::accountAlreadyExists($email) ) 	{ $error_messages->add("A user with that name already exists. If you forgot your password, you can recover it <a href='forgot.php'>here</a>."); }
+			if( ApplicantController::accountAlreadyExists($email) ) 	{ $error_messages->add("A user with that name already exists. If you forgot your password, you can recover it <a href='forgot.php'>here</a>."); }
 
 			// Create new Application
 			if( !$error_messages->hasErrors() ) 
 			{
-				ApplicantManager::createAccount($email, $password);
+				ApplicantController::createAccount($email, $password);
 
 				// @TODO: This should be called here, but implemented somewhere else ..
 				sendSuccessMessage($email, $code);				
@@ -393,15 +398,21 @@ $app->get('/no-javascript', function()
 /* Application
 /*----------------------------------------------------*/
 
+$app->get('/my-applications', $authenticated, function() use ($app)
+{
+	$applications = array();
+	render('application/my-applications.twig', array('applications'=>$applications));
+});
+
 /**
- * Application
+ * Save Data
  *  
  * Save a field from the application
  */
 $app->post('/saveData', function() use ($app)
 {
 
-	if ( ! ApplicantManager::applicantIsLoggedIn() )
+	if ( ! ApplicantController::applicantIsLoggedIn() )
 	{
 		echo "Please <a href='".$GLOBALS['WEBROOT']."/logout'>Log in</a> Again";
 		return;
@@ -412,7 +423,7 @@ $app->post('/saveData', function() use ($app)
 	$value = $app->request()->post('value');
 	$value = InputSanitation::cleanInput($value);
 
-	$application = ApplicationManager::getActiveApplication();
+	$application = ApplicationController::getActiveApplication();
 
 	// Field stores the path within the application to the data in the form location1.location2. ... .fieldName
 
@@ -497,7 +508,7 @@ $app->get('/application/section/next', $authenticated, $applicationNotSubmitted,
 {
 	$current_section = $_SESSION['current-application-section'];
 
-	$application 	= ApplicationManager::getActiveApplication();
+	$application 	= ApplicationController::getActiveApplication();
 	$sections 	= $application->sections;
 
 	$index=array_search($current_section, $sections);
@@ -522,7 +533,7 @@ $app->get('/application/section/previous', $authenticated, $applicationNotSubmit
 {
 	$current_section = $_SESSION['current-application-section'];
 
-	$application 	= ApplicationManager::getActiveApplication();
+	$application 	= ApplicationController::getActiveApplication();
 	$sections 	= $application->sections;
 
 	$index=array_search($current_section, $sections);
@@ -546,8 +557,8 @@ $app->get('/application/section/previous', $authenticated, $applicationNotSubmit
  */
 $app->get('/application/section/personal-information', $authenticated, $applicationNotSubmitted, function ()
 {
-	$applicant 	= ApplicantManager::getActiveApplicant();
-	$application 	= ApplicationManager::getActiveApplication();
+	$applicant 	= ApplicantController::getActiveApplicant();
+	$application 	= ApplicationController::getActiveApplication();
 
 	render_section('application/personal-information.twig', array('application' => $application, 'applicant'=>$applicant), $application->sections, 'personal-information');
 });
@@ -560,8 +571,8 @@ $app->get('/application/section/personal-information', $authenticated, $applicat
 $app->get('/application/section/international', $authenticated, $applicationNotSubmitted, function ()
 {
 
-	$applicant 	= ApplicantManager::getActiveApplicant();
-	$application 	= ApplicationManager::getActiveApplication();
+	$applicant 	= ApplicantController::getActiveApplicant();
+	$application 	= ApplicationController::getActiveApplication();
 
 	render_section('application/international.twig', array('application' => $application), $application->sections, 'international');
 });
@@ -574,8 +585,8 @@ $app->get('/application/section/international', $authenticated, $applicationNotS
 $app->get('/application/section/educational-history', $authenticated, $applicationNotSubmitted, function ()
 {
 
-	$applicant 	= ApplicantManager::getActiveApplicant();
-	$application 	= ApplicationManager::getActiveApplication();
+	$applicant 	= ApplicantController::getActiveApplicant();
+	$application 	= ApplicationController::getActiveApplication();
 
 	render_section('application/educational-history.twig', array('application' => $application), $application->sections, 'educational-history');
 });
@@ -588,8 +599,8 @@ $app->get('/application/section/educational-history', $authenticated, $applicati
 $app->get('/application/section/educational-objectives', $authenticated, $applicationNotSubmitted, function ()
 {
 
-	$applicant 	= ApplicantManager::getActiveApplicant();
-	$application 	= ApplicationManager::getActiveApplication();
+	$applicant 	= ApplicantController::getActiveApplicant();
+	$application 	= ApplicationController::getActiveApplication();
 
 	render_section('application/educational-objectives.twig', array('application' => $application), $application->sections, 'educational-objectives');
 });
@@ -603,8 +614,8 @@ $app->get('/application/section/educational-objectives', $authenticated, $applic
 $app->get('/application/section/letters-of-recommendation', $authenticated, $applicationNotSubmitted, function ()
 {
 
-	$applicant 	= ApplicantManager::getActiveApplicant();
-	$application 	= ApplicationManager::getActiveApplication();
+	$applicant 	= ApplicantController::getActiveApplicant();
+	$application 	= ApplicationController::getActiveApplication();
 
 	render_section('application/letters-of-recommendation.twig', array('application' => $application), $application->sections, 'letters-of-recommendation');
 });
