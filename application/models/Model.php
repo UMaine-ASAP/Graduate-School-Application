@@ -216,4 +216,17 @@ class Model
 
 
 	}
+
+
+	// Access options in a database table formated as id, value, title
+	static protected function getOptionsFromDB($optionName)
+	{
+		$options = Database::query("SELECT * FROM %s Order BY id", 'OPTIONS_' . $optionName);
+		// convert to associative array
+		$result = array();
+		foreach($options as $option) {
+			$result[$option['value']] = $option['title'];
+		}
+		return $result;
+	}	
 }

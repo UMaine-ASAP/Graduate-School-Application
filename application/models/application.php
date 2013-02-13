@@ -136,7 +136,8 @@ class Application extends Model
 
 
 	// We need to correctly overide __isset in order to use these our magic variables in Twig
-	static private $magic_getters = array('type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'options_country', 'options_gender', 'options_state', 'options_suffix', 'options_residencyStatus');
+	static private $magic_getters    = array('type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections');
+	static private $availableOptions =array('options_country', 'options_gender', 'options_state', 'options_suffix', 'options_residencyStatus', 'options_type');
 
 	public function __get($name)
 	{
@@ -180,8 +181,38 @@ class Application extends Model
 		 	break;
 		 }
 
-		// Options
-		switch($name)
+		// Check if this is a request for available options
+		if( strpos($name, 'options_') !== false) {
+			$result = self::getOption($name);
+			if( ! is_null($result) )
+			{
+				return $result;
+			}
+		}
+
+
+		return parent::__get($name);
+	}
+
+	public function __isset($name)
+	{
+		if ( in_array($name, self::$magic_getters) || in_array($name, self::$availableOptions) ) 
+		{
+			return true;
+		}
+		return parent::__isset($name);
+	}
+
+	/**
+	 * Get Option
+	 * 
+	 * Accessor for accepted values for enumerated DB fields. Includes values and display names.
+	 * 
+	 * @returns array
+	 */
+	public static function getOption($optionName)
+	{
+		switch($optionName)
 		{
 			case 'options_country':
 				return self::getOptionsFromDB('Country');
@@ -211,29 +242,16 @@ class Application extends Model
 							'non-resident alien' 		=> 'Non-Resident Alien',
 							'resident alien green card' 	=> 'Resident Alien (Green Card)');
 			break;
+			case 'options_type':
+				$result = array();
+				$typeDB = Database::get("SELECT * FROM APPLICATION_type");
+				foreach ($typeDB as $type) {
+					$result[ $type['applicationTypeId'] ] = $type['name'];
+				}
+				return $result;
+			break;
 		}
-
-		return parent::__get($name);
-	}
-
-	public function __isset($name)
-	{
-		if ( in_array($name, self::$magic_getters) ) 
-		{
-			return true;
-		}
-		return parent::__isset($name);
-	}
-
-	static private function getOptionsFromDB($optionName)
-	{
-		$options = Database::query("SELECT * FROM %s Order BY id", 'OPTIONS_' . $optionName);
-		// convert to associative array
-		$result = array();
-		foreach($options as $option) {
-			$result[$option['value']] = $option['title'];
-		}
-		return $result;
+		return null; // nothing found
 	}
 
 	/**
