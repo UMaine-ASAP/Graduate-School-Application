@@ -24,8 +24,9 @@ class ApplicationController extends Controller
 			if( !ApplicantController::applicantIsLoggedIn() ) {
 				return null;
 			}
-			$result   = Database::getFirst("SELECT applicationId FROM Application WHERE applicantId = %d ORDER BY applicationId", $applicant->id);
-			$newIndex = $result['applicationId'] + 1;
+			$applicant = ApplicantController::getActiveApplicant();
+			$result    = Database::getFirst("SELECT applicationId FROM Application WHERE applicantId = %d ORDER BY applicationId", $applicant->id);
+			$newIndex  = $result['applicationId'] + 1;
 
 			Database::iquery("INSERT INTO Application(applicationId, applicantId, applicationTypeId) VALUES (null, %d, %d)", $applicant->id, $typeId);
 
