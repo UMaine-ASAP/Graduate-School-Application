@@ -24,12 +24,12 @@ class ApplicationInternalModel extends Model
 
 		// Get current index
 		$newIndex = -1;
-		$temp = Database::getFirst("SELECT count(*) as count FROM %s WHERE applicationId = %d", static::$tableName, $appId);
+		$temp = Database::getFirst("SELECT %s as id FROM %s WHERE applicationId = %d ORDER BY %s DESC", static::$columnId, static::$tableName, $appId, static::$columnId);
 		if( $temp == array())
 		{
 			$newIndex = 1;
 		} else {
-			$newIndex = (int) $temp['count'] + 1;
+			$newIndex = (int) $temp['id'] + 1;
 		}
 		Database::iquery("INSERT INTO %s(%s, %s) VALUES (%d,%d)", static::$tableName, static::$columnId, 'applicationId', $newIndex, $appId);
 

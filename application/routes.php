@@ -544,7 +544,6 @@ $app->post('/saveData', $authenticated, function() use ($app)
  */
 $app->get('/application/getTemplate/:name', $authenticated, function($name) use ($app)
 {
-
 	switch($name)
 	{
 		case 'language':
@@ -553,6 +552,27 @@ $app->get('/application/getTemplate/:name', $authenticated, function($name) use 
 				'language' => $language,
 				'hide'     => false);
 			return $app->render("repeatable/language.twig", $data);
+		break;
+		default:
+		return '';
+	}
+
+});
+
+$app->post('/application/remove-section', $authenticated, function() use ($app)
+{
+	$id = $app->request()->post('id');
+	$application = ApplicationController::getActiveApplication();
+
+	$tmp = explode('-', $id);
+	$name = $tmp[0];
+	$id 	= substr($tmp[1], 1);
+
+	switch($name)
+	{
+		case 'language':
+			$object = Language::getWithId($id);
+			$object->delete();
 		break;
 		default:
 		return '';

@@ -94,7 +94,7 @@ function addItem(table) {
 		index = $('.' + table).size() + 1;
 
 		var groupSelector = '#' + table + 's'; 
-		var itemSelector = '#' + table + 's_' + index;
+		var itemSelector  = '#' + table + 's_' + index;
 
 		console.log( $(itemSelector) );
 
@@ -106,16 +106,17 @@ function addItem(table) {
 		
 		
 function removeItem(id) {
-	var d = document.getElementById(id)
+	var d = document.getElementById(id);
 	$("#"+d.id+" fieldset").fadeOut();
 	$(d).slideUp("normal",function() {
 		$(d).remove();
 	});
-	
 	$.ajax({
 		type: "POST",
-		url: "libs/removeItem.php",
-		data: "remove_id="+id
+		url: "/application/remove-section",
+		data: "id="+id,
+		success: function(data) {
+		}
 	});
 }
 
@@ -124,7 +125,7 @@ function visibility(elementID,vis) {
 	
 	if(vis) {
 		theDiv.style.display = vis;
-	}else {	
+	}else {
 		if (theDiv.style.display == 'none') {
 			theDiv.style.display = 'block';
 		} else {
