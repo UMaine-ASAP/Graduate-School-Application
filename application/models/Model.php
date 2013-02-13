@@ -134,7 +134,7 @@ class Model
 		}
 
 		$query .= " WHERE `%s` = %d";
-
+		$query .= " AND `applicationId` = %d"; // @TODO: another hack. see note below
 		// Set args
 
 		$args = array($query, static::$tableName);
@@ -147,6 +147,10 @@ class Model
 		// set where clause
 		$args[] = static::$columnId;
 		$args[] = $this->values['id'];
+
+		// @TODO: need better way to do this. Maybe provide multiple keys?
+		$application = ApplicationController::getActiveApplication();
+		$args[] = $application->id;
 
 		// run query
 		$result = call_user_func_array( array('Database', 'iquery'), $args);
@@ -202,7 +206,6 @@ class Model
 			return null;
 		} else {
 			$columnId = static::$columnId;
-
 			// find the unique identifier
 			if( isset($dbData[$columnId]) )
 			{

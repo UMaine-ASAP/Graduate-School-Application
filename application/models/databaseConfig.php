@@ -11,22 +11,24 @@ $databaseFields = array(
 	'personal-suffix'         => 'filter_suffix',
 	'personal-email'          => 'filter_email',
 
-	'personal-permanentMail.postal'  => 'filter_zipcode',
-	'personal-permanentMail.state'   => 'filter_state', 
-	'personal-permanentMail.country' => 'filter_country',
+	'personal-permanentMail-postal'  => 'filter_zipcode',
+	'personal-permanentMail-state'   => 'filter_state', 
+	'personal-permanentMail-country' => 'filter_country',
 
 	'personal-isMailingDifferentFromPermanent' => 'filter_boolean',
-	'personal-mailing.postal'                  => 'filter_postal',
-	'personal-mailing.state'                   => 'filter_state',
-	'personal-mailing.country'                 => 'filter_country',
+	'personal-mailing-postal'                  => 'filter_postal',
+	'personal-mailing-state'                   => 'filter_state',
+	'personal-mailing-country'                 => 'filter_country',
 
 	'personal-dateOfBirth'          => 'filter_long_date',
 	'personal-socialSecurityNumber' => 'filter_ssn',
 	'personal-gender'               => 'filter_gender',
-	'personal-birthState'           => 'filter_state',
-	'personal-birthCountry'         => 'filter_country',
+
+	'personal-birth_city'           => 'filter_generic',
+	'personal-birth_state'          => 'filter_state',
+	'personal-birth_country'        => 'filter_country',
 	'personal-countryOfCitizenship' => 'filter_country',
-	'personal-usState'              => 'filter_state',
+	'personal-us_state'             => 'filter_state',
 	'personal-residencyStatus'      => 'filter_residency',
 	'personal-greenCardLink'        => 'filter_generic',
 
@@ -68,6 +70,7 @@ $databaseFields = array(
 
 	// Language
 	'personal-isEnglishPrimary'     => 'filter_boolean',
+	'language-language'             => 'filter_generic',
 	'language-proficiency_writing'  => 'filter_proficiency',
 	'language-proficiency_reading'  => 'filter_proficiency',
 	'language-proficiency_speaking' => 'filter_proficiency',
@@ -79,11 +82,11 @@ $databaseFields = array(
 	'international-toefl_date'             => 'filter_short_date',
 
 	'international-toefl_score'                     => 'filter_toefl_score',
-	'international-usEmergencyContact.primaryPhone' => 'filter_phone',
-	'international-usEmergencyContact.state'        => 'filter_state',	
-	'international-usEmergencyContact.zip'          => 'filter_zipcode',
-	'international-homeEmergencyContact.phone'      => 'filter_phone',
-	'international-homeEmergencyContact.country'    => 'filter_country',
+	'international-usEmergencyContact-primaryPhone' => 'filter_phone',
+	'international-usEmergencyContact-state'        => 'filter_state',	
+	'international-usEmergencyContact-zip'          => 'filter_zipcode',
+	'international-homeEmergencyContact-phone'      => 'filter_phone',
+	'international-homeEmergencyContact-country'    => 'filter_country',
 	'international-hasFurtherStudies'               => 'filter_boolean',
 	'international-hasUSCareer'                     => 'filter_boolean',
 	'international-hasHomeCareer'                   => 'filter_boolean',

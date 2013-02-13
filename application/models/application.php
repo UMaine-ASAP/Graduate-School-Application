@@ -104,7 +104,7 @@ class Language extends ApplicationInternalModel
 		 	case 'options_proficiency':
 				return array(	''	  	=> '- None -',
 							'Good' 	=> 'Good',
-							'Fair' 	=> 'Non-Resident Alien',
+							'Fair' 	=> 'Fair',
 							'Poor' 	=> 'Poor');
 		 	break;
 		 }
@@ -119,6 +119,21 @@ class Language extends ApplicationInternalModel
 		}
 		return parent::__isset($name);
 	}
+
+	public static function getWithId($languageId)
+	{
+		$application = ApplicationController::getActiveApplication();
+		if( $application == null)
+		{
+			return null;
+		}
+		$dbObject = Database::getFirst("SELECT * FROM APPLICATION_Language WHERE applicationId = %d AND languageId = %d", $application->id, $languageId);
+
+//		$language = new Language('Language');
+		$language = Model::factory('Language');
+		$language->loadFromDB($dbObject);
+		return $language;
+	} 
 
 }
 
@@ -209,9 +224,10 @@ class Application extends Model
 		Database::iquery("DELETE FROM Application WHERE applicantId=%d AND applicationId=%d", $this->applicantId, $this->id);
 	}
 
-	// override default model behavior -> we need to make sure we own the application!!!
+	// override default behavior -> we need to make sure we own the application!!!
 	public function save()
 	{
+		$this->lastModified = Date('Y-m-d H:i:s');
 		// Just to be save check for ownership
 		if( ApplicationController::doesActiveUserOwnApplication($this->id) )
 		{

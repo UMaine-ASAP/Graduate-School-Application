@@ -416,6 +416,10 @@ $app->get('/create-application/:typeId', $authenticated, function($typeId) use (
 	// double check type is valid
 	$application = ApplicationController::createApplication($typeId);
 
+	$application->createdDate = Date('Y-m-d H:i:s');
+	$application->save();
+
+
 	if( ! is_null($application) )
 	{
 		redirect('/edit-application/' . $application->id);
@@ -501,10 +505,10 @@ $app->post('/saveData', $authenticated, function() use ($app)
 			$id = (int) substr($pathDetails[2], 1);
 
 			// id is associated with the first item and indicates a repeatable
-			echo $id;
-
-			$parentObject = $application->$pathDetails[0];
+			
+			$parentObject = $pathDetails[0]::getWithId($id);
 			$fieldName    = $pathDetails[1];
+			$field = $pathDetails[0].'-'.$pathDetails[1];
 		} else {
 			$parentObject = $application->$pathDetails[0]->$pathDetails[1];
 			$fieldName    = $pathDetails[2];
@@ -526,6 +530,8 @@ $app->post('/saveData', $authenticated, function() use ($app)
 		// Save changes
 		$parentObject->$fieldName = $value;
 		$parentObject->save();
+
+		$application->save(); // just in case we missed anything. Also updates last modified timestamp
 
 	} else {
 		echo $errorMessage;

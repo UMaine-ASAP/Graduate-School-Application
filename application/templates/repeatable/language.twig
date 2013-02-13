@@ -7,27 +7,27 @@
 		{{ section.removeSubSectionButton('languages_'+ language.id ) }}
 
 		{{ forms.input( {'title':'Language',
-					'name':'languages-name-#' ~ language.id,
-					'value':language.name,
+					'name':'language-language-#' ~ language.id,
+					'value':language.language,
 					'size':20,
 					'maxLength':20
 				 } ) }}
 
 		{{ forms.select( {'title':'Writing Proficiency',
-					'name': 'languages-writingProficiency-#' ~ language.id,
-					'value': language.writingProficiency,
+					'name': 'language-proficiency_writing-#' ~ language.id,
+					'value': language.proficiency_writing,
 					'options': language.options_proficiency
 				 }) }}
 
 		{{ forms.select( {'title':'Reading Proficiency',
-					'name':'languages-readingProficiency-#' ~ language.id,
-					'value': language.readingProficiency,
+					'name':'language-proficiency_reading-#' ~ language.id,
+					'value': language.proficiency_reading,
 					'options': language.options_proficiency
 				 }) }}
 
 		{{ forms.select( {'title':'Speaking Proficiency',
-					'name':'languages-speakingProficiency-#' ~ language.id,
-					'value': language.speakingProficiency,
+					'name':'language-proficiency_speaking-#' ~ language.id,
+					'value': language.proficiency_speaking,
 					'options': language.options_proficiency
 				 }) }}
 
