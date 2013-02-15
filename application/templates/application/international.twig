@@ -22,10 +22,279 @@
 	<div style="clear:both"></div>
 
 	<div class="hidden" id="international_section">
-		<div id="{{INTERNATIONAL_LIST}}">
+		<fieldset id="toefl" name="toefl" class="nested">
+			
+			<legend>TOEFL Exam</legend>
+				
+				{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the TOEFL examination?',
+						'name':'international-toefl_hasTaken',
+						'value':application.international.toefl_hasTaken,
+					} ) }}
+
+		<div style="clear:both"></div>
+
+		<div class="hidden" id="toefl_taken_section[{{INDEX}}]">
+	
+			{{ forms.input({'title':'Date of Exam',
+					'name':'international-toefl_date',
+					'value':application.international.toefl_date,
+					'size': 10,
+					'maxLength':10,
+					'help':'mm/dd/yyyy'
+				} ) }}
+
+			{{ forms.input({'title':'TOEFL Score',
+					'name':'international-toefl_score',
+					'value':application.international.toefl_score,
+					'size': 7,
+					'maxLength':10,
+				} ) }}	
+
+			<div style="clear:both"></div>
+			
+				{{ forms.booleanDisplay( {'title':'Has this score been reported to the University of Maine?',
+						'name':'international-toefl_hasReported',
+						'value':application.international.toefl_hasReported,
+						'showOnTrue':false
+					} ) }}			
+
+			<div style="clear:both"></div>	
+		
+			<p class="message"><strong>Please have official scores sent directly to the graduate school from the testing institution:</strong> For TOEFL, Educational Testing Service, <a href="http://www.ets.org" class="text_link">www.ets.org</a>, institution code for UM (ORONO): 3916</p>
+
+			<p class="message"><strong>Remember: International applicants are required to submit TOEFL score reports sent directly from ETS, unless they received a degree from an English speaking institution.</strong></p>
 		</div>
-	</div>
-	<script type="text/javascript">showOrNot('international_section',!{{application.international.isInternationalStudent}});</script>
+
+		<div style="clear:both"></div>
+	</fieldset><!-- end fieldset "toefl" -->
+
+	<div style="clear:both"></div>
+	
+	<fieldset id="future_plans[{{INDEX}}]" name="future_plans" class="nested">
+		<legend>Future Plans</legend>
+
+			{{ forms.booleanDisplay( {'title':'Will you continue studies for another degree?',
+					'name':'international-hasFurtherStudies',
+					'value':application.international.hasFurtherStudies,
+					'showOnTrue':false
+				} ) }}			
+
+		<div style="clear:both"></div>
+
+		<div class="hidden" id="further_studies_section[{{INDEX}}]">		
+			
+			<!-- Need a form type for text area.... -->
+			{{ forms.textarea( {'title':'Briefly describe the subject, location, estimated beginning date and approximate duration',
+					'name':'international-furtherStudiesDetails',
+					'value':application.international.furtherStudiesDetails,
+					'cols': 60,
+					'rows':5,
+				} ) }}
+
+		</div>
+
+			{{ forms.booleanDisplay( {'title':'Will you pursue a career <strong>in the United States</strong> after completion of studies?',
+					'name':'international-hasUSCareer',
+					'value':application.international.hasUSCareer,
+				} ) }}
+
+		<div style="clear:both"></div>
+
+		<div class="hidden" id="us_career_section[{{INDEX}}]">
+
+			{{ forms.textarea( {'title':'Briefly describe the subject, location, estimated beginning date and approximate duration',
+					'name':'international-usCareerDetails',
+					'value':application.international.usCareerDetails,
+					'cols': 60,
+					'rows':5,
+				} ) }}
+	
+		</div>
+			
+			{{ forms.booleanDisplay( {'title':'Will you pursue a career <strong>in your home country </strong> after completion of studies?',
+					'name':'international-hasHomeCareer',
+					'value':application.international.hasHomeCareer,
+				} ) }}
+
+		<div class="hidden" id="home_career_section">
+
+			{{ forms.textarea( {'title':'Briefly describe the subject, location, estimated beginning date and approximate duration',
+					'name':'international-homeCareerDetails',
+					'value':application.international.homeCareerDetails,
+					'cols': 60,
+					'rows':5,
+				} ) }}
+		
+		</div>
+
+	</fieldset><!-- end fieldset "future_plans" -->
+
+	<fieldset id="finances" name="finances" class="nested">
+		<legend>Financial Details</legend>
+
+		{{ forms.textarea( {'title':'How do you expect to finance your graduate study?',
+				'name':'international-financeDetails',
+				'value':application.international.financeDetails,
+				'cols': 60,
+				'rows':5,
+			} ) }}
+		
+		<!-- need database field 'usFriendsOrRelatives' for this info -->
+		{{ forms.textarea( {'title':'List the names and addresses of any close friends or relatives in the United States (indicate relationship)',
+			'name':'international-usFriendsOrRelatives',
+			'value':application.international.usFriendsOrRelatives,
+			'cols': 60,
+			'rows':5,
+			} ) }}
+
+	</fieldset>
+	<div style="clear:both"></div>
+
+
+	<fieldset class="nested">	
+		<legend>United States Emergency Contact</legend>
+		<p class="title">Please list a close friend or relative <b>in the United States</b> that should be contacted in case of emergency.</p>
+		
+		{{ forms.input( {'title':'Name', 
+				'name':'international-usEmergencyContact_name',
+				'value':application.international.usEmergencyContact_name,
+				'size': 25,
+				'maxLength':30
+			} ) }}
+
+		{{ forms.input( {'title':'Relationship', 
+				'name':'international-usEmergencyContact_relationship',
+				'value':application.international.usEmergencyContact_relationship,
+				'size': 25,
+				'maxLength':30
+			} ) }}	
+
+		<!-- need to create separate database fields for the following items:
+			'international-usEmergencyContact_phone'
+			'international-usEmergencyContact_streetAddress1'
+			'international-usEmergencyContact_streetAddress2'
+			'international-usEmergencyContact_city'
+			'international-usEmergencyContact_state'
+			'international-usEmergencyContact_postal'
+			according to the schema there is only one 'contactInformationId' -->
+
+		{{ forms.input( {'title':'Phone Number', 
+				'name':'international-usEmergencyContact_phone',
+				'value':application.international.usEmergencyContact_phone,
+				'size': 15,
+				'maxLength':15
+			} ) }}
+
+		{{ forms.input( {'title':'Street', 
+				'name':'international-usEmergencyContact_streetAddress1',
+				'value':application.international.usEmergencyContact_streetAddress1,
+				'size': 55,
+				'maxLength':55
+			} ) }}
+
+		{{ forms.input( {'title':'Additional', 
+				'name':'international-usEmergencyContact_streetAddress2',
+				'value':application.international.usEmergencyContact_streetAddress2,
+				'size': 55,
+				'maxLength':55
+			} ) }}
+
+		{{ forms.input( {'title':'City', 
+				'name':'international-usEmergencyContact_city',
+				'value':application.international.usEmergencyContact_city,
+				'size': 30,
+				'maxLength':30
+			} ) }}
+
+		{{ forms.select( {'title':'State', 
+				'name':'international-usEmergencyContact_state',
+				'value':application.international.usEmergencyContact_state,
+				'options': application.options_state
+			} ) }}
+
+		{{ forms.input( {'title':'Postal Code', 
+				'name':'international-usEmergencyContact_postal',
+				'value':application.international.usEmergencyContact_postal,
+				'size': 15,
+				'maxLength':15
+			} ) }}
+	
+	</fieldset><!-- end fieldset "us_emergency_contact" -->
+
+	<div style="clear:both"></div>
+
+	<fieldset class="nested">
+		<legend>Home Country Emergency Contact</legend>
+		<p class="title">Please list a close friend or relative <strong>in your home country </strong> that should be contacted in case of emergency.</p>
+		
+		{{ forms.input( {'title':'Name', 
+				'name':'international-homeEmergencyContact_name',
+				'value':application.international.homeEmergencyContact_name,
+				'size': 25,
+				'maxLength':30
+			} ) }}
+
+		{{ forms.input( {'title':'Relationship', 
+				'name':'international-homeEmergencyContact_relationship',
+				'value':application.international.homeEmergencyContact_relationship,
+				'size': 25,
+				'maxLength':30
+			} ) }}	
+
+		<!-- need to create separate database fields for the following items:
+			'international-homeEmergencyContact_phone'
+			'international-homeEmergencyContact_streetAddress1'
+			'international-homeEmergencyContact_streetAddress2'
+			'international-homeEmergencyContact_city'
+			'international-homeEmergencyContact_state'
+			'international-homeEmergencyContact_postal'
+			according to the schema there is only one 'contactInformationId' -->
+
+		{{ forms.input( {'title':'Phone Number', 
+				'name':'international-usEmergencyContact_phone',
+				'value':application.international.homeEmergencyContact_phone,
+				'size': 15,
+				'maxLength':15
+			} ) }}
+
+		{{ forms.input( {'title':'Street', 
+				'name':'international-homeEmergencyContact_streetAddress1',
+				'value':application.international.homeEmergencyContact_streetAddress1,
+				'size': 55,
+				'maxLength':55
+			} ) }}
+
+		{{ forms.input( {'title':'Additional', 
+				'name':'international-homeEmergencyContact_streetAddress2',
+				'value':application.international.homeEmergencyContact_streetAddress2,
+				'size': 55,
+				'maxLength':55
+			} ) }}
+
+		{{ forms.input( {'title':'City', 
+				'name':'international-homeEmergencyContact_city',
+				'value':application.international.homeEmergencyContact_city,
+				'size': 30,
+				'maxLength':30
+			} ) }}
+
+		{{ forms.select( {'title':'State', 
+				'name':'international-homeEmergencyContact_state',
+				'value':application.international.homeEmergencyContact_state,
+				'options': application.options_state
+			} ) }}
+
+		{{ forms.input( {'title':'Postal Code', 
+				'name':'international-homeEmergencyContact_postal',
+				'value':application.international.homeEmergencyContact_postal,
+				'size': 15,
+				'maxLength':15
+			} ) }}
+
+			
+		<div style="clear:both;"></div>
+	</fieldset><!-- end fieldset "home_emergency_contact" -->
+</div>
 
 	<div style="clear:both"></div>
 
