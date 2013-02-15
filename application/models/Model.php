@@ -103,7 +103,7 @@ class Model
 		return $this;
 	}
 
-
+	
 	// Convert DB Array to entity object
 	protected function loadFromDB($dbData)
 	{

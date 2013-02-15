@@ -247,13 +247,13 @@ $app->post('/login', function() use ($app)
 
 			// Validate Data
 			$error_messages = new ErrorTracker();
-			if( empty($email) or $email == 'e-mail address') 	{ $error_messages->add('You did not enter an email address'); }
-			if( empty($email_confirm) ) 	 				{ $error_messages->add('You did not confirm your email address'); }
-			if( empty($password) ) 		 				{ $error_messages->add('You did not enter a password'); }
-			if( empty($password_confirm) ) 				{ $error_messages->add('You did not confirm your password choice'); }
-			if( $email != $email_confirm ) 				{ $error_messages->add('The email address you provided did not match'); }
-			if( $password != $password_confirm ) 			{ $error_messages->add('The passwords you provided did not match'); }
-			if( ApplicantController::accountAlreadyExists($email) ) 	{ $error_messages->add("A user with that name already exists. If you forgot your password, you can recover it <a href='forgot.php'>here</a>."); }
+			if( empty($email) or $email == 'e-mail address') 		 { $error_messages->add('You did not enter an email address'); }
+			if( empty($email_confirm) ) 	 					 { $error_messages->add('You did not confirm your email address'); }
+			if( empty($password) ) 		 					 { $error_messages->add('You did not enter a password'); }
+			if( empty($password_confirm) ) 					 { $error_messages->add('You did not confirm your password choice'); }
+			if( $email != $email_confirm ) 					 { $error_messages->add('The email address you provided did not match'); }
+			if( $password != $password_confirm ) 				 { $error_messages->add('The passwords you provided did not match'); }
+			if( ApplicantController::accountAlreadyExists($email) ) { $error_messages->add("A user with that name already exists. If you forgot your password, you can recover it <a href='forgot.php'>here</a>."); }
 
 			// Create new Application
 			if( !$error_messages->hasErrors() ) 
