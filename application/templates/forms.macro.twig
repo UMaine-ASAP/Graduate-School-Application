@@ -44,6 +44,7 @@
  	</label>
 {% endmacro %}
 
+
 <!-- Macro: Boolean
 	Create a Boolean Field Element
 	values:
@@ -60,6 +61,23 @@
 	</label>
 	<script type="text/javascript">checkInitValue('{{values['name']}}_yes',"{{values['value']}}");</script>
 	<script type="text/javascript">checkInitValue('{{values['name']}}_no',"{{values['value']}}");</script>
+{% endmacro %}
+
+
+<!-- Macro: Textarea
+	Create a textarea Field Element
+	values:
+		name 		- The corresponding database field name identifier
+		title 		- the display title for the field
+		value 		- The current value to display in the field
+		cols			- The number of display columns
+		rows			- The number of display rows
+	 -->
+{% macro textarea(values) %}
+	<label for="{{values['name']}}">
+		<p class="title">{{values['title']}}</p>
+		<textarea cols="{{values['cols']}}" rows="{{values['rows']}}" id="{{values['name']}}" name="{{values['name']}}" value="" onblur="saveValue(event,{{values['name']}});">{{values['value']}}</textarea>
+	</label>
 {% endmacro %}
 
 
