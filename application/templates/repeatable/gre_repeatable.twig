@@ -6,7 +6,7 @@
 		<h2>GRE Score {{COUNT_INDEX}}</h2>
 
 		{{ forms.input({'title':'Date of Exam',
-				'name':'gre-date',
+				'name':'gre-date-#' ~ gre.id,
 				'value':gre.date,
 				'size': 14,
 				'maxLength':7,
@@ -14,28 +14,28 @@
 			} ) }}
 
 		{{ forms.input({'title':'Verbal',
-				'name':'gre-verbal',
+				'name':'gre-verbal-#' ~ gre.id,
 				'value':gre.verbal,
 				'size': 3,
 				'maxLength':3,
 			} ) }}
 
 		{{ forms.input({'title':'Quantitative',
-				'name':'gre-quantitative',
+				'name':'gre-quantitative-#' ~ gre.id,
 				'value':gre.quantitative,
 				'size': 3,
 				'maxLength':3,
 			} ) }}		
 
 		{{ forms.input({'title':'Analytical',
-				'name':'gre-analytical',
+				'name':'gre-analytical-#' ~ gre.id,
 				'value':gre.analytical,
 				'size': 3,
 				'maxLength':3,
 			} ) }}
 
 		{{ forms.input({'title':'Subject Score',
-				'name':'gre-score',
+				'name':'gre-score-#' ~ gre.id,
 				'value':gre.score,
 				'size': 3,
 				'maxLength':3,
@@ -45,7 +45,7 @@
 
 		
 		{{ forms.select( {'title':'GRE Subject',
-				'name':'gre-subject',
+				'name':'gre-subject-#' ~ gre.id,
 				'value': gre.subject,
 				'options': gre.options_subject
 			 }) }}
@@ -66,7 +66,7 @@
 		<div style="clear:both;"></div>
 
 		{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
-			'name':'gre-hasBeenReported',
+			'name':'gre-hasBeenReported-#' ~ gre.id,
 			'value':gre.hasBeenReported
 				} ) }}
 
