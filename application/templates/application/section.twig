@@ -49,6 +49,7 @@
 {% endblock %}
 
 {% block sidebar %}
+	<a id='link-my-applications' href='/my-applications'>Return to All Applications</a>
 	<div id="header"> Welcome {{NAME}} </div>
 	<div id="progress"> Please submit all information that you can.<br>Press the “Review Application” button when you are ready. {{WARNINGS}} </div>
 
@@ -67,8 +68,7 @@
 	</div>
 {% endblock %}
 
-{% block content %}
-	
+{% block content %}	
 	<noscript>
 		<meta http-equiv="refresh" content="5; URL={{WEBROOT}}/no-javascript">
 		<style type="text/css" media="screen">#form_pane, .topHeader, #sidebar_pane {display:none;}</style>

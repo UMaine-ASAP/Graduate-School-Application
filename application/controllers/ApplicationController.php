@@ -1,7 +1,7 @@
 <?php
 
-include_once __DIR__ . "/ApplicantController.php";
-include_once __DIR__ . "/../models/application.php";
+require_once __DIR__ . "/ApplicantController.php";
+require_once __DIR__ . "/../models/Application.php";
 
 class ApplicationController extends Controller
 {
@@ -26,20 +26,77 @@ class ApplicationController extends Controller
 			}
 			$applicant = ApplicantController::getActiveApplicant();
 			$result    = Database::getFirst("SELECT applicationId FROM Application ORDER BY applicationId DESC");
-			$newIndex  = $result['applicationId'] + 1;
+			$applicationId  = $result['applicationId'] + 1;
 
-			Database::iquery("INSERT INTO Application(applicationId, applicantId, applicationTypeId) VALUES (%d, %d, %d)", $newIndex, $applicant->id, $typeId);
 
-			$result = Database::getFirst("SELECT * FROM Application WHERE applicantId = %d AND applicationId = %d", $applicant->id, $newIndex);
+			Database::iquery("INSERT INTO Application(applicationId, applicantId, applicationTypeId) VALUES (%d, %d, %d)", $applicationId, $applicant->id, $typeId);
+
+			// Get application
+			$result = Database::getFirst("SELECT * FROM Application WHERE applicantId = %d AND applicationId = %d", $applicant->id, $applicationId);
 
 			if($result == array())
 			{
 				return null;
 			}
-			return new Application($result);
+			$application = new Application($result);
+
+
+			// Build application type specific sub-sections
+			switch( $application->type )
+			{
+				case 'Degree':
+					Database::iquery("INSERT INTO APPLICATION_International(applicationId) VALUES (%d)", $applicationId);
+					Database::iquery("INSERT INTO APPLICATION_Degree(applicationId) VALUES (%d)", $applicationId);
+				break;
+				case 'Non-Degree':
+				break;
+				case 'Certificate':
+				break;
+				default:
+					throw new Exception("Application Type $application->type not found when deleting application");
+				break;
+
+			}
+
+			// Create common sub-sections
+			Database::iquery("INSERT INTO APPLICATION_Primary(applicationId) VALUES (%d)", $applicationId);
+
+			return $application;
+
 		} else {
 			return null;
 		}
+	}
+
+	public static function deleteApplication($applicationId)
+	{
+		if( !ApplicantController::applicantIsLoggedIn() )
+		{
+			return null;
+		}
+
+		$application = ApplicationController::getApplication( (int) $applicationId);
+
+		// different application types require different data to be deleted. 
+
+		switch( $application->type )
+		{
+			case 'Degree':
+				$application->international->delete();
+				$application->degree->delete();				
+			break;
+			case 'Non-Degree':
+			break;
+			case 'Certificate':
+			break;
+			default:
+				throw new Exception("Application Type $application->type not found when deleting application");
+			break;
+		}
+
+		// Complete the process
+		$application->personal->delete();
+		$application->delete();
 	}
 
 	/** Get a new application object from current session data **/
@@ -63,6 +120,7 @@ class ApplicationController extends Controller
 			return null;
 		}
 
+		// make sure the user owns the application
 		$applicationDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d AND applicantId = %d", $applicationId, $applicant->id);
 
        	return new Application( $applicationDB );

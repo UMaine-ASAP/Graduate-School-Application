@@ -1,11 +1,11 @@
 <?php
 
 // Libraries
-include_once __DIR__ . "/../libs/corefuncs.php";
-include_once __DIR__ . "/../config.php";
+require_once __DIR__ . "/../libs/corefuncs.php";
+require_once __DIR__ . "/../config.php";
 
 // Models
-include_once __DIR__ . "/../models/applicant.php";
+require_once __DIR__ . "/../models/Applicant.php";
 
 /** 
  * Manages access to applicant model

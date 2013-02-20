@@ -4,155 +4,38 @@
 require_once __DIR__ . "/../libs/database.php";
 require_once __DIR__ . "/../libs/corefuncs.php";
 
-require_once __DIR__ . "/applicant.php";
+// Models
+require_once __DIR__ . "/Applicant.php";
 
-class ApplicationType
-{
-	const DEGREE 		= 0;
-	const NONDEGREE 	= 1;
-	const CERTIFICATE 	= 2;
-}
-
-class ApplicationInternalModel extends Model
-{
-	public static function createNew()
-	{
-		$application = ApplicationController::getActiveApplication();
-		if( $application == null) { return null; }
-
-		$appId = $application->applicationId;
-
-		// Get current index
-		$newIndex = -1;
-		$temp = Database::getFirst("SELECT %s as id FROM %s WHERE applicationId = %d ORDER BY %s DESC", static::$primaryKeys[0], static::$tableName, $appId, static::$primaryKeys[0]);
-		if( $temp == array())
-		{
-			$newIndex = 1;
-		} else {
-			$newIndex = (int) $temp['id'] + 1;
-		}
-		Database::iquery("INSERT INTO %s(%s, %s) VALUES (%d,%d)", static::$tableName, static::$primaryKeys[0], 'applicationId', $newIndex, $appId);
-
-		$result = Database::getFirst("SELECT * FROM %s WHERE %s=%d AND applicationId = %d", static::$tableName, static::$primaryKeys[0], $newIndex, $appId);
-		//$result['id'] = $result[static::$columnId];
-
-		$entityName = get_called_class();
-		$entity = new $entityName($entityName);
-		$entity->loadFromDB($result);
-		return $entity;
-	}	
-
-	public static function all($appId)
-	{
-		return Database::query("SELECT * FROM %s WHERE applicationID = %i", static::$tableName, $appId);
-
-
-	}
-
-}
-
-class Transaction extends ApplicationInternalModel
-{
-	protected static $tableName   = 'APPLICATION_Transaction';
-	protected static $primaryKeys = array('transactionId');
-}
-
-class CivilViolations extends ApplicationInternalModel
-{
-	protected static $tableName   = 'APPLICATION_CivilViolation';
-	protected static $primaryKeys = array('civilViolationId');
-}
-
-class DisciplinaryViolations extends ApplicationInternalModel
-{
-	protected static $tableName   = 'APPLICATION_DisciplinaryViolation';
-	protected static $primaryKeys = array('disciplinaryVioliationId');
-}
-
-class PreviousSchool extends ApplicationInternalModel
-{
-	protected static $tableName   = 'APPLICATION_PreviousSchool';
-	protected static $primaryKeys = array('previousSchoolId');
-}
-
-class GRE extends ApplicationInternalModel
-{
-	protected static $tableName   = 'APPLICATION_GRE';
-	protected static $primaryKeys = array('GREId');
-}
-
-
-class Progress extends Model
-{
-	protected static $tableName   = 'APPLICATION_Process';
-	protected static $primaryKeys = array('ProcessId');
-}
-
-class Language extends ApplicationInternalModel
-{
-	protected static $tableName   = 'APPLICATION_Language';
-	protected static $primaryKeys = array('languageId', 'applicationId');
-
-	// We need to correctly overide __isset in order to use these our magic variables in Twig
-	static private $magic_getters = array('options_proficiency');
-
-	public function __get($name)
-	{
-		// Data
-		 switch($name)
-		 {
-		 	case 'options_proficiency':
-				return array(	''	  	=> '- None -',
-							'Good' 	=> 'Good',
-							'Fair' 	=> 'Fair',
-							'Poor' 	=> 'Poor');
-		 	break;
-		 }
-		return parent::__get($name);
-	}
-
-	public function __isset($name)
-	{
-		if ( in_array($name, self::$magic_getters) ) 
-		{
-			return true;
-		}
-		return parent::__isset($name);
-	}
-
-	public static function getWithId($languageId)
-	{
-		$application = ApplicationController::getActiveApplication();
-		if( $application == null)
-		{
-			return null;
-		}
-		$dbObject = Database::getFirst("SELECT * FROM APPLICATION_Language WHERE applicationId = %d AND languageId = %d", $application->id, $languageId);
-
-//		$language = new Language('Language');
-		$language = Model::factory('Language');
-		$language->loadFromDB($dbObject);
-		return $language;
-	} 
-
-}
-
-class Personal extends Model
-{
-	protected static $tableName   = 'APPLICATION_Primary';
-	protected static $primaryKeys = array('applicationId');
-}
-
+// Application Subsections and repeatables
+require_once __DIR__ . "/application-sections/Transaction.php";
+require_once __DIR__ . "/application-sections/CivilViolations.php";
+require_once __DIR__ . "/application-sections/DisciplinaryViolations.php";
+require_once __DIR__ . "/application-sections/PreviousSchool.php";
+require_once __DIR__ . "/application-sections/GRE.php";
+require_once __DIR__ . "/application-sections/Degree.php";
+require_once __DIR__ . "/application-sections/Progress.php";
+require_once __DIR__ . "/application-sections/International.php";
+require_once __DIR__ . "/application-sections/Language.php";
+require_once __DIR__ . "/application-sections/Personal.php";
 
 class Application extends Model
 {
 	protected static $tableName   = 'Application';
 	protected static $primaryKeys = array('applicationId');
 
+	/**
+	 * Class Constructor
+	 * 
+	 * @return void
+	 */
+	function Application($data=array())
+	{
+		self::loadFromDB($data);
+	}
 
-	// We need to correctly overide __isset in order to use these our magic variables in Twig
-	static private $magic_getters    = array('type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'status');
-	static private $availableOptions = array('options_country', 'options_gender', 'options_state', 'options_suffix', 'options_residencyStatus', 'options_type');
+
+	protected static $availableProperties = array('degree', 'international', 'type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'status');
 
 	public function __get($name)
 	{
@@ -174,12 +57,15 @@ class Application extends Model
 		 	case 'previousSchools':
 			 	return Model::factory('PreviousSchool')->whereEqual('applicationId', $this->id)->get();
 		 	break;
-		 	case 'degreeInfo':
-			 	return Model::factory('Degree')->first($this->id);
+		 	case 'degree':
+			 	return Model::factory('Degree')->first($this->applicationId);
 		 	break;
 		 	case 'preenrollCourses':
 		 	break;
 		 	case 'GREScores':
+		 	break;
+		 	case 'international':
+		 		return Model::factory('International')->whereEqual('applicationId', $this->applicationId)->first();
 		 	break;
 		 	case 'languages':
 		 		return Model::factory('Language')->whereEqual('applicationId', $this->applicationId)->get();
@@ -204,26 +90,7 @@ class Application extends Model
 		 	break;
 		 }
 
-		// Check if this is a request for available options
-		if( strpos($name, 'options_') !== false) {
-			$result = self::getOption($name);
-			if( ! is_null($result) )
-			{
-				return $result;
-			}
-		}
-
-
 		return parent::__get($name);
-	}
-
-	public function __isset($name)
-	{
-		if ( in_array($name, self::$magic_getters) || in_array($name, self::$availableOptions) ) 
-		{
-			return true;
-		}
-		return parent::__isset($name);
 	}
 
 	// override default model behavior -> we need to check for applicant id too!!!
@@ -243,18 +110,47 @@ class Application extends Model
 		}
 	}
 
-
 	/**
 	 * Get Option
 	 * 
 	 * Accessor for accepted values for enumerated DB fields. Includes values and display names.
 	 * 
-	 * @returns array
+	 * @return array
 	 */
+	protected static $availableOptions = array('options_studentType', 'options_startSemester', 'options_startYear', 'options_academicYear', 'options_country', 'options_gender', 'options_state', 'options_suffix', 'options_residencyStatus', 'options_type');
+	
 	public static function getOption($optionName)
 	{
 		switch($optionName)
 		{
+			case 'options_studentType':
+				return array(	''      => '- None -',
+							'IS'    => 'In-State',
+							"OS"    => 'Out of State',
+							'INTNL' => 'International',
+							'CAN'   => 'Canadian',
+							'NEBHE' =>'NEBHE program');
+			break;
+			case 'options_startSemester':
+				return array(	''       => '- None -',
+							'FALL'   => 'Fall',
+							'SPRING' => 'Spring',
+							'SUMMER' => 'Summer');
+			break;
+			case 'options_startYear':
+				$curYear = date('Y');
+
+				$result = array();
+				for ($i=0; $i < 4; $i++) { 
+					$result[$curYear + $i] = $curYear + $i;
+				}
+				return $result;
+			break;
+			case 'options_academicYear':
+				return array(''=>'- None -',
+						'F'=>'Full-Time',
+						'P'=>'Part-Time');
+			break;
 			case 'options_country':
 				return self::getOptionsFromDB('Country');
 			break;
@@ -295,21 +191,6 @@ class Application extends Model
 		return null; // nothing found
 	}
 
-	/**
-	 * Class Constructor
-	 * 
-	 * @return void
-	 */
-	function Application($data=array())
-	{
-		self::loadFromDB($data);
-		// @TODO: load data from APPLICATION_Primary
-	}
-
-	function submitWithPayment($paymentIsHappeningNow)
-	{
-		ApplicationController::submitWithPayment($this, $paymentIsHappeningNow);
-	}
 }
 
 

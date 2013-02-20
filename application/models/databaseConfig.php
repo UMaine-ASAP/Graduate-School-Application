@@ -113,6 +113,12 @@ $databaseFields = array(
 	'gre-hasBeenReported' => 'filter_boolean',
 	'gre-score'           => 'filter_gre_score',
 
+	// degree
+	'degree-academic_program' => 'filter_generic',
+	'degree-academic_major' => 'filter_generic',	
+	'degree-academic_major' => 'filter_generic',
+	'degree-academic_minor' => 'filter_generic',
+
 	// References
 	'reference-firstName'           => 'filter_name',
 	'reference-lastName'            => 'filter_name',

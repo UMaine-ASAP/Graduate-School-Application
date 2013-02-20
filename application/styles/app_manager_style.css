@@ -38,6 +38,10 @@ a {
 	text-decoration:none;
 }
 
+a:hover {
+	text-decoration:underline;
+}
+
 p a {
 	color:#008AA3;
 }
@@ -55,7 +59,6 @@ h1 a {
 
 h1 a:hover {
 	color:#008AD6;
-	text-decoration:underline;
 	font-size:14px;	
 }
 
@@ -101,6 +104,7 @@ textarea {
 
 	height:100%;
 	background-color: #5c697a;
+	position: relative;
 /* 	overflow: hidden; */
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;

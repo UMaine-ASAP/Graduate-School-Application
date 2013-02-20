@@ -25,6 +25,11 @@ class Model
 	private $query; // the query string to run
 	private $args; // the arguments for the query string
 
+	// Twig isset parameters. See __isset() function override call below
+	protected static $availableProperties = array();
+	protected static $availableOptions    = array();
+
+
 	function Model($name = '')
 	{
 		$this->is_dirty = array();
@@ -47,6 +52,16 @@ class Model
 
 	public function __get($name)
 	{
+
+		// Check if this is a request for available options
+		if( strpos($name, 'options_') !== false) {
+			$result = static::getOption($name);
+			if( ! is_null($result) )
+			{
+				return $result;
+			}
+		}
+
 		if( isset($this->values[$name]) )
 		{
 			return $this->values[$name];
@@ -55,6 +70,7 @@ class Model
 
 	public function __set($key, $value)
 	{	
+
 
 		if( isset($this->values[$key]) )
 		{
@@ -65,8 +81,16 @@ class Model
 		}
 	}
 
+	// We need to correctly overide __isset in order to use any magic variables in Twig. See magicGetters and available options for more information
 	public function __isset($name)
 	{		
+
+		// check if option is set in child classes getters or available options
+		if ( in_array($name, static::$availableProperties) || in_array($name, static::$availableOptions) ) 
+		{
+			return true;
+		}
+
 		if ( array_key_exists($name, $this->values) ) 
 		{
 			return true;
@@ -119,18 +143,18 @@ class Model
 					$idName = 'id' . ($keyNumber + 1);
 					$this->setValue($idName, $dbData[$primaryKey]);
 				} else {
-					throw new Exception("ID $primaryKey for Model $entityName not found when loading.");
+					throw new Exception("ID $primaryKey for Model " . $this->entityName . " not found when loading.");
 				}
 			}
+
+			// load remaining data
+			$this->loadData($dbData);			
 
 			// id is a synonym for id1
 			if( count(static::$primaryKeys) != 0 )
 			{
 				$this->setValue('id', $this->values['id1']);				
 			}
-
-			// load remaining data
-			$this->loadData($dbData);
 
 			return $this;
 		}
@@ -142,7 +166,9 @@ class Model
 	// Access options in a database table formated as id, value, title
 	static protected function getOptionsFromDB($optionName)
 	{
-		$options = Database::query("SELECT * FROM %s Order BY id", 'OPTIONS_' . $optionName);
+		$idColumnName = strtolower($optionName) . "Id";
+
+		$options = Database::query("SELECT * FROM %s Order BY %s", 'OPTIONS_' . $optionName, $idColumnName);
 		// convert to associative array
 		$result = array();
 		foreach($options as $option) {
@@ -292,6 +318,7 @@ class Model
 		$this->args = array(static::$tableName, $this->whereReplacements[0], $this->whereReplacements[1]);		
 		$result = $this->queryFirst();
 		$this->loadFromDB($result);
+
 		return $this;
 	}	
 

@@ -1,67 +1,69 @@
 
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'',"Select"); 
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'IT', "International");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'AL', "Alabama");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'AK', "Alaska");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'AZ', "Arizona");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'AR', "Arkansas");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'CA', "California");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'CO', "Colorado");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'CT', "Connecticut");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'DC', "District of Columbia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'DE', "Delaware");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'FL', "Florida");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'GA', "Georgia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'HI', "Hawaii");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'ID', "Idaho");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'IL', "Illinois");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'IN', "Indiana");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'IA', "Iowa");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'KS', "Kansas");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'KY', "Kentucky");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'LA', "Louisiana");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'ME', "Maine");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'MD', "Maryland");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'MA', "Massachusetts");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'MI', "Michigan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'MN', "Minnesota");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'MS', "Mississippi");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'MO', "Missouri");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'MT', "Montana");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NE', "Nebraska");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NV', "Nevada");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NH', "New Hampshire");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NJ', "New Jersey");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NM', "New Mexico");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NY', "New York");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NC', "North Carolina");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'ND', "North Dakota");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'OH', "Ohio");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'OK', "Oklahoma");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'OR', "Oregon");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'PA', "Pennsylvania");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'RI', "Rhode Island");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'SC', "South Carolina");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'SD', "South Dakota");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'TN', "Tennessee");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'TX', "Texas");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'UT', "Utah");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'VT', "Vermont");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'VA', "Virginia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'WA', "Washington");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'WV', "West Virginia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'WI', "Wisconsin");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'WY', "Wyoming");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'AB', "Alberta");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'BC', "British Columbia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'MB', "Manitoba");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NB', "New Brunswick");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NL', "Newfoundland and Labrador");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NS', "Nova Scotia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'ON', "Ontario");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'PE', "Prince Edward Island");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'QC', "Quebec");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'SK', "Saskatchewan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NT', "Northwest Territories");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'NU', "Nunavut");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`id`, `value`, `title`) VALUES (NULL,'YT', "Yukon");
+INSERT INTO `gradschool_application_2.0`.`OPTIONS_State` (`stateId`, `value`, `title`) 
+VALUES 
+(NULL,'',"Select"),
+(NULL,'IT', "International"),
+(NULL,'AL', "Alabama"),
+(NULL,'AK', "Alaska"),
+(NULL,'AZ', "Arizona"),
+(NULL,'AR', "Arkansas"),
+(NULL,'CA', "California"),
+(NULL,'CO', "Colorado"),
+(NULL,'CT', "Connecticut"),
+(NULL,'DC', "District of Columbia"),
+(NULL,'DE', "Delaware"),
+(NULL,'FL', "Florida"),
+(NULL,'GA', "Georgia"),
+(NULL,'HI', "Hawaii"),
+(NULL,'ID', "Idaho"),
+(NULL,'IL', "Illinois"),
+(NULL,'IN', "Indiana"),
+(NULL,'IA', "Iowa"),
+(NULL,'KS', "Kansas"),
+(NULL,'KY', "Kentucky"),
+(NULL,'LA', "Louisiana"),
+(NULL,'ME', "Maine"),
+(NULL,'MD', "Maryland"),
+(NULL,'MA', "Massachusetts"),
+(NULL,'MI', "Michigan"),
+(NULL,'MN', "Minnesota"),
+(NULL,'MS', "Mississippi"),
+(NULL,'MO', "Missouri"),
+(NULL,'MT', "Montana"),
+(NULL,'NE', "Nebraska"),
+(NULL,'NV', "Nevada"),
+(NULL,'NH', "New Hampshire"),
+(NULL,'NJ', "New Jersey"),
+(NULL,'NM', "New Mexico"),
+(NULL,'NY', "New York"),
+(NULL,'NC', "North Carolina"),
+(NULL,'ND', "North Dakota"),
+(NULL,'OH', "Ohio"),
+(NULL,'OK', "Oklahoma"),
+(NULL,'OR', "Oregon"),
+(NULL,'PA', "Pennsylvania"),
+(NULL,'RI', "Rhode Island"),
+(NULL,'SC', "South Carolina"),
+(NULL,'SD', "South Dakota"),
+(NULL,'TN', "Tennessee"),
+(NULL,'TX', "Texas"),
+(NULL,'UT', "Utah"),
+(NULL,'VT', "Vermont"),
+(NULL,'VA', "Virginia"),
+(NULL,'WA', "Washington"),
+(NULL,'WV', "West Virginia"),
+(NULL,'WI', "Wisconsin"),
+(NULL,'WY', "Wyoming"),
+(NULL,'AB', "Alberta"),
+(NULL,'BC', "British Columbia"),
+(NULL,'MB', "Manitoba"),
+(NULL,'NB', "New Brunswick"),
+(NULL,'NL', "Newfoundland and Labrador"),
+(NULL,'NS', "Nova Scotia"),
+(NULL,'ON', "Ontario"),
+(NULL,'PE', "Prince Edward Island"),
+(NULL,'QC', "Quebec"),
+(NULL,'SK', "Saskatchewan"),
+(NULL,'NT', "Northwest Territories"),
+(NULL,'NU', "Nunavut"),
+(NULL,'YT', "Yukon");

@@ -1,250 +1,252 @@
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'', 'Select');
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'USA', "United States");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'AFG', "Afghanistan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ALA', "Aland Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ALB', "Albania");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'DZA', "Algeria");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ASM', "American Samoa");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'AND', "Andorra");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'AGO', "Angola");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'AIA', "Anguilla");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ATA', "Antarctica");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ATG', "Antigua and Barbuda");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ARG', "Argentina");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ARM', "Armenia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ABW', "Aruba");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'AUS', "Australia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'AUT', "Austria");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'AZE', "Azerbaijan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BHS', "Bahamas");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BHR', "Bahrain");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BGD', "Bangladesh");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BRB', "Barbados");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BLR', "Belarus");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BEL', "Belgium");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BLZ', "Belize");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BEN', "Benin");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BMU', "Bermuda");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BTN', "Bhutan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BOL', "Bolivia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BIH', "Bosnia and Herzegovina");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BWA', "Botswana");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BVT', "Bouvet Island");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BRA', "Brazil");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'IOT', "British Indian Ocean Territory");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BRN', "Brunei Darussalam");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BGR', "Bulgaria");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BFA', "Burkina Faso");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BDI', "Burundi");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'KHM', "Cambodia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CMR', "Cameroon");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CAN', "Canada");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CPV', "Cape Verde");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CYM', "Cayman Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CAF', "Central African Republic");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TCD', "Chad");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CHL', "Chile");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CHN', "China");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CXR', "Christmas Island");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CCK', "Cocos (Keeling) Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'COL', "Colombia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'COM', "Comoros");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'COD', "Congo");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'COK', "Cook Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CRI', "Costa Rica");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CIV', "Cote D`Ivoire");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'HRV', "Croatia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CUB', "Cuba");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CYP', "Cyprus");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CZE', "Czech Republic");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'DNK', "Denmark");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'DJI', "Djibouti");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'DMA', "Dominica");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'DOM', "Dominican Republic");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TLS', "East Timor");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ECU', "Ecuador");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'EGY', "Egypt");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SLV', "El Salvador");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GNQ', "Equatorial Guinea");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ERI', "Eritrea");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'EST', "Estonia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ETH', "Ethiopia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'FLK', "Falkland Islands (Malvinas)");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'FRO', "Faroe Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'FJI', "Fiji");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'FIN', "Finland");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MKD', "Fmr Yugoslav Rep of Macedonia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'FRA', "France");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GUF', "French Guiana");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PYF', "French Polynesia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ATF', "French Southern Territories");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GAB', "Gabon");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GMB', "Gambia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GEO', "Georgia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'DEU', "Germany");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GHA', "Ghana");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GIB', "Gibraltar");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GRC', "Greece");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GRL', "Greenland");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GRD', "Grenada");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GLP', "Guadeloupe");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GUM', "Guam");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GTM', "Guatemala");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GGY', "Guernsey");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GNB', "Guinea-Bissau");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GIN', "Guinea");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GUY', "Guyana");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'HTI', "Haiti");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'HMD', "Heard and McDonald Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'VAT', "Holy See (Vatican City State)");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'HND', "Honduras");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'HKG', "Hong Kong");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'HUN', "Hungary");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ISL', "Iceland");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'IND', "India");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'IDN', "Indonesia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'IRN', "Iran (Islamic Republic Of)");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'IRQ', "Iraq");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'IRL', "Ireland");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'IMN', "Isle of Man");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ISR', "Israel");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ITA', "Italy");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'JAM', "Jamaica");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'JPN', "Japan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'JEY', "Jersey");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'JOR', "Jordan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'KAZ', "Kazakhstan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'KEN', "Kenya");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'KIR', "Kiribati");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LAO', "Lao People's Democratic Republic");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'KOR', "Korea Republic of");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'KOS', "Kosovo");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'KWT', "Kuwait");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'KGZ', "Kyrgyzstan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PRK', "Korea Democratic People's Republic");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LVA', "Latvia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LBN', "Lebanon");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LSO', "Lesotho");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LBR', "Liberia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LBY', "Libyan Arab Jamahiriya");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LIE', "Liechtenstein");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LTU', "Lithuania");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LUX', "Luxembourg");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MAC', "Macao");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MDG', "Madagascar");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MWI', "Malawi");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MYS', "Malaysia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MDV', "Maldives");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MLI', "Mali");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MLT', "Malta");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MHL', "Marshall Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MTQ', "Martinique");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MRT', "Mauritania");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MUS', "Mauritius");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MYT', "Mayotte");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MEX', "Mexico");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'FSM', "Micronesia Federated States");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MDA', "Moldova Republic of");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MCO', "Monaco");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MNG', "Mongolia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MSR', "Montserrat");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MAR', "Morocco");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MOZ', "Mozambique");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MMR', "Myanmar");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NAM', "Namibia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NRU', "Nauru");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NPL', "Nepal");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ANT', "Netherlands Antilles");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NLD', "Netherlands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NCL', "New Caledonia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NZL', "New Zealand");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NIC', "Nicaragua");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NER', "Niger");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NGA', "Nigeria");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NIU', "Niue");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NFK', "Norfolk Island");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MNP', "Northern Mariana Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'NOR', "Norway");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'OMN', "Oman");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PAK', "Pakistan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PLW', "Palau");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PSE', "Palestinian Territory Occupie");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PAN', "Panama");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PNG', "Papua New Guinea");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PRY', "Paraguay");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PER', "Peru");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PHL', "Philippines");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PCN', "Pitcairn");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'POL', "Poland");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PRT', "Portugal");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'PRI', "Puerto Rico");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'QAT', "Qatar");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MNE', "Republic of Montenegro");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SRB', "Republic of Serbia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'REU', "Reunion");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ROU', "Romania");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'RUS', "Russian Federation");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'RWA', "Rwanda");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'BLM', "Saint Barthelemy");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SHN', "Saint Helena");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'KNA', "Saint Kitts and Nevis");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LCA', "Saint Lucia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'MAF', "Saint Martin");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SPM', "Saint Pierre and Miquelon");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'WSM', "Samoa");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SMR', "San Marino");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'STP', "Sao Tome and Principe");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SAU', "Saudi Arabia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SEN', "Senegal");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SMX', "Serbia and Montenegro");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SYC', "Seychelles");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SLE', "Sierra Leone");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SGP', "Singapore");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SVK', "Slovakia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SVN', "Slovenia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SLB', "Solomon Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SOM', "Somalia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ZAF', "South Africa");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ESP', "Spain");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'LKA', "Sri Lanka");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'VCT', "St Vincent and the Grenadines");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SGS', "South Georgia & South Sandwich Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SDN', "Sudan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SUR', "Suriname");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SJM', "Svalbard and Jan Mayen");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SWZ', "Swaziland");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SWE', "Sweden");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'CHE', "Switzerland");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'SYR', "Syrian Arab Republic");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TWN', "Taiwan Province of China");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TJK', "Tajikistan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TZA', "Tanzania United Republic of");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'THA', "Thailand");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TGO', "Togo");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TKL', "Tokelau");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TON', "Tonga");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TTO', "Trinidad and Tobago");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TUN', "Tunisia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TUR', "Turkey");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TKM', "Turkmenistan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TCA', "Turks and Caicos Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'TUV', "Tuvalu");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'UGA', "Uganda");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'UKR', "Ukraine");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ARE', "United Arab Emirates");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'GBR', "United Kingdom");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'USA', "United States");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'URY', "Uruguay");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'UMI', "US Minor Outlying Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'UZB', "Uzbekistan");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'VUT', "Vanuatu");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'VEN', "Venezuela");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'VNM', "Viet Nam");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'VGB', "Virgin Islands (British)");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'VIR', "Virgin Islands (U.S.)");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'WLF', "Wallis and Futuna Islands");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ESH', "Western Sahara");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'YEM', "Yemen");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'YUG', "Yugoslavia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ZMB', "Zambia");
-INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`id`, `value`, `title`) VALUES (NULL,'ZWE', "Zimbabwe");
+INSERT INTO `gradschool_application_2.0`.`OPTIONS_Country` (`CountryId`, `value`, `title`) 
+VALUES 
+(NULL,'', 'Select'),
+(NULL,'USA', "United States"),
+(NULL,'AFG', "Afghanistan"),
+(NULL,'ALA', "Aland Islands"),
+(NULL,'ALB', "Albania"),
+(NULL,'DZA', "Algeria"),
+(NULL,'ASM', "American Samoa"),
+(NULL,'AND', "Andorra"),
+(NULL,'AGO', "Angola"),
+(NULL,'AIA', "Anguilla"),
+(NULL,'ATA', "Antarctica"),
+(NULL,'ATG', "Antigua and Barbuda"),
+(NULL,'ARG', "Argentina"),
+(NULL,'ARM', "Armenia"),
+(NULL,'ABW', "Aruba"),
+(NULL,'AUS', "Australia"),
+(NULL,'AUT', "Austria"),
+(NULL,'AZE', "Azerbaijan"),
+(NULL,'BHS', "Bahamas"),
+(NULL,'BHR', "Bahrain"),
+(NULL,'BGD', "Bangladesh"),
+(NULL,'BRB', "Barbados"),
+(NULL,'BLR', "Belarus"),
+(NULL,'BEL', "Belgium"),
+(NULL,'BLZ', "Belize"),
+(NULL,'BEN', "Benin"),
+(NULL,'BMU', "Bermuda"),
+(NULL,'BTN', "Bhutan"),
+(NULL,'BOL', "Bolivia"),
+(NULL,'BIH', "Bosnia and Herzegovina"),
+(NULL,'BWA', "Botswana"),
+(NULL,'BVT', "Bouvet Island"),
+(NULL,'BRA', "Brazil"),
+(NULL,'IOT', "British Indian Ocean Territory"),
+(NULL,'BRN', "Brunei Darussalam"),
+(NULL,'BGR', "Bulgaria"),
+(NULL,'BFA', "Burkina Faso"),
+(NULL,'BDI', "Burundi"),
+(NULL,'KHM', "Cambodia"),
+(NULL,'CMR', "Cameroon"),
+(NULL,'CAN', "Canada"),
+(NULL,'CPV', "Cape Verde"),
+(NULL,'CYM', "Cayman Islands"),
+(NULL,'CAF', "Central African Republic"),
+(NULL,'TCD', "Chad"),
+(NULL,'CHL', "Chile"),
+(NULL,'CHN', "China"),
+(NULL,'CXR', "Christmas Island"),
+(NULL,'CCK', "Cocos (Keeling) Islands"),
+(NULL,'COL', "Colombia"),
+(NULL,'COM', "Comoros"),
+(NULL,'COD', "Congo"),
+(NULL,'COK', "Cook Islands"),
+(NULL,'CRI', "Costa Rica"),
+(NULL,'CIV', "Cote D`Ivoire"),
+(NULL,'HRV', "Croatia"),
+(NULL,'CUB', "Cuba"),
+(NULL,'CYP', "Cyprus"),
+(NULL,'CZE', "Czech Republic"),
+(NULL,'DNK', "Denmark"),
+(NULL,'DJI', "Djibouti"),
+(NULL,'DMA', "Dominica"),
+(NULL,'DOM', "Dominican Republic"),
+(NULL,'TLS', "East Timor"),
+(NULL,'ECU', "Ecuador"),
+(NULL,'EGY', "Egypt"),
+(NULL,'SLV', "El Salvador"),
+(NULL,'GNQ', "Equatorial Guinea"),
+(NULL,'ERI', "Eritrea"),
+(NULL,'EST', "Estonia"),
+(NULL,'ETH', "Ethiopia"),
+(NULL,'FLK', "Falkland Islands (Malvinas)"),
+(NULL,'FRO', "Faroe Islands"),
+(NULL,'FJI', "Fiji"),
+(NULL,'FIN', "Finland"),
+(NULL,'MKD', "Fmr Yugoslav Rep of Macedonia"),
+(NULL,'FRA', "France"),
+(NULL,'GUF', "French Guiana"),
+(NULL,'PYF', "French Polynesia"),
+(NULL,'ATF', "French Southern Territories"),
+(NULL,'GAB', "Gabon"),
+(NULL,'GMB', "Gambia"),
+(NULL,'GEO', "Georgia"),
+(NULL,'DEU', "Germany"),
+(NULL,'GHA', "Ghana"),
+(NULL,'GIB', "Gibraltar"),
+(NULL,'GRC', "Greece"),
+(NULL,'GRL', "Greenland"),
+(NULL,'GRD', "Grenada"),
+(NULL,'GLP', "Guadeloupe"),
+(NULL,'GUM', "Guam"),
+(NULL,'GTM', "Guatemala"),
+(NULL,'GGY', "Guernsey"),
+(NULL,'GNB', "Guinea-Bissau"),
+(NULL,'GIN', "Guinea"),
+(NULL,'GUY', "Guyana"),
+(NULL,'HTI', "Haiti"),
+(NULL,'HMD', "Heard and McDonald Islands"),
+(NULL,'VAT', "Holy See (Vatican City State)"),
+(NULL,'HND', "Honduras"),
+(NULL,'HKG', "Hong Kong"),
+(NULL,'HUN', "Hungary"),
+(NULL,'ISL', "Iceland"),
+(NULL,'IND', "India"),
+(NULL,'IDN', "Indonesia"),
+(NULL,'IRN', "Iran (Islamic Republic Of)"),
+(NULL,'IRQ', "Iraq"),
+(NULL,'IRL', "Ireland"),
+(NULL,'IMN', "Isle of Man"),
+(NULL,'ISR', "Israel"),
+(NULL,'ITA', "Italy"),
+(NULL,'JAM', "Jamaica"),
+(NULL,'JPN', "Japan"),
+(NULL,'JEY', "Jersey"),
+(NULL,'JOR', "Jordan"),
+(NULL,'KAZ', "Kazakhstan"),
+(NULL,'KEN', "Kenya"),
+(NULL,'KIR', "Kiribati"),
+(NULL,'LAO', "Lao People's Democratic Republic"),
+(NULL,'KOR', "Korea Republic of"),
+(NULL,'KOS', "Kosovo"),
+(NULL,'KWT', "Kuwait"),
+(NULL,'KGZ', "Kyrgyzstan"),
+(NULL,'PRK', "Korea Democratic People's Republic"),
+(NULL,'LVA', "Latvia"),
+(NULL,'LBN', "Lebanon"),
+(NULL,'LSO', "Lesotho"),
+(NULL,'LBR', "Liberia"),
+(NULL,'LBY', "Libyan Arab Jamahiriya"),
+(NULL,'LIE', "Liechtenstein"),
+(NULL,'LTU', "Lithuania"),
+(NULL,'LUX', "Luxembourg"),
+(NULL,'MAC', "Macao"),
+(NULL,'MDG', "Madagascar"),
+(NULL,'MWI', "Malawi"),
+(NULL,'MYS', "Malaysia"),
+(NULL,'MDV', "Maldives"),
+(NULL,'MLI', "Mali"),
+(NULL,'MLT', "Malta"),
+(NULL,'MHL', "Marshall Islands"),
+(NULL,'MTQ', "Martinique"),
+(NULL,'MRT', "Mauritania"),
+(NULL,'MUS', "Mauritius"),
+(NULL,'MYT', "Mayotte"),
+(NULL,'MEX', "Mexico"),
+(NULL,'FSM', "Micronesia Federated States"),
+(NULL,'MDA', "Moldova Republic of"),
+(NULL,'MCO', "Monaco"),
+(NULL,'MNG', "Mongolia"),
+(NULL,'MSR', "Montserrat"),
+(NULL,'MAR', "Morocco"),
+(NULL,'MOZ', "Mozambique"),
+(NULL,'MMR', "Myanmar"),
+(NULL,'NAM', "Namibia"),
+(NULL,'NRU', "Nauru"),
+(NULL,'NPL', "Nepal"),
+(NULL,'ANT', "Netherlands Antilles"),
+(NULL,'NLD', "Netherlands"),
+(NULL,'NCL', "New Caledonia"),
+(NULL,'NZL', "New Zealand"),
+(NULL,'NIC', "Nicaragua"),
+(NULL,'NER', "Niger"),
+(NULL,'NGA', "Nigeria"),
+(NULL,'NIU', "Niue"),
+(NULL,'NFK', "Norfolk Island"),
+(NULL,'MNP', "Northern Mariana Islands"),
+(NULL,'NOR', "Norway"),
+(NULL,'OMN', "Oman"),
+(NULL,'PAK', "Pakistan"),
+(NULL,'PLW', "Palau"),
+(NULL,'PSE', "Palestinian Territory Occupie"),
+(NULL,'PAN', "Panama"),
+(NULL,'PNG', "Papua New Guinea"),
+(NULL,'PRY', "Paraguay"),
+(NULL,'PER', "Peru"),
+(NULL,'PHL', "Philippines"),
+(NULL,'PCN', "Pitcairn"),
+(NULL,'POL', "Poland"),
+(NULL,'PRT', "Portugal"),
+(NULL,'PRI', "Puerto Rico"),
+(NULL,'QAT', "Qatar"),
+(NULL,'MNE', "Republic of Montenegro"),
+(NULL,'SRB', "Republic of Serbia"),
+(NULL,'REU', "Reunion"),
+(NULL,'ROU', "Romania"),
+(NULL,'RUS', "Russian Federation"),
+(NULL,'RWA', "Rwanda"),
+(NULL,'BLM', "Saint Barthelemy"),
+(NULL,'SHN', "Saint Helena"),
+(NULL,'KNA', "Saint Kitts and Nevis"),
+(NULL,'LCA', "Saint Lucia"),
+(NULL,'MAF', "Saint Martin"),
+(NULL,'SPM', "Saint Pierre and Miquelon"),
+(NULL,'WSM', "Samoa"),
+(NULL,'SMR', "San Marino"),
+(NULL,'STP', "Sao Tome and Principe"),
+(NULL,'SAU', "Saudi Arabia"),
+(NULL,'SEN', "Senegal"),
+(NULL,'SMX', "Serbia and Montenegro"),
+(NULL,'SYC', "Seychelles"),
+(NULL,'SLE', "Sierra Leone"),
+(NULL,'SGP', "Singapore"),
+(NULL,'SVK', "Slovakia"),
+(NULL,'SVN', "Slovenia"),
+(NULL,'SLB', "Solomon Islands"),
+(NULL,'SOM', "Somalia"),
+(NULL,'ZAF', "South Africa"),
+(NULL,'ESP', "Spain"),
+(NULL,'LKA', "Sri Lanka"),
+(NULL,'VCT', "St Vincent and the Grenadines"),
+(NULL,'SGS', "South Georgia & South Sandwich Islands"),
+(NULL,'SDN', "Sudan"),
+(NULL,'SUR', "Suriname"),
+(NULL,'SJM', "Svalbard and Jan Mayen"),
+(NULL,'SWZ', "Swaziland"),
+(NULL,'SWE', "Sweden"),
+(NULL,'CHE', "Switzerland"),
+(NULL,'SYR', "Syrian Arab Republic"),
+(NULL,'TWN', "Taiwan Province of China"),
+(NULL,'TJK', "Tajikistan"),
+(NULL,'TZA', "Tanzania United Republic of"),
+(NULL,'THA', "Thailand"),
+(NULL,'TGO', "Togo"),
+(NULL,'TKL', "Tokelau"),
+(NULL,'TON', "Tonga"),
+(NULL,'TTO', "Trinidad and Tobago"),
+(NULL,'TUN', "Tunisia"),
+(NULL,'TUR', "Turkey"),
+(NULL,'TKM', "Turkmenistan"),
+(NULL,'TCA', "Turks and Caicos Islands"),
+(NULL,'TUV', "Tuvalu"),
+(NULL,'UGA', "Uganda"),
+(NULL,'UKR', "Ukraine"),
+(NULL,'ARE', "United Arab Emirates"),
+(NULL,'GBR', "United Kingdom"),
+(NULL,'USA', "United States"),
+(NULL,'URY', "Uruguay"),
+(NULL,'UMI', "US Minor Outlying Islands"),
+(NULL,'UZB', "Uzbekistan"),
+(NULL,'VUT', "Vanuatu"),
+(NULL,'VEN', "Venezuela"),
+(NULL,'VNM', "Viet Nam"),
+(NULL,'VGB', "Virgin Islands (British)"),
+(NULL,'VIR', "Virgin Islands (U.S.)"),
+(NULL,'WLF', "Wallis and Futuna Islands"),
+(NULL,'ESH', "Western Sahara"),
+(NULL,'YEM', "Yemen"),
+(NULL,'YUG', "Yugoslavia"),
+(NULL,'ZMB', "Zambia"),
+(NULL,'ZWE', "Zimbabwe");

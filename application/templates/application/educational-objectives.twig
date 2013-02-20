@@ -1,4 +1,5 @@
 {% extends 'application/section.twig' %}
+{% import "forms.macro.twig" as forms %}
 {% import "application/section.macro.twig" as section %}
 
 {% block form %}
@@ -20,17 +21,18 @@
 
 	<fieldset class="nested">
 
-		{{ forms.select( {'title':'Department *', 
+		{{ forms.select( {'title':'Department', 
 				'name':'degree-academic_program',
 				'value':application.degree.academic_program, 
-				'options': applications.options_academicDeptCode
-				'isRequired':true
+				'options': application.degree.options_academicDeptCode,
+				'isRequired':true,
+				'refreshOnChange': true
 			 }) }}	
 
-		 {{ forms.select( {'title':'Degree *', 
+		 {{ forms.select( {'title':'Degree', 
 				'name':'degree-academic_plan',
 				'value':application.degree.academic_plan, 
-				'options': applications.options_academicPlan
+				'options': application.degree.options_academicPlan,
 				'isRequired':true
 			 }) }}	
 				
@@ -52,72 +54,33 @@
 	
 		<div style="clear:both;"></div>
 
-		{{ forms.select( {'title':'Student Type *', 
+		{{ forms.select( {'title':'Student Type', 
 				'name':'degree-	studentType',
 				'value':application.degree.studentType, 
-				'options': applications.options_studentType 
+				'options': application.options_studentType, 
 				'isRequired':true
 			 }) }}
 
-		<!-- this option menu goes with the above form field... does it need to stay or get copied over to somewhere?
-
-			<select id="student_type[{{INDEX}}]" name="student_type"  value="{{STUDENT_TYPE}}" onchange="saveValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});">
-				<option value=""	>- None -</option>
-				<option value="IS" 	>In-State</option>
-				<option value="OS" 	>Out of State</option>
-				<option value="INTNL">International</option>
-				<option value="CAN" 	>Canadian</option>
-				<option value="NEBHE">NEBHE program</option>
-			</select> -->
-
-		{{ forms.select( {'title':'Start Semester *', 
+		{{ forms.select( {'title':'Start Semester', 
 				'name':'startSemester',
 				'value':application.startSemester, 
-				'options': applications.options_startSemester 
+				'options': application.options_startSemester,
 				'isRequired':true
 			 }) }}
 
-		 <!-- same as comment above... values for menu
-
-			<select id="start_semester[{{INDEX}}]" name="start_semester"  value="{{START_SEMESTER}}" class="start_semester" onchange="saveValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});">
-				<option value=""	>- None -</option>
-				<option value="FALL" 	>Fall</option>
-				<option value="SPRING" 	>Spring</option>
-				<option value="SUMMER" 	>Summer</option>
-			</select> -->
-
-		{{ forms.select( {'title':'Start Year *', 
+		{{ forms.select( {'title':'Start Year', 
 				'name':'startSemester',
 				'value':application.startYear, 
-				'options': applications.options_startYear 
+				'options': application.options_startYear,
 				'isRequired':true
 			 }) }}
 		
-		<!-- same here... 
-			<select id="start_year[{{INDEX}}]" name="start_year"  value="{{START_YEAR}}" class="start_year" onchange="saveValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});">
-				<option value="">- None -</option>
-				<script type="text/javascript">
-					for(var i=0; i<4; i++) {
-						var year = {{FIRST_START_YEAR}}+i;
-						document.write('<option value="'+year+'">'+year+'</option>');
-					}
-				</script>
-
-			</select> -->
-		
-		{{ forms.select( {'title':'Do you expect to study full time or part time? *', 
+		{{ forms.select( {'title':'Do you expect to study full time or part time?', 
 				'name':'degree-academic_load',
 				'value':application.degree_academic_load, 
-				'options': applications.options_academicYear 
+				'options': application.options_academicYear,
 				'isRequired':true
 			 }) }}
-
-		 <!-- and here... 
-			<select id="attendance_load[{{INDEX}}]" name="attendance_load"  value="{{ATTENDANCE_LOAD}}" class="attendance_load" onchange="saveValue(event,{{USER}},'{{TABLE_NAME}}',{{INDEX}});">
-				<option value=""	>- None -</option>
-				<option value="F" 	>Full-Time</option>
-				<option value="P" 	>Part-Time</option>
-			</select> -->
 
 		<div style="clear:both;"></div>
 	</fieldset>
@@ -190,10 +153,11 @@
 			<div class="hidden" id="um_correspond_section">
 				{{ forms.input( {'title':'If so, please provide a name or names',
 						'name':'degree-umaineCorrespondentDetails',
-						'value':application.degree-umaineCorrespondentDetails,
+						'value':application.degree.umaineCorrespondentDetails,
 						'size': 55,
-						'maxLength':55,
+						'maxLength':55
 					} ) }}
+			</div>
 
 		</div>
 

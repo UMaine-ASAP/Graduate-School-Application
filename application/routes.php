@@ -17,10 +17,9 @@ require_once "models/Model.php";
 require_once "controllers/Controller.php";
 
 // Models
-require_once 'models/application.php';
-require_once 'models/applicant.php';
+require_once 'models/Applicant.php';
+require_once 'models/Application.php';
 require_once 'models/reference.php';
-require_once 'models/errorTracker.php';
 
 // Controllers
 require_once 'controllers/ApplicationController.php';
@@ -30,7 +29,9 @@ require_once 'controllers/ApplicantController.php';
 // Libraries
 require_once 'libs/email.php';
 require_once 'libs/inputSanitation.php';
+require_once 'libs/errorTracker.php';
 
+// Slim and Twig setup
 require_once 'libs/Slim/Slim.php';
 Slim\Slim::registerAutoloader();
 
@@ -42,12 +43,14 @@ require_once 'libs/Slim/Twig.php';
 // Start Slim and Twig
 
 
-// Configure Input Sanitation values
-InputSanitation::initialize($GLOBALS['databaseFields']);
 
 $app = new \Slim\Slim(array(
     'view' => new \Slim\Extras\Views\Twig()
 ));
+
+// Configure Input Sanitation values
+InputSanitation::initialize($GLOBALS['databaseFields']);
+
 
 class internalErrors {
 	// Saving data errors
@@ -413,15 +416,14 @@ $app->get('/my-applications', $authenticated, function() use ($app)
  * Create a new application
  */
 $app->get('/create-application/:typeId', $authenticated, function($typeId) use ($app) {
-	// double check type is valid
+
 	$application = ApplicationController::createApplication($typeId);
-
-	$application->createdDate = Date('Y-m-d H:i:s');
-	$application->save();
-
 
 	if( ! is_null($application) )
 	{
+		$application->createdDate = Date('Y-m-d H:i:s');
+		$application->save();
+
 		redirect('/edit-application/' . $application->id);
 	} else {
 		// @TODO set error message
@@ -433,10 +435,8 @@ $app->get('/create-application/:typeId', $authenticated, function($typeId) use (
  * Delete an application
  */
 $app->get('/delete-application/:applicationId', $authenticated, function($applicationId) use ($app) {
-	// double check type is valid
-	$application = ApplicationController::getApplication( (int) $applicationId);
 
-	$application->delete();
+	ApplicationController::deleteApplication($applicationId);
 
 	// @TODO set result message
 	redirect('/my-applications');

@@ -69,7 +69,7 @@
 <part>applicantId</part>
 </key>
 </table>
-<table x="401" y="1074" name="Admin_accounts">
+<table x="401" y="1074" name="AdminAccount">
 <row name="adminId" null="1" autoincrement="1">
 <datatype>INT</datatype>
 <default>NULL</default></row>
@@ -97,7 +97,7 @@
 <default>NULL</default><relation table="APPLICATION_type" row="applicationTypeId" />
 </row>
 <row name="createdDate" null="1" autoincrement="0">
-<datatype>DATE</datatype>
+<datatype>DATETIME</datatype>
 <default>NULL</default></row>
 <row name="lastModified" null="1" autoincrement="0">
 <datatype>TIMESTAMP</datatype>
@@ -124,7 +124,7 @@
 <datatype>TINYINT</datatype>
 <default>NULL</default></row>
 <row name="transactionId" null="1" autoincrement="0">
-<datatype>VARCHAR(128)</datatype>
+<datatype>INT</datatype>
 <default>NULL</default><relation table="APPLICATION_Transaction" row="transactionId" />
 </row>
 <row name="hasBeenSubmitted" null="1" autoincrement="0">
@@ -152,8 +152,8 @@
 <default>NULL</default><relation table="Application" row="applicationId" />
 </row>
 <row name="date" null="1" autoincrement="0">
-<datatype>DATETIME(7)</datatype>
-<default>NULL</default></row>
+<datatype>DATETIME</datatype>
+</row>
 <row name="verbal" null="1" autoincrement="0">
 <datatype>INT(3)</datatype>
 <default>NULL</default></row>
@@ -286,26 +286,29 @@
 <part>disciplinaryViolationId</part>
 </key>
 </table>
-<table x="56" y="957" name="Academic_program">
+<table x="56" y="957" name="AcademicProgram">
 <row name="academicProgramId" null="1" autoincrement="1">
 <datatype>INT</datatype>
 <default>NULL</default></row>
 <row name="isActive" null="1" autoincrement="0">
 <datatype>TINYINT</datatype>
 <default>NULL</default></row>
-<row name="programCode" null="1" autoincrement="0">
+<row name="academic_programCode" null="1" autoincrement="0">
 <datatype>VARCHAR(10)</datatype>
 <default>NULL</default></row>
-<row name="planCode" null="1" autoincrement="0">
+<row name="academic_planCode" null="1" autoincrement="0">
 <datatype>VARCHAR(10)</datatype>
 <default>NULL</default></row>
-<row name="department_name" null="1" autoincrement="0">
-<datatype>VARCHAR(64)</datatype>
+<row name="academic_planName" null="1" autoincrement="0">
+<datatype>VARCHAR(30)</datatype>
 <default>NULL</default></row>
 <row name="department_code" null="1" autoincrement="0">
 <datatype>VARCHAR(3)</datatype>
 <default>NULL</default></row>
-<row name="department_heading" null="1" autoincrement="0">
+<row name="department_nameShort" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="department_nameFull" null="1" autoincrement="0">
 <datatype>VARCHAR(64)</datatype>
 <default>NULL</default></row>
 <row name="degree_code" null="1" autoincrement="0">
@@ -313,9 +316,6 @@
 <default>NULL</default></row>
 <row name="degree_name" null="1" autoincrement="0">
 <datatype>VARCHAR(4)</datatype>
-<default>NULL</default></row>
-<row name="degree_description" null="1" autoincrement="0">
-<datatype>VARCHAR(30)</datatype>
 <default>NULL</default></row>
 <row name="nebhe_ct" null="1" autoincrement="0">
 <datatype>TINYINT</datatype>
@@ -459,7 +459,7 @@
 <part>languageId</part>
 </key>
 </table>
-<table x="1196" y="458" name="APPLICATION_References">
+<table x="1196" y="458" name="APPLICATION_Reference">
 <row name="referenceId" null="1" autoincrement="1">
 <datatype>INT</datatype>
 <default>NULL</default></row>
@@ -490,7 +490,7 @@
 <datatype>TINYINT</datatype>
 <default>NULL</default></row>
 <row name="submittedDate" null="1" autoincrement="0">
-<datatype>DATE</datatype>
+<datatype>DATETIME</datatype>
 <default>NULL</default></row>
 <row name="filename" null="1" autoincrement="0">
 <datatype>VARCHAR(128)</datatype>
@@ -552,7 +552,7 @@
 </row>
 <row name="ismailingDifferentFromPermanent" null="1" autoincrement="0">
 <datatype>TINYINT</datatype>
-<default>NULL</default></row>
+<default>1</default></row>
 <row name="permanentMailing_contactInformationId" null="1" autoincrement="0">
 <datatype>INT</datatype>
 <default>NULL</default><relation table="APPLICATION_ContactInformation" row="contactInformationId" />
@@ -610,7 +610,7 @@
 <default>NULL</default></row>
 <row name="isEnglishPrimary" null="1" autoincrement="0">
 <datatype>TINYINT</datatype>
-<default>NULL</default></row>
+<default>1</default></row>
 <row name="englishYears_school" null="1" autoincrement="0">
 <datatype>VARCHAR(15)</datatype>
 <default>NULL</default></row>
@@ -698,7 +698,7 @@
 </table>
 <table x="589" y="351" name="APPLICATION_Transaction">
 <row name="transactionId" null="1" autoincrement="0">
-<datatype>VARCHAR(128)</datatype>
+<datatype>INT</datatype>
 <default>NULL</default></row>
 <row name="status" null="1" autoincrement="0">
 <datatype>CHAR(1)</datatype>
@@ -707,7 +707,7 @@
 <datatype>VARCHAR(6)</datatype>
 <default>NULL</default></row>
 <row name="completedDate" null="1" autoincrement="0">
-<datatype>DATE</datatype>
+<datatype>DATETIME</datatype>
 <default>NULL</default></row>
 <row name="amount" null="1" autoincrement="0">
 <datatype>DECIMAL(5,2)</datatype>
@@ -722,7 +722,7 @@
 <part>transactionId</part>
 </key>
 </table>
-<table x="317" y="511" name="APPLICATION_degree">
+<table x="317" y="511" name="APPLICATION_Degree">
 <row name="applicationId" null="1" autoincrement="1">
 <datatype>INT</datatype>
 <default>NULL</default><relation table="Application" row="applicationId" />
@@ -761,7 +761,7 @@
 <part>applicationId</part>
 </key>
 </table>
-<table x="15" y="793" name="APPLICATION_preenrollCourses">
+<table x="15" y="793" name="APPLICATION_preenrollCourse">
 <row name="applicationId" null="1" autoincrement="1">
 <datatype>INT</datatype>
 <default>NULL</default><relation table="Application" row="applicationId" />
@@ -819,9 +819,9 @@
 <part>contactInformationId</part>
 </key>
 </table>
-<table x="334" y="867" name="APPLICATION_SupportingDocuments">
+<table x="334" y="867" name="APPLICATION_SupportingDocument">
 <row name="applicationId" null="1" autoincrement="1">
-<datatype>TINYINT</datatype>
+<datatype>INT</datatype>
 <default>NULL</default><relation table="Application" row="applicationId" />
 </row>
 <row name="resumeId" null="1" autoincrement="0">
@@ -834,6 +834,34 @@
 </row>
 <key type="PRIMARY" name="">
 <part>applicationId</part>
+</key>
+</table>
+<table x="346" y="1282" name="OPTIONS_Country">
+<row name="CountryId" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="value" null="1" autoincrement="0">
+<datatype>VARCHAR(3)</datatype>
+<default>NULL</default></row>
+<row name="title" null="1" autoincrement="0">
+<datatype>VARCHAR(255)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>CountryId</part>
+</key>
+</table>
+<table x="583" y="1297" name="OPTIONS_State">
+<row name="StateId" null="1" autoincrement="1">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="value" null="1" autoincrement="0">
+<datatype>VARCHAR(2)</datatype>
+<default>NULL</default></row>
+<row name="title" null="1" autoincrement="0">
+<datatype>VARCHAR(255)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>StateId</part>
 </key>
 </table>
 </sql>

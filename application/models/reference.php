@@ -9,7 +9,7 @@ class Reference extends Model
 	protected static $tableName = 'APPLICATION_Reference';
 	protected static $columnId  = 'ReferenceId';
 
-	private static $magic_getters = array('options_relationship');
+	protected static $availableProperties = array('options_relationship');
 
 	function __get($name) {
 		switch($name)
@@ -22,15 +22,7 @@ class Reference extends Model
 						'Friend' => 'Friend');
 			break;
 		}
-		return __parent($name);
+		return parent::__get($name);
 	}
 
-	public function __isset($name)
-	{
-		if ( in_array($name, self::$magic_getters) ) 
-		{
-			return true;
-		}
-		return false;
-	}
 }
