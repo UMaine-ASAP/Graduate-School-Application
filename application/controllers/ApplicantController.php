@@ -10,7 +10,7 @@ require_once __DIR__ . "/../models/Applicant.php";
 /** 
  * Manages access to applicant model
  */
-class ApplicantController extends Controller
+class ApplicantController
 {
 
 	/**

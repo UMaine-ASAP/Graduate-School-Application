@@ -3,7 +3,7 @@
 require_once __DIR__ . "/ApplicantController.php";
 require_once __DIR__ . "/../models/Application.php";
 
-class ApplicationController extends Controller
+class ApplicationController
 {
 
 	/**

@@ -12,11 +12,8 @@ session_start();
 require_once "config.php";
 require_once "models/databaseConfig.php";
 
-// Base Classes
-require_once "models/Model.php";
-require_once "controllers/Controller.php";
-
 // Models
+require_once "models/Model.php";
 require_once 'models/Applicant.php';
 require_once 'models/Application.php';
 require_once 'models/reference.php';
@@ -24,7 +21,6 @@ require_once 'models/reference.php';
 // Controllers
 require_once 'controllers/ApplicationController.php';
 require_once 'controllers/ApplicantController.php';
-
 
 // Libraries
 require_once 'libs/email.php';
@@ -809,7 +805,7 @@ $app->get('/application/submit-without-payment', $authenticated, $applicationNot
 $app->get('/payment/success', function()
 {
 	render(
-		'payment_response.twig', 
+		'application/payment_response.twig', 
 		array('GRADHOMEPAGE' 			=> $GLOBALS['graduate_homepage'],
 			'TITLE' 					=> 'Transaction Successful',
 			'APPLICATION_RESULT_MESSAGE' 	=> 'Your application was submitted successfully.',
@@ -827,7 +823,7 @@ $app->get('/payment/success', function()
 $app->get('/payment/cancel', function()
 {
 	render(
-		'payment_response.twig', 
+		'application/payment_response.twig', 
 		array('GRADHOMEPAGE' 			=> $GLOBALS['graduate_homepage'],
 			'TITLE' 					=> 'Transaction Canceled',
 			'APPLICATION_RESULT_MESSAGE' 	=> 'You have successfully submitted an online application to The University of Maine Graduate School, however your application fee payment transaction has been cancelled. Please contact the Graduate School office at 207-581-3291 to pay the application fee. Applications are not processed until an application fee has been received.',
@@ -845,7 +841,7 @@ $app->get('/payment/cancel', function()
 $app->get('/payment/failed', function()
 {
 	render(
-		'payment_response.twig', 
+		'application/payment_response.twig', 
 		array('GRADHOMEPAGE' 			=> $GLOBALS['graduate_homepage'],
 			'TITLE' 					=> 'Transaction Failed',
 			'APPLICATION_RESULT_MESSAGE' 	=> 'Your transaction has failed.',
