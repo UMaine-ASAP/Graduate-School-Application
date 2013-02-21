@@ -46,10 +46,10 @@ Converts the academic program information from the old database to the new datab
 
 ### SQL Query ###
 
-	TRUNCATE TABLE  `gradschool_application_2.0`.AcademicProgram;
+	TRUNCATE TABLE  `gradschool-application-2`.AcademicProgram;
 	
 	INSERT INTO
-	   `gradschool_application_2.0`.AcademicProgram (
+	   `gradschool-application-2`.AcademicProgram (
 	   academicProgramId,
 	   isActive,
 	   academic_programCode, academic_planCode, academic_planName, 
