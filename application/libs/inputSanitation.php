@@ -245,6 +245,7 @@ public static function filter_short_date($value) {
 		return false;
 }
 
+
 public static function filter_name($value)	{
 	if(preg_match("/^[\p{L} \.\-]+$/", $value))
 		return $value;
@@ -261,7 +262,8 @@ public static function filter_zipcode($value) {
 
 public static function filter_phone($value) {
 	//Might not validate for international phone numbers.
-	$regex = '/^(?:\d*(?:[. -])?)?(?:\((?=\d{3}\)))?([2-9]\d{2})(?:(?<=\(\d{3})\))? ?(?:(?<=\d{3})[.-])?([2-9]\d{2})[. -]?(\d{4})(?: (?i:ext)\.? ?(\d{1,5}))?$/';
+//	$regex = '/^(?:\d*(?:[. -])?)?(?:\((?=\d{3}\)))?([2-9]\d{2})(?:(?<=\(\d{3})\))? ?(?:(?<=\d{3})[.-])?([2-9]\d{2})[. -]?(\d{4})(?: (?i:ext)\.? ?(\d{1,5}))?$/';
+	$regex = '/^[x0-9-\/]*$/';
 	if(preg_match($regex, $value))
 		return $value;
 	else
