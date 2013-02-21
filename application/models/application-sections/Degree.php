@@ -20,14 +20,14 @@ class Degree extends ApplicationInternalModel
 		switch($optionName)
 		{
 			case 'options_academicDeptCode':
-				$options = Database::query("SELECT * FROM AcademicProgram ORDER BY department_code DESC");
+				$options = Database::query("SELECT * FROM AcademicProgram ORDER BY department_code ASC");
 
+				$result = array();
 				foreach($options as $option) {
 					$result[$option['department_code']] = $option['department_code'] . ' - ' . $option['department_nameFull'];
 				}
 
 				return $result;
-				//return self::getOptionsFromDB('Department');
 			break;
 			case 'options_academicPlan':
 
@@ -35,8 +35,9 @@ class Degree extends ApplicationInternalModel
 				$application    = ApplicationController::getActiveApplication();
 				$departmentCode = $application->degree->academic_program;
 
-				$options = Database::query("SELECT * FROM AcademicProgram WHERE department_code = %s ORDER BY degree_name DESC", $departmentCode);
+				$options = Database::query("SELECT * FROM AcademicProgram WHERE department_code = %s ORDER BY degree_name ASC", $departmentCode);
 
+				$result = array();
 				foreach($options as $option) {
 					$result[$option['degree_code']] = $option['degree_name'];
 				}
