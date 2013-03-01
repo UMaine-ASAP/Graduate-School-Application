@@ -1,0 +1,287 @@
+## New Database Tables:
+
+White = linked from old database
+
+	Orange = NOT linked from old databse.
+
+
+
+**Applicant**
+_finished._
+
+**Application**
+_finished._
+
+applicantId
+
+	applicationTypeId
+	createdDate
+	lastModified
+
+startYear
+startSemester
+desiredHousing
+	
+	waiveReferenceViewingRights
+	hasUmaineCorrespondent
+	umaineCorrespondentDetails
+
+hasAcceptedTermsOfAgreement
+transactionId
+
+	hasBeenSubmitted
+	submittedDate
+	hasBeenPushed
+	pushedDate
+
+**Application_ContactInformation**
+_Finished._
+
+streetAddress1
+streetAddress2
+city
+state
+postal
+	
+	primaryPhone
+	secondaryPhone
+	country
+
+**Application_Cost**
+_Finished._
+
+	applicationTypeId
+	cost
+
+**APPLICATION_Degree**
+_Finished._	
+
+academic_program
+academic_plan
+academic_major
+academic_minor
+academic_load
+studentType
+isSeekingFinancialAid
+
+	isSeekingAssistantship
+
+desiredAssistantshipDepartment
+
+	isApplyingNebhe
+
+
+**APPLICATION_GRE**
+_Finished._
+
+	GREId
+	applicationId
+	date
+	verbal
+	quantitative
+	analytical
+	subject
+	hasBeenReported
+	score
+
+**APPLICATION_International**
+_Finished._
+
+applicationId
+
+	isInternationalStudent
+
+toefl_hasTaken
+toefl_hasReported
+toefl_date
+
+toefl_score
+hasUSCareer
+usCareerDetails
+hasFurtherStudies
+furtherStudiesDetails
+hasHomeCareer
+homeCareerDetails
+financeDetails
+usFriendsOrRelatives
+usEmergencyContact_name
+usEmergencyContact_relationship
+
+	usEmergencyContact_contactInformationId
+
+homeEmergencyContact_name
+homeEmergencyContact_relationship
+
+	homeEmergencyContact_contactInformationId
+	APPLICATION_ContactInformation_contactInformationId
+	APPLICATION_ContactInformation_contactInformationId1
+
+**APPLICATION_Language**
+_Finished._
+
+languageId
+applicationId
+language
+proficiency_writing
+proficiency_reading
+proficiency_speaking
+
+**APPLICATION_preenrollCourse**
+
+	preenrollCourseId
+	applicationId
+	courseName
+
+**APPLICATION_PreviousSchool**
+_Finished._ 
+
+previousSchoolId
+applicationId
+name
+city
+state
+country
+code
+startDate
+endDate
+major
+degreeEarned_name
+degreeEarned_date
+
+
+**APPLICATION_Primary**
+_Finished._
+
+	applicationId
+	givenName
+	middleName
+	familyName
+
+suffix
+alternativeName
+gender
+email
+phonePrimary
+phoneSecondary
+birth_date
+birth_city
+birth_state
+birth_country
+us_isCitizen
+us_state
+residencyStatus
+greenCardLink
+countryOfCitizenship
+socialSecurityNumber
+ethnicity_amind
+ethnicity_asian
+ethnicity_black
+ethnicity_hispa
+ethnicity_pacif
+ethnicity_white
+ethnicity_unspec
+
+	isEnglishPrimary
+
+englishYears_school
+englishYears_univ
+englishYears_private
+presentOccupation
+undergradGPA
+postbaccGPA
+extracurricularActivities
+academicHonors
+employmentHistory
+gmat_hasTaken
+gmat_hasReported
+gmat_date
+gmat_quantitative
+gmat_verbal
+gmat_analytical
+gmat_score
+mat_hasTaken
+mat_hasReported
+mat_date
+mat_score
+prevUMGradApp_appExists
+	
+	prevUMGradApp_gradAppExists
+
+prevUMGradApp_date
+prevUMGradApp_dept
+prevUMGradApp_degree
+precUMGradApp_degreeDate
+prevUMGradWithdraw_exists
+prevUMGradWithdraw_date
+
+	previousCourseWork
+
+hasDisciplinaryViolation
+hasCivilViolation
+hasTakenGRE
+
+**APPLICATION_Progress**
+
+	applicationId
+	structureId
+	status
+	notes
+
+**APPLICATION_Reference**
+	
+	referenceId
+	applicationId
+	firstName
+	lastName
+	email
+	relationship
+	isSubmittingOnline
+	hasRequestBeenSent
+	submittedDate
+	filename
+	contactInformationId
+
+**APPLICATION_Structure**
+
+	structureId
+	applicationTypeId
+	name
+	path
+	isIncluded
+	order
+
+**APPLICATION_SupportingDocs**
+
+	supportingDocumentId
+	applicationId
+	resumeId
+	essayId
+
+**APPLICATION_Transaction**
+
+	transactionId
+	status
+	type
+	completedDate
+	amount
+	paymentMethod
+	isCompleted
+
+**APPLICATION_type**
+
+	applicationTypeId
+	name
+
+
+**APPLICATION_Violation**
+_Finished. (to cviolations and dviolations)_
+
+violationId
+applicationId
+date
+details
+type
+
+**Document**
+**Options_Country**
+**Options_State**
