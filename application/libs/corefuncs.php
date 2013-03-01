@@ -1,9 +1,9 @@
 <?php
 
 // Libraries
-include_once "config.php";
-include_once "database.php";
-include_once "template.php";
+require_once __DIR__ . "/../config.php";
+require_once __DIR__ . "/database.php";
+require_once __DIR__ . "/template.php";
 
 
 function sanitizeString ( $var ) {
@@ -24,24 +24,6 @@ function redirect_Unauthorized_User($nonauthenticatedDestination)
 	}
 }
 
-function sendSuccessMessage($email, $code) {
-	$sender_name = "University of Maine Graduate School"; // sender's name
-	$sender_email = "noreply@umaine.edu"; // sender's e-mail address
-	$recipient_email = str_replace('@','%40',$email);
-	$confirm_url = $GLOBALS['grad_app_root']."pages/login.php";
-
-	$mail_body_plain = "Account Pending Confirmation\n\n";
-	$mail_body_plain .= "An account for the University of Maine Graduate School Online Application has been requested by this e-mail address. Please confirm this address is correct before filling out the application. Click here to confirm: ".$confirm_url."?email=" . str_replace('+','%2B',$recipient_email) . "&code=".$code."\n\n";
-	$mail_body_plain .= "For questions, suggestions, and other feedback, please contact ".$GLOBALS['admin_email'].".";
-	$mail_body_plain .= "\r\rThe University of Maine, Graduate School\r5755 Stodder Hall\rOrono, Maine 04469\r(207) 581-3291\r" . $GLOBALS['graduate_homepage'];
-
-
-	$subject = "UMaine Grad School: Please Confirm Your Account Request"; //subject
-	$header = "From: $sender_name <$sender_email>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
-
-	mail($email, $subject, $mail_body_plain, $header); //mail command	
-}
-
 function sendRecoverMessage($email, $code) {
 	$sender_name = "University of Maine Graduate School"; // sender's name
 	$sender_email = "noreply@umaine.edu"; // sender's e-mail address
@@ -57,25 +39,6 @@ function sendRecoverMessage($email, $code) {
 	$mail_body_plain .= "\r\rThe University of Maine, Graduate School\r5755 Stodder Hall\rOrono, Maine 04469\r(207) 581-3291\r" . $GLOBALS['graduate_homepage'];
 
 	mail($email, $subject, $mail_body_plain, $header); //mail command	
-}
-
-/**
- * 
- * Source: ????
- */
-function getHash( $index )
-{
-  $validCharacters = 'abcdefghijklmnopqerstuv0123456789';
-  $mod = strlen($validCharacters);
-  $hash = '';
-  $tmp = $index;
-
-  while( $tmp > $mod )
-  {
-    $hash .= substr($validCharacters, $tmp%$mod,1);
-    $tmp = floor( $tmp / $mod );
-  }
-  return $hash;
 }
 
 

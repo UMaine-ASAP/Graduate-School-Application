@@ -65,20 +65,59 @@
 {% endmacro %}
 
 
+<!-- Macro: Textarea
+	Create a textarea Field Element
+	values:
+		name 		 - The corresponding database field name identifier
+		title 		 - the display title for the field
+		value 		 - The current value to display in the field
+		cols			 - The number of display columns
+		rows			 - The number of display rows
+		refreshOnChange - Refreshes browser when value is changed
+	 -->
+{% macro textarea(values) %}
+	<label for="{{values['name']}}">
+		<p class="title">{{values['title']|raw}}</p>
+		<textarea cols="{{values['cols']}}" rows="{{values['rows']}}" id="{{values['name']}}" name="{{values['name']}}" value="" onblur="saveValue(event);">{{values['value']}}</textarea>
+	</label>
+
+ 	{% if values['refreshOnChange'] %}
+ 	<script>
+ 		$('#{{ values['name'] }}').change( function() {
+ 			location.reload();
+ 		});
+ 	</script>
+ 	{% endif %}
+
+{% endmacro %}
+
+
 <!-- Macro: Boolean
 	Create a Boolean Field Element
 	values:
 		name 		 - The corresponding database field name identifier
 		title 		 - the display title for the field
 		value 		 - The current value to display in the field
-		showOnTrue	 - Determines whether to show corresponding section on true or false. default is true		
+		showOnTrue	 - Determines whether to show corresponding section on true or false. default is true	
+		isRequired 	 - Whether this field is required or not
 		refreshOnChange - Refreshes browser when value is changed
+		yesText 		 - specifies yes option text (optional)
+		noText 		 - specifies no option text (optional)
+
 	 -->
-{% macro boolean(values) %}
+{% macro boolean(values, boolean_display) %}
 	<label for="{{values['name']}}">
-		<p class="title">{{values['title']|raw}}</p>
-		<label for="{{values['name']}}_yes"><input type="radio" id="{{values['name']}}_yes" name="{{values['name']}}" value="1" onclick="visibility(this.name+'_section','none')" onchange="saveValue(event);" > Yes</label>
-		<label for="{{values['name']}}_no"><input type="radio" id="{{values['name']}}_no" name="{{values['name']}}" value="0" onclick="visibility(this.name+'_section','block')" onchange="saveValue(event);" checked> No</label>
+		<p class="{% if values['isRequired'] %}required{% endif %} title">{{values['title']|raw}} {% if values['isRequired'] %}*{% endif %}</p>
+		<label for="{{values['name']}}_yes"><input type="radio" id="{{values['name']}}_yes" name="{{values['name']}}" value="1"
+		{% if boolean_display  == 'yes' %}
+		 	onclick="visibility(this.name+'_section', {% if (values['showOnTrue'] is not defined) or values['showOnTrue'] %}'block'{% else %}'none'{% endif %})" 
+		 {% endif %}
+		 onchange="saveValue(event);" >{% if values['yesText'] %} {{values['yesText']}}{% else %} Yes{% endif %}</label>
+		<label for="{{values['name']}}_no"><input type="radio" id="{{values['name']}}_no" name="{{values['name']}}" value="0" 
+			{% if boolean_display == 'yes' %}
+			onclick="visibility(this.name+'_section', {% if (values['showOnTrue'] is not defined) or values['showOnTrue'] %}'none'{% else %}'block'{% endif %})" 
+			{% endif %}
+			onchange="saveValue(event);" checked>{% if values['noText'] %} {{values['noText']}}{% else %} No{% endif %}</label>
 	</label>
 	<script type="text/javascript">checkInitValue('{{values['name']}}_yes',"{{values['value']}}");</script>
 	<script type="text/javascript">checkInitValue('{{values['name']}}_no',"{{values['value']}}");</script>
@@ -93,34 +132,6 @@
 
 {% endmacro %}
 
-
-<!-- Macro: Textarea
-	Create a textarea Field Element
-	values:
-		name 		 - The corresponding database field name identifier
-		title 		 - the display title for the field
-		value 		 - The current value to display in the field
-		cols			 - The number of display columns
-		rows			 - The number of display rows
-		refreshOnChange - Refreshes browser when value is changed
-	 -->
-{% macro textarea(values) %}
-	<label for="{{values['name']}}">
-		<p class="title">{{values['title']|raw}}</p>
-		<textarea cols="{{values['cols']}}" rows="{{values['rows']}}" id="{{values['name']}}" name="{{values['name']}}" value="" onblur="saveValue(event,{{values['name']}});">{{values['value']}}</textarea>
-	</label>
-
- 	{% if values['refreshOnChange'] %}
- 	<script>
- 		$('#{{ values['name'] }}').change( function() {
- 			location.reload();
- 		});
- 	</script>
- 	{% endif %}
-
-{% endmacro %}
-
-
 <!-- Macro: Boolean Display
 	Create a Boolean Field Element the toggles the display of a corresponding section
 	values:
@@ -128,9 +139,12 @@
 		name 		 - The corresponding database field name identifier
 		value 		 - The current value to display in the field
 		showOnTrue	 - Determines whether to show corresponding section on true or false. default is true
+		yesText 		 - specifies yes option text (optional)
+		noText 		 - specifies no option text (optional)
+
 	 -->
 {% macro booleanDisplay(values) %}
-	{{ _self.boolean(values) }}
+	{{ _self.boolean(values, 'yes') }}
 	<script type="text/javascript">
 		$().ready(function() {
 			showOrNot('{{values['name']}}_section', {% if (values['showOnTrue'] is not defined) or values['showOnTrue']  %} {{values['value']}} {% else %} !{{values['value']}} {% endif %} );

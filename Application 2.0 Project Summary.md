@@ -60,9 +60,9 @@
 - Develop Application Code
 	- Migrate old code to a new, stable foundation
 		- Implement inheriting templates
-			- define core templates
-			- fix css
-			- use macros for expanding input fields
+			- *complete* Define core templates
+			- Fix css
+			- *complete* Use macros for expanding input fields
 			- Add correct database names and default values
 		- Change routing methods
 		- Ensure saving fields works correctly
@@ -83,8 +83,19 @@
 
 - Create the new database SQL
 - Update application administration to support the the new database
-- Create SQL code to migrate data from application 1.0 to application 2.0
+- Create SQL code to migrate data from application 1.0 to application 2.0 *(see dev/db/migration.md)*
 - Write system documentation and create supporting diagrams
+- Submit to IT and resolve any issues
+
+Specific Tasks
+--------------
+
+- check if fields are working
+- improve look and interaction of my-applications page
+- account registration?
+- Database migration script
+- database field config
+- contact information
 
 
 

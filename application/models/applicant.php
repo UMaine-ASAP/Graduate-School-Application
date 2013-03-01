@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/Model.php";
+
 class Applicant extends Model
 {
 	protected static $tableName = 'applicants';

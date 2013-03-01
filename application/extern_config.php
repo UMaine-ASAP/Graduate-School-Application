@@ -1,4 +1,10 @@
 <?php
+
+const PRODUCTION = 1;
+const DEVELOPMENT = 1;
+
+$MODE = DEVELOPMENT;
+
 /*****************************
  * Database Settings
  ******************************/
@@ -9,7 +15,7 @@ date_default_timezone_set('America/New_York');
 $db_user = "root"; 					 // Database User
 $db_pass = ""; 					 // Database Password
 $db_host = "localhost"; 				 // Database Host
-$db_name = "gradschool_application_2.0"; // Database Table
+$db_name = "gradschool-application-2"; // Database Table
 
 $key = "asp0df8ijapwonlkjs0a7sd092"; // DES Encryption Key
 
@@ -40,8 +46,8 @@ if($touchnet_production) {
 $WEBROOT = "http://gradapp";
 
 $rootFilePath 		= '/Users/timbaker/';
-$server_name 		= $_SERVER['SERVER_NAME'];
-$graduate_homepage 	= "http://".$_SERVER['SERVER_NAME']."/grad/drupal6/"; 	// where the drupal site is located
+$server_name 		= isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
+$graduate_homepage 	= "http://".$server_name."/grad/drupal6/"; 	// where the drupal site is located
 $grad_app_root 	= "http://".$server_name."/gradschool/application/";	// Graduate Application document root
 
 $admin_email = "crystal.burgess@maine.edu";

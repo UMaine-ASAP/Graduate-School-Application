@@ -1,5 +1,6 @@
 {% extends 'application/section.twig' %}
 {% import "application/section.macro.twig" as section %}
+{% import "forms.macro.twig" as forms %}
 
 {% block form %}
 
@@ -14,37 +15,38 @@
 	<legend>Previous Application to University of Maine</legend>
 
 	{{ forms.booleanDisplay( {'title':'Have you previously applied to the University of Maine?',
-			'name':'personal-prevUMApp_exists',
-			'value':application.personal.prevUMApp_exists,
-			'showOnTrue':false
+			'name':'personal-prevUMGradApp_appExists',
+			'value':application.personal.prevUMGradApp_appExists,
+			'showOnTrue':true
 		} ) }}
 
 	<div style="clear:both;"></div>
 
-	<div class="hidden" id="prev_um_app_section">
+	<div class="hidden" id="personal-prevUMGradApp_appExists_section">
 		
 		{{ forms.booleanDisplay( {'title':'For a graduate program?',
-			'name':'personal-prevUMGradApp_exists',
-			'value':application.personal.prevUMGradApp_exists,
-			'showOnTrue':false
+			'name':'personal-prevUMGradApp_gradAppExists',
+			'value':application.personal.prevUMGradApp_gradAppExists,
+			'showOnTrue':true
 		} ) }}
 
 
 		<div style="clear:both"></div>
 
-		<div class="hidden" id="prev_um_grad_app_section">
+		<div class="hidden" id="personal-prevUMGradApp_gradAppExists_section">
 			
 			{{ forms.input( {'title':'When did you apply?',
 					'name':'personal-prevUMGradApp_date',
 					'value':application.personal.prevUMGradApp_date,
 					'size':14,
-					'maxLength':7
+					'maxLength':7,
+					'help':'mm/yyyy'
 				} ) }}
 
 			{{ forms.select( {'title':'To which department?',
 					'name':'personal-prevUMGradApp_dept',
 					'value':application.personal.prevUMGradApp_dept,
-					'options':application.options_dept
+					'options':application.degree.options_academicDeptCode
 				} ) }}
 
 			<div style="clear:both"></div>
@@ -61,7 +63,8 @@
 					'name':'personal-prevUMGradApp_degreeDate',
 					'value':application.personal.prevUMGradApp_degreeDate,
 					'size':14,
-					'maxLength':7
+					'maxLength':7,
+					'help':'mm/yyyy'					
 				} ) }}
 	
 
@@ -70,18 +73,19 @@
 			{{ forms.booleanDisplay( {'title':'Did you withdraw?',
 				'name':'personal-prevUMGradWithdraw_exists',
 				'value':application.personal.prevUMGradWithdraw_exists,
-				'showOnTrue':false
+				'showOnTrue':true
 			} ) }}
 	
 			<div style="clear:both;"></div>
 
-			<div class="hidden" id="prev_um_grad_withdraw_section">
+			<div class="hidden" id="personal-prevUMGradWithdraw_exists_section">
 				
 				{{ forms.input( {'title':'Date withdrawn',
 					'name':'personal-prevUMGradWithdraw_date',
 					'value':application.personal.prevUMGradWithdraw_date,
 					'size':14,
-					'maxLength':7
+					'maxLength':7,
+					'help':'mm/yyyy'
 				} ) }}
 
 			</div>
@@ -95,19 +99,21 @@
 
 <div style="clear:both"></div>
 
-<fieldset id="previous_schools" name="previous_schools" class="nested">
+<fieldset id="previousSchoolsContainer" name="previous_schools" class="nested">
 	<legend>Previously Attended Institutions</legend>
 	<p class="title">List in chronological order all institutions of collegiate standing, and location, that you have attended. Include dates of entering and leaving, degrees received or for which you are a candidate. Official transcripts must be sent <b>directly</b> from these institutions to the Graduate School. The Graduate School will obtain all transcripts from the University of Maine System campuses.<br />
 	<b>No decision can be made until all your transcripts are received in this office.</b></p>
 
 	
-	<div id="{{PREVIOUSSCHOOLS_LIST}}">
-		{{PREVIOUSSCHOOLS_REPEATABLE}}
+	<div id="previousSchools">
+		{% for previousSchool in application.previousSchools %}
+			{% include 'repeatable/previousSchool.twig' with {'previousSchool':previousSchool} %}
+		{% endfor %}
 	</div>
 
 	<div style="clear:both"></div>
 
-	<button class="button green small add" type="button" onClick="addItem('{{PREVIOUSSCHOOLS_TABLE_NAME}}'); return false;" title="Add">+ Add Another Institution</button>
+	{{ section.addSubSectionButton('Add Another Institution', 'previousSchool')}}
 
 
 	<div style="clear:both"></div>
@@ -134,10 +140,12 @@
 
 	<div style="clear:both"></div>
 
-	<label for="preenroll_courses">
-		<p class="title">List, by title, all course work you expect to take or courses you expect to take before enrolling at UM. <b>Please have a supplementary transcript sent to the Graduate School when grades are available.</b></p>
-		<textarea cols="60" rows="5" id="preenroll_courses" name="application.personal.preenroll_courses" value="" onblur="saveValue(event);">{{application.personal.preenroll_courses}}</textarea>
-	</label>
+	{{ forms.textarea( {'title':'List, by title, all course work you expect to take or courses you expect to take before enrolling at UM. <b>Please have a supplementary transcript sent to the Graduate School when grades are available.</b>',
+			'name':'personal-previousCourseWork',
+			'value':application.personal.previousCourseWork,
+			'cols':60,
+			'rows':5
+		} ) }}
 
 	<div style="clear:both"></div>
 </fieldset>
@@ -149,23 +157,26 @@
 
 	<!-- need additional record functionality -->
 	{{ forms.booleanDisplay( {'title':'Have you ever been found responsible for a disciplinary violation at a post-secondary educational institution you have attended (or the international equivalent) whether related to academic misconduct or behavioral misconduct, that resulted in your suspension, removal, dismissal or expulsion from the institution?',
-			'name':'disciplinaryViolation-disciplinaryViolationID',
-			'value':application.disciplinaryViolation.disciplinaryViolationID,
+			'name':'personal-hasDisciplinaryViolation',
+			'value':application.personal.hasDisciplinaryViolation,
 		} ) }}
 
 
 	<div style="clear:both"></div>
 
-	<div class="hidden" id="disciplinary_violation_section">
-		<div id="{{DVIOLATIONS_LIST}}">
-			{{DVIOLATIONS_REPEATABLE}}
+	<div class="hidden" id="personal-hasDisciplinaryViolation_section">
+		<div id="disciplinaryViolations">
+			{% for violation in application.disciplinaryViolations %}
+				{% include 'repeatable/violation.twig' with {'violation':violation, 'type':'disciplinary'} %}
+			{% endfor %}
+
 		</div>
 
 		<div style="clear:both"></div>
 
-		<button class="button green small add" type="button" onClick="addItem('{{DVIOLATIONS_TABLE_NAME}}'); return false;" title="Add">+ Add Another Incident</button>
+		{{ section.addSubSectionButton('Add Another Incident', 'disciplinaryViolation')}}
+
 	</div> 
-	<script type="text/javascript">showOrNot('disciplinary_violation_section',{{DISCIPLINARY_VIOLATION}});</script>
 
 	<div style="clear:both"></div>
 </fieldset><!--end fieldset "disciplinary_violations"-->		
@@ -176,20 +187,22 @@
 	<legend>Crime Information</legend>
 
 	{{ forms.booleanDisplay( {'title':'Have you ever been convicted of a misdemeanor, felony or other crime, or adjudicated of committing a juvenile crime?',
-			'name':'civilViolation-civilViolationsID',
-			'value':application.civilViolation.civilViolationsID,
+			'name':'personal-hasCivilViolation',
+			'value':application.personal.hasCivilViolation,
 		} ) }}	
 
-	<div class="hidden" id="criminal_violation_section">
-		<div id="{{CVIOLATIONS_LIST}}">
-			{{CVIOLATIONS_REPEATABLE}}
+	<div class="hidden" id="personal-hasCivilViolation_section">
+		<div id="civilViolations">
+			{% for violation in application.civilViolations %}
+				{% include 'repeatable/violation.twig' with {'violation':violation, 'type':'civil'} %}
+			{% endfor %}
 		</div>	
 
 		<div style="clear:both"></div>
 
-		<button class="button green small add" type="button" onClick="addItem('{{CVIOLATIONS_TABLE_NAME}}'); return false;" title="Add">+ Add Another Incident</button>
+		{{ section.addSubSectionButton('Add Another Incident', 'civilViolation')}}
+
 	</div> 
-	<script type="text/javascript">showOrNot('criminal_violation_section',{{CRIMINAL_VIOLATION}});</script>
 
 	<div style="clear:both"></div>
 </fieldset><!-- end fieldset "criminal" -->
@@ -216,23 +229,25 @@
 		<legend>Graduate Record Exam</legend>
 
 		{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the GRE?',
-			'name':'personal-gre_hasTaken',
-			'value':application.personal.gre_hasTaken,
+			'name':'personal-hasTakenGRE',
+			'value':application.personal.hasTakenGRE,
+			'showOnTrue':true
 		} ) }}
 	
 		<div style="clear:both"></div>
 
-		<div class="hidden" id="gre_taken_section">
-			<div id="{{GRE_LIST}}">
-				<input type="hidden" id="gre_count" value="{{GRE_COUNT}}" />
-				{{GRE_REPEATABLE}}
+		<div class="hidden" id="personal-hasTakenGRE_section">
+			<div id="GREs">
+				{% for gre in application.GREScores %}
+					{% include 'repeatable/gre.twig' with {'gre':gre} %}
+				{% endfor %}
 			</div>
 
 			<div style="clear:both"></div>
 
-			<button class="button green small add" type="button" onClick="addItem('{{GRE_TABLE_NAME}}'); return false;" title="Add">+ Add Another Score</button>
+			{{ section.addSubSectionButton('Add Another Score', 'GRE')}}
+
 		</div>
-		<script type="text/javascript">showOrNot('gre_taken_section',{{GRE_TAKEN}});</script>
 
 		<div style="clear:both"></div>
 	</fieldset><!-- end fieldset "gre" -->
@@ -245,17 +260,19 @@
 		{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the GMAT?',
 				'name':'personal-gmat_hasTaken',
 				'value':application.personal.gmat_hasTaken,
+				'showOnTrue':true
 			} ) }}
 		
 		<div style="clear:both;"></div>
 
-		<div class="hidden" id="gmat_taken_section">
+		<div class="hidden" id="personal-gmat_hasTaken_section">
 			
 			{{ forms.input( {'title':'Date of Exam',
 					'name':'personal-gmat_date',
 					'value':application.personal.gmat_date,
 					'size':14,
-					'maxLength':7
+					'maxLength':7,
+					'help':'mm/yyyy'					
 				} ) }}
 
 			{{ forms.input( {'title':'Verbal',
@@ -288,13 +305,13 @@
 
 			<div style="clear:both;"></div>
 
-			{{ forms.booleanDisplay( {'title':'Has this score been reported to the University of Maine?',
+			{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
 					'name':'personal-gmat_hasReported',
-					'value':application.personal.gmat_hasReported,
-					'showOnTrue':false
+					'value':application.personal.gmat_hasReported
 				} ) }}
 
 		<div style="clear:both"></div>
+		</div>
 	</fieldset><!-- end fieldset "gmat" -->
 
 	<div style="clear:both"></div>
@@ -305,18 +322,19 @@
 		{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the MAT?',
 				'name':'personal-mat_hasTaken',
 				'value':application.personal.mat_hasTaken,
-				'showOnTrue':false
+				'showOnTrue':true
 			} ) }}
 
 		<div style="clear:both;"></div>
 
-		<div class="hidden" id="mat_taken_section">
+		<div class="hidden" id="personal-mat_hasTaken_section">
 			
 			{{ forms.input( {'title':'Date of Exam',
 					'name':'personal-mat_date',
 					'value':application.personal.mat_date,
 					'size':14,
-					'maxLength':7
+					'maxLength':7,
+					'help':'mm/yyyy'					
 				} ) }}
 
 			{{ forms.input( {'title':'MAT Score',
@@ -329,7 +347,7 @@
 
 			<div style="clear:both;"></div>
 
-			{{ forms.booleanDisplay( {'title':'Has this score been reported to the University of Maine?',
+			{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
 					'name':'personal-mat_hasReported',
 					'value':application.personal.mat_hasReported,
 					'showOnTrue':false
@@ -337,7 +355,6 @@
 
 			<div style="clear:both"></div>
 		</div>
-		<script type="text/javascript">showOrNot('mat_taken_section',{{application.personal.mat_hasTaken}});</script>
 
 		<div style="clear:both;"></div>
 	</fieldset><!-- end fieldset "mat" -->
@@ -357,16 +374,21 @@
 			'maxLength':30
 		} ) }}
 		
-	<label for="employment_history">
-		<p class="title"><b>Employment/Extra-Curricular Activities</b><br />List any employment or other activities related to your proposed program of study. If you have taught, name subjects. List published articles or books, research completed or in progress, or any other creative work.</p>
-		<textarea cols="60" rows="5" id="employment_history" name="application.personal.employmentHistory" value="" onblur="saveValue(event);">{{application.personal.employmentHistory}}</textarea>
-	</label>
+	{{ forms.textarea( {'title':'<b>Employment/Extra-Curricular Activities</b><br />List any employment or other activities related to your proposed program of study. If you have taught, name subjects. List published articles or books, research completed or in progress, or any other creative work.',
+			'name':'personal-employmentHistory',
+			'value':application.personal.employmentHistory,
+			'cols':60,
+			'rows':5
+		} ) }}
 
-	<label for="academic_honors">
-		<p class="title"><b>Honors/Scholarships</b><br />
-		List any honors, prizes or scholarships previously awarded to you on the basis of academic achievement, or any honor societies to which you have been elected.</p>
-		<textarea cols="60" rows="5" id="academic_honors" name="application.personal.academicHonors" value="" onblur="saveValue(event);">{{application.personal.academicHonors}}</textarea>
-	</label>
+	{{ forms.textarea( {'title':'<b>Honors/Scholarships</b><br />
+		List any honors, prizes or scholarships previously awarded to you on the basis of academic achievement, or any honor societies to which you have been elected',
+			'name':'personal-academicHonors',
+			'value':application.personal.academicHonors,
+			'cols':60,
+			'rows':5
+		} ) }}
+
 
 	<div style="clear:both;"></div>
 </fieldset><!-- end fieldset "work" -->

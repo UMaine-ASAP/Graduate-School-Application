@@ -4,45 +4,59 @@
  * @Author Tim Westbaker
  * @created 10-16-12
  */
-
-session_cache_limiter(false);
-session_start();
+if( !isset($_SESSION) )
+{
+	session_cache_limiter(false);
+	session_start();
+}
 
 // Data
-require_once "config.php";
-require_once "models/databaseConfig.php";
+require_once __DIR__ . "/config.php";
+require_once __DIR__ . "/models/databaseConfig.php";
 
 // Models
-require_once "models/Model.php";
-require_once 'models/Applicant.php';
-require_once 'models/Application.php';
-require_once 'models/reference.php';
+require_once __DIR__ . "/models/Model.php";
+require_once __DIR__ . '/models/Applicant.php';
+require_once __DIR__ . '/models/Application.php';
 
 // Controllers
-require_once 'controllers/ApplicationController.php';
-require_once 'controllers/ApplicantController.php';
+require_once __DIR__ . '/controllers/ApplicationController.php';
+require_once __DIR__ . '/controllers/ApplicantController.php';
 
 // Libraries
-require_once 'libs/email.php';
-require_once 'libs/inputSanitation.php';
-require_once 'libs/errorTracker.php';
+require_once __DIR__ . '/libs/Hash.php';
+require_once __DIR__ . '/libs/email.php';
+require_once __DIR__ . '/libs/inputSanitation.php';
+require_once __DIR__ . '/libs/errorTracker.php';
 
 // Slim and Twig setup
-require_once 'libs/Slim/Slim.php';
+require_once __DIR__ . '/libs/Slim/Slim.php';
 Slim\Slim::registerAutoloader();
 
-require_once 'libs/Twig/Autoloader.php';
+require_once __DIR__ . '/libs/Twig/Autoloader.php';
 Twig_Autoloader::register();
 
-require_once 'libs/Slim/Twig.php';
+require_once __DIR__ . '/libs/Slim/Twig.php';
+
+// Development only
+if ($GLOBALS['MODE'] == DEVELOPMENT) {
+	require_once __DIR__ . '/../dev/chromephp/ChromePhp.php';
+	require_once __DIR__ . '/../dev/chromephp/ChromePhp.php';
+
+	// using labels
+	// foreach ($_SERVER as $key => $value) {
+	// 	ChromePhp::log($key, $value);
+	// }
+	// ChromePhp::warn('this is a warning');
+	//ChromePhp::error('this is an error');
+}
+
 
 // Start Slim and Twig
-
-
-
 $app = new \Slim\Slim(array(
     'view' => new \Slim\Extras\Views\Twig()
 ));
+$GLOBALS['app'] = $app;
 
 // Configure Input Sanitation values
 InputSanitation::initialize($GLOBALS['databaseFields']);
@@ -146,6 +160,22 @@ $authenticated = function() use ($app)
 };
 
 /**
+ * Authenticated Script
+ * 
+ * Validate that user is logged in
+ */
+$authenticatedScript = function() use ($app) 
+{
+	$isLoggedIn = ApplicantController::applicantIsLoggedIn();
+	if( !$isLoggedIn ) 
+	{
+		echo "Please login again"; //redirect('/login');
+		exit();
+	}
+	return $isLoggedIn;
+};
+
+/**
  * Application Not Submitted
  * 
  * Validate that application has not already been submitted
@@ -153,10 +183,12 @@ $authenticated = function() use ($app)
 $applicationNotSubmitted = function() 
 {
 	$application = ApplicationController::getActiveApplication();
+
 	// Redirect if application has already been submitted
 	if( $application->hasBeenSubmitted )
 	{
-		header("location:./pages/lockout.php");
+		$app->flash('warning', 'Application already submitted');
+		redirect('/my-applications');
 		return false;
 	}
 };
@@ -189,8 +221,11 @@ $app->get('/', function()
  */
 $app->get('/login', function() use($app) 
 {
-	//SUCESSS_MESSAGE -> $signin_msg.$success_msg
-	//CREATE_MESSAGE
+
+	if( ApplicantController::applicantIsLoggedIn()) {
+		redirect('/my-applications');
+	}
+
 	render('account/login.twig', array());
 });
 
@@ -236,7 +271,6 @@ $app->post('/login', function() use ($app)
 			$app->flash('errors', $error_messages->render() );
 			//print_r($app->flash);
 			redirect('/login');
-
 		break;
 		case 'createAccount':
 			$email            = $app->request()->post('create_email');
@@ -252,17 +286,14 @@ $app->post('/login', function() use ($app)
 			if( empty($password_confirm) ) 					 { $error_messages->add('You did not confirm your password choice'); }
 			if( $email != $email_confirm ) 					 { $error_messages->add('The email address you provided did not match'); }
 			if( $password != $password_confirm ) 				 { $error_messages->add('The passwords you provided did not match'); }
-			if( ApplicantController::accountAlreadyExists($email) ) { $error_messages->add("A user with that name already exists. If you forgot your password, you can recover it <a href='forgot.php'>here</a>."); }
+			if( ApplicantController::accountAlreadyExists($email) ) { $error_messages->add("A user with that name already exists. If you forgot your password, you can recover it <a href='" . $GLOBALS['WEBROOT'] . "/account/forgot-password'>here</a>."); }
 
 			// Create new Application
 			if( !$error_messages->hasErrors() ) 
 			{
 				ApplicantController::createAccount($email, $password);
 
-				// @TODO: This should be called here, but implemented somewhere else ..
-				sendSuccessMessage($email, $code);				
-
-				$app->flash('success', 'Account created. Please check your email for a link to confirm your email address.' );
+				$app->flash('account_created_success', 'Account created. Please check your email for a link to confirm your email address.' );
 				redirect('/login');
 			} else {
 				// Display Errors
@@ -288,8 +319,8 @@ $app->post('/login', function() use ($app)
 $app->get('/account/confirm', function() use ($app)
 {
 
-	$email = $app->request('email');
-	$code  = $app->request('code');
+	$email = $app->request()->get('email');
+	$code  = $app->request()->get('code');
 
 	// Make sure data is passed in
 	if( !isset($_GET['email']) or !isset($_GET['code']) )
@@ -301,7 +332,7 @@ $app->get('/account/confirm', function() use ($app)
 
 	// validate data
 	$email = str_replace('%40','@',$email); // Clean email
-	$accountValidates = Applicant::doesAccountValidate($email, $code);
+	$accountValidates = ApplicantController::doesAccountValidate($email, $code);
 	if ( !$accountValidates )
 	{
 		$app->flash('warning', 'Malformed Link');
@@ -310,7 +341,7 @@ $app->get('/account/confirm', function() use ($app)
 	}
 
 	// Process Account
-	$accountValidated = Applicant::isAccountAlreadyValidated($email, $code);		
+	$accountValidated = ApplicantController::isAccountAlreadyValidated($email, $code);		
 	if ( $accountValidated ) {
 		// Account has already been confirmed
 		$app->flash('warning', 'You have already confirmed your email address. Please sign in below.');
@@ -318,7 +349,7 @@ $app->get('/account/confirm', function() use ($app)
 		exit(0);
 	} else {
 		// Account Confirmed
-		Applicant::validateAccount($email, $code);
+		ApplicantController::validateAccount($email, $code);
 		$app->flash('success', 'You have been confirmed. Please sign in.');
 		redirect('/login');
 		exit(0);
@@ -356,6 +387,7 @@ $app->post('/account/register', function()
 $app->get('/account/forgot-password', function()
 {
 	echo "forgot password";
+
 });
 
 
@@ -400,7 +432,9 @@ $app->get('/no-javascript', function()
 $app->get('/my-applications', $authenticated, function() use ($app)
 {	
 	$applications = ApplicationController::allMyApplications();
-	render('application/my-applications.twig', array('applications'=>$applications));
+	$types = Database::query("SELECT * FROM APPLICATION_Type");
+
+	render('application/my-applications.twig', array('applications'=>$applications, 'types'=>$types));
 });
 
 
@@ -411,7 +445,9 @@ $app->get('/my-applications', $authenticated, function() use ($app)
 /**
  * Create a new application
  */
-$app->get('/create-application/:typeId', $authenticated, function($typeId) use ($app) {
+$app->get('/create-application', $authenticated, function() use ($app) {
+
+	$typeId = (int) $app->request()->get('application-type');
 
 	$application = ApplicationController::createApplication($typeId);
 
@@ -464,7 +500,7 @@ $app->get('/edit-application/:id', $authenticated, function($id) use ($app) {
  *  
  * Save a field from the application
  */
-$app->post('/saveData', $authenticated, function() use ($app)
+$app->post('/saveData', $authenticatedScript, function() use ($app)
 {
 
 	if ( ! ApplicantController::applicantIsLoggedIn() )
@@ -521,6 +557,12 @@ $app->post('/saveData', $authenticated, function() use ($app)
 
 	$isValidValue = InputSanitation::isValid($field, $value, $errorMessage);
 
+	// check for social security number - we need to encrypt before storing in DB
+	if( $field == 'personal-socialSecurityNumber')
+	{
+		throw new Exception("social security number needs to be encrypted");
+	}
+
 	if($isValidValue)
 	{
 		// Save changes
@@ -538,7 +580,7 @@ $app->post('/saveData', $authenticated, function() use ($app)
 /**
  * Create a new item of type $name and pass the template back
  */
-$app->get('/application/getTemplate/:name', $authenticated, function($name) use ($app)
+$app->get('/application/getTemplate/:name', $authenticatedScript, function($name) use ($app)
 {
 	switch($name)
 	{
@@ -549,6 +591,43 @@ $app->get('/application/getTemplate/:name', $authenticated, function($name) use 
 				'hide'     => false);
 			return $app->render("repeatable/language.twig", $data);
 		break;
+		case 'previousSchool':
+			$previousSchool = PreviousSchool::createNew();
+			$data = array(
+				'previousSchool' => $previousSchool,
+				'hide'           => false);
+			return $app->render("repeatable/previousSchool.twig", $data);
+		break;
+		case 'civilViolation':
+			$violation = CivilViolation::createNew();
+			$data = array(
+				'violation' => $violation,
+				'hide'      => false,
+				'type'      => 'civil');
+			return $app->render("repeatable/violation.twig", $data);
+		break;
+		case 'disciplinaryViolation':
+			$violation = DisciplinaryViolation::createNew();
+			$data = array(
+				'violation' => $violation,
+				'hide'      => false,
+				'type'      => 'disciplinary');
+			return $app->render("repeatable/violation.twig", $data);
+		break;
+		case 'GRE':
+			$gre = GRE::createNew();
+			$data = array(
+				'gre'  => $gre,
+				'hide' => false);
+			return $app->render("repeatable/gre.twig", $data);
+		break;
+		case 'reference':
+			$reference = Reference::createNew();
+			$data = array(
+				'reference'  => $reference,
+				'hide' => false);
+			return $app->render("repeatable/reference.twig", $data);
+		break;
 		default:
 		return '';
 	}
@@ -558,7 +637,7 @@ $app->get('/application/getTemplate/:name', $authenticated, function($name) use 
 /**
  * Deletes a repeatable element
  */
-$app->post('/application/delete-repeatable', $authenticated, function() use ($app)
+$app->post('/application/delete-repeatable', $authenticatedScript, function() use ($app)
 {
 	$id = $app->request()->post('id');
 	$application = ApplicationController::getActiveApplication();
@@ -573,6 +652,42 @@ $app->post('/application/delete-repeatable', $authenticated, function() use ($ap
 		case 'language':
 			$object = Language::getWithId($id);
 
+			if( $object != null )
+			{
+				$object->delete();
+			}
+		break;
+		case 'previousSchool':
+			$object = PreviousSchool::getWithId($id);
+
+			if( $object != null )
+			{
+				$object->delete();
+			}
+		break;
+		case 'civilViolation':
+			$object = CivilViolation::getWithId($id);
+			if( $object != null )
+			{
+				$object->delete();
+			}
+		break;
+		case 'disciplinaryViolation':
+			$object = DisciplinaryViolation::getWithId($id);
+			if( $object != null )
+			{
+				$object->delete();
+			}
+		break;
+		case 'GRE':
+			$object = GRE::getWithId($id);
+			if( $object != null )
+			{
+				$object->delete();
+			}
+		break;
+		case 'reference':
+			$object = Reference::getWithId($id);
 			if( $object != null )
 			{
 				$object->delete();
@@ -604,6 +719,7 @@ $app->get('/application/section/next', $authenticated, $applicationNotSubmitted,
 
 	$application 	= ApplicationController::getActiveApplication();
 	$sections 	= $application->sections;
+	$sections[] = 'review';
 
 	$index=array_search($current_section, $sections);
 	if( $index !== False ) {
@@ -667,7 +783,6 @@ $app->get('/application/section/personal-information', $authenticated, $applicat
  */
 $app->get('/application/section/international', $authenticated, $applicationNotSubmitted, function ()
 {
-
 	$applicant 	= ApplicantController::getActiveApplicant();
 	$application 	= ApplicationController::getActiveApplication();
 
@@ -719,6 +834,20 @@ $app->get('/application/section/letters-of-recommendation', $authenticated, $app
 
 
 /**
+ * Application
+ * 
+ * Render application section Letters of recommendation
+ */
+$app->get('/application/section/review', $authenticated, $applicationNotSubmitted, function ()
+{
+
+	$applicant   = ApplicantController::getActiveApplicant();
+	$application = ApplicationController::getActiveApplication();
+
+	render_section('application/review.twig', array('application' => $application), $application->sections, 'review');
+});
+
+/**
  * Application - Download Script
  * 
  * Downloads pdf of current application
@@ -735,28 +864,16 @@ $app->get('/application/download', $authenticated, $applicationNotSubmitted, fun
  * 
  * Submit applicaiton with payment
  */
-$app->get('/application/submit-with-payment', $authenticated, $applicationNotSubmitted, function ($page)
+$app->get('/application/submit-with-payment', $authenticated, $applicationNotSubmitted, function ()
 {
-	// Data
-	$application 	= Application::getActiveApplication();
-	$applicant 	= Applicant::getActiveApplicant();
-	$db 		 	= Database::getInstance();
-	
-	// Process Submission
-	if( ! $application->hasBeenSubmitted() ){
-	
-		//Send Recommendations
-		require "emailRecommenders.php";
-	
-		$application->generateServerPDF();
-	
-		//Send Payment
-		$application->submitWithPayment(true);
+	$application = ApplicationController::getActiveApplication();
 		
-	} else {
-		// no more lockout
-		// @TODO: return to main page with error -> already submitted
-	}
+	$application->emailAllReferences();
+	
+	$application->generateServerPDF();
+	
+	//Send Payment
+	$application->submitWithPayment(true);
 });
 
 
@@ -765,28 +882,21 @@ $app->get('/application/submit-with-payment', $authenticated, $applicationNotSub
  * 
  * Submit applicaiton without payment
  */
-$app->get('/application/submit-without-payment', $authenticated, $applicationNotSubmitted, function ($page)
+$app->get('/application/submit-without-payment', $authenticated, $applicationNotSubmitted, function ()
 {
+	$application = ApplicationController::getActiveApplication();
 
-	$application = Application::getActiveApplication();
+	// Finish Submission
+	require 'emailRecommenders.php';  // Submit recommendation emails
+	require 'mailPayLater.php'; 	  // Send Email to Applicant
 	
-	// process application
-	if( ! $application->hasBeenSubmitted() ){
+	$application->generateServerPDF();
 	
-		// Finish Submission
-		require 'emailRecommenders.php';  // Submit recommendation emails
-		require 'mailPayLater.php'; 	  // Send Email to Applicant
+	// Update application
+	$application->submitWithPayment(false);
 	
-		$application->generateServerPDF();
-	
-		// Update application
-		$application->submitWithPayment(false);
-	
-		// @TODO: Display submitted without payment template
-	} else {
-		// no more lockout
-		// @TODO: return to main page with error -> already submitted
-	}
+	// @TODO: Display submitted without payment template
+	render();
 });
 
 

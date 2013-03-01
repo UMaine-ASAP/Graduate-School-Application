@@ -1,0 +1,122 @@
+{% import "forms.macro.twig" as forms %}
+{% import "application/section.macro.twig" as section %}
+
+<div id="reference-#{{reference.id}}" class="{% if hide %}hidden{% endif %} reference">
+	<fieldset class="nested">
+		
+		{{ section.removeSubSectionButton('reference-#' ~ reference.id ) }}
+
+		<legend>Recommendation</legend>
+		<div>
+			<div style="clear:both"></div>
+
+			{{ forms.boolean( {'title':'Will this individual submit a recommendation online?', 
+						'name':'reference-isSubmittingOnline-#' ~ reference.id,
+						'value':reference.isSubmittingOnline,
+						'isRequired':true
+					} ) }}
+		
+			<div style="clear:both"></div>
+
+			<p class="message warning">An electronic recommendation form will be emailed to this recommender if you click yes.</p>
+
+			<div style="clear:both"></div>
+
+			{{ forms.input( {'title':'First Name', 
+						'name':'reference-firstName-#' ~ reference.id,
+						'value':reference.firstName,
+						'size': 30,
+						'maxLength':30,
+						'isRequired':true
+					} ) }}
+
+			{{ forms.input( {'title':'Last Name', 
+						'name':'reference-lastName-#' ~ reference.id,
+						'value':reference.lastName,
+						'size': 30,
+						'maxLength':30,
+						'isRequired':true
+					} ) }}
+
+			
+			{{ forms.input( {'title': 'Email',
+						'name':'reference-email-#' ~ reference.id,
+						'value':reference.email,
+						'size': 30,
+						'isRequired':true
+					} ) }}
+			
+			{{ forms.select( {'title':'Relationship', 
+						'name':'reference-relationship-#' ~ reference.id,
+						'value':reference.relationship,
+						'options':reference.options_relationship, 
+					} ) }}
+
+			{{ forms.input( {'title':'Phone Number', 
+						'name':'contactInformation-primaryPhone-#' ~ reference.contactInformationId,
+						'value':reference.contactInformation.primaryPhone,
+						'size': 16,
+						'maxLength':16,
+					} ) }}
+
+
+			<div style="clear:both"></div>
+		</div>
+
+		<div style="clear:both"></div>
+
+		<fieldset id="reference_addr-#{{reference.id}}" name="reference_addr-#{{reference.id}}" class="nested">
+			<legend>Address</legend>
+			
+			{{ forms.input( {'title':'Street', 
+						'name':'contactInformation-streetAddress1-#' ~ reference.contactInformationId,
+						'value':reference.contactInformation.streetAddress1,
+						'size': 30,
+						'maxLength':30,
+					} ) }}
+
+			{{ forms.input( {'title':'Additional', 
+						'name':'contactInformation-streetAddress2-#' ~ reference.contactInformationId,
+						'value':reference.contactInformation.streetAddress2,
+						'size': 30,
+						'maxLength':30,
+					} ) }}
+
+			{{ forms.input( {'title':'City', 
+						'name':'contactInformation-city-#' ~ reference.contactInformationId,
+						'value':reference.contactInformation.city,
+						'size': 30,
+						'maxLength':30,
+					} ) }}
+
+			{{ forms.select( {'title':'State', 
+						'name':'contactInformation-state-#' ~ reference.contactInformationId,
+						'value':reference.contactInformation.state,
+						'options':reference.options_state,
+					} ) }}
+
+			{{ forms.input( {'title':'Postal Code', 
+						'name':'contactInformation-postal-#' ~ reference.contactInformationId,
+						'value':reference.contactInformation.postal,
+						'size': 15,
+						'maxLength':15,
+					} ) }}
+
+			{{ forms.select( {'title':'Country', 
+						'name':'contactInformation-country-#' ~ reference.contactInformationId,
+						'value':reference.contactInformation.country,
+						'options':reference.options_country,
+					} ) }}
+			
+
+			
+			<div style="clear:both"></div>
+		</fieldset><!-- end fieldset "reference1_addr" -->
+		<button id='ref1_request' class="sendEmail button green small add" type="button" onclick="requestRecommendation('#ref1_request','reference1'); return false;" title="Add">Email Recommendation Form to Reference</button><span class='emailSentMessage'></span>
+		<script type='text/javascript'> setButtonDisplay('#ref1_request', '{{REFERENCE1_ONLINE}}', '{{REFERENCE1_REQUEST_SENT}}'); </script>
+		<div style="clear:both"></div>
+
+
+	</fieldset>
+	<div style="clear:both;"></div>
+</div>

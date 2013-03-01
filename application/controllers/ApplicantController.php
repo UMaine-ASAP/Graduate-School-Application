@@ -3,6 +3,8 @@
 // Libraries
 require_once __DIR__ . "/../libs/corefuncs.php";
 require_once __DIR__ . "/../config.php";
+require_once __DIR__ . "/../libs/Hash.php";
+require_once __DIR__ . "/../libs/email.php";
 
 // Models
 require_once __DIR__ . "/../models/Applicant.php";
@@ -135,9 +137,26 @@ class ApplicantController
 	public static function createAccount($email, $password)
 	{
 		$last_index = Database::getFirst("SELECT applicantId FROM Applicant ORDER BY applicantId DESC LIMIT 1");
-		$code = getHash(time()+$last_index+1); // use this code for the confirmation email
+
+		$hash_index = time() + $last_index['applicantId'] + 1; // get a unique id
+		$code = Hash::create($hash_index); // use this code for the confirmation email
 
 		Database::iquery("INSERT INTO `Applicant` (`loginEmail`, `password`, `loginEmailCode`) VALUES('%s', '%s', '%s')", $email, sha1($password), $code);
+
+
+		$recipient_email = str_replace('@','%40',$email);
+		$recipient_email = str_replace('+','%2B',$recipient_email);
+		$confirm_url = $GLOBALS['WEBROOT']."/account/confirm";
+
+		$emailSender = new Email();
+		$emailSender->loadFromTemplate('accountConfirmation.email.php', 
+									array('{{RECIPIENT_EMAIL}}' => $recipient_email,
+									'{{CONFIRM_URL}}'           => $confirm_url,
+									'{{CODE}}'                  => $code));
+
+
+		$emailSender->setDestinationEmail($email);
+		$emailSender->sendEmail();
 	}
 
 	public static function accountAlreadyExists($email)
@@ -169,8 +188,8 @@ class ApplicantController
 	public static function isAccountAlreadyValidated($email, $validation_code)
 	{
 		//make sure that user and that hash exist and match, and if they've already confirmed
-		$check_user = Database::getFirst("SELECT `loginEmailConfirmed` FROM `Applicant` WHERE `loginEmail` = '%s' AND `loginEmailCode` = '%s'", $email, $validation_code);
-		return ($check_user['loginEmailConfirmed'] == 1);
+		$check_user = Database::getFirst("SELECT `isEmailConfirmed` FROM `Applicant` WHERE `loginEmail` = '%s' AND `loginEmailCode` = '%s'", $email, $validation_code);
+		return ($check_user['isEmailConfirmed'] == 1);
 	}
 
 
@@ -182,7 +201,7 @@ class ApplicantController
 	public static function validateAccount($email, $validation_code)
 	{
 		// Verify the information and flip the 'confirmed' bit
-		$result = Database::iquery("UPDATE `Applicant` SET `loginEmailConfirmed` = 1 WHERE `loginEmail` = '%s' AND `loginEmailCode` = '%s'", $email, $validation_code);		
+		$result = Database::iquery("UPDATE `Applicant` SET `isEmailConfirmed` = 1 WHERE `loginEmail` = '%s' AND `loginEmailCode` = '%s'", $email, $validation_code);		
 		return ($result != null);
 	}
 

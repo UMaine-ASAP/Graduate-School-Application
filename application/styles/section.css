@@ -1,3 +1,6 @@
+html {
+	font-size: 0.7em;
+}
 
 .section-icon-personal-information
 {
@@ -32,4 +35,14 @@
 #link-my-applications {
 	position: absolute;
 	top: -20px;
+}
+
+
+#save-command
+{
+	float: right;
+}
+
+#review-application, #sign-out {
+	float: left;
 }

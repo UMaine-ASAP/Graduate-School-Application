@@ -1,16 +1,19 @@
-<div id="{{TABLE_NAME}}_{{INDEX}}" class="{{HIDE}}">
+{% import "forms.macro.twig" as forms %}
+{% import "application/section.macro.twig" as section %}
+
+<div id="GRE-#{{gre.id}}" class="{% if hide %}hidden{% endif %} gre">
 	<fieldset class="nested" >
-		<button class="button red small remove" type="button" onClick='removeItem("{{TABLE_NAME}}_{{INDEX}}",{{USER}}); return false;' title="Remove">Remove</button>
-		<!-- <legend>GRE Score {{COUNT_INDEX}}</legend> -->
 		
-		<h2>GRE Score {{COUNT_INDEX}}</h2>
+		{{ section.removeSubSectionButton('GRE-#' ~ gre.id ) }}
+		
+		<h2>GRE Score</h2>
 
 		{{ forms.input({'title':'Date of Exam',
 				'name':'gre-date-#' ~ gre.id,
 				'value':gre.date,
 				'size': 14,
 				'maxLength':7,
-				'help':'mm/dd/yyyy'
+				'help':'mm/yyyy'
 			} ) }}
 
 		{{ forms.input({'title':'Verbal',
@@ -43,25 +46,11 @@
 
 		<div style="clear:both;"></div>
 
-		
 		{{ forms.select( {'title':'GRE Subject',
 				'name':'gre-subject-#' ~ gre.id,
 				'value': gre.subject,
 				'options': gre.options_subject
 			 }) }}
-
-		<!-- +todo create menu items 
-
-				<option value=""	>- None -</option>
-				<option value="BCMB" 	>Biochemistry, Cell and Molecular Biology</option>
-				<option value="BIO" 	>Biology</option>
-				<option value="CHEM" 	>Chemistry</option>
-				<option value="COS" 	>Computer Science</option>
-				<option value="LIT" 	>Literature in English</option>
-				<option value="MATH" 	>Mathematics</option>
-				<option value="PHYS" 	>Physics</option>
-				<option value="PSY" 	>Psychology</option>
-			</select> -->
 
 		<div style="clear:both;"></div>
 

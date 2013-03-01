@@ -4,8 +4,8 @@
  Purpose: To allow access to a MySQL database
 ************************************************************************/
 
-include_once "config.php";
-include_once "Error.php";
+include_once __DIR__ . "/../config.php";
+include_once __DIR__ . "/Error.php";
 
 class ActiveRecord
 {
@@ -123,7 +123,6 @@ class Database
 				self::$database_pass,
 				self::$database_name			
 			);
-
 			/* check connection */
 			if (mysqli_connect_errno(self::$database_link)) {
 			    error_log("Connect failed: %s\n", mysqli_connect_error());

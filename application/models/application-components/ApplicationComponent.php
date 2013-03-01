@@ -2,7 +2,7 @@
 
 require_once __DIR__ . "/../Model.php";
 
-class ApplicationInternalModel extends Model
+class ApplicationComponent extends Model
 {
 	public static function createNew()
 	{

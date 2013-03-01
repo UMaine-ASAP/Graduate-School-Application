@@ -1,0 +1,25 @@
+{% import "forms.macro.twig" as forms %}
+{% import "application/section.macro.twig" as section %}
+
+<div id="{{type}}Violation-#{{violation.id}}" class="{% if hide %}hidden{% endif %} {{type}}Violation">
+	<fieldset class="nested">
+		{{ section.removeSubSectionButton(type ~ 'Violation-#' ~ violation.id ) }}
+
+		{{ forms.input({'title':'Approximate date of incident',
+				'name':type ~ 'Violation-date-#' ~ violation.id,
+				'value':violation.date,
+				'size': 14,
+				'maxLength':7,
+				'help':'mm/yyyy'
+			} ) }}
+			
+		{{ forms.textarea( {'title':'Please give the approximate date of each incident and explain the circumstances.',
+					'name':type ~ 'Violation-details-#' ~ violation.id,
+					'value':violation.details,
+					'cols': 60,
+					'rows':5,
+				} ) }}
+		
+	</fieldset>
+	<div style="clear:both;"></div>
+</div>

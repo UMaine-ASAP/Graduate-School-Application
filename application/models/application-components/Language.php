@@ -1,9 +1,9 @@
 <?php
 
 // Models
-require_once __DIR__ . "/ApplicationInternalModel.php";
+require_once __DIR__ . "/ApplicationComponent.php";
 
-class Language extends ApplicationInternalModel
+class Language extends ApplicationComponent
 {
 	protected static $tableName   = 'APPLICATION_Language';
 	protected static $primaryKeys = array('languageId', 'applicationId');
@@ -41,7 +41,6 @@ class Language extends ApplicationInternalModel
 		}
 		$dbObject = Database::getFirst("SELECT * FROM APPLICATION_Language WHERE applicationId = %d AND languageId = %d", $application->id, $languageId);
 
-//		$language = new Language('Language');
 		$language = Model::factory('Language');
 		$language->loadFromDB($dbObject);
 		return $language;

@@ -1,0 +1,73 @@
+{% extends 'application/section.twig' %}
+
+{% block pageName %}{% endblock %}
+
+{% block headDetails %}
+
+	<script type="text/javascript" src='{{WEBROOT}}/js/review-page.js'></script>
+
+{% endblock %}
+{% block form %}
+
+			{{PERSONAL_INFO}}
+			
+			<p style="font-size:1.2em;" class="title">You applied to the following program:</p>
+
+			{{PROGRAM_LIST}}
+			
+			<div class="programTop">
+				<div class="iprogram_status"><strong>{{TOTAL_COST}}</strong></div>
+			</div>
+			
+			<div style="display:clear;"></div>
+<!--				
+			<label class="one_line2" for="paynow" style="width:100%;font-size:1.2em;">
+				<p class="title">Pay online now or pay by cash or check later?</p>
+				<div style="display:clear;"></div>
+				<label for="paynow_yes" style="float:left;"><input style="float:left;" type="radio" id="paynow_yes" name="paynow" value="1" onclick="document.getElementById('submitButton').innerHTML = 'Proceed to payment'; /*document.getElementById('pay_later_text').innerHTML = ''*/" />Pay now</label>
+				<label for="paynow_no"><input style="float:left;" type="radio" id="paynow_no" name="paynow" value="" onclick="document.getElementById('submitButton').innerHTML='Submit Application'; /*document.getElementById('pay_later_text').innerHTML = 'APPLICATIONS WILL NOT BE PROCESSED OR REVIEWED WITHOUT THE REQUIRED APPLICATION FEE. Admissions decisions cannot be made until the complete application is received.'*/"/>Pay later</label>
+
+				<div style="display:clear;"></div>
+			</label>
+-->
+			<div style="display:clear;"></div>
+
+			<div id="disclaimer">
+				<p class="message">ALL APPLICATION MATERIALS BECOME PART OF THE PERMANENT RECORDS OF THE GRADUATE SCHOOL AND ARE NOT RETURNED. It is your responsibility to be sure your application material (including application fee) are complete and have all been received by the Graduate School.</p>
+
+				<em><p class="message required" id="pay_later_text">APPLICATIONS WILL NOT BE PROCESSED OR REVIEWED WITHOUT THE REQUIRED APPLICATION FEE. Admissions decisions cannot be made until the complete application is received.</p></em>
+
+				<p class="message">In complying with the letter and spirit of applicable laws and in pursuing its own goals of pluralism, the University of Maine shall not discriminate on the grounds of race, color, religion, sex, sexual orientation, national origin or citizenship status, age, disability, or veterans status in employment, education, and other areas of the University. The University provides reasonable accommodations to qualified individuals with disabilities upon request. Questions and complaints about discrimination in any area of the University should be directed to the Director of Equal Opportunity, 101 N. Stevens, 207-581-1226. Inquiries about discrimination may also be referred to the Maine Human Rights Commission, U.S. Equal Employment Opportunity Commission, Office for Civil Rights for U.S. Department of Education or other appropriate federal or state agencies.</p>
+
+			</div>
+
+			<div id="terms">
+				<p class="message terms">I verify that all information submitted in this application is true to the best of my knowledge and that I understand that falsifying information will result in denial of admission and possible prosecution as appropriate under the law.</p>
+				<label for="accept_terms" class="one_line"> 
+					<input type="checkbox" id="hasAcceptedTermsOfAgreement" name="hasAcceptedTermsOfAgreement" value="1" onchange="saveValue(event);" onclick="visibility('hasAcceptedTermsOfAgreement_section',this.checked?'block':'none');" />
+					<span class="required title">Yes, I accept the Terms of Conditions</span>
+				</label>
+				<script type="text/javascript">checkInitValue('hasAcceptedTermsOfAgreement',"{{application.hasAcceptedTermsOfAgreement}}");
+				$(document).ready( function() {
+					showOrNot('hasAcceptedTermsOfAgreement_section', {{application.hasAcceptedTermsOfAgreement}});
+				});
+				</script>
+				<div style="display:clear;"></div>
+			</div>
+
+			<div style="display:clear;"></div>
+
+			<!-- Creates button -->
+			<div id="hasAcceptedTermsOfAgreement_section" class="hidden" style="margin-left:3px;padding-left:6px;">
+
+				<form id="pdf_export" method="post" action="scripts/downloadApplication.php">
+					<input type="submit" id="final_submit_app" name="final_submit_app" value="Download Printable Application" target="_blank"/>
+				</form>
+				<p>Note: the application will download to your computer as a PDF file which contains personal information. If you are on a public computer, please make sure to delete this PDF when you are done with it.</p>
+
+				<br/>
+				
+				<button class='command-href' name="submitPayNow" id="submitPayNow"  data-href='{{WEBROOT}}/application/submit-with-payment'>Submit Application with Payment</button>
+				<button class='command-href' name="submitPayLater" id="submitPayLater" data-href='{{WEBROOT}}/application/submit-without-payment'>Submit Application without Payment</button>
+			</div>
+{% endblock %}

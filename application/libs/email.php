@@ -9,7 +9,7 @@ require_once __DIR__ . "/../config.php";
  */
 class Email
 {
-	private static $email_template_directory;
+	private static $email_template_directory = '/../templates/emails/';
 
 	private $to;
 	private $subject;
@@ -18,15 +18,20 @@ class Email
 
 	public function EmailSystem()
 	{
+		$this->to = '';
+		$this->subject = '';
+		$this->headers = '';
+		$this->message = '';
+
 		EmailSystem::$email_template_directory = $GLOBALS['email_templates'];
 	}
 
 	public function loadFromTemplate($email_template, $replacement = array())
 	{
-		$email_template_path = EmailSystem::$email_template_directory . $email_template;
+		$email_template_path = __DIR__ . Email::$email_template_directory . $email_template;
 
 		if( !file_exists($email_template_path) ) {
-			throw("email template not found");
+			throw new Exception("email template $email_template_path not found");
 		}
 
 		// Load email variables (to, subject, headers, and message)

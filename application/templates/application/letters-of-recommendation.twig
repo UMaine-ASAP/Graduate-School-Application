@@ -1,5 +1,6 @@
 {% extends 'application/section.twig' %}
 {% import "application/section.macro.twig" as section %}
+{% import "forms.macro.twig" as forms %}
 
 {% block form %}
 
@@ -53,132 +54,31 @@
 		
 		<label for="waive_view_rights">
 			<p class="message">The Family Education Rights and Privacy Act of 1974 (P.L. 93-380) gives students access to information in their application files. However, to ensure the references will be free to write a candid letter of recommendation, an applicant may waive the right to see letters of reference.</p>
-			<p class="required title">Please select an option below: *</p>
 
-			<label for="waive_view_rights_yes"><input type="radio" id="waive_view_rights_yes" name="waive_view_rights" value="1" class="waive_view_rights" onchange="saveCheckValue(event);"> Yes, I wish to waive my right to see letters of reference.</label><br />
-			<label for="waive_view_rights_no"><input type="radio" id="waive_view_rights_no" name="waive_view_rights" value="0" class="waive_view_rights" onchange="saveCheckValue(event);" /> No, I do not wish to waive my right to see letters of reference.</label>
-		</label>
-		<script type="text/javascript">checkInitValue('waive_view_rights_yes',"{{WAIVE_VIEW_RIGHTS}}");</script>
-		<script type="text/javascript">checkInitValue('waive_view_rights_no',"{{WAIVE_VIEW_RIGHTS}}");</script>
+			{{ forms.boolean( {'title':'Please select an option below:',
+					'name':'waiveReferenceViewingRights',
+					'value':application.waiveReferenceViewingRights,
+					'yesText': ' Yes, I wish to waive my right to see letters of reference.',
+					'noText': ' No, I do not wish to waive my right to see letters of reference.',
+					'isRequired': true
+				} ) }}
 		
 		<div style="clear:both"></div>
 	</fieldset><!-- end fieldset "viewing_rights" -->
 
 	<div style="clear:both"></div>
 
-	<fieldset id="reference1" name="reference1" class="nested">
-		<legend>Recommendation 1</legend>
-		<div>
-			<div style="clear:both"></div>
+	<div id='references'>
+		{% for reference in application.references %}
+			{% include 'repeatable/reference.twig' with {'reference' : reference} %}
+		{% endfor %}
+	</div>
 
-			<label for="reference1_online">
-				<p class="required title">Will this individual submit a recommendation online? *</p>
-				<label for="reference1_online_yes"><input type="radio" class='online-check reference_online' id="reference1_online_yes" name="reference1_online" value="1" onchange="saveCheckValue(event);switchOut(this);" /> Yes</label>
-				<label for="reference1_online_no"><input type="radio" class='online-check reference_online' id="reference1_online_no" name="reference1_online" value="0" onchange="saveCheckValue(event);switchOut(this);" /> No</label>
-			</label>
-			<script type="text/javascript">checkInitValue('reference1_online_yes',"{{REFERENCE1_ONLINE}}");</script>
-			<script type="text/javascript">checkInitValue('reference1_online_no',"{{REFERENCE1_ONLINE}}");</script>
-		
-			<div style="clear:both"></div>
+	<div style='clear:both'></both>
 
-			<p class="message warning">An electronic recommendation form will be emailed to this recommender if you click yes.</p>
+	{{ section.addSubSectionButton('Add Another Reference', 'reference')}}
 
-			<div style="clear:both"></div>
-
-			{{ forms.input( {'title':'First Name', 
-						'name':'reference-firstName',
-						'value':reference.firstName,
-						'size': 30,
-						'maxLength':30,
-						'isRequired':true
-					} ) }}
-
-			{{ forms.input( {'title':'Last Name', 
-						'name':'reference-lastName',
-						'value':reference.lastName,
-						'size': 30,
-						'maxLength':30,
-						'isRequired':true
-					} ) }}
-
-			
-			{{ forms.input( {'title': 'Email',
-						'name':'reference-email',
-						'value':reference.email,
-						'size': 30,
-						'isRequired':true
-					} ) }}
-			
-			{{ forms.select( {'title':'Relationship', 
-						'name':'reference-relationship',
-						'value':reference.relationship,
-						'options':reference.options_relationship, 
-					} ) }}
-
-			{{ forms.input( {'title':'Phone Number', 
-						'name':'reference-phone',
-						'value':reference.phone,
-						'size': 16,
-						'maxLength':16,
-					} ) }}
-
-
-			<div style="clear:both"></div>
-		</div>
-
-		<div style="clear:both"></div>
-
-		<fieldset id="reference1_addr" name="reference1_addr" class="nested">
-			<legend>Address</legend>
-			
-			{{ forms.input( {'title':'Street', 
-						'name':'reference-addr1',
-						'value':reference.addr1,
-						'size': 30,
-						'maxLength':30,
-					} ) }}
-
-			{{ forms.input( {'title':'Additional', 
-						'name':'reference-addr2',
-						'value':reference.addr2,
-						'size': 30,
-						'maxLength':30,
-					} ) }}
-
-			{{ forms.input( {'title':'City', 
-						'name':'reference-city',
-						'value':reference.city,
-						'size': 30,
-						'maxLength':30,
-					} ) }}
-
-			{{ forms.select( {'title':'State', 
-						'name':'reference-state',
-						'value':reference.state,
-						'options':reference.options_state,
-					} ) }}
-
-			{{ forms.input( {'title':'Postal Code', 
-						'name':'reference-postal',
-						'value':reference.postal,
-						'size': 15,
-						'maxLength':15,
-					} ) }}
-
-			{{ forms.select( {'title':'Country', 
-						'name':'reference-country',
-						'value':reference.country,
-						'options':reference.options_country,
-					} ) }}
-			
-
-			
-			<div style="clear:both"></div>
-		</fieldset><!-- end fieldset "reference1_addr" -->
-		<button id='ref1_request' class="sendEmail button green small add" type="button" onclick="requestRecommendation('#ref1_request','reference1'); return false;" title="Add">Email Recommendation Form to Reference</button><span class='emailSentMessage'></span>
-		<script type='text/javascript'> setButtonDisplay('#ref1_request', '{{REFERENCE1_ONLINE}}', '{{REFERENCE1_REQUEST_SENT}}'); </script>
-		<div style="clear:both"></div>
-	</fieldset><!-- end fieldset "reference1" -->
+	{{ section.buildPager(true, true) }}
 
 </form>
 

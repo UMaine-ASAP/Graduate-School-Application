@@ -3,6 +3,7 @@
 require_once __DIR__ . "/ApplicantController.php";
 require_once __DIR__ . "/../models/Application.php";
 
+
 class ApplicationController
 {
 
@@ -31,36 +32,80 @@ class ApplicationController
 
 			Database::iquery("INSERT INTO Application(applicationId, applicantId, applicationTypeId) VALUES (%d, %d, %d)", $applicationId, $applicant->id, $typeId);
 
-			// Get application
-			$result = Database::getFirst("SELECT * FROM Application WHERE applicantId = %d AND applicationId = %d", $applicant->id, $applicationId);
+			$application = ApplicationController::getApplication($applicationId);
 
-			if($result == array())
+			// We will be opening this application. Set as active in case any database operations pull from the active application :)
+			if( ! ApplicationController::setActiveApplication($applicationId) ) 
 			{
-				return null;
+				return; // error
 			}
-			$application = new Application($result);
-
 
 			// Build application type specific sub-sections
-			switch( $application->type )
-			{
-				case 'Degree':
-					Database::iquery("INSERT INTO APPLICATION_International(applicationId) VALUES (%d)", $applicationId);
-					Database::iquery("INSERT INTO APPLICATION_Degree(applicationId) VALUES (%d)", $applicationId);
-				break;
-				case 'Non-Degree':
-				break;
-				case 'Certificate':
-				break;
-				default:
-					throw new Exception("Application Type $application->type not found when deleting application");
-				break;
-
-			}
 
 			// Create common sub-sections
 			Database::iquery("INSERT INTO APPLICATION_Primary(applicationId) VALUES (%d)", $applicationId);
 
+			switch( $application->applicationTypeId )
+			{
+				case ApplicationType::DEGREE:
+					/** General table updates **/
+					Database::iquery("INSERT INTO APPLICATION_International(applicationId) VALUES (%d)", $applicationId);
+					Database::iquery("INSERT INTO APPLICATION_Degree(applicationId) VALUES (%d)", $applicationId);
+					Database::iquery("INSERT INTO APPLICATION_PreviousSchool(applicationId) VALUES (%d)", $applicationId);
+					Database::iquery("INSERT INTO APPLICATION_CivilViolation(applicationId) VALUES (%d)", $applicationId);
+					Database::iquery("INSERT INTO APPLICATION_DisciplinaryViolation(applicationId) VALUES (%d)", $applicationId);
+					Database::iquery("INSERT INTO APPLICATION_GRE(applicationId) VALUES (%d)", $applicationId);
+
+					// Create 3 default recommendations
+					Reference::createNew();
+					Reference::createNew();
+					Reference::createNew();
+
+					/*** Update Personal contact info ***/
+					$personal = $application->personal;
+
+					// mailing contact info
+					Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);
+					$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id FROM APPLICATION_ContactInformation');
+					$personal->mailing_contactInformationId = $tmp['id'];
+
+					// permanent address contact info
+					Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);					
+					$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id');
+					$personal->permanentMailing_contactInformationId = $tmp['id'];
+
+					// update application
+					$personal->save();
+
+					/*** Update International contact info ***/
+					$international = $application->international;
+
+					// US contact info
+					Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);					
+					$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id');
+					$international->usEmergencyContact_contactInformationId = $tmp['id'];
+
+					// Home contact info
+					Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);					
+					$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id');
+					$international->homeEmergencyContact_contactInformationId = $tmp['id'];
+
+
+					// Update application
+					$international->save();
+
+				break;
+				case ApplicationType::NONDEGREE:
+				break;
+				case ApplicationType::CERTIFICATE:
+				break;
+				default:
+					throw new Exception("Application Type $application->type not found when creating application");
+				break;
+
+			}
+
+			$application->save(); // save any changes to application
 			return $application;
 
 		} else {
@@ -79,15 +124,15 @@ class ApplicationController
 
 		// different application types require different data to be deleted. 
 
-		switch( $application->type )
+		switch( $application->applicationTypeId )
 		{
-			case 'Degree':
-				$application->international->delete();
-				$application->degree->delete();				
+			case ApplicationType::DEGREE:
+				Database::iquery("DELETE FROM APPLICATION_International where applicationId = %d", $applicationId);
+				Database::iquery("DELETE FROM APPLICATION_Degree where applicationId = %d", $applicationId);
 			break;
-			case 'Non-Degree':
+			case ApplicationType::NONDEGREE:
 			break;
-			case 'Certificate':
+			case ApplicationType::CERTIFICATE:
 			break;
 			default:
 				throw new Exception("Application Type $application->type not found when deleting application");
@@ -95,14 +140,30 @@ class ApplicationController
 		}
 
 		// Complete the process
-		$application->personal->delete();
+		Database::iquery("DELETE FROM APPLICATION_Primary where applicationId = %d", $applicationId);
 		$application->delete();
+
+		// remove all contact information
+		Database::iquery("DELETE FROM APPLICATION_ContactInformation where applicationId = %d", $applicationId);
+
+		// Remove all previous institutations
+		Database::iquery("DELETE FROM APPLICATION_PreviousSchool where applicationId = %d", $applicationId);
+
+		// Remove all violations
+		Database::iquery("DELETE FROM APPLICATION_CivilViolation where applicationId = %d", $applicationId);
+		Database::iquery("DELETE FROM APPLICATION_DisciplinaryViolation where applicationId = %d", $applicationId);
+		Database::iquery("DELETE FROM APPLICATION_GRE where applicationId = %d", $applicationId);
+		Database::iquery("DELETE FROM APPLICATION_Reference where applicationId = %d", $applicationId);
 	}
 
 	/** Get a new application object from current session data **/
 	public static function getActiveApplication()
 	{
 		// Get id
+		if( !isset($_SESSION) ) 
+		{ 
+			session_start(); 
+		}
 		$id = $_SESSION['active-application'];
 
 		return ApplicationController::getApplication($id);
@@ -123,7 +184,7 @@ class ApplicationController
 		// make sure the user owns the application
 		$applicationDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d AND applicantId = %d", $applicationId, $applicant->id);
 
-       	return new Application( $applicationDB );
+       	return Model::factory('Application')->whereEqual('applicationId', $applicationId)->first();
 	}
 
 	public static function doesActiveUserOwnApplication($applicationId)
@@ -144,18 +205,19 @@ class ApplicationController
 		}
 
 		// Retrieve applications
-		$applicationsDB = Database::query("SELECT * FROM `Application` WHERE applicantId = %d ORDER BY lastModified DESC", $applicant->id);
-		
+		$ids = Database::query("SELECT applicationId as id FROM `Application` WHERE applicantId = %d ORDER BY lastModified DESC", $applicant->id);
+
+
 		// ensure data exists
-		if($applicationsDB == array())
+		if($ids == array())
 		{
 			return array();
 		}
 
 		// build results
 		$result = array();
-		foreach ($applicationsDB as $applicationDBData) {
-			$result[] = new Application($applicationDBData);
+		foreach ($ids as $id) {
+			$result[] = ApplicationController::getApplication($id['id']);
 		}
 		return $result;
 	}
@@ -183,145 +245,6 @@ class ApplicationController
 		}
 		$_SESSION['active-application'] = $applicationId;
 		return true;
-	}
-
-
-	// ********************************************* //
-	// * Unused
-
-	public function hasBeenSubmitted()
-	{
-		$result = $this->db->query('SELECT has_been_submitted FROM applicants WHERE applicant_id=%d', $this->application_id);
-		if( !is_array($result) )
-		{
-			return TRUE;
-		}
-		$has_been_submitted = ($result[0]['has_been_submitted']) ? TRUE : FALSE;
-		return $has_been_submitted;
-	}
-
-	public function submitWithPayment($application, $paymentIsHappeningNow)
-	{
-		// Set payment method
-		$payment_method = ($paymentIsHappeningNow) ? "PAYNOW" : "PAYLATER";
-		$db->iquery("UPDATE applicants SET application_payment_method='%s' WHERE applicant_id=%d", $payment_method, $this->application_id );
-
-		// Update database to show that application has been submitted
-		$db->iquery("UPDATE `applicants` SET `has_been_submitted` = '1' WHERE `applicant_id` = %d LIMIT 1", $this->application_id);
-	
-		// Set application submit date
-		$date = date("Y-m-d");
-		$db->iquery("UPDATE `applicants` SET `application_submit_date` = '%s' WHERE `applicant_id` = %d LIMIT 1", $date, $this->application_id);		
-
-
-		// Submitting with payment
-		if( $paymentIsHappeningNow ) {
-			//Generate transaction ID
-			$trans_id = 'UMGRAD' . '*' . $this->applicant_id . '*' . time();
-			
-			//update database transaction_id
-			$db->iquery("UPDATE applicants SET application_fee_transaction_number='%s' WHERE applicant_id=%d", $trans_id, $this->applicant_id);
-			
-			//Fetch application cost
-			$app_cost_query = $db->query("SELECT application_fee_transaction_amount FROM applicants WHERE applicant_id=%d", $this->applicant_id);
-			$app_cost       = $app_cost_query[0][0];
-			
-			//Build request
-			$data ='UPAY_SITE_ID=' . $GLOBALS["touchnet_site_id"].'&';
-			$data .='UMS_APP_ID='   . $GLOBALS["touchnet_app_id"].'&';
-			$data .='EXT_TRANS_ID=' . $trans_id.'&';
-			$data .='AMT=' . $app_cost;
-			
-			$header = array("MIME-Version: 1.0","Content-type: application/x-www-form-urlencoded","Contenttransfer-encoding: text");
-			
-			//Execute request
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-			curl_setopt($ch, CURLOPT_URL, $GLOBALS["touchnet_proxy_url"]);
-			curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
-			curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
-			curl_setopt($ch, CURLOPT_POST, TRUE);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $data); 
-			curl_setopt($ch, CURLPROTO_HTTPS, TRUE);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 10); //Max time to connect
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); //Put result in variable
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-			curl_setopt($ch, CURLOPT_SSLVERSION, 3);
-			
-			if ( ! $result = curl_exec($ch) ) {
-				trigger_error(curl_error($ch));
-			}
-			curl_close($ch);
-			
-			/** print curl results **/
-			
-			//Insert base url into result after head tag so that redirects are correct
-			$baseTag = "<base href='" . $GLOBALS['touchnet_proxy_url'] . "' >";
-			$pos = strpos($result, '<head>') + strlen('<head>');
-			$result = substr_replace($result, $baseTag, $pos, 0);
-			
-			print $result;						
-		} else {
-			// Payment is not happening now
-			$db->iquery("UPDATE applicants SET application_fee_payment_status='N' WHERE applicants.applicant_id=%d", $user);
-		
-			// email
-			$email = new Email();
-			$email->loadFromTemplate('mailPayLater.email.php');
-			$email->setDestinationEmail( $this->applicant->getEmail() );
-			$email->sendEmail();
-
-		}
-	}
-
-
-	public function emailReference($reference_id)
-	{
-		// email already sent?
-
-		// Check if reference email has already been submitted
-		$result = Database::query("SELECT is_submitting_online, is_request_sent FROM references WHERE reference_id=%d AND application_id = %d", $reference_id, $this->application_id);
-
-		$request_sent = $result[0]['is_request_sent'] == 1;
-		$isSubmittingOnline = $result[0]['is_submitting_online'];
-
-		if( $request_sent || $isSubmittingOnline) {
-			return "ERROR: Email already sent or not an online reference"; //email already sent or not an online reference
-		}
-
-		// send email
-		$email = new EmailSystem();
-		$email->loadFromTemplate('referenceRequest.email.php', 
-								array('APPLICANT_FULL_NAME' => '',
-									 'REFERENCE_FULL_NAME' => '',
-									 'RECOMMENDATION_LINK' => '',
-									 'GRADUATE_HOMEPAGE'   => ''));
-		$email->setDestinationEmail( $reference_email );
-		$email->sendEmail();
-
-		// update database
-		$db->iquery('UPDATE references SET is_request_sent = 1 WHERE reference_id = %d, application_id = %d', $reference_id, $this->application_id);
-	}
-
-	public function generateClientPDF() {
-		self::generate_application_pdf("USER");
-	}
-
-	public function generateServerPDF() {
-		self::generate_application_pdf("SERVER");
-	}	
-
-	public static function getCivilViolations($applicationId)
-	{
-		Database::getFirst("SELECT * FROM APPLICATION_DATA_civil_violation WHERE transactionId = %d", $transactionId);
-	}
-
-
-	
-	public static function getTransaction($transactionId)
-	{
-		Database::getFirst("SELECT * FROM APPLICATION_DATA_transaction WHERE transactionId = %d", $transactionId);
 	}
 
 

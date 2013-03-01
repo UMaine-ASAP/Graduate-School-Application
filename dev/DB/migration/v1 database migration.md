@@ -85,8 +85,7 @@ Maps application data from/to appropriate tables.
 
 - applicants 		-> Application and others @TODO
 - appliedprograms 	-> Application
-- cviolations		-> APPLICATION_CivilViolation
-- dvioloations 	-> APPLICATION_DisciplinaryViolation
+- dvioloations & cviolations 	-> APPLICATION_Violation
 - gre 			-> APPLICATION_GRE
 - international  	-> APPLICATION_International
 - languages		-> APPLICATION_Language

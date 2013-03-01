@@ -1,87 +1,68 @@
 <?php
 
-$databaseFields = array(
+$GLOBALS['databaseFields'] = array(
+	// Fields are divided according to application pages
 
-	// Application
-	'startYear'                   => 'filter_generic', 	// @TODO: filter using options
-	'startSemester'               => 'filter_semester', 	// @TODO: filter using options
-	'desiredHousing'              => 'filter_generic', 	// @TODO: filter using options
-	'waiveReferenceViewingRights' => 'filter_boolean',
-	'hasUmaineCorrespondent'      => 'filter_boolean',
-	'umaineCorrespondentDetails'  => 'filter_generic',
-	'hasAcceptedTermsOfAgreement' => 'filter_boolean',
+	/* --------- Personal Information --------- */
 
 
-	// Personal
-	'personal-givenName'      => 'filter_generic',
-	'personal-middleName'     => 'filter_generic',
-	'personal-familyName'     => 'filter_generic',		
-	'personal-primaryPhone'   => 'filter_phone',
-	'personal-secondaryPhone' => 'filter_phone',
-	'personal-suffix'         => 'filter_suffix',
+	// Name
+	'personal-givenName'       => 'filter_generic',
+	'personal-middleName'      => 'filter_generic',
+	'personal-familyName'      => 'filter_generic',
+	'personal-suffix'          => 'filter_generic', // @TODO: filter using options
+	'personal-alternativeName' => 'filter_generic',
+
+
+	// Contact Information
+	'personal-phonePrimary'   => 'filter_phone',
+	'personal-phoneSecondary' => 'filter_phone',	
 	'personal-email'          => 'filter_email',
 
-	'personal-permanentMail-postal'  => 'filter_zipcode',
-	'personal-permanentMail-state'   => 'filter_state', 
-	'personal-permanentMail-country' => 'filter_country',
+	'personal-permanentMailing-streetAddress1' => 'filter_generic',
+	'personal-permanentMailing-streetAddress2' => 'filter_generic',
+	'personal-permanentMailing-city'           => 'filter_generic',
+	'personal-permanentMailing-postal'         => 'filter_zipcode',
+	'personal-permanentMailing-state'          => 'filter_state', 
+	'personal-permanentMailing-country'        => 'filter_country',
 
 	'personal-isMailingDifferentFromPermanent' => 'filter_boolean',
-	'personal-mailing-postal'                  => 'filter_postal',
+	'personal-mailing-streetAddress1'          => 'filter_generic',
+	'personal-mailing-streetAddress2'          => 'filter_generic',
+	'personal-mailing-city'                    => 'filter_generic',
+	'personal-mailing-postal'                  => 'filter_zipcode',
 	'personal-mailing-state'                   => 'filter_state',
 	'personal-mailing-country'                 => 'filter_country',
 
-	'personal-dateOfBirth'          => 'filter_long_date',
+	'personal-birth_date'           => 'filter_long_date',
 	'personal-socialSecurityNumber' => 'filter_ssn',
-	'personal-gender'               => 'filter_gender',
+	'personal-gender'               => 'filter_gender',	//@TODO filter using options
 
 	'personal-birth_city'           => 'filter_generic',
 	'personal-birth_state'          => 'filter_state',
 	'personal-birth_country'        => 'filter_country',
+
 	'personal-countryOfCitizenship' => 'filter_country',
 	'personal-us_state'             => 'filter_state',
-	'personal-residencyStatus'      => 'filter_residency',
+	'personal-residencyStatus'      => 'filter_residency', //@TODO filter using options
 	'personal-greenCardLink'        => 'filter_generic',
 
-	'personal-undergradGPA' => 'filter_gpa',
-	'personal-postbaccGPA'  => 'filer_gpa',
-
-	'personal-gmat_hasTaken'     => 'filter_boolean',
-	'personal-gmat_hasReported'  => 'filter_boolean',
-	'personal-gmat_date'         => 'filter_short_date',
-	'personal-gmat_quantitative' => 'filter_gmat_quantitative',
-	'personal-gmat_verbal'       => 'filter_gmat_verbal',
-	'personal-gmat_analytical'   => 'filter_gmat_analytical',
-	'personal-gmat_score'        => 'filter_gmat_score',
-
-	'personal-mat_hasTaken'    => 'filter_boolean',
-	'personal-mat_hasReported' => 'filter_boolean',
-	'personal-mat_date'        => 'filter_short_date',
-	'personal-mat_score'       => 'filter_score',
-
-	'personal-prevUMApp_exists' => 'filter_boolean',
-
-	'personal-prevUMGradApp_exists'      => 'filter_boolean',
-	'personal-prevUMGradApp_date'        => 'filter_short_date',
-	'personal-prevUMGradApp_dept'        => 'filter_short_date',
-	'personal-prevUMGradApp_degree'      => 'filter_boolean',
-	'personal-prevUMGradApp_degreeDate'  => 'filter_short_date',
-	'personal-prevUMGradWithdraw_exists' => 'filter_boolean',
-	'personal-prevUMGradWithdraw_date'   => 'filter_short_date',
-
-
-	// Ethnicity
 	// TODO these should probably be booleans? 
-	'personal-ethnicity_hispa'  => 'equals_HISPA',
-	'personal-ethnicity_amind'  => 'equals_amind',
-	'personal-ethnicity_asian'  => 'equals_asian',
-	'personal-ethnicity_black'  => 'equals_black',
-	'personal-ethnicity_pacif'  => 'equals_pacif',
-	'personal-ethnicity_white'  => 'equals_white',
-	'personal-ethnicity_unspec' => 'equals_unspec',
+	'personal-ethnicity_hispa'  => 'filter_boolean',
+	'personal-ethnicity_amind'  => 'filter_boolean',
+	'personal-ethnicity_asian'  => 'filter_boolean',
+	'personal-ethnicity_black'  => 'filter_boolean',
+	'personal-ethnicity_pacif'  => 'filter_boolean',
+	'personal-ethnicity_white'  => 'filter_boolean',
+	'personal-ethnicity_unspec' => 'filter_boolean',
 
 
-	// Language
+	// Language Information
 	'personal-isEnglishPrimary'     => 'filter_boolean',
+
+	'personal-englishYears_school'  => 'filter_date_range',
+	'personal-englishYears_univ'    => 'filter_date_range',
+	'personal-englishYears_private' => 'filter_date_range',
 
 	'language-language'             => 'filter_generic',
 	'language-proficiency_writing'  => 'filter_proficiency', // @TODO: filter using options
@@ -89,14 +70,20 @@ $databaseFields = array(
 	'language-proficiency_speaking' => 'filter_proficiency', // @TODO: filter using options
 
 
-	// International
+
+	/* --------- International --------- */
+
 	'international-isInternationalStudent' => 'filter_boolean',
 
+
+	// TOEFL Exam
 	'international-toefl_hasTaken'    => 'filter_boolean',
 	'international-toefl_hasReported' => 'filter_boolean',
 	'international-toefl_date'        => 'filter_short_date',
 	'international-toefl_score'       => 'filter_toefl_score',
 
+
+	// Future Plans
 	'international-hasUSCareer'     => 'filter_boolean',
 	'international-usCareerDetails' => 'filter_generic',
 
@@ -106,21 +93,51 @@ $databaseFields = array(
 	'international-hasHomeCareer'     => 'filter_boolean',
 	'international-homeCareerDetails' => 'filter_generic',
 
-	'international-financeDetails' => 'filter_generic',
 
-	'international-usEmergencyContact_name'         => 'filter_generic',
-	'international-usEmergencyContact_relationship' => 'filter_relationship', // @TODO: filter using options	
-	'international-usEmergencyContact-primaryPhone' => 'filter_phone',
-	'international-usEmergencyContact-state'        => 'filter_state',
-	'international-usEmergencyContact-zip'          => 'filter_zipcode',
-
-	'international-homeEmergencyContact_name'         => 'filter_generic',
-	'international-homeEmergencyContact_relationship' => 'filter_relationship', // @TODO: filter using options	
-	'international-homeEmergencyContact-primaryPhone' => 'filter_phone',
-	'international-homeEmergencyContact-country'      => 'filter_country',
+	// Financial Details
+	'international-financeDetails'       => 'filter_generic',
+	'international-usFriendsOrRelatives' => 'filter_generic',
 
 
-	// Previous School
+	// United States Emergency Contact
+	'international-usEmergencyContact_name'               => 'filter_generic',
+	'international-usEmergencyContact_relationship'       => 'filter_generic', // @TODO: filter using options	
+	'international-usEmergencyContactInfo-primaryPhone'   => 'filter_phone',
+	'international-usEmergencyContactInfo-streetAddress1' => 'filter_generic',
+	'international-usEmergencyContactInfo-streetAddress2' => 'filter_generic',
+	'international-usEmergencyContactInfo-state'          => 'filter_state',
+	'international-usEmergencyContactInfo-city'           => 'filter_generic',	
+	'international-usEmergencyContactInfo-postal'         => 'filter_zipcode',
+
+
+	// Home Country Emergency Contact
+	'international-homeEmergencyContact_name'               => 'filter_generic',
+	'international-homeEmergencyContact_relationship'       => 'filter_generic', // @TODO: filter using options	
+	'international-homeEmergencyContactInfo-primaryPhone'   => 'filter_phone',
+	'international-homeEmergencyContactInfo-streetAddress1' => 'filter_generic',
+	'international-homeEmergencyContactInfo-streetAddress2' => 'filter_generic',
+	'international-homeEmergencyContactInfo-state'          => 'filter_state',
+	'international-homeEmergencyContactInfo-city'           => 'filter_generic',	
+	'international-homeEmergencyContactInfo-postal'         => 'filter_zipcode',
+	'international-homeEmergencyContact-country'            => 'filter_country',
+
+
+
+	/* --------- Educational History --------- */
+
+
+	// Previous Appliction to UMaine
+	'personal-prevUMGradApp_appExists'     => 'filter_boolean',
+	'personal-prevUMGradApp_gradAppExists' => 'filter_boolean',
+	'personal-prevUMGradApp_date'          => 'filter_short_date',
+	'personal-prevUMGradApp_dept'          => 'filter_generic',		// @TODO: filter using options
+	'personal-prevUMGradApp_degree'        => 'filter_generic',
+	'personal-prevUMGradApp_degreeDate'    => 'filter_short_date',
+	'personal-prevUMGradWithdraw_exists'   => 'filter_boolean',
+	'personal-prevUMGradWithdraw_date'     => 'filter_short_date',
+
+
+	// Previously Attended Institutions
 	'previousSchool-name'              => 'filter_generic',
 	'previousSchool-city'              => 'filter_generic',
 	'previousSchool-state'             => 'filter_state',
@@ -133,7 +150,26 @@ $databaseFields = array(
 	'previousSchool-degreeEarned_date' => "filter_short_date",
 
 
-	//GRE
+	// Grade Information
+	'personal-undergradGPA' => 'filter_gpa',
+	'personal-postbaccGPA'  => 'filter_gpa',
+	'personal-previousCourseWork' => 'filter_generic',
+
+
+	// Disciplinary Violations
+	'personal-hasDisciplinaryViolation' => 'filter_boolean',
+
+	'disciplinaryViolation-date'    => 'filter_short_date',
+	'disciplinaryViolation-details' => 'filter_generic',
+
+	// Crime Information
+	'personal-hasCivilViolation' => 'filter_boolean',
+
+	'civilViolation-date'    => 'filter_short_date',
+	'civilViolation-details' => 'filter_generic',
+
+
+	// Examinations
 	'personal-hasTakenGRE' => 'filter_boolean',
 	'gre-date'             => 'filter_short_date',
 	'gre-verbal'           => 'filter_gre_verbal',
@@ -143,21 +179,58 @@ $databaseFields = array(
 	'gre-hasBeenReported'  => 'filter_boolean',
 	'gre-score'            => 'filter_gre_score',
 
+	'personal-gmat_hasTaken'     => 'filter_boolean',
+	'personal-gmat_hasReported'  => 'filter_boolean',
+	'personal-gmat_date'         => 'filter_short_date',
+	'personal-gmat_quantitative' => 'filter_gmat_quantitative',
+	'personal-gmat_verbal'       => 'filter_gmat_verbal',
+	'personal-gmat_analytical'   => 'filter_gmat_analytical',
+	'personal-gmat_score'        => 'filter_gmat_score',
 
-	// degree
+	'personal-mat_hasTaken'    => 'filter_boolean',
+	'personal-mat_hasReported' => 'filter_boolean',
+	'personal-mat_date'        => 'filter_short_date',
+	'personal-mat_score'       => 'filter_mat_score',
+
+
+	// Work History and Awards
+	'personal-presentOccupation' => 'filter_generic',
+	'personal-employmentHistory' => 'filter_generic',
+	'personal-academicHonors'    => 'filter_generic',
+
+
+
+	/* --------- Educational Objectives --------- */
+
+	// Academic Programs
 	'degree-academic_program'                 => 'filter_generic', // @TODO: filter using options
 	'degree-academic_plan'                    => 'filter_generic', // @TODO: filter using options
 	'degree-academic_major'                   => 'filter_generic',
 	'degree-academic_minor'                   => 'filter_generic',
 	'degree-academic_load'                    => 'filter_generic', // @TODO: filter using options
 	'degree-studentType'                      => 'filter_generic',	// @TODO: filter using options
+	'startYear'                   => 'filter_generic', 	// @TODO: filter using options
+	'startSemester'               => 'filter_generic', 	// @TODO: filter using options
+	'desiredHousing'              => 'filter_generic', 	// @TODO: filter using options
+
+	// Assitantship Request
 	'degree-isSeekingFinancialAid'            => 'filter_boolean',
 	'degree-isSeekingAssistantship'           => 'filter_boolean',
 	// 'degree-desiredAssitantshipDepartment' => 'filter_generic', // disabled for now
-	'degree-isApplyingNebhe'                  => 'filter_boolean',
+
+	// New England Regional Student Program
+	'degree-isApplyingNebhe' => 'filter_boolean',
+
+	// Additional Information, Essay & Resume
+	'hasUmaineCorrespondent'      => 'filter_boolean',
+	'umaineCorrespondentDetails'  => 'filter_generic',
 
 
-	// References
+
+	/* --------- Letters of Recommmendation --------- */
+
+	'waiveReferenceViewingRights' => 'filter_boolean',
+
 	'reference-firstName'          => 'filter_name',
 	'reference-lastName'           => 'filter_name',
 	'reference-email'              => 'filter_email',
@@ -167,25 +240,22 @@ $databaseFields = array(
 	'reference-submittedDate'      => 'filter_long_date',
 	'reference-filename'           => 'filter_generic',	
 	
-	'reference-phone'               => 'filter_phone',
-	'reference-state'               => 'filter_state',
-	'reference-postal'              => 'filter_zipcode',
-	'reference-country'             => 'filter_country',
-	'reference-englishYearsSchool'  => 'filter_date_range',
-	'reference-englishYearsUniv'    => 'filter_date_range',
-	'reference-englishYearsPrivate' => 'filter_date_range',
+	'contactInformation-primaryPhone'   => 'filter_phone',
+	'contactInformation-streetAddress1' => 'filter_generic',
+	'contactInformation-streetAddress2' => 'filter_generic',
+	'contactInformation-state'          => 'filter_state',
+	'contactInformation-city'           => 'filter_generic',
+	'contactInformation-postal'         => 'filter_zipcode',
+	'contactInformation-country'        => 'filter_country',
+	
 
 
-	// Disciplinary Violation
-	'disciplinaryViolation-exists' => 'filter_boolean',
-
-	'disciplinaryViolation-date'    => 'filter_short_date',
-	'disciplinaryViolation-details' => 'filter_generic',
+	/* --------- Other --------- */
 
 
-	// Civil Violation
-	'criminalViolation-exists' => 'filter_boolean',
+	'hasAcceptedTermsOfAgreement' => 'filter_boolean'
 
-	'criminalViolation-date'    => 'fileter_date',
-	'criminalViolation-details' => 'fileter_date'
+
+
+
 );

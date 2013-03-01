@@ -4,11 +4,19 @@
 
 {% block head %}
 	<link rel="stylesheet" href="{{WEBROOT}}/styles/my-applications.css" type="text/css" />
+	<link rel="stylesheet" href="{{WEBROOT}}/styles/jquery/redmond/jquery-ui-1.10.1.custom.min.css" />
+ 
+	<script type="text/javascript" src='{{WEBROOT}}/js/jquery/jquery-ui-1.10.1.custom.min.js'></script>	
+	<script type="text/javascript" src='{{WEBROOT}}/js/moment.js'></script>
+	<script type="text/javascript" src='{{WEBROOT}}/js/my-applications.js'></script>
+
 {% endblock %}
 
 {% block content %}
 
-	<a href='{{WEBROOT}}/create-application/1'>Create Degree Application</a>
+	<button class='small green' id='create-application'>Create New Application</button>
+
+	<br>
 
 	<table id='my-Applications'>
 		<form>
@@ -16,7 +24,7 @@
 		<thead>
 			<tr>
 				<td>Type</td>
-				<td>Date Started</td>
+				<td>Created</td>
 				<td>Last Modified</td>				
 				<td>Status</td>
 				<td></td>
@@ -24,20 +32,37 @@
 		</thead>
 		<tbody>
 			{% for application in applications %}
-			<tr>
-				<td>{{application.type}}</td>
-				<td>{{application.createdDate}}</td>
-				<td>{{application.lastModified}}</td>				
+			<tr data-application="{{application.id}}" class='{% if loop.index % 2 == 0 %}even{% else %}odd{% endif %}'>
+				<td class='application-type'>{{application.type}}</td>
+				<td><time class='created'>{{application.createdDate}}</time></td>
+				<td><time class='lastModified'>{{application.lastModified}}</time></td>				
 				<td>{{application.status}}</td>
 				<td>
-					<a href='{{WEBROOT}}/edit-application/{{application.id}}'>Edit</a>
-					<a href='{{WEBROOT}}/delete-application/{{application.id}}'>Delete</a>
-
+					<button class='small green edit-application'>Edit</button>
+					<button class='small red reddelete-application'>Delete</button>
 				</td>
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+
+ 
+	<div id="create-application-modal" title="Create New Application">
+		<p>Choose an application type below to get started</p>
+		<form action='{{WEBROOT}}/create-application'>
+			<fieldset>
+				<ul>
+					{% for type in types %}
+					<li>
+						<input type='radio' id='{{type.name|replace({' ': '-'})}}' name='application-type' value='{{type.applicationTypeId}}'/>
+						<label for='{{type.name|replace({' ': '-'})}}'><dfn>{{type.name}}</dfn> - {{type.description}}</label>
+					</li>
+					{% endfor %}
+				</ul>
+			</fieldset>
+			<input type='submit' value='Begin Application' />
+		</form>
+	</div>	
 {% endblock %}
 
 

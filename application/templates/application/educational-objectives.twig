@@ -55,7 +55,7 @@
 		<div style="clear:both;"></div>
 
 		{{ forms.select( {'title':'Student Type', 
-				'name':'degree-	studentType',
+				'name':'degree-studentType',
 				'value':application.degree.studentType, 
 				'options': application.options_studentType, 
 				'isRequired':true
@@ -69,7 +69,7 @@
 			 }) }}
 
 		{{ forms.select( {'title':'Start Year', 
-				'name':'startSemester',
+				'name':'startYear',
 				'value':application.startYear, 
 				'options': application.options_startYear,
 				'isRequired':true
@@ -77,7 +77,7 @@
 		
 		{{ forms.select( {'title':'Do you expect to study full time or part time?', 
 				'name':'degree-academic_load',
-				'value':application.degree_academic_load, 
+				'value':application.degree.academic_load, 
 				'options': application.options_academicYear,
 				'isRequired':true
 			 }) }}
@@ -91,7 +91,7 @@
 	<fieldset id="assistantship_info" name="assistantship_info" class="nested">
 		<legend>Assistantship Request</legend>
 
-		{{ forms.booleanDisplay( {'title':'Do you wish to apply for an assistantship?',
+		{{ forms.boolean( {'title':'Do you wish to apply for an assistantship?',
 				'name':'degree-isSeekingAssistantship',
 				'value':application.degree.isSeekingAssistantship,
 			} ) }}
@@ -126,7 +126,7 @@
 	<fieldset id="nebhe_set" name="nebhe_set" class="nested">
 		<legend>New England Regional Student Program</legend>
 		
-		{{ forms.booleanDisplay( {'title':'Do you intend to apply for certification of eligibility under the New England Regional Student Program?',
+		{{ forms.boolean( {'title':'Do you intend to apply for certification of eligibility under the New England Regional Student Program?',
 				'name':'degree-isApplyingNebhe',
 				'value':application.degree.isApplyingNebhe,
 			} ) }}
@@ -144,16 +144,16 @@
 		<legend>Additional Information, Essay &amp; R&eacute;sum&eacute;</legend>
 		<div>
 			{{ forms.booleanDisplay( {'title':'Have you spoken to or corresponded with any member of the University of Maine faculty regarding your application?',
-				'name':'degree-hasUmaineCorrespondent',
-				'value':application.degree.hasUmaineCorrespondent,
+				'name':'hasUmaineCorrespondent',
+				'value':application.hasUmaineCorrespondent,
 			} ) }}
 
 			<div style="clear:both"></div>
 
-			<div class="hidden" id="um_correspond_section">
+			<div class="hidden" id="hasUmaineCorrespondent_section">
 				{{ forms.input( {'title':'If so, please provide a name or names',
-						'name':'degree-umaineCorrespondentDetails',
-						'value':application.degree.umaineCorrespondentDetails,
+						'name':'umaineCorrespondentDetails',
+						'value':application.umaineCorrespondentDetails,
 						'size': 55,
 						'maxLength':55
 					} ) }}

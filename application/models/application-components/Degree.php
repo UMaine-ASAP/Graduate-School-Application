@@ -5,10 +5,10 @@ require_once __DIR__ . "/../../libs/database.php";
 
 
 // Models
-require_once __DIR__ . "/ApplicationInternalModel.php";
+require_once __DIR__ . "/ApplicationComponent.php";
 
 
-class Degree extends ApplicationInternalModel
+class Degree extends ApplicationComponent
 {
 	protected static $tableName   = 'APPLICATION_Degree';
 	protected static $primaryKeys = array('applicationId');
@@ -22,7 +22,7 @@ class Degree extends ApplicationInternalModel
 			case 'options_academicDeptCode':
 				$options = Database::query("SELECT * FROM AcademicProgram ORDER BY department_code ASC");
 
-				$result = array();
+				$result = array(''=>'- None -');
 				foreach($options as $option) {
 					$result[$option['department_code']] = $option['department_code'] . ' - ' . $option['department_nameFull'];
 				}

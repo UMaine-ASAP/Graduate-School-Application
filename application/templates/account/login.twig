@@ -2,12 +2,6 @@
 
 {% block title %}Apply to the University of Maine Graduate School{% endblock %}
 {% block head %}
-	<link type="text/css" href="{{WEBROOT}}/styles/jquery/redmond/jquery-ui-1.8.2.custom.css" rel="Stylesheet" />
-
-	<!-- Javascript libraries -->
-	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery-1.4.2.min.js"></script>
-	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery-ui-1.8.2.custom.min.js"></script>
-	<script type="text/javascript" src="{{WEBROOT}}/js/jquery/jquery.validate.js"></script>
 
 	<script type="text/javascript" charset="utf-8">
 		$(document).ready(function(){
@@ -54,6 +48,12 @@
 		border:1px solid #9FAEB3;
 	}
 
+#page {
+	height: 100%;
+	min-height: 100%;
+	margin-bottom: -95px;
+}
+
 	
 	#signin, #create_account {
 		width:20em;
@@ -78,14 +78,9 @@
 		-webkit-border-radius:8px;
 	}
 	
-	#page {
-		height: 100%;
-		min-height: 100%;
-		margin-bottom: -95px;
-	}
-
-	.gradFooter {
-		font-size: 0.7em;		
+	.gradFooter
+	{
+		font-size: 0.7em;
 	}
 	
 	</style>
@@ -97,7 +92,7 @@
 		<div style="clear:both"></div>
 
 		<div id="signin" class='login'>
-			<div id="success_msg">{{SUCCESS_MESSAGE}}</div>
+			<div id="success_msg">{{ flash['success'] | raw}}</div>
 			<div id='errors'>{{ flash['errors'] | raw }}</div>
 			<form id="signinForm" method="post" accept-charset="utf-8">
 				<fieldset id="" class="">
@@ -115,7 +110,7 @@
 
 					<input type="hidden" name="form_name" value="signIn" id="whichform"/>
 					<input type="submit" name="signin" value="Sign In"/>
-					<a href="{{WEBROOT}}/forgot">forgot password?</a>
+					<a href="{{WEBROOT}}/account/forgot-password">forgot password?</a>
 
 					<div style="clear:both"></div>
 				</fieldset>
@@ -124,6 +119,7 @@
 		</div>
 
 		<div id="create_account" class='login'>
+					<div id="account_created_success">{{ flash['account_created_success'] | raw}}</div>
 			<form method="post" accept-charset="utf-8" id="createForm">
 				<fieldset id="" class="">
 					<legend>Create a New Account</legend>

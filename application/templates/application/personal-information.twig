@@ -49,15 +49,15 @@
 	<legend>Contact Information</legend>
 	<fieldset class="nested">
 		{{ forms.input( {'title':'Primary Phone Number', 
-					'name':'personal-primaryPhone', 
-					'value':application.personal.primaryPhone,
+					'name':'personal-phonePrimary', 
+					'value':application.personal.phonePrimary,
 					'size': 55,
 					'maxLength':15
 				} ) }}
 
 		{{ forms.input( {'title':'Secondary Phone Number', 
-					'name':'personal-secondaryPhone',
-					'value':application.personal.secondaryPhone,
+					'name':'personal-phoneSecondary',
+					'value':application.personal.phoneSecondary,
 					'size': 55,
 					'maxLength':15
 				} ) }}
@@ -163,8 +163,6 @@
 				{{ forms.input( {'title':'Postal Code',
 							'name':'personal-mailing-postal',
 							'value':application.personal.mailing.postal,
-							'size': 15,
-							'maxLength':15,
 						 } ) }}
 				
 			{{ forms.select( {'title':'Country', 
@@ -197,11 +195,14 @@
 					 }) }}
 
 		<!--  ssn verification scripts at end of code -->
-		
-		<label for="social_security_number">
-			<p class="title">U.S. Social Security Number</p>
-			<input type="text" size="11" maxlength="11" id="social_security_number" name="social_security_number" value="{{application.personal.socialSecurityNumber}}" onChange="confirmSSN(fmssn.value);" onblur="saveValue(event);">
-			<div class="help">xxx-xx-xxxx</div>
+
+		{{ forms.input({'title':'U.S. Social Security Number',
+					'name':'personal-socialSecurityNumber',
+					'value':application.personal.socialSecurityNumber,
+					'size': 11,
+					'maxLength':11,
+					'help':'xxx-xx-xxxx'
+				} ) }}
 		</label><div style="clear:both"></div>
 		
 		<p class="message">Your social security number (SSN) is used to verify your identity for administrative, financial aid and campus employment purposes. We need your SSN to process your financial aid. If not provided on your admission application, you will be required to provide it at a later date.</p>
@@ -285,7 +286,7 @@
 				<p class="title">In addition, select one or more of the following racial categories to describe yourself:</p>
 
 				{{ forms.checkbox( {'title':'American Indian/Native Alaskan', 
-							'name':'personal-ethnicity_amind',
+						'name':'personal-ethnicity_amind',
 							'value':application.personal.ethnicity_amind
 						}) }}
 

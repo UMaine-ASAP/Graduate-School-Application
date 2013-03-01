@@ -7,21 +7,47 @@ class InputSanitation
 
 // Available filters and associated error messages
 private static $filterErrorMessages = array(
-	'filter_phone' 		=> 'Invalid phone number',
-	'filter_email' 		=> 'Invalid email address',
-	'filter_zipcode' 		=> 'Invalid postal code',
-	'filter_long_date' 		=> 'Invalid dater',
-	'filter_ssn' 			=> 'Invalid social security number',
-	'filter_suffix' 		=> 'Invalid option',
-	'filter_state' 		=> 'Invalid option',
-	'filter_country' 		=> 'Invalid option',
-	'filter_gender' 		=> 'Invalid option',
-	'filter_residency'		=> 'Invalid option',
-	'filter_boolean'		=> 'Invalid option',
-	'filter_proficiency' 	=> 'Invalid option',
-	'filter_short_date'		=> 'Invalid date',
-	'filter_toefl_score'	=> 'Invalid value',
-	'filter_generic'		=> 'Invalid option'
+	// General filters
+	'filter_generic'      => 'Invalid option',
+	'filter_short_date'   => 'Invalid date',
+	'filter_long_date'    => 'Invalid date',
+	'filter_date_range'   => 'Invalid date range',	
+	'filter_boolean'      => 'Invalid option',
+
+	'filter_phone'        => 'Invalid phone number',
+	'filter_email'        => 'Invalid email address',
+	'filter_zipcode'      => 'Invalid postal code',
+	'filter_ssn'          => 'Invalid social security number',
+	'filter_suffix'       => 'Invalid option',
+	'filter_state'        => 'Invalid option',
+	'filter_country'      => 'Invalid option',
+	'filter_gender'       => 'Invalid option',
+	'filter_gpa'          => 'GPA invalid',
+	'filter_residency'    => 'Invalid option',
+
+	'filter_name'		  => 'Invalid name',
+
+	'filter_proficiency'  => 'Invalid option',
+	'filter_toefl_score'  => 'Invalid value',
+	'filter_relationship' => 'Invalid value',
+
+	// GRE
+	'filter_gre_verbal'       => 'Invalid score',
+	'filter_gre_quantitative' => 'Invalid score',
+	'filter_gre_analytical'   => 'Invalid score',
+	'filter_gre_score'        => 'Invalid score',
+	'filter_gre_subject'      => 'Invalid subject',
+
+	// GMAT
+	'filter_gmat_score'        => 'Invalid score',
+	'filter_gmat_quantitative' => 'Invalid score',
+	'filter_gmat_verbal'       => 'Invalid score',
+	'filter_gmat_analytical'   => 'Invalid score',
+	'filter_gmat_score'        => 'Invalid score',
+
+	// MAT
+	'filter_mat_score' => 'Invalid score'
+
 	);
 
 
@@ -118,64 +144,9 @@ public static function isValid($name, $value, &$errorMessage) {
 	if( $option != null && array_key_exists($option, self::$filterErrorMessages) ) {
 		$errorMessage = self::filterResult($value, self::$databaseFieldTypes[$name]);
 	} else {
-		// throw new Exception("key not found");
-		$errorMessage = 'internal error on field ' . $name; // @pragma TEMPONLY_REMOVEME
+		error_log("Input Sanitation Error: Field $name not saved. Either the filter option isn't set or the specified option doesn't exist. See databaseConfig.php for field settings.");
+		$errorMessage = 'Error saving'; // @pragma TEMPONLY_REMOVEME
 	}
-
-
-
-
-	
-	//Future Plans
-
-	//United States Emergency Contact
-
-	//Home Country Emergency Contact
-
-
-	###Educational History###
-	//Previous Application to University of Maine
-
-
-	//Previously Attended Institutions
-
-
-	//Grade Information
-
-
-	//Disciplinary Violations
-
-
-	//Criminal Information
-
-
-	//GRE
-
-
-	//GMAT
-
-
-	//MAT
-
-
-	###Educational Objectives###
-	//Academic Programs
-	//degree
-
-	//Rest
-
-
-	###Letters of Recommendation###
-	//Waiver of Viewing Rights
-
-
-	//Additional References
-
-	###Submission Manager###
-
-
-	###Default###
-
 
 	return $errorMessage == ''; // return if error message exists
 }
@@ -197,7 +168,7 @@ public static function filter_date_range($value) {
 	//if ( preg_match("/(**)/", $value) ) {
 	if ( strpos($value, '-') != false ) {//Check for -
 		$dates = explode('-', $value);
-		$result = filter_short_date($dates[0]) && filter_short_date($dates[1]);
+		$result = self::filter_short_date($dates[0]) && self::filter_short_date($dates[1]);
 
 		return $result;
 	} else {
@@ -209,7 +180,7 @@ public static function filter_date_range($value) {
 //format mm/dd/yyyy
 public static function filter_long_date($value) {
 	if(preg_match("((0[1-9]|[10-12])/(0[1-9]|[12][0-9]|3[01])/(19|20)\d\d)", $value)) {
-		$v = split("/", $value);
+		$v = explode("/", $value);
 		$v[0] = (int) $v[0];
 		$v[1] = (int) $v[1];
 		$v[1] = (int) $v[1];
@@ -255,7 +226,7 @@ public static function filter_name($value)	{
 
 public static function filter_zipcode($value) {
 //	if(preg_match("/^([0-9]{5})(-[0-9]{4})?$/i",$value) || preg_match("([A-Za-z][0-9][A-Z] [0-9][A-Z][0-9])",$value))
-	return filter_generic($value);
+	return self::filter_generic($value);
 //	else
 //		return false;
 }

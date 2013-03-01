@@ -30,11 +30,12 @@
 				{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the TOEFL examination?',
 						'name':'international-toefl_hasTaken',
 						'value':application.international.toefl_hasTaken,
+						'showOnTrue':true
 					} ) }}
 
 		<div style="clear:both"></div>
 
-		<div class="hidden" id="toefl_taken_section[{{INDEX}}]">
+		<div class="hidden" id="international-toefl_hasTaken_section">
 	
 			{{ forms.input({'title':'Date of Exam',
 					'name':'international-toefl_date',
@@ -53,7 +54,7 @@
 
 			<div style="clear:both"></div>
 			
-				{{ forms.booleanDisplay( {'title':'Has this score been reported to the University of Maine?',
+				{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
 						'name':'international-toefl_hasReported',
 						'value':application.international.toefl_hasReported,
 						'showOnTrue':false
@@ -74,7 +75,7 @@
 	<fieldset id="future_plans[{{INDEX}}]" name="future_plans" class="nested">
 		<legend>Future Plans</legend>
 
-			{{ forms.booleanDisplay( {'title':'Will you continue studies for another degree?',
+			{{ forms.boolean( {'title':'Will you continue studies for another degree?',
 					'name':'international-hasFurtherStudies',
 					'value':application.international.hasFurtherStudies,
 					'showOnTrue':false
@@ -94,7 +95,7 @@
 
 		</div>
 
-			{{ forms.booleanDisplay( {'title':'Will you pursue a career <strong>in the United States</strong> after completion of studies?',
+			{{ forms.boolean( {'title':'Will you pursue a career <strong>in the United States</strong> after completion of studies?',
 					'name':'international-hasUSCareer',
 					'value':application.international.hasUSCareer,
 				} ) }}
@@ -112,7 +113,7 @@
 	
 		</div>
 			
-			{{ forms.booleanDisplay( {'title':'Will you pursue a career <strong>in your home country </strong> after completion of studies?',
+			{{ forms.boolean( {'title':'Will you pursue a career <strong>in your home country </strong> after completion of studies?',
 					'name':'international-hasHomeCareer',
 					'value':application.international.hasHomeCareer,
 				} ) }}
@@ -170,52 +171,43 @@
 				'maxLength':30
 			} ) }}	
 
-		<!-- need to create separate database fields for the following items:
-			'international-usEmergencyContact_phone'
-			'international-usEmergencyContact_streetAddress1'
-			'international-usEmergencyContact_streetAddress2'
-			'international-usEmergencyContact_city'
-			'international-usEmergencyContact_state'
-			'international-usEmergencyContact_postal'
-			according to the schema there is only one 'contactInformationId' -->
-
 		{{ forms.input( {'title':'Phone Number', 
-				'name':'international-usEmergencyContact_phone',
-				'value':application.international.usEmergencyContact_phone,
+				'name':'international-usEmergencyContactInfo-primaryPhone',
+				'value':application.international.usEmergencyContactInfo.primaryPhone,
 				'size': 15,
 				'maxLength':15
 			} ) }}
 
 		{{ forms.input( {'title':'Street', 
-				'name':'international-usEmergencyContact_streetAddress1',
-				'value':application.international.usEmergencyContact_streetAddress1,
+				'name':'international-usEmergencyContactInfo-streetAddress1',
+				'value':application.international.usEmergencyContactInfo.streetAddress1,
 				'size': 55,
 				'maxLength':55
 			} ) }}
 
 		{{ forms.input( {'title':'Additional', 
-				'name':'international-usEmergencyContact_streetAddress2',
-				'value':application.international.usEmergencyContact_streetAddress2,
+				'name':'international-usEmergencyContactInfo-streetAddress2',
+				'value':application.international.usEmergencyContactInfo.streetAddress2,
 				'size': 55,
 				'maxLength':55
 			} ) }}
 
 		{{ forms.input( {'title':'City', 
-				'name':'international-usEmergencyContact_city',
-				'value':application.international.usEmergencyContact_city,
+				'name':'international-usEmergencyContactInfo-city',
+				'value':application.international.usEmergencyContactInfo.city,
 				'size': 30,
 				'maxLength':30
 			} ) }}
 
 		{{ forms.select( {'title':'State', 
-				'name':'international-usEmergencyContact_state',
-				'value':application.international.usEmergencyContact_state,
+				'name':'international-usEmergencyContactInfo-state',
+				'value':application.international.usEmergencyContactInfo.state,
 				'options': application.options_state
 			} ) }}
 
 		{{ forms.input( {'title':'Postal Code', 
-				'name':'international-usEmergencyContact_postal',
-				'value':application.international.usEmergencyContact_postal,
+				'name':'international-usEmergencyContactInfo-postal',
+				'value':application.international.usEmergencyContactInfo.postal,
 				'size': 15,
 				'maxLength':15
 			} ) }}
@@ -242,52 +234,43 @@
 				'maxLength':30
 			} ) }}	
 
-		<!-- need to create separate database fields for the following items:
-			'international-homeEmergencyContact_phone'
-			'international-homeEmergencyContact_streetAddress1'
-			'international-homeEmergencyContact_streetAddress2'
-			'international-homeEmergencyContact_city'
-			'international-homeEmergencyContact_state'
-			'international-homeEmergencyContact_postal'
-			according to the schema there is only one 'contactInformationId' -->
-
 		{{ forms.input( {'title':'Phone Number', 
-				'name':'international-usEmergencyContact_phone',
-				'value':application.international.homeEmergencyContact_phone,
+				'name':'international-homeEmergencyContactInfo-primaryPhone',
+				'value':application.international.homeEmergencyContactInfo.primaryPhone,
 				'size': 15,
 				'maxLength':15
 			} ) }}
 
 		{{ forms.input( {'title':'Street', 
-				'name':'international-homeEmergencyContact_streetAddress1',
-				'value':application.international.homeEmergencyContact_streetAddress1,
+				'name':'international-homeEmergencyContactInfo-streetAddress1',
+				'value':application.international.homeEmergencyContactInfo.streetAddress1,
 				'size': 55,
 				'maxLength':55
 			} ) }}
 
 		{{ forms.input( {'title':'Additional', 
-				'name':'international-homeEmergencyContact_streetAddress2',
-				'value':application.international.homeEmergencyContact_streetAddress2,
+				'name':'international-homeEmergencyContactInfo-streetAddress2',
+				'value':application.international.homeEmergencyContactInfo.streetAddress2,
 				'size': 55,
 				'maxLength':55
 			} ) }}
 
 		{{ forms.input( {'title':'City', 
-				'name':'international-homeEmergencyContact_city',
-				'value':application.international.homeEmergencyContact_city,
+				'name':'international-homeEmergencyContactInfo-city',
+				'value':application.international.homeEmergencyContactInfo.city,
 				'size': 30,
 				'maxLength':30
 			} ) }}
 
 		{{ forms.select( {'title':'State', 
-				'name':'international-homeEmergencyContact_state',
-				'value':application.international.homeEmergencyContact_state,
+				'name':'international-homeEmergencyContactInfo-state',
+				'value':application.international.homeEmergencyContactInfo.state,
 				'options': application.options_state
 			} ) }}
 
 		{{ forms.input( {'title':'Postal Code', 
-				'name':'international-homeEmergencyContact_postal',
-				'value':application.international.homeEmergencyContact_postal,
+				'name':'international-homeEmergencyContactInfo-postal',
+				'value':application.international.homeEmergencyContactInfo.postal,
 				'size': 15,
 				'maxLength':15
 			} ) }}
