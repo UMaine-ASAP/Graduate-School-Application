@@ -1,0 +1,257 @@
+{% extends 'application/section.twig' %}
+{% import "forms.macro.twig" as forms %}
+{% import "application/section.macro.twig" as section %}
+
+{% block form %}
+
+<form action="" method="post" id="objectives" autocomplete="off">
+<input type="hidden" id="user_id" value="{{USER}}"/>
+<fieldset id="education_objectives" name="education_objectives">
+	<legend>Education Objectives</legend>
+	
+	<span class="required"><p>Fields marked with * are required.</p></span>
+		
+	<fieldset id="applied_programs" name="applied_programs" class="nested">
+		<legend>Academic Programs</legend>
+		
+		<p class="title">Select a program to apply to.</p>
+		
+
+<!-- the 'option' fields for the following applied programs section are just guesses and need to be updated -->
+
+	<fieldset class="nested">
+
+		{{ forms.select( {'title':'Department', 
+				'name':'degree-academic_program',
+				'value':application.degree.academic_program, 
+				'options': application.degree.options_academicDeptCode,
+				'isRequired':true,
+				'refreshOnChange': true
+			 }) }}	
+
+		 {{ forms.select( {'title':'Degree', 
+				'name':'degree-academic_plan',
+				'value':application.degree.academic_plan, 
+				'options': application.degree.options_academicPlan,
+				'isRequired':true
+			 }) }}	
+				
+		<div style="clear:both;"></div>
+
+		{{ forms.input( {'title':'Major area of Interest',
+				'name':'degree-academic_major',
+				'value':application.degree.academic_major,
+				'size': 30,
+				'maxLength': 30,
+			} ) }}
+
+		{{ forms.input( {'title':'Minor area of Interest',
+				'name':'degree-academic_minor',
+				'value':application.degree.academic_minor,
+				'size': 30,
+				'maxLength': 30,
+			} ) }}
+	
+		<div style="clear:both;"></div>
+
+		{{ forms.select( {'title':'Student Type', 
+				'name':'degree-studentType',
+				'value':application.degree.studentType, 
+				'options': application.options_studentType, 
+				'isRequired':true
+			 }) }}
+
+		{{ forms.select( {'title':'Start Semester', 
+				'name':'startSemester',
+				'value':application.startSemester, 
+				'options': application.options_startSemester,
+				'isRequired':true
+			 }) }}
+
+		{{ forms.select( {'title':'Start Year', 
+				'name':'startYear',
+				'value':application.startYear, 
+				'options': application.options_startYear,
+				'isRequired':true
+			 }) }}
+		
+		{{ forms.select( {'title':'Do you expect to study full time or part time?', 
+				'name':'degree-academic_load',
+				'value':application.degree.academic_load, 
+				'options': application.options_academicYear,
+				'isRequired':true
+			 }) }}
+
+		<div style="clear:both;"></div>
+	</fieldset>
+
+		<div style="clear:both"></div>
+	</fieldset>
+
+	<fieldset id="assistantship_info" name="assistantship_info" class="nested">
+		<legend>Assistantship Request</legend>
+
+		{{ forms.boolean( {'title':'Do you wish to apply for an assistantship?',
+				'name':'degree-isSeekingAssistantship',
+				'value':application.degree.isSeekingAssistantship,
+			} ) }}
+
+		<div style="clear:both"></div>
+
+<!-- SMB removed department select list from assistantship request 11-18-09
+		<div class="hidden" id="desire_assistantship_section">
+			<label for="desire_assistantship_dept">
+			If so, specify the department
+				
+				<select id="desire_assistantship_dept" name="desire_assistantship_dept" value="{{DESIRE_ASSISTANTSHIP_DEPT}}" onchange="saveValue(event,{{USER}})">	
+					<option value="">Select Department</option>
+					<script type="text/javascript">
+						drawDeptMenu('desire_assistantship_dept',{{USER}});
+					</script>
+				</select>
+				<script type="text/javascript">dynamicInitSelectValue(document.getElementById('desire_assistantship_dept'),"{{DESIRE_ASSISTANTSHIP_DEPT}}")</script> -->
+			
+
+		<!--<script type="text/javascript">showOrNot('desire_assistantship_section',{{DESIRE_ASSISTANTSHIP}});</script>-->
+
+		<label>
+			<p class="message"><strong>You must contact the department Chairperson directly if you desire a teaching or research assistantship or if you wish to be nominated for a University fellowship. Please note that while most assistantships are awarded by departments, not all departments currently have assistantships available.</strong></p>
+		</label>
+
+		<div style="clear:both"></div>
+	</fieldset>
+
+	<div style="clear:both"></div>
+
+	<fieldset id="nebhe_set" name="nebhe_set" class="nested">
+		<legend>New England Regional Student Program</legend>
+		
+		{{ forms.boolean( {'title':'Do you intend to apply for certification of eligibility under the New England Regional Student Program?',
+				'name':'degree-isApplyingNebhe',
+				'value':application.degree.isApplyingNebhe,
+			} ) }}
+		
+		<div style="clear:both"></div>
+
+		<p class="message"><strong>The New England Regional Student Program is for New England students only. To verify eligibility call 617-357-9620, email: <a href="mailto:rsp@nebhe.org" class="text_link">rsp@nebhe.org</a>, or contact the NERSP representative within your home state. For more information visit www.nebhe.org</strong></p>
+		
+		<div style="clear:both"></div>
+	</fieldset>
+
+	<div style="clear:both"></div>
+	
+	<fieldset id="additional_info" name="additional_info" class="nested">
+		<legend>Additional Information, Essay &amp; R&eacute;sum&eacute;</legend>
+		<div>
+			{{ forms.booleanDisplay( {'title':'Have you spoken to or corresponded with any member of the University of Maine faculty regarding your application?',
+				'name':'hasUmaineCorrespondent',
+				'value':application.hasUmaineCorrespondent,
+			} ) }}
+
+			<div style="clear:both"></div>
+
+			<div class="hidden" id="hasUmaineCorrespondent_section">
+				{{ forms.input( {'title':'If so, please provide a name or names',
+						'name':'umaineCorrespondentDetails',
+						'value':application.umaineCorrespondentDetails,
+						'size': 55,
+						'maxLength':55
+					} ) }}
+			</div>
+
+		</div>
+
+			<div><p class='title'>To upload an essay or resume, select the appropriate button above. Accepted file formats are pdf, doc, docx, rtf, and txt. If you have difficulties uploading a file, please send it as an attachment to graduate@maine.edu.</p></div>
+
+<!-- 		<fieldset id="essay_upload" name="essay_upload"> -->
+<!-- 			<legend>Essay</legend> -->
+
+	<script type="text/javascript" >
+	$(function(){
+		var upload=$('#essay_upload');
+		var status=$('#essay_status');
+		var filename=$('#essay_name');
+		new AjaxUpload(upload, {
+			action: 'scripts/upload/upload-essay.php',
+			name: 'essay',
+			onSubmit: function(file, ext){
+				 if (! (ext && /^(pdf|doc|txt|rtf|docx)$/.test(ext))){
+					status.text('Only PDF, DOC, DOCX, TXT or RTF files are allowed');
+					return false;
+				}
+				status.text('Uploading...');
+			},
+			onComplete: function(file, response){
+				if (response=='') {
+					filename.text(file);
+					status.text('Your essay uploaded successfully.');
+				} else {
+					status.text('There was a problem and your essay was not uploaded.');
+					
+				}
+			}
+		});
+		
+	});
+</script>
+
+<script type="text/javascript" >
+	$(function(){
+		var upload=$('#resume_upload');
+		var status=$('#resume_status');
+		var filename=$('#resume_name');
+		new AjaxUpload(upload, {
+			action: 'scripts/upload/upload-resume.php',
+			name: 'resume',
+			onSubmit: function(file, ext){
+				 if (! (ext && /^(pdf|doc|txt|rtf|docx)$/.test(ext))){
+					status.text('Only PDF, DOC, DOCX, TXT or RTF files are allowed');
+					return false;
+				}
+				status.text('Uploading...');
+			},
+			onComplete: function(file, response){
+				if (response=='') {
+					filename.text(file);
+					status.text('Your résumé uploaded successfully.');
+				} else {
+					status.text('There was a problem and your résumé was notq uploaded.');
+				}
+			}
+		});
+		
+	});
+</script>
+	
+		<div class='upload_container'>
+			<span id="essay_upload" class="upload">Upload Essay</span>
+			<span id='essay_name' class='filename'>{{ESSAY_NAME}}</span>
+		</div>
+		<span id="essay_status" class="status"></span>
+
+		<label for="essay_upload">
+			<p class="title">Upload a brief essay (300-500 words) to be read by professors in your field on your academic and personal intentions and objectives. Identify any special interest you would like to pursue now or in the future. If you have previously attended another graduate school, explain why you wish to transfer to The University of Maine.</p>
+		</label>
+
+		<div class='upload_container'>
+			<span id="resume_upload" class="upload">Upload R&eacute;sum&eacute;</span>
+			<span id='resume_name' class='filename'>{{RESUME_NAME}}</span>
+		</div>
+		<span id="resume_status" class="status"></span>
+
+		<label for="resume_upload">
+			<p class="title">Upload a brief r&eacute;sum&eacute; to be read by professors in your field.</p>
+		</label>
+
+		<div style="clear:both"></div>
+	</fieldset>
+	
+
+	<div style="clear:both"></div>
+
+	{{ section.buildPager(true, true) }}
+
+</fieldset><!-- end fieldset "education_objectives" -->
+</form>
+
+{% endblock %}

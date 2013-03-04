@@ -8,18 +8,18 @@ require_once __DIR__ . "/../libs/corefuncs.php";
 require_once __DIR__ . "/Applicant.php";
 
 // Application Subsections and repeatables
-require_once __DIR__ . "/application-components/Transaction.php";
-require_once __DIR__ . "/application-components/CivilViolation.php";
-require_once __DIR__ . "/application-components/DisciplinaryViolation.php";
-require_once __DIR__ . "/application-components/PreviousSchool.php";
-require_once __DIR__ . "/application-components/GRE.php";
-require_once __DIR__ . "/application-components/Degree.php";
-require_once __DIR__ . "/application-components/Progress.php";
-require_once __DIR__ . "/application-components/International.php";
-require_once __DIR__ . "/application-components/Language.php";
-require_once __DIR__ . "/application-components/Personal.php";
-require_once __DIR__ . "/application-components/Reference.php";
-require_once __DIR__ . "/application-components/ContactInformation.php";
+require_once __DIR__ . "/applicationComponents/Transaction.php";
+require_once __DIR__ . "/applicationComponents/CivilViolation.php";
+require_once __DIR__ . "/applicationComponents/DisciplinaryViolation.php";
+require_once __DIR__ . "/applicationComponents/PreviousSchool.php";
+require_once __DIR__ . "/applicationComponents/GRE.php";
+require_once __DIR__ . "/applicationComponents/Degree.php";
+require_once __DIR__ . "/applicationComponents/Progress.php";
+require_once __DIR__ . "/applicationComponents/International.php";
+require_once __DIR__ . "/applicationComponents/Language.php";
+require_once __DIR__ . "/applicationComponents/Personal.php";
+require_once __DIR__ . "/applicationComponents/Reference.php";
+require_once __DIR__ . "/applicationComponents/ContactInformation.php";
 
 class ApplicationType
 {

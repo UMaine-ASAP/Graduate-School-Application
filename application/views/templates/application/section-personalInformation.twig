@@ -1,0 +1,393 @@
+{% extends 'application/section.twig' %}
+{% import "forms.macro.twig" as forms %}
+{% import "application/section.macro.twig" as section %}
+
+{% block form %}
+
+<form id="personal_form" name="personal_form" action="" method="post" autocomplete="off">
+<input type="hidden" id="user_id" value="{{applicant.id}}"/>
+<fieldset id="personal" name="personal">
+	<legend>Personal Information</legend>
+	<p class="required">Fields marked with * are required.</p>
+
+	<fieldset id="name" name="name" class="nested">
+		<legend>Name</legend>
+
+		{{ forms.input({'title':'First or Given Name', 
+					'name':'personal-givenName', 
+					'value':application.personal.givenName,
+					'isRequired':true
+				} ) }}
+
+		{{ forms.input( {'title':'Middle Name', 
+					'name':'personal-middleName', 
+					'value':application.personal.middleName,
+				} ) }}
+
+		{{ forms.input( {'title':'Last or Family Name', 
+					'name':'personal-familyName', 
+					'value':application.personal.familyName,
+					'isRequired':true
+				} ) }}
+
+		{{ forms.select( {'title':'Suffix', 
+					'name':'personal-suffix',
+					'value':application.personal.suffix, 
+					'options': application.options_suffix
+				}) }}
+
+		{{ forms.input( {'title':'Name used on previous records', 
+					'name':'personal-alternativeName', 
+					'value':application.personal.alternativeName,
+				} ) }}
+	
+	</fieldset><!-- end fieldset "name" -->
+	
+	<div style="clear:both"></div>	
+
+<fieldset id="contact_info" name="contact_info">
+	<legend>Contact Information</legend>
+	<fieldset class="nested">
+		{{ forms.input( {'title':'Primary Phone Number', 
+					'name':'personal-phonePrimary', 
+					'value':application.personal.phonePrimary,
+					'size': 55,
+					'maxLength':15
+				} ) }}
+
+		{{ forms.input( {'title':'Secondary Phone Number', 
+					'name':'personal-phoneSecondary',
+					'value':application.personal.phoneSecondary,
+					'size': 55,
+					'maxLength':15
+				} ) }}
+
+		{{ forms.input( {'title':'Email', 
+					'name':'personal-email',
+					'value':application.personal.email,
+					'size': 55,
+					'maxLength':55,
+					'isRequired':true
+				} ) }}
+
+	</fieldset>
+	
+	<div style="clear:both"></div>	
+	
+	<fieldset id="permanent_addr" name="permanent_addr" class="nested">
+		<legend>Permanent Address</legend>
+
+			{{ forms.input( {'title':'Street', 
+						'name': 'personal-permanentMailing-streetAddress1',
+						'value': application.personal.permanentMailing.streetAddress1,
+						'size':  55,
+						'maxLength': 55,
+						'isRequired': true
+					} ) }}
+
+			{{ forms.input( {'title':'Additional', 
+						'name':'personal-permanentMailing-streetAddress2',
+						'value':application.personal.permanentMailing.streetAddress2,
+						'size': 55,
+						'maxLength':55,
+					} ) }}
+
+			{{ forms.input( {'title':'City', 
+						'name':'personal-permanentMailing-city',
+						'value':application.personal.permanentMailing.city,
+						'size': 30,
+						'maxLength':30,
+						'isRequired':true
+					} ) }}
+
+			{{ forms.select( {'title':'State/Province', 
+						'name':'personal-permanentMailing-state',
+						'value':application.personal.permanentMailing.state, 
+						'options': application.options_state,
+						'isRequired':true
+					 }) }}
+
+			{{ forms.input( {'title':'Postal Code',
+						'name':'personal-permanentMailing-postal',
+						'value':application.personal.permanentMailing.postal,
+						'isRequired':true
+					} ) }}
+
+			{{ forms.select( {'title':'Country', 
+						'name':'personal-permanentMailing-country',
+						'value':application.personal.permanentMailing.country, 
+						'options': application.options_country,
+						'isRequired':true
+					 }) }}
+				
+		</fieldset><!-- end fieldset "permanent_addr" -->
+
+		<fieldset id="mailing_addr" name="mailing_addr" class="nested">
+			<legend>Mailing Address</legend>
+			
+			{{ forms.booleanDisplay( {'title':'Is your mailing address the same as your permanent address?',
+					'name':'personal-isMailingDifferentFromPermanent',
+					'value':application.personal.isMailingDifferentFromPermanent,
+					'showOnTrue':false
+				} ) }}
+
+			<div style="clear:both;"></div>
+
+			<div id="personal-isMailingDifferentFromPermanent_section">
+
+				{{ forms.input( {'title':'Street',
+						'name':'personal-mailing-streetAddress1',
+						'value':application.personal.mailing.streetAddress1,
+						'size': 55,
+						'maxLength':55,
+					} ) }}
+
+				{{ forms.input({'title':'Additional',
+							'name':'personal-mailing-streetAddress2',
+							'value':application.personal.mailing.streetAddress2,
+							'size': 55,
+							'maxLength':55,
+						 } ) }}
+
+				{{ forms.input( {'title':'City',
+							'name':'personal-mailing-city',
+							'value':application.personal.mailing.city,
+						 } ) }}
+				
+				{{ forms.select( {'title':'State/Province', 
+							'name':'personal-mailing-state',
+							'value':application.personal.mailing.state, 
+							'options': application.options_state
+					 }) }}				
+
+				{{ forms.input( {'title':'Postal Code',
+							'name':'personal-mailing-postal',
+							'value':application.personal.mailing.postal,
+						 } ) }}
+				
+			{{ forms.select( {'title':'Country', 
+						'name':'personal-mailing-country',
+						'value':application.personal.mailing.country, 
+						'options': application.options_country
+					 }) }}
+
+			</div>
+		</fieldset> <!-- end fieldset "mailing_addr" -->
+		
+		<div style="clear:both;"></div>			
+	</fieldset><!-- end fieldset "contact_information" -->
+
+	<fieldset class="nested">
+
+		{{ forms.input({'title':'Date of Birth',
+					'name':'personal-birth_date',
+					'value':application.personal.birth_date,
+					'size': 10,
+					'maxLength':10,
+					'isRequired':true,
+					'help':'mm/dd/yyyy'
+				} ) }}
+
+		{{ forms.select( {'title':'Gender', 
+						'name':'personal-gender',
+						'value':application.personal.gender, 
+						'options': application.options_gender
+					 }) }}
+
+		<!--  ssn verification scripts at end of code -->
+
+		{{ forms.input({'title':'U.S. Social Security Number',
+					'name':'personal-socialSecurityNumber',
+					'value':application.personal.socialSecurityNumber,
+					'size': 11,
+					'maxLength':11,
+					'help':'xxx-xx-xxxx'
+				} ) }}
+		</label><div style="clear:both"></div>
+		
+		<p class="message">Your social security number (SSN) is used to verify your identity for administrative, financial aid and campus employment purposes. We need your SSN to process your financial aid. If not provided on your admission application, you will be required to provide it at a later date.</p>
+</fieldset>
+		<fieldset id="birth_location" name="birth_location" class="nested">
+			<legend>Birth Location</legend>
+		
+			{{ forms.input({'title':'City',
+						'name':'personal-birth_city',
+						'value':application.personal.birth_city,
+						'size': 36,
+						'maxLength':30
+					} ) }}			
+					
+			{{ forms.select( {'title':'State/Province', 
+						'name':'personal-birth_state',
+						'value':application.personal.birth_state, 
+						'options': application.options_state
+					 }) }}
+
+			{{ forms.select( {'title':'Country', 
+						'name':'personal-birth_country',
+						'value':application.personal.birth_country, 
+						'options': application.options_country
+					 }) }}
+
+		
+			<div style="clear:both;"></div>
+		</fieldset> <!-- end fieldset "birth_location" -->
+
+		<fieldset class="nested">
+
+			{{ forms.select( {'title':'Country of Citizenship', 
+						'name':'personal-countryOfCitizenship',
+						'value':application.personal.countryOfCitizenship, 
+						'options': application.options_country,
+						'isRequired':true
+					 }) }}
+
+			{{ forms.select( {'title':'Legal Resident of', 
+						'name':'personal-us_state',
+						'value':application.personal.us_state, 
+						'options': application.options_state,
+						'isRequired':true
+					 }) }}
+
+			{{ forms.select( {'title':'Residency Status', 
+						'name':'personal-residencyStatus',
+						'value':application.personal.residencyStatus, 
+						'options': application.options_residencyStatus,
+						'isRequired':true
+					}) }}
+
+			<div style="clear:both;"></div>
+
+			<p class="message"><strong>If you are a resident alien, please submit a copy of your green card.</strong>
+			This school is authorized under federal law to enroll non-immigrant alien students. Anyone submitting falsified documents will be denied admission and receive no refund of any fees paid. The University will notify appropriate authorities of this action and information will be shared with government agencies.</p>
+
+			<div style="clear:both;"></div>
+		</fieldset>
+	<!--
+		need green card upload
+		green_card_link
+	-->
+
+		<fieldset id="ethnicity" name="ethnicity" class="nested">
+
+			<legend>Ethnic Information</legend>
+			
+			<p class="message">Note on Ethnicity:
+			Colleges and universities are asked by many, including the federal government, accrediting associations, college guides, newspapers and our own college/university communities, to describe the racial/ethnic backgrounds of our students and employees. In order to respond to these requests, we ask you to answer the following two questions:</p>
+
+			{{ forms.boolean( {'title':'Do you consider yourself to be Hispanic/Latino',
+							'name':'personal-ethnicity_hispa',
+							'value':application.personal.ethnicity_hispa
+				} ) }}
+
+			<div style="clear:both;"></div>
+		
+			<label for="ethnicity" class="one_line">
+				<p class="title">In addition, select one or more of the following racial categories to describe yourself:</p>
+
+				{{ forms.checkbox( {'title':'American Indian/Native Alaskan', 
+						'name':'personal-ethnicity_amind',
+							'value':application.personal.ethnicity_amind
+						}) }}
+
+				{{ forms.checkbox( {'title':'Asian', 
+							'name':'personal-ethnicity_asian',
+							'value':application.personal.ethnicity_asian
+						}) }}
+
+				{{ forms.checkbox( {'title':'Black/African American', 
+							'name':'personal-ethnicity_black',
+							'value':application.personal.ethnicity_black
+						}) }}
+
+				{{ forms.checkbox( {'title':'Native Hawaiian/Pacific Islander', 
+							'name':'personal-ethnicity_pacif',
+							'value':application.personal.ethnicity_pacif
+						}) }}
+
+				{{ forms.checkbox( {'title':'White', 
+							'name':'personal-ethnicity_white',
+							'value':application.personal.ethnicity_white
+						}) }}
+	
+			<div style="clear:both;"></div>
+		</fieldset><!-- end fieldset "ethnicity" -->
+
+	<div style="clear:both;"></div>
+</fieldset><!-- end fieldset "personal_information" -->
+
+<fieldset id="fieldset-languages" name="languages">
+	<legend>Language Information</legend>
+	
+	<fieldset id="english" name="english" class="nested">
+		<legend>English Proficiency</legend>
+		
+
+		{{ forms.booleanDisplay( {'title':'Is English your primary language?',
+							'name':'personal-isEnglishPrimary',
+							'value':application.personal.isEnglishPrimary,
+							'showOnTrue':false							
+			} ) }}
+
+		<br /><br /><br />
+	
+		<div style="clear:both;"></div>
+
+		<div class="hidden" id="personal-isEnglishPrimary_section">
+			<p class="title">Please indicate the number of years you have studied English (give dates):</p>
+					
+			{{ forms.input({'title':'In secondary or middle school',
+						'name':'personal-englishYears_school',
+						'value':application.personal.englishYears_school,
+						'size': 20,
+						'maxLength':15,
+						'help':'mm/yyyy-mm/yyyy'
+					} ) }}
+
+			{{ forms.input({'title':'In university',
+						'name':'personal-englishYears_univ',
+						'value':application.personal.englishYears_univ,
+						'size': 20,
+						'maxLength':15,
+						'help':'mm/yyyy-mm/yyyy'
+					} ) }}
+
+			{{ forms.input({'title':'Under private auspices',
+						'name':'personal-englishYears_private',
+						'value':application.personal.englishYears_private,
+						'size': 20,
+						'maxLength':15,
+						'help':'mm/yyyy-mm/yyyy'
+					} ) }}
+
+		</div>
+	</fieldset><!-- end fieldset "english" -->
+	
+	<p class="title">Knowledge of other languages and proficiency in each</p>
+
+	<div id="languages">
+		{% for language in application.languages %}
+			{% include 'application/repeatable/language.twig' with {'language':language} %}
+		{% endfor %}
+	</div>
+
+	{{ section.addSubSectionButton('Add Another Language', 'language')}}
+
+	<div style="clear:both;"></div>
+	
+	{{ section.buildPager(false, true) }}
+
+</fieldset><!-- end fieldset "languages" -->
+		
+<!-- FUNCTIONS -->
+<script type="text/javascript" charset="utf-8">                   
+function confirmSSN(fmssn){                         
+  if (!(fmssn == "")) {                             
+  var answer=confirm("Is this your Social Security number? " + fmssn); 
+  if (!(answer)) {                                  
+     document.forms[0].elements[4].value="";        
+     document.forms[0].elements[4].focus();}}} 
+</script>
+
+</form>
+{% endblock %}
