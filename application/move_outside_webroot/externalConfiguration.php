@@ -43,7 +43,7 @@ if($touchnet_production) {
 /*****************************
  * Website Settings
  ******************************/
-$WEBROOT = "http://gradapp";
+$WEBROOT = "http://localhost:8888/Graduate-School-Application/application";
 
 $rootFilePath 		= '/Users/timbaker/';
 $server_name 		= isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
