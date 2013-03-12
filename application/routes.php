@@ -10,6 +10,7 @@ if( !isset($_SESSION) )
 	session_start();
 }
 
+
 // Data
 require_once __DIR__ . "/config.php";
 require_once __DIR__ . "/models/databaseConfig.php";
@@ -26,7 +27,9 @@ require_once __DIR__ . '/controllers/ApplicantController.php';
 // Libraries
 require_once __DIR__ . '/libs/Hash.php';
 require_once __DIR__ . '/libs/email.php';
+
 require_once __DIR__ . '/libs/inputSanitation.php';
+
 require_once __DIR__ . '/libs/errorTracker.php';
 
 // Slim and Twig setup
@@ -205,6 +208,7 @@ $applicationNotSubmitted = function()
 $app->get('/', function()
 {
 	$app = Slim\Slim::getInstance();
+
 	// route to correct page
 	if( ApplicantController::applicantIsLoggedIn() ) {
 		redirect('/my-applications');
