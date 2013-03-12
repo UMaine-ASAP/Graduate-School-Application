@@ -4,7 +4,7 @@ const PRODUCTION = 1;
 const DEVELOPMENT = 1;
 
 $MODE = DEVELOPMENT;
-
+ 
 /*****************************
  * Database Settings
  ******************************/
@@ -13,7 +13,7 @@ $MODE = DEVELOPMENT;
 date_default_timezone_set('America/New_York');
 
 $db_user = "root"; 					 // Database User
-$db_pass = ""; 					 // Database Password
+$db_pass = "root"; 					 // Database Password
 $db_host = "localhost"; 				 // Database Host
 $db_name = "gradschool-application-2"; // Database Table
 
