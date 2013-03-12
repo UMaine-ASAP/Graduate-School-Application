@@ -10,6 +10,7 @@ if( !isset($_SESSION) )
 	session_start();
 }
 
+
 // Data
 require_once __DIR__ . "/configuration.php";
 // Models
@@ -23,6 +24,7 @@ require_once __DIR__ . '/controllers/ApplicationController.php';
 require_once __DIR__ . '/controllers/ApplicantController.php';
 
 // Libraries
+
 require_once __DIR__ . '/libraries/Hash.php';
 require_once __DIR__ . '/libraries/email.php';
 require_once __DIR__ . '/libraries/inputSanitation.php';
@@ -252,6 +254,7 @@ $applicationNotSubmitted = function()
 $app->get('/', function()
 {
 	$app = Slim\Slim::getInstance();
+
 	// route to correct page
 	if( ApplicantController::applicantIsLoggedIn() ) {
 		redirect('/my-applications');
