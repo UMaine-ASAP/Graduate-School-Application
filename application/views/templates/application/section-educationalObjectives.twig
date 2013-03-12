@@ -91,7 +91,7 @@
 	</fieldset>
 
 
-	{% if application.type == 'Degree' %}
+	{% if application.type == 'DEGREE' %}
 
 		<fieldset id="assistantship_info" name="assistantship_info" class="nested">
 			<legend>Assistantship Request</legend>
@@ -130,7 +130,7 @@
 
 	<div style="clear:both"></div>
 
-	{% if application.type == 'Degree' %}
+	{% if application.type == 'DEGREE' %}
 	
 		<fieldset id="nebhe_set" name="nebhe_set" class="nested">
 			<legend>New England Regional Student Program</legend>
@@ -152,7 +152,7 @@
 	<div style="clear:both"></div>
 
 
-	{% if application.type == 'DEGREE' or application.type == 'CERTIFICATE' %}
+	{% if application.applicationTypeId == constant('ApplicationType::DEGREE') or application.type == constant('ApplicationType::CERTIFICATE') %}
 
 		<fieldset id="additional_info" name="additional_info" class="nested">
 			<legend>Additional Information, Essay &amp; R&eacute;sum&eacute;</legend>
