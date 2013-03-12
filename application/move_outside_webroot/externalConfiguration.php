@@ -10,7 +10,7 @@ date_default_timezone_set('America/New_York');
 
 $SERVERNAME        = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
 $GRADUATE_HOMEPAGE = "http://$SERVERNAME/grad/drupal6/";           // where the drupal site is located
-$WEBROOT           = "http://$SERVERNAME";
+$WEBROOT           = "http://localhost:8888/Graduate-School-Application/application";
 
 $ADMIN_EMAIL     = "crystal.burgess@maine.edu";
 $session_timeout = 600; // Session timeout in seconds - 10 minutes
@@ -21,7 +21,7 @@ $session_timeout = 600; // Session timeout in seconds - 10 minutes
 /* ================================================================ */
 
 $db_user = "root";                       // Database User
-$db_pass = "";                           // Database Password
+$db_pass = "root";                           // Database Password
 $db_host = "localhost";                  // Database Host
 $db_name = "gradschool-application-2";   // Database Table
 
