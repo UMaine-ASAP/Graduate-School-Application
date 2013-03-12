@@ -1,6 +1,8 @@
-{% extends 'application/section.twig' %}
+{% extends 'application/sectionLayout.twig' %}
 {% import "application/section.macro.twig" as section %}
 {% import "forms.macro.twig" as forms %}
+
+{% block pageName %}Application - Educational History{% endblock %}
 
 {% block form %}
 
@@ -17,7 +19,8 @@
 	{{ forms.booleanDisplay( {'title':'Have you previously applied to the University of Maine?',
 			'name':'personal-prevUMGradApp_appExists',
 			'value':application.personal.prevUMGradApp_appExists,
-			'showOnTrue':true
+			'showOnTrue':true,
+			'isRequired':true
 		} ) }}
 
 	<div style="clear:both;"></div>
@@ -121,34 +124,36 @@
 
 <div style="clear:both"></div>
 
-<fieldset id="grade_information" class="nested">
-	<legend>Grade Information</legend>
+{% if application.type == 'Degree' or application.type == 'Certificate' %}
+	<fieldset id="grade_information" class="nested">
+		<legend>Grade Information</legend>
 
-	{{ forms.input( {'title':'Cumulative undergraduate grade point average',
-			'name':'personal-undergradGPA',
-			'value':application.personal.undergradGPA,
-			'size':4,
-			'maxLength':4
-		} ) }}
+		{{ forms.input( {'title':'Cumulative undergraduate grade point average',
+				'name':'personal-undergradGPA',
+				'value':application.personal.undergradGPA,
+				'size':4,
+				'maxLength':4
+			} ) }}
 
-	{{ forms.input( {'title':'Cumulative post-baccalaureate grade point average',
-			'name':'personal-postbaccGPA',
-			'value':application.personal.postbaccGPA,
-			'size':4,
-			'maxLength':4
-		} ) }}
+		{{ forms.input( {'title':'Cumulative post-baccalaureate grade point average',
+				'name':'personal-postbaccGPA',
+				'value':application.personal.postbaccGPA,
+				'size':4,
+				'maxLength':4
+			} ) }}
 
-	<div style="clear:both"></div>
+		<div style="clear:both"></div>
 
-	{{ forms.textarea( {'title':'List, by title, all course work you expect to take or courses you expect to take before enrolling at UM. <b>Please have a supplementary transcript sent to the Graduate School when grades are available.</b>',
-			'name':'personal-previousCourseWork',
-			'value':application.personal.previousCourseWork,
-			'cols':60,
-			'rows':5
-		} ) }}
+		{{ forms.textarea( {'title':'List, by title, all course work you expect to take or courses you expect to take before enrolling at UM. <b>Please have a supplementary transcript sent to the Graduate School when grades are available.</b>',
+				'name':'personal-previousCourseWork',
+				'value':application.personal.previousCourseWork,
+				'cols':60,
+				'rows':5
+			} ) }}
 
-	<div style="clear:both"></div>
-</fieldset>
+		<div style="clear:both"></div>
+	</fieldset>
+{% endif %}
 
 <div style="clear:both"></div>
 
@@ -159,6 +164,7 @@
 	{{ forms.booleanDisplay( {'title':'Have you ever been found responsible for a disciplinary violation at a post-secondary educational institution you have attended (or the international equivalent) whether related to academic misconduct or behavioral misconduct, that resulted in your suspension, removal, dismissal or expulsion from the institution?',
 			'name':'personal-hasDisciplinaryViolation',
 			'value':application.personal.hasDisciplinaryViolation,
+			'isRequired':true
 		} ) }}
 
 
@@ -189,6 +195,7 @@
 	{{ forms.booleanDisplay( {'title':'Have you ever been convicted of a misdemeanor, felony or other crime, or adjudicated of committing a juvenile crime?',
 			'name':'personal-hasCivilViolation',
 			'value':application.personal.hasCivilViolation,
+			'isRequired':true			
 		} ) }}	
 
 	<div class="hidden" id="personal-hasCivilViolation_section">
@@ -213,154 +220,155 @@
 
 
 
-<!-- Updated up to here with refomatting of form fields to functions
-	as of Monday 2/10/13
--->
+<!--Begin fieldset "examinations"-->
+{% if application.type == 'Degree' %}
 
-<fieldset id="examinations" name="examinations" class="nested">
-	<legend>Examinations</legend>
+	<fieldset id="examinations" name="examinations" class="nested">
+		<legend>Examinations</legend>
 
-	<p class="title"><strong>Please have official scores sent directly to the Graduate School from the testing institution:</strong><p>
-	<p class="message">For GRE, Educational Testing Service, <a href="http://www.ets.org" class="text_link" target="_blank">www.ets.org</a>, institution code for UM (ORONO): 3916</p>
-	<p class="message">For GMAT, Graduate Management Admissions Council, <a href="http://www.mba.com" class="text_link" target="_blank">www.mba.com</a>, institution code for UM (ORONO): 1ZF-RM-41</p>
-	<p class="message">For MAT, Harcourt Assessment, <a href="http://www.milleranalogies.com" class="text_link" target="_blank">www.milleranalogies.com</a>, institution code for UM (ORONO): 1278</p>
+		<p class="title"><strong>Please have official scores sent directly to the Graduate School from the testing institution:</strong><p>
+		<p class="message">For GRE, Educational Testing Service, <a href="http://www.ets.org" class="text_link" target="_blank">www.ets.org</a>, institution code for UM (ORONO): 3916</p>
+		<p class="message">For GMAT, Graduate Management Admissions Council, <a href="http://www.mba.com" class="text_link" target="_blank">www.mba.com</a>, institution code for UM (ORONO): 1ZF-RM-41</p>
+		<p class="message">For MAT, Harcourt Assessment, <a href="http://www.milleranalogies.com" class="text_link" target="_blank">www.milleranalogies.com</a>, institution code for UM (ORONO): 1278</p>
 
-	<fieldset id="gre" name="gre" class="nested">
-		<legend>Graduate Record Exam</legend>
+		<fieldset id="gre" name="gre" class="nested">
+			<legend>Graduate Record Exam</legend>
 
-		{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the GRE?',
-			'name':'personal-hasTakenGRE',
-			'value':application.personal.hasTakenGRE,
-			'showOnTrue':true
-		} ) }}
-	
-		<div style="clear:both"></div>
-
-		<div class="hidden" id="personal-hasTakenGRE_section">
-			<div id="GREs">
-				{% for gre in application.GREScores %}
-					{% include 'application/repeatable/gre.twig' with {'gre':gre} %}
-				{% endfor %}
-			</div>
-
-			<div style="clear:both"></div>
-
-			{{ section.addSubSectionButton('Add Another Score', 'GRE')}}
-
-		</div>
-
-		<div style="clear:both"></div>
-	</fieldset><!-- end fieldset "gre" -->
-	
-	<div style="clear:both;"></div>
-
-	<fieldset id="gmat" name="gmat" class="nested">
-		<legend>Graduate Management Admission Test</legend>
-				
-		{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the GMAT?',
-				'name':'personal-gmat_hasTaken',
-				'value':application.personal.gmat_hasTaken,
+			{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the GRE?',
+				'name':'personal-hasTakenGRE',
+				'value':application.personal.hasTakenGRE,
 				'showOnTrue':true
 			} ) }}
 		
-		<div style="clear:both;"></div>
+			<div style="clear:both"></div>
 
-		<div class="hidden" id="personal-gmat_hasTaken_section">
-			
-			{{ forms.input( {'title':'Date of Exam',
-					'name':'personal-gmat_date',
-					'value':application.personal.gmat_date,
-					'size':14,
-					'maxLength':7,
-					'help':'mm/yyyy'					
-				} ) }}
+			<div class="hidden" id="personal-hasTakenGRE_section">
+				<div id="GREs">
+					{% for gre in application.GREScores %}
+						{% include 'application/repeatable/gre.twig' with {'gre':gre} %}
+					{% endfor %}
+				</div>
 
-			{{ forms.input( {'title':'Verbal',
-					'name':'personal-gmat_verbal',
-					'value':application.personal.gmat_verbal,
-					'size':2,
-					'maxLength':2
-				} ) }}
+				<div style="clear:both"></div>
 
-			{{ forms.input( {'title':'Quantitative',
-					'name':'personal-gmat_quantitative',
-					'value':application.personal.gmat_quantitative,
-					'size':2,
-					'maxLength':2
-				} ) }}
+				{{ section.addSubSectionButton('Add Another Score', 'GRE')}}
 
-			{{ forms.input( {'title':'Analytical',
-					'name':'personal-gmat_analytical',
-					'value':application.personal.gmat_analytical,
-					'size':3,
-					'maxLength':3
-				} ) }}	
-
-			{{ forms.input( {'title':'Total Score',
-					'name':'personal-gmat_score',
-					'value':application.personal.gmat_score,
-					'size':3,
-					'maxLength':3
-				} ) }}
-
-			<div style="clear:both;"></div>
-
-			{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
-					'name':'personal-gmat_hasReported',
-					'value':application.personal.gmat_hasReported
-				} ) }}
-
-		<div style="clear:both"></div>
-		</div>
-	</fieldset><!-- end fieldset "gmat" -->
-
-	<div style="clear:both"></div>
-
-	<fieldset id="mat" name="mat" class="nested">
-		<legend>Miller Analogies Test</legend>
-
-		{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the MAT?',
-				'name':'personal-mat_hasTaken',
-				'value':application.personal.mat_hasTaken,
-				'showOnTrue':true
-			} ) }}
-
-		<div style="clear:both;"></div>
-
-		<div class="hidden" id="personal-mat_hasTaken_section">
-			
-			{{ forms.input( {'title':'Date of Exam',
-					'name':'personal-mat_date',
-					'value':application.personal.mat_date,
-					'size':14,
-					'maxLength':7,
-					'help':'mm/yyyy'					
-				} ) }}
-
-			{{ forms.input( {'title':'MAT Score',
-					'name':'personal-mat_score',
-					'value':application.personal.mat_score,
-					'size':3,
-					'maxLength':3
-				} ) }}
-			
-
-			<div style="clear:both;"></div>
-
-			{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
-					'name':'personal-mat_hasReported',
-					'value':application.personal.mat_hasReported,
-					'showOnTrue':false
-				} ) }}
+			</div>
 
 			<div style="clear:both"></div>
-		</div>
+		</fieldset><!-- end fieldset "gre" -->
+		
+		<div style="clear:both;"></div>
+
+		<fieldset id="gmat" name="gmat" class="nested">
+			<legend>Graduate Management Admission Test</legend>
+					
+			{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the GMAT?',
+					'name':'personal-gmat_hasTaken',
+					'value':application.personal.gmat_hasTaken,
+					'showOnTrue':true
+				} ) }}
+			
+			<div style="clear:both;"></div>
+
+			<div class="hidden" id="personal-gmat_hasTaken_section">
+				
+				{{ forms.input( {'title':'Date of Exam',
+						'name':'personal-gmat_date',
+						'value':application.personal.gmat_date,
+						'size':14,
+						'maxLength':7,
+						'help':'mm/yyyy'					
+					} ) }}
+
+				{{ forms.input( {'title':'Verbal',
+						'name':'personal-gmat_verbal',
+						'value':application.personal.gmat_verbal,
+						'size':2,
+						'maxLength':2
+					} ) }}
+
+				{{ forms.input( {'title':'Quantitative',
+						'name':'personal-gmat_quantitative',
+						'value':application.personal.gmat_quantitative,
+						'size':2,
+						'maxLength':2
+					} ) }}
+
+				{{ forms.input( {'title':'Analytical',
+						'name':'personal-gmat_analytical',
+						'value':application.personal.gmat_analytical,
+						'size':3,
+						'maxLength':3
+					} ) }}	
+
+				{{ forms.input( {'title':'Total Score',
+						'name':'personal-gmat_score',
+						'value':application.personal.gmat_score,
+						'size':3,
+						'maxLength':3
+					} ) }}
+
+				<div style="clear:both;"></div>
+
+				{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
+						'name':'personal-gmat_hasReported',
+						'value':application.personal.gmat_hasReported
+					} ) }}
+
+			<div style="clear:both"></div>
+			</div>
+		</fieldset><!-- end fieldset "gmat" -->
+
+		<div style="clear:both"></div>
+
+		<fieldset id="mat" name="mat" class="nested">
+			<legend>Miller Analogies Test</legend>
+
+			{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the MAT?',
+					'name':'personal-mat_hasTaken',
+					'value':application.personal.mat_hasTaken,
+					'showOnTrue':true
+				} ) }}
+
+			<div style="clear:both;"></div>
+
+			<div class="hidden" id="personal-mat_hasTaken_section">
+				
+				{{ forms.input( {'title':'Date of Exam',
+						'name':'personal-mat_date',
+						'value':application.personal.mat_date,
+						'size':14,
+						'maxLength':7,
+						'help':'mm/yyyy'					
+					} ) }}
+
+				{{ forms.input( {'title':'MAT Score',
+						'name':'personal-mat_score',
+						'value':application.personal.mat_score,
+						'size':3,
+						'maxLength':3
+					} ) }}
+				
+
+				<div style="clear:both;"></div>
+
+				{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
+						'name':'personal-mat_hasReported',
+						'value':application.personal.mat_hasReported,
+						'showOnTrue':false
+					} ) }}
+
+				<div style="clear:both"></div>
+			</div>
+
+			<div style="clear:both;"></div>
+		</fieldset><!-- end fieldset "mat" -->
 
 		<div style="clear:both;"></div>
-	</fieldset><!-- end fieldset "mat" -->
-
-	<div style="clear:both;"></div>
-</fieldset><!--end fieldset "examinations"-->	
+	</fieldset>	
+{% endif %} 
+<!--end fieldset "examinations"-->
 
 <div style="clear:both"></div>
 

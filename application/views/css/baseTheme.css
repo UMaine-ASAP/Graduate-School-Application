@@ -1,0 +1,429 @@
+/* =============================================================== */
+/* = Top Level CSS
+/* =============================================================== */
+
+html {
+	background-color: #F3EFE6;
+	background-attachment: fixed;
+	background-position-x: center;
+	/* This ensures that the site won't shift when you go from a page with scroll bars to a page without, or vice versa */
+	/* fix from http://www.nkuttler.de/2008/09/29/the-biggest-css-annoyance/ */
+	height: 100%;
+	margin-bottom: 1px;
+}
+
+body {
+	text-align:center;
+	font-family: verdana, geneva, arial, helvetica, sans-serif; 
+	color: #333333;
+	height: 100%;
+	font-size: 11px;
+}
+	
+strong {
+	font-weight:bold;
+}
+
+p {
+	padding-top:.5em;
+}
+
+
+/* =============================================================== */
+/* = General Helper Classes
+/* =============================================================== */
+
+.clear { clear: both; }
+
+.hidden { display:none; }
+
+.center { margin: 0 auto; }
+
+
+/* =============================================================== */
+/* = Header
+/* =============================================================== */
+
+header.topHeader {
+	background-color: #003263;
+     background-image: url('/../views/images/bluebargradient.gif');
+     background-repeat: repeat-x;
+     margin-bottom: 20px;
+     width: 100%;
+	height: 110px;
+}
+
+header.topHeader a {
+	display: block;
+	height:85px;
+	width: 245px;
+	background-image:url('/../views/images/grad_logo.png');
+	background-repeat:no-repeat;
+}
+
+header.topHeader h1 {
+	position:absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+
+	color:#ffffff;
+	font-family: Verdana, Arial, sans-serif;
+	font-weight: normal;
+	font-size: 38px;
+	text-align: center;
+	display:inline;
+
+	margin-top:1em;
+}
+
+header.loggedIn {
+	width:100%;
+	margin-top:2px;
+	text-align:right;
+	color: #000;
+	margin-bottom: 2px;
+}
+
+
+/* =============================================================== */
+/* = Forms
+/* =============================================================== */
+
+input {
+	display: inline;
+	padding: 1px 6px;
+}
+
+label.error { 
+	float: none; 
+	color: red;
+	padding-left:
+	.5em;
+	vertical-align: top;
+}
+
+fieldset {
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+}
+
+legend {
+	font-weight: bold;
+}
+
+form.shortForm fieldset
+{
+	margin:3px;
+	padding:10px 9px 7px;
+	background: #b4c8cf;
+	border-left:1px solid #9FAEB3;
+	border-top:1px solid #9FAEB3;	
+}
+
+form.shortForm legend
+{
+	background-color:transparent;
+	background: #b4c8cf;
+	padding: 4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border:1px solid #9FAEB3;
+}
+
+form.shortForm input[type='submit']
+{
+	clear: both;
+	margin-top: 12px;
+}
+
+.shortFormContainer
+{
+	width:20em;
+	padding:1em;
+	background:#dfe9ed;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;	
+}
+
+/* =============================================================== */
+/* = Messages
+/* =============================================================== */
+
+
+.warning {
+	color: #ad5147;
+	font-size: 0.8em;
+}
+
+.success {
+	color: #51ad47;
+	font-size: 1.2em;
+}
+
+/* =============================================================== */
+/* = Sidebar
+/* =============================================================== */
+
+#sidebarPane footer {
+	height: 30px;	
+	background-color: #b4c8cf;
+	padding: 4px 8px;	
+	
+	-moz-border-radius-bottomleft:8px;
+	-moz-border-radius-bottomright:8px;
+	-webkit-border-bottom-right-radius:8px;
+	-webkit-border-bottom-left-radius:8px;
+}
+
+#sidebarPane header {
+	font-size: 25px;
+	padding:5px 8px;
+	background-color:#b4c8cf;
+	
+	-moz-border-radius-topright:8px;
+	-moz-border-radius-topleft:8px;
+	-webkit-border-top-left-radius:8px;
+	-webkit-border-top-right-radius:8px;
+}
+
+#sidebarPane {
+	float:left;
+	width: 310px;
+	height:100%;
+	background-color: #5c697a;
+	position: relative;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
+
+/* =============================================================== */
+/* = Content
+/* =============================================================== */
+
+.content {
+	width:50em;
+	text-align:left;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#page {
+	min-height: 100%;
+	margin-bottom: -95px;
+}
+
+.push {
+	height: 120px;
+	clear:both;
+}
+
+/* ---------------------- */
+/* - Forgetten Password Section
+/* ---------------------- */
+section#content-forgotten-password {
+	font-size: 16px;
+
+	margin-top: 5em;
+}
+
+/* ---------------------- */
+/* - Login Section
+/* ---------------------- */
+
+section#content-login {
+	font-size: 16px;
+	margin-top: 5em;
+}
+
+
+section#content-login .login fieldset {
+	height:100%;
+	min-height:50px;
+}
+	
+section#content-login #signin {
+	margin:0px 4em 0px .7em;
+}
+
+section#content-login #signin, section#content-login #create_account { 
+	float: left;
+}
+	
+section#content-login #signin * [type='text'], section#content-login #signin * [type='password'] {
+	padding:2px;
+}
+
+/* =============================================================== */
+/* = Footer
+/* =============================================================== */
+
+
+.gradFooter {
+	color:#fff;
+	text-align:center;
+	padding-top: 25px;
+	margin-top:15px;
+	font-family:verdana,geneva,arial,helvetica,sans-serif;
+}
+	
+#site-footer-container {
+	background-color: #003263;
+    background-image: url('/../views/images/footergradient.png');
+    bottom: 0;
+/*    margin-top: 20px;*/
+
+    width: 100%;
+    color: white;
+    text-align: center;
+    height: 80px;
+    min-height: 80px;
+    clear: both;
+}
+
+
+/* =============================================================== */
+/* = No Script
+/* =============================================================== */
+
+#noscript {
+	min-height:0;
+	padding:1em;
+	font-size:1.5em;
+	margin-left:0;
+	margin-top:1em;
+	
+}
+
+#noscript a {
+	color:#0000ED;
+	text-decoration:underline;
+}
+
+/* =============================================================== */
+/* = Buttons
+/* =============================================================== */
+
+/* CSS3 Buttons from http://www.webdesignerwall.com/tutorials/css3-gradient-buttons/ */
+
+button, .button {
+    display: inline-block;
+    zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+    *display: inline;
+    vertical-align: baseline;
+    margin: 0 2px;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+/*    font: 14px/100% verdana, Helvetica, Arial, sans-serif;
+    padding: .5em 2em .55em;*/
+    text-shadow: 0 1px 1px rgba(0,0,0,.1);
+    -webkit-border-radius: .5em; 
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	padding: 4px 8px;
+	font-size: 11px;
+	font-family: verdana, geneva, arial, helvetica, sans-serif;
+
+}
+
+button, .button {
+}
+
+button
+{
+   -webkit-border-radius: 0; 
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+button.green, button.red
+{
+   -webkit-border-radius: .5em; 
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+}
+
+
+.small { /* a small button */
+    font-size: 11px;
+    padding: .2em 1em .275em;
+}
+
+/* a red button */
+.red {
+    color: #faddde;
+    border: solid 1px #980c10;
+    background: #d81b21;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ed1c24), to(#aa1317));
+    background: -moz-linear-gradient(top,  #ed1c24,  #aa1317);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed1c24', endColorstr='#aa1317');
+}
+.red:hover {
+    background: #b61318;
+    background: -webkit-gradient(linear, left top, left bottom, from(#c9151b), to(#a11115));
+    background: -moz-linear-gradient(top,  #c9151b,  #a11115);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#c9151b', endColorstr='#a11115');
+}
+.red:active {
+    color: #de898c;
+    background: -webkit-gradient(linear, left top, left bottom, from(#aa1317), to(#ed1c24));
+    background: -moz-linear-gradient(top,  #aa1317,  #ed1c24);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#aa1317', endColorstr='#ed1c24');
+}
+
+/* end red button */
+
+/* a green button */
+.green {
+    color: #e8f0de;
+    border: solid 1px #538312;
+    background: #64991e;
+    background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));
+    background: -moz-linear-gradient(top,  #7db72f,  #4e7d0e);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#7db72f', endColorstr='#4e7d0e');
+}
+.green:hover {
+    background: #538018;
+    background: -webkit-gradient(linear, left top, left bottom, from(#6b9d28), to(#436b0c));
+    background: -moz-linear-gradient(top,  #6b9d28,  #436b0c);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#6b9d28', endColorstr='#436b0c');
+}
+.green:active {
+    color: #a9c08c;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4e7d0e), to(#7db72f));
+    background: -moz-linear-gradient(top,  #4e7d0e,  #7db72f);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
+}
+
+/* end green button */
+
+/* remove button */
+.remove {
+	float:right;
+	margin-right:0;
+	margin-top:0;
+	position:relative;
+	right:-6px;
+	top:-2px;
+	-webkit-border-top-left-radius: 0;
+	-webkit-border-bottom-right-radius: 0;
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-radius-topleft: 0;
+	-moz-border-radius-bottomright: 0;
+	-moz-border-radius-topright: 4px;
+	border-top-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 4px;
+	font-weight:bold;
+	margin-left:0;
+}
+
+/* add button */
+.add {
+	font-weight:bold;
+}

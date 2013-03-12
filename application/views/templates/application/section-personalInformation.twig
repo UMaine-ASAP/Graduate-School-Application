@@ -1,6 +1,8 @@
-{% extends 'application/section.twig' %}
+{% extends 'application/sectionLayout.twig' %}
 {% import "forms.macro.twig" as forms %}
 {% import "application/section.macro.twig" as section %}
+
+{% block pageName %}Application - Personal Information{% endblock %}
 
 {% block form %}
 
@@ -126,8 +128,8 @@
 			<legend>Mailing Address</legend>
 			
 			{{ forms.booleanDisplay( {'title':'Is your mailing address the same as your permanent address?',
-					'name':'personal-isMailingDifferentFromPermanent',
-					'value':application.personal.isMailingDifferentFromPermanent,
+					'name':'personal-isMailingSameAsPermanent',
+					'value':application.personal.isMailingSameAsPermanent,
 					'showOnTrue':false
 				} ) }}
 
@@ -268,117 +270,125 @@
 		green_card_link
 	-->
 
-		<fieldset id="ethnicity" name="ethnicity" class="nested">
+		{% if application.type == 'Degree' or application.type == 'Certificate' %}
+			<fieldset id="ethnicity" name="ethnicity" class="nested">
 
-			<legend>Ethnic Information</legend>
+				<legend>Ethnic Information</legend>
+				
+				<p class="message">Note on Ethnicity:
+				Colleges and universities are asked by many, including the federal government, accrediting associations, college guides, newspapers and our own college/university communities, to describe the racial/ethnic backgrounds of our students and employees. In order to respond to these requests, we ask you to answer the following two questions:</p>
+
+				{{ forms.boolean( {'title':'Do you consider yourself to be Hispanic/Latino',
+								'name':'personal-ethnicity_hispa',
+								'value':application.personal.ethnicity_hispa
+					} ) }}
+
+				<div style="clear:both;"></div>
 			
-			<p class="message">Note on Ethnicity:
-			Colleges and universities are asked by many, including the federal government, accrediting associations, college guides, newspapers and our own college/university communities, to describe the racial/ethnic backgrounds of our students and employees. In order to respond to these requests, we ask you to answer the following two questions:</p>
+				<label for="ethnicity" class="one_line">
+					<p class="title">In addition, select one or more of the following racial categories to describe yourself:</p>
 
-			{{ forms.boolean( {'title':'Do you consider yourself to be Hispanic/Latino',
-							'name':'personal-ethnicity_hispa',
-							'value':application.personal.ethnicity_hispa
-				} ) }}
+					{{ forms.checkbox( {'title':'American Indian/Native Alaskan', 
+							'name':'personal-ethnicity_amind',
+								'value':application.personal.ethnicity_amind
+							}) }}
 
-			<div style="clear:both;"></div>
+					{{ forms.checkbox( {'title':'Asian', 
+								'name':'personal-ethnicity_asian',
+								'value':application.personal.ethnicity_asian
+							}) }}
+
+					{{ forms.checkbox( {'title':'Black/African American', 
+								'name':'personal-ethnicity_black',
+								'value':application.personal.ethnicity_black
+							}) }}
+
+					{{ forms.checkbox( {'title':'Native Hawaiian/Pacific Islander', 
+								'name':'personal-ethnicity_pacif',
+								'value':application.personal.ethnicity_pacif
+							}) }}
+
+					{{ forms.checkbox( {'title':'White', 
+								'name':'personal-ethnicity_white',
+								'value':application.personal.ethnicity_white
+							}) }}
 		
-			<label for="ethnicity" class="one_line">
-				<p class="title">In addition, select one or more of the following racial categories to describe yourself:</p>
-
-				{{ forms.checkbox( {'title':'American Indian/Native Alaskan', 
-						'name':'personal-ethnicity_amind',
-							'value':application.personal.ethnicity_amind
-						}) }}
-
-				{{ forms.checkbox( {'title':'Asian', 
-							'name':'personal-ethnicity_asian',
-							'value':application.personal.ethnicity_asian
-						}) }}
-
-				{{ forms.checkbox( {'title':'Black/African American', 
-							'name':'personal-ethnicity_black',
-							'value':application.personal.ethnicity_black
-						}) }}
-
-				{{ forms.checkbox( {'title':'Native Hawaiian/Pacific Islander', 
-							'name':'personal-ethnicity_pacif',
-							'value':application.personal.ethnicity_pacif
-						}) }}
-
-				{{ forms.checkbox( {'title':'White', 
-							'name':'personal-ethnicity_white',
-							'value':application.personal.ethnicity_white
-						}) }}
-	
-			<div style="clear:both;"></div>
-		</fieldset><!-- end fieldset "ethnicity" -->
+				<div style="clear:both;"></div>
+			</fieldset>
+			<!-- end fieldset "ethnicity" -->
+		{% endif %}
 
 	<div style="clear:both;"></div>
 </fieldset><!-- end fieldset "personal_information" -->
 
-<fieldset id="fieldset-languages" name="languages">
-	<legend>Language Information</legend>
-	
-	<fieldset id="english" name="english" class="nested">
-		<legend>English Proficiency</legend>
+{% if application.type == 'Degree' or application.type == 'Certificate' %}
+
+	<fieldset id="fieldset-languages" name="languages">
+		<legend>Language Information</legend>
 		
+		<fieldset id="english" name="english" class="nested">
+			<legend>English Proficiency</legend>
+			
 
-		{{ forms.booleanDisplay( {'title':'Is English your primary language?',
-							'name':'personal-isEnglishPrimary',
-							'value':application.personal.isEnglishPrimary,
-							'showOnTrue':false							
-			} ) }}
+			{{ forms.booleanDisplay( {'title':'Is English your primary language?',
+								'name':'personal-isEnglishPrimary',
+								'value':application.personal.isEnglishPrimary,
+								'showOnTrue':false							
+				} ) }}
 
-		<br /><br /><br />
-	
+			<br /><br /><br />
+		
+			<div style="clear:both;"></div>
+
+			<div class="hidden" id="personal-isEnglishPrimary_section">
+				<p class="title">Please indicate the number of years you have studied English (give dates):</p>
+						
+				{{ forms.input({'title':'In secondary or middle school',
+							'name':'personal-englishYears_school',
+							'value':application.personal.englishYears_school,
+							'size': 20,
+							'maxLength':15,
+							'help':'mm/yyyy-mm/yyyy'
+						} ) }}
+
+				{{ forms.input({'title':'In university',
+							'name':'personal-englishYears_univ',
+							'value':application.personal.englishYears_univ,
+							'size': 20,
+							'maxLength':15,
+							'help':'mm/yyyy-mm/yyyy'
+						} ) }}
+
+				{{ forms.input({'title':'Under private auspices',
+							'name':'personal-englishYears_private',
+							'value':application.personal.englishYears_private,
+							'size': 20,
+							'maxLength':15,
+							'help':'mm/yyyy-mm/yyyy'
+						} ) }}
+
+			</div>
+		</fieldset><!-- end fieldset "english" -->
+		
+		<p class="title">Knowledge of other languages and proficiency in each</p>
+
+		<div id="languages">
+			{% for language in application.languages %}
+				{% include 'application/repeatable/language.twig' with {'language':language} %}
+			{% endfor %}
+		</div>
+
+		{{ section.addSubSectionButton('Add Another Language', 'language')}}
+
 		<div style="clear:both;"></div>
 
-		<div class="hidden" id="personal-isEnglishPrimary_section">
-			<p class="title">Please indicate the number of years you have studied English (give dates):</p>
-					
-			{{ forms.input({'title':'In secondary or middle school',
-						'name':'personal-englishYears_school',
-						'value':application.personal.englishYears_school,
-						'size': 20,
-						'maxLength':15,
-						'help':'mm/yyyy-mm/yyyy'
-					} ) }}
-
-			{{ forms.input({'title':'In university',
-						'name':'personal-englishYears_univ',
-						'value':application.personal.englishYears_univ,
-						'size': 20,
-						'maxLength':15,
-						'help':'mm/yyyy-mm/yyyy'
-					} ) }}
-
-			{{ forms.input({'title':'Under private auspices',
-						'name':'personal-englishYears_private',
-						'value':application.personal.englishYears_private,
-						'size': 20,
-						'maxLength':15,
-						'help':'mm/yyyy-mm/yyyy'
-					} ) }}
-
-		</div>
-	</fieldset><!-- end fieldset "english" -->
-	
-	<p class="title">Knowledge of other languages and proficiency in each</p>
-
-	<div id="languages">
-		{% for language in application.languages %}
-			{% include 'application/repeatable/language.twig' with {'language':language} %}
-		{% endfor %}
-	</div>
-
-	{{ section.addSubSectionButton('Add Another Language', 'language')}}
-
-	<div style="clear:both;"></div>
-	
-	{{ section.buildPager(false, true) }}
-
-</fieldset><!-- end fieldset "languages" -->
+{% endif %}
+<!-- end fieldset "languages" -->
 		
+		{{ section.buildPager(false, true) }}
+
+	</fieldset>
+
 <!-- FUNCTIONS -->
 <script type="text/javascript" charset="utf-8">                   
 function confirmSSN(fmssn){                         

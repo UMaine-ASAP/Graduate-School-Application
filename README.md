@@ -10,7 +10,7 @@ Setup
 Server Configuration
 --------------------
 
-- PHP > 5.3
+- PHP >= 5.3
 - MySQL
 - Apache 2.0 or equivalent
 	- rewrite module enabled
@@ -86,11 +86,12 @@ File Structure
 
 	- **models/** 	All data objects used in the application
 
-		- **Model.php**              A generic data object providing functions for loading/saving data from the database. If a model is tied to a database table, all of the fields for that database table are accessible as object properties.
-		- **ApplicationModel.php**   Application model used to access/save database fields
-		- **applicationComponents/** Models representing components of the application
-		- **ApplicantModel.php**     Applicant model with basic applicant data
-		- **databaseConfig.php**     Not a model object. Describes which  but a configuration script. Because this serves a database function and corresponds to the apps logic it falls within the models category.
+		- **Model.php**                      A generic data object providing functions for loading/saving data from the database. If a model is tied to a database table, all of the fields for that database table are accessible as object properties.
+		- **ApplicationModel.php**           Application model used to access/save database fields
+		- **applicationComponents/**         Models representing components of the application
+		- **ApplicantModel.php**             Applicant model with basic applicant data
+		- **databaseConfig.php**             Not a model object. Describes which  but a configuration script. Because this serves a database function and corresponds to the apps logic it falls within the models category.
+		- **ApplicationFieldReference.php**  Helper model for converting a reference to a database field into a usable object for setting and getting values. Used to communicate database fields between client and server (i.e. client can specify which language name needs to be updated)
 
 
 	- **views/** Templates and supporint code for displaying data to the user
@@ -107,6 +108,7 @@ File Structure
 				- **paymentResponse.twig** Template used when user returns to application from the Touchnet payment process
 				- **section.macro.twig**   Helper template functions for application views
 				- **section.twig**         Template structure for all major application sections
+				- **pdf.twig**             Template defining the pdf output
 
 			- **emails/**                 All email templates. This does not use Twig -> see application/libraries/Email.php for more details.
 			- **letterOfRecommendation/** Templates for forms and pages relating to references filling out a letter of recommendation
@@ -181,10 +183,10 @@ All *data submissions* are implemented in routes.php and are HTTP post requests 
 ### Note
 As part of the site configuration, the .htaccess file's exists to redirect all url requests to routes.php according to Apache 2's rewrite rules. If application url requests do not function at all, the server needs to be configured to either allow the .htacess files, or redirect url requests to routes.php. If this is not an option, alternatively you can change the webroot in externalConfiguration.php to http://<webroot_here>/routes.php. The urls will not be as pretty but the application should function properly.
 
-Templates
+Views
 ---------
 
-Templates (also known as views) are the display containers of the application.
+Views (also known as templates) are the display containers of the application.
 
 Templates are implemented using the Twig framework. Twig allows inheriting templates, variable replacement, basic looping and conditional statements, data filtering, and much more.  See [Twig Home](http://twig.sensiolabs.org/) for additional details.
 
@@ -192,7 +194,9 @@ The Twig library can be found found in /libs/Twig and /libs/Slim/Twig.php. /libs
 
 - **WEBROOT** - The full url path to the root directory of the application. This is used for correctly building all links and references in templates.
 - **GRADHOMEPAGE** - the full url to the graduate school's website
-- **GRADIMAGESPATH** - The full url to the application's images
+- **CSSPATH** - The full url to the application's css folder
+- **JSPATH** - The full url to the application's javascript folder
+- **IMAGEPATH** - The full url to the application's images folder
 - **ISLOGGEDIN** - A boolean value indicating if the user is currently logged
 - **EMAIL** - The email of the current user. This value is only available if the user is logged in.
 

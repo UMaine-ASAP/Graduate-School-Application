@@ -1,0 +1,61 @@
+{% extends 'pageLayout.twig' %}
+
+{% block title %}{% block pageName %}{% endblock %}{% endblock %}
+
+{% block head %}
+	<!-- Stylesheets -->
+	<link type="text/css" href="{{CSSPATH}}/jquery/redmond/jquery-ui-1.10.1.custom.min.css" rel="Stylesheet" />
+	<link rel="stylesheet" type="text/css" href="{{CSSPATH}}/section.css" media="screen,print" />
+
+	<!-- Javascript libraries -->
+	<script type="text/javascript" src="{{JSPATH}}/ajaxupload.3.5.js" ></script>
+	<script type="text/javascript" src="{{JSPATH}}/jquery/jquery-ui-1.10.1.custom.min.js"></script>
+
+	<!-- Our Javascript -->
+	<script type="text/javascript" src="{{JSPATH}}/applicationFormHelper.js"></script>
+	<script type="text/javascript" src='{{JSPATH}}/section.js'></script>
+
+	{% block headDetails %}{% endblock %}
+{% endblock %}
+
+{% block sidebar %}
+	<a id='link-my-applications' href='/my-applications'>Return to All Applications</a>
+	<header> Welcome{% if application.fullName != '' %}, {{ application.fullName }}{% endif %} </header>
+	<div id="progress"> 
+		{% if flash['errors'] %}
+			<ul id='error_list'>
+				{% for error in flash['errors'] %}
+					{% set section = sectionDetails[error.section] %}
+					<li>{{error.message}} on the <a href='{{ section.url }}'>{{section.name}} Page</a>.</li>
+				{% endfor %}
+				There {% if flash['errors'] | length == 1 %} was <b>1</b> problem{% else %} were <b>{{flash['errors'] | length}}</b> problems {% endif %} with this submission.
+
+			</ul>		
+		{% else %}
+			{% if TEMPLATENAME == 'section-review' %}
+				Click on any section to return to editing your application.
+			{% else %}
+				Please submit all information that you can.<br>Press the “Review Application” button when you are ready.
+
+			{% endif %}
+		{% endif %}
+	</div>
+
+	<div id="sections"> {{SECTION_LINKS | raw }} </div>
+	<footer>
+		<button class='command-href' id='review-application' data-href='{{WEBROOT}}/application/section/review'>Review Application</button>
+		<button class='command-href' id='sign-out' data-href='{{WEBROOT}}/logout'>Sign Out</button>
+		<button class='' id='save-command'>Save</button>
+	</footer>
+{% endblock %}
+
+{% block content %}	
+	{% include 'noJavascriptCheckSnippet.twig' %}
+
+	<form id="validate_wrapper">
+		<div id='form_pane' class='javascript-required'>
+		{% block form %}{% endblock %}
+		</div>
+	</form>
+	
+{% endblock %}

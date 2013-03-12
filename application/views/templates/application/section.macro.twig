@@ -46,11 +46,11 @@
 <!-- Macro: Add Subsection Button
 	 -->
 {% macro addSubSectionButton(title, name) %}
-	<button onClick="addItem('{{name}}');" class="button green small add" type="button" title="Add">+ {{title}}</button>
+	<button onClick="addRepeatableOfType('{{name}}');" class="button green small add" type="button" title="Add">+ {{title}}</button>
 {% endmacro %}
 
 <!-- Macro: remove Subsection Button
 	 -->
 {% macro removeSubSectionButton(id) %}
-	<button class="button red small remove" type="button" onClick='removeItem("{{id}}"); return false;' title="Remove">Remove</button>
+	<button class="button red small remove" type="button" onClick='removeRepeatableWithId("{{id}}"); return false;' title="Remove">Remove</button>
 {% endmacro %}

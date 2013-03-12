@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Generate an encoded value
+ */
 class Hash
 {
 

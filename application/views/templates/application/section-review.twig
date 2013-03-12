@@ -1,22 +1,49 @@
-{% extends 'application/section.twig' %}
+{% extends 'application/sectionLayout.twig' %}
 
-{% block pageName %}{% endblock %}
+{% block pageName %}Application - Review{% endblock %}
 
-{% block headDetails %}
-
-	<script type="text/javascript" src='{{WEBROOT}}/js/review-page.js'></script>
-
-{% endblock %}
 {% block form %}
 
-			{{PERSONAL_INFO}}
+			<div id="personalInfo">
+				<div id="personal_name" class="personalItem">
+					<div class="personalLabel">Name</div>
+					<div class="personalValue">{{ application.fullName }}</div>
+				</div>
+				
+				<div id="personal_addr" class="personalItem">
+					<div class="personalLabel">Address</div>
+					<div class="personalValue">
+						{% set address = application.personal.permanentMailing %}
+						<p>{{address.streetAddress1}}</p>
+						<p>{{address.streetAddress2}}</p>
+						<p>{{address.city}}, {{address.state}}, {{address.postal}}, {{address.country}}</p>
+					</div>
+				</div>
+				
+				<div id="personal_email" class="personalItem">
+					<div class="personalLabel">Email</div>
+					<div class="personalValue">{{application.personal.email}}</div>
+				</div>
+				
+				<div id="personal_phone" class="personalItem">
+					<div class="personalLabel">Phone</div>
+					<div class="personalValue">{{address.primaryPhone}}</div>
+				</div>
+				
+				<div id="personal_Edit" class="personalItem">
+					<div class="personalLabel">&nbsp;</div>
+					<div class="personalValue">
+						<button class='command-href' data-href='{{WEBROOT}}/application/section/personal-information'>Edit Information</button>
+					</div>
+				</div>	
+			</div>
 			
 			<p style="font-size:1.2em;" class="title">You applied to the following program:</p>
 
-			{{PROGRAM_LIST}}
-			
-			<div class="programTop">
-				<div class="iprogram_status"><strong>{{TOTAL_COST}}</strong></div>
+			<div class="program">
+				<div class="programNote">{{ application.startInfo }}</div>
+				<div class='programName'>{{ application.degree.appliedProgram }}</div>
+				<div class="totalCost">${{ application.cost }}</div>
 			</div>
 			
 			<div style="display:clear;"></div>
@@ -44,7 +71,7 @@
 			<div id="terms">
 				<p class="message terms">I verify that all information submitted in this application is true to the best of my knowledge and that I understand that falsifying information will result in denial of admission and possible prosecution as appropriate under the law.</p>
 				<label for="accept_terms" class="one_line"> 
-					<input type="checkbox" id="hasAcceptedTermsOfAgreement" name="hasAcceptedTermsOfAgreement" value="1" onchange="saveValue(event);" onclick="visibility('hasAcceptedTermsOfAgreement_section',this.checked?'block':'none');" />
+					<input type="checkbox" id="hasAcceptedTermsOfAgreement" name="hasAcceptedTermsOfAgreement" value="1" onchange="saveValue(event);" onclick="showOrNot('hasAcceptedTermsOfAgreement_section',this.checked);" />
 					<span class="required title">Yes, I accept the Terms of Conditions</span>
 				</label>
 				<script type="text/javascript">checkInitValue('hasAcceptedTermsOfAgreement',"{{application.hasAcceptedTermsOfAgreement}}");
@@ -60,14 +87,13 @@
 			<!-- Creates button -->
 			<div id="hasAcceptedTermsOfAgreement_section" class="hidden" style="margin-left:3px;padding-left:6px;">
 
-				<form id="pdf_export" method="post" action="scripts/downloadApplication.php">
-					<input type="submit" id="final_submit_app" name="final_submit_app" value="Download Printable Application" target="_blank"/>
-				</form>
+				<button class='command-href small' data-href='{{WEBROOT}}/application/download'>Download Printable Application</button>
+
 				<p>Note: the application will download to your computer as a PDF file which contains personal information. If you are on a public computer, please make sure to delete this PDF when you are done with it.</p>
 
 				<br/>
 				
-				<button class='command-href' name="submitPayNow" id="submitPayNow"  data-href='{{WEBROOT}}/application/submit-with-payment'>Submit Application with Payment</button>
-				<button class='command-href' name="submitPayLater" id="submitPayLater" data-href='{{WEBROOT}}/application/submit-without-payment'>Submit Application without Payment</button>
+				<button class='command-href small' id="submitPayNow"  data-href='{{WEBROOT}}/application/submit-with-payment'>Submit Application with Payment</button>
+				<button class='command-href small' id="submitPayLater" data-href='{{WEBROOT}}/application/submit-without-payment'>Submit Application without Payment</button>
 			</div>
 {% endblock %}

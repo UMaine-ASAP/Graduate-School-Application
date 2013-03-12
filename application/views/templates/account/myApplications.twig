@@ -1,19 +1,23 @@
-{% extends "basic_layout.twig" %}
+{% extends "pageLayout.twig" %}
 
-{% block title %}Applications{% endblock %}
+{% block title %}My Applications{% endblock %}
+{% block pageTitle %}My Applications{% endblock %}
 
 {% block head %}
-	<link rel="stylesheet" href="{{WEBROOT}}/styles/my-applications.css" type="text/css" />
-	<link rel="stylesheet" href="{{WEBROOT}}/styles/jquery/redmond/jquery-ui-1.10.1.custom.min.css" />
+	<link rel="stylesheet" href="{{CSSPATH}}/myApplications.css" type="text/css" />
+	<link rel="stylesheet" href="{{CSSPATH}}/jquery/redmond/jquery-ui-1.10.1.custom.min.css" />
  
-	<script type="text/javascript" src='{{WEBROOT}}/js/jquery/jquery-ui-1.10.1.custom.min.js'></script>	
-	<script type="text/javascript" src='{{WEBROOT}}/js/moment.js'></script>
-	<script type="text/javascript" src='{{WEBROOT}}/js/my-applications.js'></script>
+	<script type="text/javascript" src='{{JSPATH}}/jquery/jquery-ui-1.10.1.custom.min.js'></script>	
+	<script type="text/javascript" src='{{JSPATH}}/moment.js'></script>
+	<script type="text/javascript" src='{{JSPATH}}/myApplications.js'></script>
 
 {% endblock %}
 
 {% block content %}
 
+	{% include 'noJavascriptCheckSnippet.twig' %}
+
+<div class='javascript-required'>
 	<button class='small green' id='create-application'>Create New Application</button>
 
 	<br>
@@ -31,6 +35,9 @@
 			</tr>
 		</thead>
 		<tbody>
+			{% if applications|length == 0 %}
+			<tr><td id='no-applications' colspan='4'>No Applications</td></tr>
+			{% endif %}
 			{% for application in applications %}
 			<tr data-application="{{application.id}}" class='{% if loop.index % 2 == 0 %}even{% else %}odd{% endif %}'>
 				<td class='application-type'>{{application.type}}</td>
@@ -39,12 +46,14 @@
 				<td>{{application.status}}</td>
 				<td>
 					<button class='small green edit-application'>Edit</button>
-					<button class='small red reddelete-application'>Delete</button>
+					<button class='small red red delete-application'>Delete</button>
 				</td>
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+
+	<div class='clear'></div>
 
  
 	<div id="create-application-modal" title="Create New Application">
@@ -62,7 +71,8 @@
 			</fieldset>
 			<input type='submit' value='Begin Application' />
 		</form>
-	</div>	
+	</div>
+</div>
 {% endblock %}
 
 

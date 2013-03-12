@@ -143,10 +143,23 @@ public static function isValid($name, $value, &$errorMessage) {
 	$valid = FALSE;
 	$tested = FALSE;
 
-	$option = self::$databaseFieldTypes[$name];
+	// Find option
+	$option = null;
+	foreach (self::$databaseFieldTypes as $fields) {
+		foreach ($fields as $fieldName => $fieldData) {
+			if ( $name == $fieldName ) {
+				$option = $fieldData['filter'];
+				break;
+			}
+		}
+	}
+	if ($option == null) {
+		return "Error Saving";
+	}
+
 	// Ensure option is valid
 	if( $option != null && array_key_exists($option, self::$filterErrorMessages) ) {
-		$errorMessage = self::filterResult($value, self::$databaseFieldTypes[$name]);
+		$errorMessage = self::filterResult($value, $option);
 	} else {
 		error_log("Input Sanitation Error: Field $name not saved. Either the filter option isn't set or the specified option doesn't exist. See databaseConfig.php for field settings.");
 		$errorMessage = 'Error saving'; // @pragma TEMPONLY_REMOVEME

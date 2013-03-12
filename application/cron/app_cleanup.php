@@ -1,8 +1,8 @@
 <?php
 
-	include_once "../application/libs/variables.php";
-	include_once "../application/libs/database.php";
-	include_once "../application/libs/corefuncs.php";
+	include_once "../application/libraries/variables.php";
+	include_once "../application/libraries/database.php";
+	include_once "../application/libraries/corefuncs.php";
 
 	//Function to delete records from all tables
 	function delete_records($id){

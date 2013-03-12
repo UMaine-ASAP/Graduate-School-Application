@@ -1,0 +1,1860 @@
+info it worked if it ends with ok
+verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'phantomjs' ]
+info using npm@1.1.13
+info using node@v0.6.14
+verbose config file /Users/timbaker/.npmrc
+verbose config file /usr/local/etc/npmrc
+verbose config file /usr/local/lib/node_modules/npm/npmrc
+verbose caching /Users/timbaker/node_modules/chai/package.json
+verbose caching /Users/timbaker/node_modules/marked/package.json
+verbose caching /Users/timbaker/node_modules/mocha/package.json
+verbose caching /Users/timbaker/node_modules/moment/package.json
+verbose caching /Users/timbaker/node_modules/socket.io/package.json
+verbose caching /Users/timbaker/node_modules/webdriverjs/package.json
+verbose has bindings.gyp [ undefined,
+verbose has bindings.gyp   { file: '/Users/timbaker/node_modules/serialport/package.json',
+verbose has bindings.gyp     gypfile: true,
+verbose has bindings.gyp     wscript: false,
+verbose has bindings.gyp     serverjs: false,
+verbose has bindings.gyp     contributors: 
+verbose has bindings.gyp      [ 'Chris Williams <chris@iterativedesigns.com>',
+verbose has bindings.gyp        'Joe Ferner <joe.ferner@nearinfinity.com>',
+verbose has bindings.gyp        'Esa-Matti Suuronen <esa-matti@suuronen.org>',
+verbose has bindings.gyp        'Nathan Rajlich <nathan@tootallnate.net>',
+verbose has bindings.gyp        'Rick Waldron <waldron.rick@gmail.com>',
+verbose has bindings.gyp        '<w1nk>',
+verbose has bindings.gyp        'Georges-Etienne Legendre <legege>',
+verbose has bindings.gyp        'Duane Johnson <duane.johnson@gmail.com>',
+verbose has bindings.gyp        'Joe Ferner <joe@fernsroth.com>' ] } ]
+verbose caching /Users/timbaker/node_modules/serialport/package.json
+verbose cache add [ 'phantomjs', null ]
+silly cache add: name, spec, args [ undefined, 'phantomjs', [ 'phantomjs', null ] ]
+verbose parsed url { pathname: 'phantomjs', path: 'phantomjs', href: 'phantomjs' }
+verbose addNamed [ 'phantomjs', '' ]
+verbose addNamed [ null, '' ]
+silly name, range, hasData [ 'phantomjs', '', false ]
+verbose raw, before any munging phantomjs
+verbose url resolving [ 'https://registry.npmjs.org/', './phantomjs' ]
+verbose url resolved https://registry.npmjs.org/phantomjs
+verbose etag "A48FUVQG4PH619OWVPRBUW6XZ"
+http GET https://registry.npmjs.org/phantomjs
+http 304 https://registry.npmjs.org/phantomjs
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"A48FUVQG4PH619OWVPRBUW6XZ"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:16 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag phantomjs from cache
+silly name, range, hasData 2 [ 'phantomjs', '', true ]
+silly versions [ 'phantomjs',
+silly versions   [ '0.0.1',
+silly versions     '0.0.2',
+silly versions     '0.0.3',
+silly versions     '0.0.4',
+silly versions     '0.0.5',
+silly versions     '0.0.6',
+silly versions     '0.0.7',
+silly versions     '0.0.8',
+silly versions     '0.0.9',
+silly versions     '0.1.0',
+silly versions     '0.1.1',
+silly versions     '0.2.0',
+silly versions     '0.2.1',
+silly versions     '0.2.2',
+silly versions     '0.2.3',
+silly versions     '0.2.4',
+silly versions     '0.2.5',
+silly versions     '0.2.6',
+silly versions     '1.8.0-1',
+silly versions     '1.8.1-1',
+silly versions     '1.8.1-2',
+silly versions     '1.8.1-3' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: '650569df037e929d7e6e9aab4ee1bc23417b2e16',
+verbose bin dist     tarball: 'http://registry.npmjs.org/phantomjs/-/phantomjs-1.8.1-3.tgz' } ]
+verbose caching /Users/timbaker/.npm/phantomjs/1.8.1-3/package/package.json
+verbose loadDefaults phantomjs@1.8.1-3
+silly resolved [ { name: 'phantomjs',
+silly resolved     version: '1.8.1-3',
+silly resolved     keywords: [ 'phantomjs', 'headless', 'webkit' ],
+silly resolved     description: 'Headless WebKit with JS API',
+silly resolved     homepage: 'https://github.com/Obvious/phantomjs',
+silly resolved     repository: { type: 'git', url: 'git://github.com/Obvious/phantomjs.git' },
+silly resolved     licenses: 
+silly resolved      [ { type: 'Apache 2.0',
+silly resolved          url: 'http://www.apache.org/licenses/LICENSE-2.0.html' } ],
+silly resolved     author: 
+silly resolved      { name: 'Dan Pupius',
+silly resolved        email: 'dan@obvious.com',
+silly resolved        url: 'http://pupius.co.uk' },
+silly resolved     maintainers: 
+silly resolved      [ { name: 'Dan Pupius',
+silly resolved          email: 'dan@obvious.com',
+silly resolved          url: 'http://pupius.co.uk/' } ],
+silly resolved     main: 'lib/phantomjs',
+silly resolved     bin: { phantomjs: './bin/phantomjs' },
+silly resolved     scripts: 
+silly resolved      { install: 'node install.js',
+silly resolved        test: 'nodeunit --reporter=minimal test/tests.js' },
+silly resolved     dependencies: { rimraf: '~2.0.2', unzip: '~0.1.0' },
+silly resolved     devDependencies: { nodeunit: '~0.7.4' },
+silly resolved     _id: 'phantomjs@1.8.1-3',
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'phantomjs' } ]
+info into /Users/timbaker phantomjs@1.8.1-3
+info installOne phantomjs@1.8.1-3
+verbose from cache /Users/timbaker/.npm/phantomjs/1.8.1-3/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs
+verbose unpack /Users/timbaker/.npm/phantomjs/1.8.1-3/package.tgz
+silly gunzTarPerm modes [ '755', '644' ]
+silly extracting entry package.json
+silly extracting entry .npmignore
+silly extracting entry README.md
+silly extracting entry install.js
+silly extracting entry .jshintrc
+silly extracting entry bin/phantomjs
+silly extracting entry lib/phantomjs.js
+silly extracting entry LICENSE.txt
+silly extracting entry test/loadspeed.js
+silly extracting entry test/tests.js
+verbose caching /Users/timbaker/node_modules/phantomjs/package.json
+verbose loadDefaults phantomjs@1.8.1-3
+info preinstall phantomjs@1.8.1-3
+verbose from cache /Users/timbaker/node_modules/phantomjs/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/package.json
+verbose readDependencies: using package.json deps
+verbose cache add [ 'rimraf@~2.0.2', null ]
+silly cache add: name, spec, args [ undefined, 'rimraf@~2.0.2', [ 'rimraf@~2.0.2', null ] ]
+verbose parsed url { pathname: 'rimraf@~2.0.2',
+verbose parsed url   path: 'rimraf@~2.0.2',
+verbose parsed url   href: 'rimraf@~2.0.2' }
+silly cache add: name, spec, args [ 'rimraf', '~2.0.2', [ 'rimraf', '~2.0.2' ] ]
+verbose parsed url { pathname: '~2.0.2', path: '~2.0.2', href: '~2.0.2' }
+verbose addNamed [ 'rimraf', '~2.0.2' ]
+verbose addNamed [ null, '>=2.0.2- <2.1.0-' ]
+silly name, range, hasData [ 'rimraf', '>=2.0.2- <2.1.0-', false ]
+verbose cache add [ 'unzip@~0.1.0', null ]
+silly cache add: name, spec, args [ undefined, 'unzip@~0.1.0', [ 'unzip@~0.1.0', null ] ]
+verbose parsed url { pathname: 'unzip@~0.1.0',
+verbose parsed url   path: 'unzip@~0.1.0',
+verbose parsed url   href: 'unzip@~0.1.0' }
+silly cache add: name, spec, args [ 'unzip', '~0.1.0', [ 'unzip', '~0.1.0' ] ]
+verbose parsed url { pathname: '~0.1.0', path: '~0.1.0', href: '~0.1.0' }
+verbose addNamed [ 'unzip', '~0.1.0' ]
+verbose addNamed [ null, '>=0.1.0- <0.2.0-' ]
+silly name, range, hasData [ 'unzip', '>=0.1.0- <0.2.0-', false ]
+verbose raw, before any munging rimraf
+verbose url resolving [ 'https://registry.npmjs.org/', './rimraf' ]
+verbose url resolved https://registry.npmjs.org/rimraf
+verbose etag "61NAZEG45KGDZGNLEIBMZVQNE"
+http GET https://registry.npmjs.org/rimraf
+verbose raw, before any munging unzip
+verbose url resolving [ 'https://registry.npmjs.org/', './unzip' ]
+verbose url resolved https://registry.npmjs.org/unzip
+verbose etag "3J5ZTT87H4GVIN95Q242JCIY3"
+http GET https://registry.npmjs.org/unzip
+http 304 https://registry.npmjs.org/rimraf
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"61NAZEG45KGDZGNLEIBMZVQNE"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:17 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag rimraf from cache
+silly name, range, hasData 2 [ 'rimraf', '>=2.0.2- <2.1.0-', true ]
+silly versions [ 'rimraf',
+silly versions   [ '1.0.0',
+silly versions     '1.0.1',
+silly versions     '1.0.2',
+silly versions     '1.0.4',
+silly versions     '1.0.5',
+silly versions     '1.0.6',
+silly versions     '1.0.7',
+silly versions     '1.0.8',
+silly versions     '1.0.9',
+silly versions     '2.0.0',
+silly versions     '2.0.1',
+silly versions     '2.0.2',
+silly versions     '2.0.3',
+silly versions     '2.1.0',
+silly versions     '2.1.1',
+silly versions     '2.1.2',
+silly versions     '2.1.3',
+silly versions     '2.1.4' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: 'f50a2965e7144e9afd998982f15df706730f56a9',
+verbose bin dist     tarball: 'http://registry.npmjs.org/rimraf/-/rimraf-2.0.3.tgz' } ]
+verbose caching /Users/timbaker/.npm/rimraf/2.0.3/package/package.json
+verbose loadDefaults rimraf@2.0.3
+http 304 https://registry.npmjs.org/unzip
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"3J5ZTT87H4GVIN95Q242JCIY3"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:17 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag unzip from cache
+silly name, range, hasData 2 [ 'unzip', '>=0.1.0- <0.2.0-', true ]
+silly versions [ 'unzip',
+silly versions   [ '0.0.1',
+silly versions     '0.0.2',
+silly versions     '0.0.3',
+silly versions     '0.0.4',
+silly versions     '0.1.0',
+silly versions     '0.1.1',
+silly versions     '0.1.2',
+silly versions     '0.1.3',
+silly versions     '0.1.4' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: 'de90023d8b52766791979cfea7e597634081a4c7',
+verbose bin dist     tarball: 'http://registry.npmjs.org/unzip/-/unzip-0.1.4.tgz' } ]
+verbose caching /Users/timbaker/.npm/unzip/0.1.4/package/package.json
+verbose loadDefaults unzip@0.1.4
+silly resolved [ { name: 'rimraf',
+silly resolved     version: '2.0.3',
+silly resolved     main: 'rimraf.js',
+silly resolved     description: 'A deep deletion module for node (like `rm -rf`)',
+silly resolved     author: 
+silly resolved      { name: 'Isaac Z. Schlueter',
+silly resolved        email: 'i@izs.me',
+silly resolved        url: 'http://blog.izs.me/' },
+silly resolved     license: 
+silly resolved      { type: 'MIT',
+silly resolved        url: 'https://github.com/isaacs/rimraf/raw/master/LICENSE' },
+silly resolved     optionalDependencies: { 'graceful-fs': '~1.1' },
+silly resolved     repository: { type: 'git', url: 'git://github.com/isaacs/rimraf.git' },
+silly resolved     scripts: { test: 'cd test && bash run.sh' },
+silly resolved     _id: 'rimraf@2.0.3',
+silly resolved     contributors: 
+silly resolved      [ { name: 'Isaac Z. Schlueter',
+silly resolved          email: 'i@izs.me',
+silly resolved          url: 'http://blog.izs.me' },
+silly resolved        { name: 'Wayne Larsen',
+silly resolved          email: 'wayne@larsen.st',
+silly resolved          url: 'http://github.com/wvl' },
+silly resolved        { name: 'ritch', email: 'skawful@gmail.com' },
+silly resolved        { name: 'Marcel Laverdet' },
+silly resolved        { name: 'Yosef Dinerstein', email: 'yosefd@microsoft.com' } ],
+silly resolved     dependencies: { 'graceful-fs': '~1.1' },
+silly resolved     devDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'rimraf@~2.0.2' },
+silly resolved   { name: 'unzip',
+silly resolved     version: '0.1.4',
+silly resolved     description: 'Unzip cross-platform streaming API compatible with fstream and fs.ReadStream',
+silly resolved     author: { name: 'Evan Oxfeld', email: 'evan.oxfeld@nearinfinity.com' },
+silly resolved     maintainers: 
+silly resolved      [ { name: 'Evan Oxfeld', email: 'evan.oxfeld@nearinfinity.com' },
+silly resolved        { name: 'Joe Ferner', email: 'joe.ferner@nearinfinity.com' } ],
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/nearinfinity/node-unzip.git' },
+silly resolved     license: 'MIT',
+silly resolved     dependencies: 
+silly resolved      { fstream: '~0.1.21',
+silly resolved        pullstream: '~0.1.0',
+silly resolved        binary: '~0.3.0',
+silly resolved        'readable-stream': '~0.2.0',
+silly resolved        setimmediate: '~1.0.1',
+silly resolved        buffers: '~0.1.1',
+silly resolved        over: '0.0.5' },
+silly resolved     devDependencies: 
+silly resolved      { tap: '~0.3.0',
+silly resolved        temp: '~0.4.0',
+silly resolved        dirdiff: '~0.0.1',
+silly resolved        'stream-buffers': '~0.2.3' },
+silly resolved     directories: { example: 'examples', test: 'test' },
+silly resolved     keywords: 
+silly resolved      [ 'zip',
+silly resolved        'unzip',
+silly resolved        'zlib',
+silly resolved        'uncompress',
+silly resolved        'archive',
+silly resolved        'stream',
+silly resolved        'extract' ],
+silly resolved     main: 'unzip.js',
+silly resolved     scripts: { test: './node_modules/.bin/tap ./test/*.js' },
+silly resolved     _id: 'unzip@0.1.4',
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'unzip@~0.1.0' } ]
+info into /Users/timbaker/node_modules/phantomjs rimraf@2.0.3
+info into /Users/timbaker/node_modules/phantomjs unzip@0.1.4
+info installOne rimraf@2.0.3
+info installOne unzip@0.1.4
+verbose from cache /Users/timbaker/.npm/rimraf/2.0.3/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/rimraf
+verbose from cache /Users/timbaker/.npm/unzip/0.1.4/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip
+verbose unpack /Users/timbaker/.npm/rimraf/2.0.3/package.tgz
+verbose unpack /Users/timbaker/.npm/unzip/0.1.4/package.tgz
+silly gunzTarPerm modes [ '755', '644' ]
+silly gunzTarPerm modes [ '755', '644' ]
+silly extracting entry package.json
+silly extracting entry package.json
+silly extracting entry README.md
+silly extracting entry LICENSE
+silly extracting entry .npmignore
+silly extracting entry README.md
+silly extracting entry LICENSE
+silly extracting entry rimraf.js
+silly extracting entry AUTHORS
+silly extracting entry unzip.js
+silly extracting entry .travis.yml
+silly extracting entry test/test-async.js
+silly extracting entry test/test-fiber.js
+silly extracting entry lib/entry.js
+silly extracting entry lib/extract.js
+silly extracting entry test/test-sync.js
+silly extracting entry lib/parse.js
+silly extracting entry lib/untilstream.js
+silly extracting entry test/compressed.js
+silly extracting entry test/run.sh
+silly extracting entry test/setup.sh
+silly extracting entry test/fileSizeUnknownFlag.js
+silly extracting entry test/pipeSingleEntry.js
+silly extracting entry test/uncompressed.js
+silly extracting entry testData/compressed-flags-set/archive.zip
+silly extracting entry testData/compressed-flags-set/inflated/dir/fileInsideDir.txt
+silly extracting entry testData/compressed-flags-set/inflated/file.txt
+silly extracting entry testData/compressed-OSX-Finder/archive.zip
+silly extracting entry testData/compressed-OSX-Finder/inflated/dir/fileInsideDir.txt
+silly extracting entry testData/compressed-OSX-Finder/inflated/file.txt
+silly extracting entry testData/compressed-standard/archive.zip
+silly extracting entry testData/compressed-standard/inflated/dir/fileInsideDir.txt
+silly extracting entry testData/compressed-standard/inflated/file.txt
+silly extracting entry testData/uncompressed/archive.zip
+silly extracting entry testData/uncompressed/inflated/dir/fileInsideDir.txt
+silly extracting entry testData/uncompressed/inflated/file.txt
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/package.json
+verbose loadDefaults rimraf@2.0.3
+info preinstall rimraf@2.0.3
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/package.json
+verbose readDependencies: using package.json deps
+verbose cache add [ 'graceful-fs@~1.1', null ]
+silly cache add: name, spec, args [ undefined, 'graceful-fs@~1.1', [ 'graceful-fs@~1.1', null ] ]
+verbose parsed url { pathname: 'graceful-fs@~1.1',
+verbose parsed url   path: 'graceful-fs@~1.1',
+verbose parsed url   href: 'graceful-fs@~1.1' }
+silly cache add: name, spec, args [ 'graceful-fs', '~1.1', [ 'graceful-fs', '~1.1' ] ]
+verbose parsed url { pathname: '~1.1', path: '~1.1', href: '~1.1' }
+verbose addNamed [ 'graceful-fs', '~1.1' ]
+verbose addNamed [ null, '>=1.1.0- <1.2.0-' ]
+silly name, range, hasData [ 'graceful-fs', '>=1.1.0- <1.2.0-', false ]
+verbose raw, before any munging graceful-fs
+verbose url resolving [ 'https://registry.npmjs.org/', './graceful-fs' ]
+verbose url resolved https://registry.npmjs.org/graceful-fs
+verbose etag "DKLD6NF1W3AC5ZOJFLCKTHRC9"
+http GET https://registry.npmjs.org/graceful-fs
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/package.json
+verbose loadDefaults unzip@0.1.4
+info preinstall unzip@0.1.4
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/package.json
+verbose readDependencies: using package.json deps
+verbose cache add [ 'fstream@~0.1.21', null ]
+silly cache add: name, spec, args [ undefined, 'fstream@~0.1.21', [ 'fstream@~0.1.21', null ] ]
+verbose parsed url { pathname: 'fstream@~0.1.21',
+verbose parsed url   path: 'fstream@~0.1.21',
+verbose parsed url   href: 'fstream@~0.1.21' }
+silly cache add: name, spec, args [ 'fstream', '~0.1.21', [ 'fstream', '~0.1.21' ] ]
+verbose parsed url { pathname: '~0.1.21', path: '~0.1.21', href: '~0.1.21' }
+verbose addNamed [ 'fstream', '~0.1.21' ]
+verbose addNamed [ null, '>=0.1.21- <0.2.0-' ]
+silly name, range, hasData [ 'fstream', '>=0.1.21- <0.2.0-', false ]
+verbose cache add [ 'pullstream@~0.1.0', null ]
+silly cache add: name, spec, args [ undefined, 'pullstream@~0.1.0', [ 'pullstream@~0.1.0', null ] ]
+verbose parsed url { pathname: 'pullstream@~0.1.0',
+verbose parsed url   path: 'pullstream@~0.1.0',
+verbose parsed url   href: 'pullstream@~0.1.0' }
+silly cache add: name, spec, args [ 'pullstream', '~0.1.0', [ 'pullstream', '~0.1.0' ] ]
+verbose parsed url { pathname: '~0.1.0', path: '~0.1.0', href: '~0.1.0' }
+verbose addNamed [ 'pullstream', '~0.1.0' ]
+verbose addNamed [ null, '>=0.1.0- <0.2.0-' ]
+silly name, range, hasData [ 'pullstream', '>=0.1.0- <0.2.0-', false ]
+verbose cache add [ 'binary@~0.3.0', null ]
+silly cache add: name, spec, args [ undefined, 'binary@~0.3.0', [ 'binary@~0.3.0', null ] ]
+verbose parsed url { pathname: 'binary@~0.3.0',
+verbose parsed url   path: 'binary@~0.3.0',
+verbose parsed url   href: 'binary@~0.3.0' }
+silly cache add: name, spec, args [ 'binary', '~0.3.0', [ 'binary', '~0.3.0' ] ]
+verbose parsed url { pathname: '~0.3.0', path: '~0.3.0', href: '~0.3.0' }
+verbose addNamed [ 'binary', '~0.3.0' ]
+verbose addNamed [ null, '>=0.3.0- <0.4.0-' ]
+silly name, range, hasData [ 'binary', '>=0.3.0- <0.4.0-', false ]
+verbose raw, before any munging fstream
+verbose url resolving [ 'https://registry.npmjs.org/', './fstream' ]
+verbose url resolved https://registry.npmjs.org/fstream
+verbose etag "220YHKJO8IIDFBK2Q3VJZ6XCW"
+http GET https://registry.npmjs.org/fstream
+verbose raw, before any munging binary
+verbose url resolving [ 'https://registry.npmjs.org/', './binary' ]
+verbose url resolved https://registry.npmjs.org/binary
+verbose etag "38JBF3BLFCJVEEJ9G4DA9N0J0"
+http GET https://registry.npmjs.org/binary
+verbose raw, before any munging pullstream
+verbose url resolving [ 'https://registry.npmjs.org/', './pullstream' ]
+verbose url resolved https://registry.npmjs.org/pullstream
+verbose etag "4L6GF45C4INQLX45QE043XNGM"
+http GET https://registry.npmjs.org/pullstream
+verbose cache add [ 'readable-stream@~0.2.0', null ]
+silly cache add: name, spec, args [ undefined,
+silly cache add: name, spec, args   'readable-stream@~0.2.0',
+silly cache add: name, spec, args   [ 'readable-stream@~0.2.0', null ] ]
+verbose parsed url { pathname: 'readable-stream@~0.2.0',
+verbose parsed url   path: 'readable-stream@~0.2.0',
+verbose parsed url   href: 'readable-stream@~0.2.0' }
+silly cache add: name, spec, args [ 'readable-stream', '~0.2.0', [ 'readable-stream', '~0.2.0' ] ]
+verbose parsed url { pathname: '~0.2.0', path: '~0.2.0', href: '~0.2.0' }
+verbose addNamed [ 'readable-stream', '~0.2.0' ]
+verbose addNamed [ null, '>=0.2.0- <0.3.0-' ]
+silly name, range, hasData [ 'readable-stream', '>=0.2.0- <0.3.0-', false ]
+verbose cache add [ 'setimmediate@~1.0.1', null ]
+silly cache add: name, spec, args [ undefined,
+silly cache add: name, spec, args   'setimmediate@~1.0.1',
+silly cache add: name, spec, args   [ 'setimmediate@~1.0.1', null ] ]
+verbose parsed url { pathname: 'setimmediate@~1.0.1',
+verbose parsed url   path: 'setimmediate@~1.0.1',
+verbose parsed url   href: 'setimmediate@~1.0.1' }
+silly cache add: name, spec, args [ 'setimmediate', '~1.0.1', [ 'setimmediate', '~1.0.1' ] ]
+verbose parsed url { pathname: '~1.0.1', path: '~1.0.1', href: '~1.0.1' }
+verbose addNamed [ 'setimmediate', '~1.0.1' ]
+verbose addNamed [ null, '>=1.0.1- <1.1.0-' ]
+silly name, range, hasData [ 'setimmediate', '>=1.0.1- <1.1.0-', false ]
+verbose cache add [ 'buffers@~0.1.1', null ]
+silly cache add: name, spec, args [ undefined, 'buffers@~0.1.1', [ 'buffers@~0.1.1', null ] ]
+verbose parsed url { pathname: 'buffers@~0.1.1',
+verbose parsed url   path: 'buffers@~0.1.1',
+verbose parsed url   href: 'buffers@~0.1.1' }
+silly cache add: name, spec, args [ 'buffers', '~0.1.1', [ 'buffers', '~0.1.1' ] ]
+verbose parsed url { pathname: '~0.1.1', path: '~0.1.1', href: '~0.1.1' }
+verbose addNamed [ 'buffers', '~0.1.1' ]
+verbose addNamed [ null, '>=0.1.1- <0.2.0-' ]
+silly name, range, hasData [ 'buffers', '>=0.1.1- <0.2.0-', false ]
+verbose cache add [ 'over@0.0.5', null ]
+silly cache add: name, spec, args [ undefined, 'over@0.0.5', [ 'over@0.0.5', null ] ]
+verbose parsed url { pathname: 'over@0.0.5',
+verbose parsed url   path: 'over@0.0.5',
+verbose parsed url   href: 'over@0.0.5' }
+silly cache add: name, spec, args [ 'over', '0.0.5', [ 'over', '0.0.5' ] ]
+verbose parsed url { pathname: '0.0.5', path: '0.0.5', href: '0.0.5' }
+verbose addNamed [ 'over', '0.0.5' ]
+verbose addNamed [ '0.0.5', '0.0.5' ]
+verbose raw, before any munging setimmediate
+verbose url resolving [ 'https://registry.npmjs.org/', './setimmediate' ]
+verbose url resolved https://registry.npmjs.org/setimmediate
+verbose etag "7HVDC8IFN65FHWZ2PB7DD6MFB"
+http GET https://registry.npmjs.org/setimmediate
+verbose raw, before any munging buffers
+verbose url resolving [ 'https://registry.npmjs.org/', './buffers' ]
+verbose url resolved https://registry.npmjs.org/buffers
+verbose etag "E5EM6T99TF4WNF1C5TINBKI7F"
+http GET https://registry.npmjs.org/buffers
+verbose raw, before any munging over/0.0.5
+verbose url resolving [ 'https://registry.npmjs.org/', './over/0.0.5' ]
+verbose url resolved https://registry.npmjs.org/over/0.0.5
+verbose etag "7B8S3N3NY81ULIG8RP27X1DPE"
+http GET https://registry.npmjs.org/over/0.0.5
+verbose raw, before any munging readable-stream
+verbose url resolving [ 'https://registry.npmjs.org/', './readable-stream' ]
+verbose url resolved https://registry.npmjs.org/readable-stream
+verbose etag "7TQJUPMNPJI9QTBQFBCT4O2IE"
+http GET https://registry.npmjs.org/readable-stream
+http 304 https://registry.npmjs.org/graceful-fs
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"DKLD6NF1W3AC5ZOJFLCKTHRC9"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:17 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag graceful-fs from cache
+silly name, range, hasData 2 [ 'graceful-fs', '>=1.1.0- <1.2.0-', true ]
+silly versions [ 'graceful-fs',
+silly versions   [ '1.0.2',
+silly versions     '1.1.0',
+silly versions     '1.1.1',
+silly versions     '1.1.2',
+silly versions     '1.1.3',
+silly versions     '1.1.4',
+silly versions     '1.1.5',
+silly versions     '1.1.6',
+silly versions     '1.1.7',
+silly versions     '1.1.8',
+silly versions     '1.1.9',
+silly versions     '1.1.10',
+silly versions     '1.1.11',
+silly versions     '1.1.12',
+silly versions     '1.1.13',
+silly versions     '1.1.14',
+silly versions     '1.2.0' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: '07078db5f6377f6321fceaaedf497de124dc9465',
+verbose bin dist     tarball: 'http://registry.npmjs.org/graceful-fs/-/graceful-fs-1.1.14.tgz' } ]
+verbose caching /Users/timbaker/.npm/graceful-fs/1.1.14/package/package.json
+verbose loadDefaults graceful-fs@1.1.14
+silly resolved [ { author: 
+silly resolved      { name: 'Isaac Z. Schlueter',
+silly resolved        email: 'i@izs.me',
+silly resolved        url: 'http://blog.izs.me' },
+silly resolved     name: 'graceful-fs',
+silly resolved     description: 'fs monkey-patching to avoid EMFILE and other problems',
+silly resolved     version: '1.1.14',
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/isaacs/node-graceful-fs.git' },
+silly resolved     main: 'graceful-fs.js',
+silly resolved     engines: { node: '>=0.4.0' },
+silly resolved     directories: { test: 'test' },
+silly resolved     scripts: { test: 'tap test/*.js' },
+silly resolved     keywords: [ 'fs', 'EMFILE', 'error', 'handling', 'monkeypatch' ],
+silly resolved     license: 'BSD',
+silly resolved     _id: 'graceful-fs@1.1.14',
+silly resolved     dependencies: {},
+silly resolved     devDependencies: {},
+silly resolved     optionalDependencies: {},
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'graceful-fs@~1.1' } ]
+info into /Users/timbaker/node_modules/phantomjs/node_modules/rimraf graceful-fs@1.1.14
+info installOne graceful-fs@1.1.14
+verbose from cache /Users/timbaker/.npm/graceful-fs/1.1.14/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/node_modules/graceful-fs
+verbose unpack /Users/timbaker/.npm/graceful-fs/1.1.14/package.tgz
+silly gunzTarPerm modes [ '755', '644' ]
+silly extracting entry package.json
+silly extracting entry .npmignore
+silly extracting entry README.md
+silly extracting entry LICENSE
+silly extracting entry graceful-fs.js
+silly extracting entry test/open.js
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/node_modules/graceful-fs/package.json
+verbose loadDefaults graceful-fs@1.1.14
+info preinstall graceful-fs@1.1.14
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/node_modules/graceful-fs/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/node_modules/graceful-fs/package.json
+verbose readDependencies: using package.json deps
+silly resolved []
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/node_modules/graceful-fs
+info build /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/node_modules/graceful-fs
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/node_modules/graceful-fs/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/rimraf/node_modules' ]
+info linkStuff graceful-fs@1.1.14
+verbose linkBins graceful-fs@1.1.14
+verbose linkMans graceful-fs@1.1.14
+verbose rebuildBundles graceful-fs@1.1.14
+info install graceful-fs@1.1.14
+info postinstall graceful-fs@1.1.14
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/rimraf
+info build /Users/timbaker/node_modules/phantomjs/node_modules/rimraf
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/rimraf/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules' ]
+info linkStuff rimraf@2.0.3
+verbose linkBins rimraf@2.0.3
+verbose linkMans rimraf@2.0.3
+verbose rebuildBundles rimraf@2.0.3
+verbose rebuildBundles [ 'graceful-fs' ]
+info install rimraf@2.0.3
+info postinstall rimraf@2.0.3
+http 304 https://registry.npmjs.org/fstream
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"220YHKJO8IIDFBK2Q3VJZ6XCW"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:17 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag fstream from cache
+silly name, range, hasData 2 [ 'fstream', '>=0.1.21- <0.2.0-', true ]
+silly versions [ 'fstream',
+silly versions   [ '0.0.0',
+silly versions     '0.0.1',
+silly versions     '0.1.0',
+silly versions     '0.1.1',
+silly versions     '0.1.2',
+silly versions     '0.1.3',
+silly versions     '0.1.5',
+silly versions     '0.1.6',
+silly versions     '0.1.7',
+silly versions     '0.1.8',
+silly versions     '0.1.9',
+silly versions     '0.1.10',
+silly versions     '0.1.11',
+silly versions     '0.1.12',
+silly versions     '0.1.13',
+silly versions     '0.1.14',
+silly versions     '0.1.15',
+silly versions     '0.1.16',
+silly versions     '0.1.17',
+silly versions     '0.1.18',
+silly versions     '0.1.19',
+silly versions     '0.1.20',
+silly versions     '0.1.21',
+silly versions     '0.1.22' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: '5bbe66da356b3402f1e30863fcaf64814993cca6',
+verbose bin dist     tarball: 'http://registry.npmjs.org/fstream/-/fstream-0.1.22.tgz' } ]
+http 304 https://registry.npmjs.org/binary
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"38JBF3BLFCJVEEJ9G4DA9N0J0"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:17 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag binary from cache
+http 304 https://registry.npmjs.org/buffers
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"E5EM6T99TF4WNF1C5TINBKI7F"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:17 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag buffers from cache
+verbose caching /Users/timbaker/.npm/fstream/0.1.22/package/package.json
+verbose loadDefaults fstream@0.1.22
+silly name, range, hasData 2 [ 'buffers', '>=0.1.1- <0.2.0-', true ]
+silly versions [ 'buffers',
+silly versions   [ '0.0.1', '0.0.2', '0.0.3', '0.0.4', '0.1.0', '0.1.1' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: 'b24579c3bed4d6d396aeee6d9a8ae7f5482ab7bb',
+verbose bin dist     tarball: 'http://registry.npmjs.org/buffers/-/buffers-0.1.1.tgz' } ]
+silly name, range, hasData 2 [ 'binary', '>=0.3.0- <0.4.0-', true ]
+silly versions [ 'binary',
+silly versions   [ '0.0.1',
+silly versions     '0.0.2',
+silly versions     '0.0.3',
+silly versions     '0.0.4',
+silly versions     '0.0.5',
+silly versions     '0.0.6',
+silly versions     '0.0.8',
+silly versions     '0.1.0',
+silly versions     '0.1.1',
+silly versions     '0.1.2',
+silly versions     '0.1.3',
+silly versions     '0.1.4',
+silly versions     '0.1.5',
+silly versions     '0.1.6',
+silly versions     '0.1.7',
+silly versions     '0.1.8',
+silly versions     '0.1.9',
+silly versions     '0.2.0',
+silly versions     '0.2.1',
+silly versions     '0.2.2',
+silly versions     '0.2.3',
+silly versions     '0.2.4',
+silly versions     '0.2.5',
+silly versions     '0.2.6',
+silly versions     '0.3.0' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: '9f60553bc5ce8c3386f3b553cff47462adecaa79',
+verbose bin dist     tarball: 'http://registry.npmjs.org/binary/-/binary-0.3.0.tgz' } ]
+verbose caching /Users/timbaker/.npm/buffers/0.1.1/package/package.json
+verbose loadDefaults buffers@0.1.1
+verbose caching /Users/timbaker/.npm/binary/0.3.0/package/package.json
+verbose loadDefaults binary@0.3.0
+http 304 https://registry.npmjs.org/pullstream
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"4L6GF45C4INQLX45QE043XNGM"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:18 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag pullstream from cache
+http 304 https://registry.npmjs.org/setimmediate
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"7HVDC8IFN65FHWZ2PB7DD6MFB"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:18 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag setimmediate from cache
+silly name, range, hasData 2 [ 'pullstream', '>=0.1.0- <0.2.0-', true ]
+silly versions [ 'pullstream',
+silly versions   [ '0.0.1',
+silly versions     '0.0.2',
+silly versions     '0.0.3',
+silly versions     '0.0.4',
+silly versions     '0.0.5',
+silly versions     '0.0.6',
+silly versions     '0.1.0',
+silly versions     '0.2.0' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: 'e6e44148213bb1543ac1c448d4da56e1788ce2dd',
+verbose bin dist     tarball: 'http://registry.npmjs.org/pullstream/-/pullstream-0.1.0.tgz' } ]
+silly name, range, hasData 2 [ 'setimmediate', '>=1.0.1- <1.1.0-', true ]
+silly versions [ 'setimmediate', [ '1.0.0', '1.0.1' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: 'a9ca56ccbd6a4c3334855f060abcdece5c42ebb7',
+verbose bin dist     tarball: 'http://registry.npmjs.org/setimmediate/-/setimmediate-1.0.1.tgz' } ]
+verbose caching /Users/timbaker/.npm/pullstream/0.1.0/package/package.json
+verbose loadDefaults pullstream@0.1.0
+verbose caching /Users/timbaker/.npm/setimmediate/1.0.1/package/package.json
+verbose loadDefaults setimmediate@1.0.1
+http 304 https://registry.npmjs.org/over/0.0.5
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"7B8S3N3NY81ULIG8RP27X1DPE"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:18 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag over/0.0.5 from cache
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: 'f29852e70fd7e25f360e013a8ec44c82aedb5708',
+verbose bin dist     tarball: 'http://registry.npmjs.org/over/-/over-0.0.5.tgz' } ]
+verbose caching /Users/timbaker/.npm/over/0.0.5/package/package.json
+verbose loadDefaults over@0.0.5
+http 304 https://registry.npmjs.org/readable-stream
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"7TQJUPMNPJI9QTBQFBCT4O2IE"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:18 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag readable-stream from cache
+silly name, range, hasData 2 [ 'readable-stream', '>=0.2.0- <0.3.0-', true ]
+silly versions [ 'readable-stream',
+silly versions   [ '0.0.1',
+silly versions     '0.0.2',
+silly versions     '0.0.3',
+silly versions     '0.0.4',
+silly versions     '0.1.0',
+silly versions     '0.2.0',
+silly versions     '0.3.0',
+silly versions     '0.3.1',
+silly versions     '1.0.0',
+silly versions     '1.0.1',
+silly versions     '1.0.2' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: 'c237bf773b27acf9472a576435a9cb9b71504e0d',
+verbose bin dist     tarball: 'http://registry.npmjs.org/readable-stream/-/readable-stream-0.2.0.tgz' } ]
+verbose caching /Users/timbaker/.npm/readable-stream/0.2.0/package/package.json
+verbose loadDefaults readable-stream@0.2.0
+silly resolved [ { author: 
+silly resolved      { name: 'Isaac Z. Schlueter',
+silly resolved        email: 'i@izs.me',
+silly resolved        url: 'http://blog.izs.me/' },
+silly resolved     name: 'fstream',
+silly resolved     description: 'Advanced file system stream things',
+silly resolved     version: '0.1.22',
+silly resolved     repository: { type: 'git', url: 'git://github.com/isaacs/fstream.git' },
+silly resolved     main: 'fstream.js',
+silly resolved     engines: { node: '>=0.6' },
+silly resolved     dependencies: 
+silly resolved      { rimraf: '2',
+silly resolved        mkdirp: '0.3',
+silly resolved        'graceful-fs': '~1.2.0',
+silly resolved        inherits: '~1.0.0' },
+silly resolved     devDependencies: { tap: '' },
+silly resolved     scripts: { test: 'tap examples/*.js' },
+silly resolved     license: 'BSD',
+silly resolved     _id: 'fstream@0.1.22',
+silly resolved     optionalDependencies: {},
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'fstream@~0.1.21' },
+silly resolved   { name: 'buffers',
+silly resolved     description: 'Treat a collection of Buffers as a single contiguous partially mutable Buffer.',
+silly resolved     version: '0.1.1',
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/substack/node-buffers.git' },
+silly resolved     author: 
+silly resolved      { name: 'James Halliday',
+silly resolved        email: 'mail@substack.net',
+silly resolved        url: 'http://substack.net' },
+silly resolved     main: './index',
+silly resolved     scripts: { test: 'expresso' },
+silly resolved     engines: { node: '>=0.2.0' },
+silly resolved     _id: 'buffers@0.1.1',
+silly resolved     dependencies: {},
+silly resolved     devDependencies: {},
+silly resolved     optionalDependencies: {},
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'buffers@~0.1.1' },
+silly resolved   { name: 'binary',
+silly resolved     version: '0.3.0',
+silly resolved     description: 'Unpack multibyte binary values from buffers',
+silly resolved     main: './index.js',
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/substack/node-binary.git' },
+silly resolved     keywords: [ 'binary', 'decode', 'endian', 'unpack', 'signed', 'unsigned' ],
+silly resolved     author: 
+silly resolved      { name: 'James Halliday',
+silly resolved        email: 'mail@substack.net',
+silly resolved        url: 'http://substack.net' },
+silly resolved     dependencies: { chainsaw: '~0.1.0', buffers: '~0.1.1' },
+silly resolved     devDependencies: { seq: '~0.2.5', tap: '~0.2.4' },
+silly resolved     scripts: { test: 'tap test/*.js' },
+silly resolved     license: 'MIT',
+silly resolved     engine: { node: '>=0.4.0' },
+silly resolved     _id: 'binary@0.3.0',
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'binary@~0.3.0' },
+silly resolved   { name: 'pullstream',
+silly resolved     version: '0.1.0',
+silly resolved     description: 'A stream you can pull data from.',
+silly resolved     main: 'pullstream.js',
+silly resolved     scripts: { test: './node_modules/.bin/nodeunit ./test/' },
+silly resolved     license: 'MIT',
+silly resolved     bugs: { url: 'https://github.com/nearinfinity/node-pullstream/issues' },
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/nearinfinity/node-pullstream.git' },
+silly resolved     keywords: [ 'stream', 'pull' ],
+silly resolved     devDependencies: 
+silly resolved      { nodeunit: '~0.7.4',
+silly resolved        'stream-buffers': '~0.2.3',
+silly resolved        async: '~0.1.22' },
+silly resolved     dependencies: 
+silly resolved      { over: '~0.0.5',
+silly resolved        'readable-stream': '~0.2.0',
+silly resolved        setimmediate: '~1.0.1' },
+silly resolved     _id: 'pullstream@0.1.0',
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'pullstream@~0.1.0' },
+silly resolved   { name: 'setimmediate',
+silly resolved     description: 'A shim for the setImmediate efficient script yielding API',
+silly resolved     version: '1.0.1',
+silly resolved     author: { name: 'NobleJS' },
+silly resolved     contributors: 
+silly resolved      [ { name: 'Domenic Denicola',
+silly resolved          email: 'domenic@domenicdenicola.com',
+silly resolved          url: 'http://domenicdenicola.com' },
+silly resolved        { name: 'Donavon West' },
+silly resolved        { name: 'Yaffle' } ],
+silly resolved     license: 'MIT',
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/NobleJS/setImmediate.git' },
+silly resolved     bugs: { url: 'http://github.com/NobleJS/setImmediate/issues' },
+silly resolved     main: 'setImmediate.js',
+silly resolved     scripts: 
+silly resolved      { lint: 'jshint setImmediate.js',
+silly resolved        test: 'mocha test/tests.js',
+silly resolved        'test-browser': 'opener http://localhost:9000 && zuul --server 9000 test/tests.js --wwwroot test/',
+silly resolved        'test-browser-only': 'opener http://localhost:9007/test/browserOnly/index.html && http-server . -p 9007' },
+silly resolved     devDependencies: 
+silly resolved      { jshint: '>= 0.9.1',
+silly resolved        mocha: '>= 1.7.4',
+silly resolved        zuul: '>= 0.0.1',
+silly resolved        'http-server': '>= 0.5.3',
+silly resolved        opener: '>= 1.1.0' },
+silly resolved     testling: 
+silly resolved      { browsers: 
+silly resolved         { ie: [ 6, 7, 8, 9 ],
+silly resolved           chrome: [ 4, 23, 'canary' ],
+silly resolved           firefox: [ 3, 3.5, 3.6, 4, 17, 'nightly' ],
+silly resolved           opera: [ 10, 10.5, 11, 11.5, 11.6, 12, 'next' ],
+silly resolved           safari: [ '5.0.5', 5.1 ] },
+silly resolved        harness: 'mocha',
+silly resolved        files: 'test/tests.js' },
+silly resolved     _id: 'setimmediate@1.0.1',
+silly resolved     dependencies: {},
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'setimmediate@~1.0.1' },
+silly resolved   { name: 'over',
+silly resolved     description: 'JavaScript function overloading framework.',
+silly resolved     author: { name: 'Joe Ferner', email: 'joe@fernsroth.com' },
+silly resolved     keywords: [ 'function', 'overload' ],
+silly resolved     version: '0.0.5',
+silly resolved     bugs: { url: 'https://github.com/nearinfinity/node-over/issues' },
+silly resolved     license: 'MIT',
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/nearinfinity/node-over.git' },
+silly resolved     main: 'overload.js',
+silly resolved     scripts: { test: './node_modules/.bin/nodeunit test' },
+silly resolved     dependencies: {},
+silly resolved     devDependencies: { nodeunit: '~0.7.4' },
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _id: 'over@0.0.5',
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'over@0.0.5' },
+silly resolved   { name: 'readable-stream',
+silly resolved     version: '0.2.0',
+silly resolved     description: 'An exploration of a new kind of readable streams for Node.js',
+silly resolved     main: 'readable.js',
+silly resolved     dependencies: {},
+silly resolved     devDependencies: { tap: '~0.2.6' },
+silly resolved     scripts: { test: 'tap test/simple/*.js' },
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/isaacs/readable-stream.git' },
+silly resolved     keywords: [ 'readable', 'stream', 'pipe' ],
+silly resolved     author: 
+silly resolved      { name: 'Isaac Z. Schlueter',
+silly resolved        email: 'i@izs.me',
+silly resolved        url: 'http://blog.izs.me/' },
+silly resolved     license: 'BSD',
+silly resolved     _id: 'readable-stream@0.2.0',
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'readable-stream@~0.2.0' } ]
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip fstream@0.1.22
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip buffers@0.1.1
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip binary@0.3.0
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip pullstream@0.1.0
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip setimmediate@1.0.1
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip over@0.0.5
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip readable-stream@0.2.0
+info installOne fstream@0.1.22
+info installOne buffers@0.1.1
+info installOne binary@0.3.0
+info installOne pullstream@0.1.0
+info installOne setimmediate@1.0.1
+info installOne over@0.0.5
+info installOne readable-stream@0.2.0
+verbose from cache /Users/timbaker/.npm/fstream/0.1.22/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream
+verbose from cache /Users/timbaker/.npm/buffers/0.1.1/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/buffers
+verbose from cache /Users/timbaker/.npm/binary/0.3.0/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary
+verbose from cache /Users/timbaker/.npm/pullstream/0.1.0/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/pullstream
+verbose from cache /Users/timbaker/.npm/setimmediate/1.0.1/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/setimmediate
+verbose from cache /Users/timbaker/.npm/over/0.0.5/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/over
+verbose from cache /Users/timbaker/.npm/readable-stream/0.2.0/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/readable-stream
+verbose unpack /Users/timbaker/.npm/fstream/0.1.22/package.tgz
+verbose unpack /Users/timbaker/.npm/buffers/0.1.1/package.tgz
+verbose unpack /Users/timbaker/.npm/binary/0.3.0/package.tgz
+verbose unpack /Users/timbaker/.npm/pullstream/0.1.0/package.tgz
+verbose unpack /Users/timbaker/.npm/setimmediate/1.0.1/package.tgz
+verbose unpack /Users/timbaker/.npm/over/0.0.5/package.tgz
+verbose unpack /Users/timbaker/.npm/readable-stream/0.2.0/package.tgz
+silly gunzTarPerm modes [ '755', '644' ]
+silly gunzTarPerm modes [ '755', '644' ]
+silly gunzTarPerm modes [ '755', '644' ]
+silly gunzTarPerm modes [ '755', '644' ]
+silly gunzTarPerm modes [ '755', '644' ]
+silly gunzTarPerm modes [ '755', '644' ]
+silly gunzTarPerm modes [ '755', '644' ]
+silly extracting entry package.json
+silly extracting entry package.json
+silly extracting entry package.json
+silly extracting entry package.json
+silly extracting entry package.json
+silly extracting entry package.json
+silly extracting entry package.json
+silly extracting entry .npmignore
+silly extracting entry README.md
+silly extracting entry index.js
+silly extracting entry examples/slice.js
+silly extracting entry .npmignore
+silly extracting entry index.js
+silly extracting entry .npmignore
+silly extracting entry README.md
+silly extracting entry README.md
+silly extracting entry setImmediate.js
+silly extracting entry .npmignore
+silly extracting entry README.md
+silly extracting entry README.md
+silly extracting entry LICENSE
+silly extracting entry LICENSE.txt
+silly extracting entry examples/splice.js
+silly extracting entry README.markdown
+silly extracting entry LICENSE
+silly extracting entry fstream.js
+silly extracting entry .travis.yml
+silly extracting entry example/buf.js
+silly extracting entry LICENSE
+silly extracting entry pullstream.js
+silly extracting entry overload.js
+silly extracting entry test/defFunctionsTest.js
+silly extracting entry test/buffers.js
+silly extracting entry duplex.js
+silly extracting entry fs.js
+silly extracting entry qUnitTest/tests.js
+silly extracting entry qUnitTest/worker.js
+silly extracting entry writable.js
+silly extracting entry qUnitTest/lib/qunit.js
+silly extracting entry transform.js
+silly extracting entry qUnitTest/lib/qunit.css
+silly extracting entry readable.js
+silly extracting entry qUnitTest/runner.htm
+silly extracting entry zlib.js
+silly extracting entry qUnitTest/selfClose.htm
+silly extracting entry passthrough.js
+silly extracting entry .travis.yml
+silly extracting entry examples/filter-pipe.js
+silly extracting entry test/common.js
+silly extracting entry example/parse.js
+silly extracting entry example/stream.js
+silly extracting entry .travis.yml
+silly extracting entry examples/pullFromFile.js
+silly extracting entry test/overloadTest.js
+silly extracting entry test/fixtures/x1024.txt
+silly extracting entry examples/pipe.js
+silly extracting entry test/simple/test-stream2-basic.js
+silly extracting entry lib/vars.js
+silly extracting entry examples/loremIpsum.txt
+silly extracting entry examples/reader.js
+silly extracting entry test/simple/test-stream2-httpclient-response-end.js
+silly extracting entry perf/loop.js
+silly extracting entry test/pullStreamTest.js
+silly extracting entry examples/symlink-write.js
+silly extracting entry test/simple/test-stream2-pipe-error-handling.js
+silly extracting entry perf/small.js
+silly extracting entry test/testFile.txt
+silly extracting entry test/simple/test-stream2-push.js
+silly extracting entry README.markdown
+silly extracting entry test/simple/test-stream2-fs.js
+silly extracting entry test/bu.js
+silly extracting entry test/simple/test-stream2-set-encoding.js
+silly extracting entry test/loop.js
+silly extracting entry test/simple/test-stream2-stderr-sync.js
+silly extracting entry test/loop_scan.js
+silly extracting entry test/simple/test-stream2-transform.js
+silly extracting entry test/lu.js
+silly extracting entry test/simple/test-stream2-unpipe-drain.js
+silly extracting entry test/into_stream.js
+silly extracting entry test/simple/test-stream2-unpipe-leak.js
+silly extracting entry test/negls.js
+silly extracting entry lib/abstract.js
+silly extracting entry lib/dir-writer.js
+silly extracting entry test/simple/test-stream2-compatibility.js
+silly extracting entry test/nested.js
+silly extracting entry test/simple/test-stream2-writable.js
+silly extracting entry test/not_enough_buf.js
+silly extracting entry lib/file-reader.js
+silly extracting entry test/simple/test-stream2-readable-from-list.js
+silly extracting entry test/not_enough_parse.js
+silly extracting entry examples/typer-fsr.js
+silly extracting entry test/parse.js
+silly extracting entry examples/typer.js
+silly extracting entry test/into_buffer.js
+silly extracting entry examples/CAPSLOCKTYPER.JS
+silly extracting entry test/peek.js
+silly extracting entry lib/_stream_duplex.js
+silly extracting entry test/interval.js
+silly extracting entry lib/_stream_passthrough.js
+silly extracting entry test/pipe.js
+silly extracting entry lib/_stream_readable.js
+silly extracting entry test/immediate.js
+silly extracting entry lib/_stream_transform.js
+silly extracting entry lib/file-writer.js
+silly extracting entry lib/get-type.js
+silly extracting entry lib/_stream_writable.js
+silly extracting entry lib/dir-reader.js
+silly extracting entry test/posbs.js
+silly extracting entry test/get_buffer.js
+silly extracting entry lib/link-writer.js
+silly extracting entry lib/proxy-reader.js
+silly extracting entry test/posls.js
+silly extracting entry test/from_buffer.js
+silly extracting entry lib/proxy-writer.js
+silly extracting entry lib/reader.js
+silly extracting entry lib/socket-reader.js
+silly extracting entry lib/collect.js
+silly extracting entry lib/writer.js
+silly extracting entry test/scan.js
+silly extracting entry test/flush.js
+silly extracting entry lib/link-reader.js
+silly extracting entry test/scan_buf.js
+silly extracting entry test/eof.js
+silly extracting entry test/scan_buf_null.js
+silly extracting entry test/dots.js
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/buffers/package.json
+verbose loadDefaults buffers@0.1.1
+info preinstall buffers@0.1.1
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/buffers/package.json
+silly extracting entry test/skip.js
+silly extracting entry test/deferred.js
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/buffers/package.json
+verbose readDependencies: using package.json deps
+silly resolved []
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/buffers
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/buffers
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/buffers/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules' ]
+info linkStuff buffers@0.1.1
+verbose linkBins buffers@0.1.1
+verbose linkMans buffers@0.1.1
+verbose rebuildBundles buffers@0.1.1
+silly extracting entry test/split.js
+info install buffers@0.1.1
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/over/package.json
+verbose loadDefaults over@0.0.5
+silly extracting entry test/negbs.js
+info postinstall buffers@0.1.1
+info preinstall over@0.0.5
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/over/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/over/package.json
+verbose readDependencies: using package.json deps
+silly resolved []
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/over
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/over
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/over/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules' ]
+info linkStuff over@0.0.5
+verbose linkBins over@0.0.5
+verbose linkMans over@0.0.5
+verbose rebuildBundles over@0.0.5
+info install over@0.0.5
+info postinstall over@0.0.5
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/pullstream/package.json
+verbose loadDefaults pullstream@0.1.0
+info preinstall pullstream@0.1.0
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/pullstream/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/pullstream/package.json
+verbose readDependencies: using package.json deps
+silly resolved []
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/pullstream
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/pullstream
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/pullstream/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules' ]
+info linkStuff pullstream@0.1.0
+verbose linkBins pullstream@0.1.0
+verbose linkMans pullstream@0.1.0
+verbose rebuildBundles pullstream@0.1.0
+info install pullstream@0.1.0
+info postinstall pullstream@0.1.0
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/setimmediate/package.json
+verbose loadDefaults setimmediate@1.0.1
+info preinstall setimmediate@1.0.1
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/setimmediate/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/setimmediate/package.json
+verbose readDependencies: using package.json deps
+silly resolved []
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/setimmediate
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/setimmediate
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/setimmediate/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules' ]
+info linkStuff setimmediate@1.0.1
+verbose linkBins setimmediate@1.0.1
+verbose linkMans setimmediate@1.0.1
+verbose rebuildBundles setimmediate@1.0.1
+info install setimmediate@1.0.1
+info postinstall setimmediate@1.0.1
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/package.json
+verbose loadDefaults fstream@0.1.22
+info preinstall fstream@0.1.22
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/package.json
+verbose readDependencies: using package.json deps
+verbose cache add [ 'mkdirp@0.3', null ]
+silly cache add: name, spec, args [ undefined, 'mkdirp@0.3', [ 'mkdirp@0.3', null ] ]
+verbose parsed url { pathname: 'mkdirp@0.3',
+verbose parsed url   path: 'mkdirp@0.3',
+verbose parsed url   href: 'mkdirp@0.3' }
+silly cache add: name, spec, args [ 'mkdirp', '0.3', [ 'mkdirp', '0.3' ] ]
+verbose parsed url { pathname: '0.3', path: '0.3', href: '0.3' }
+verbose addNamed [ 'mkdirp', '0.3' ]
+verbose addNamed [ null, '>=0.3.0- <0.4.0-' ]
+silly name, range, hasData [ 'mkdirp', '>=0.3.0- <0.4.0-', false ]
+verbose cache add [ 'graceful-fs@~1.2.0', null ]
+silly cache add: name, spec, args [ undefined,
+silly cache add: name, spec, args   'graceful-fs@~1.2.0',
+silly cache add: name, spec, args   [ 'graceful-fs@~1.2.0', null ] ]
+verbose parsed url { pathname: 'graceful-fs@~1.2.0',
+verbose parsed url   path: 'graceful-fs@~1.2.0',
+verbose parsed url   href: 'graceful-fs@~1.2.0' }
+silly cache add: name, spec, args [ 'graceful-fs', '~1.2.0', [ 'graceful-fs', '~1.2.0' ] ]
+verbose parsed url { pathname: '~1.2.0', path: '~1.2.0', href: '~1.2.0' }
+verbose addNamed [ 'graceful-fs', '~1.2.0' ]
+verbose addNamed [ null, '>=1.2.0- <1.3.0-' ]
+silly name, range, hasData [ 'graceful-fs', '>=1.2.0- <1.3.0-', false ]
+verbose cache add [ 'inherits@~1.0.0', null ]
+silly cache add: name, spec, args [ undefined, 'inherits@~1.0.0', [ 'inherits@~1.0.0', null ] ]
+verbose parsed url { pathname: 'inherits@~1.0.0',
+verbose parsed url   path: 'inherits@~1.0.0',
+verbose parsed url   href: 'inherits@~1.0.0' }
+silly cache add: name, spec, args [ 'inherits', '~1.0.0', [ 'inherits', '~1.0.0' ] ]
+verbose parsed url { pathname: '~1.0.0', path: '~1.0.0', href: '~1.0.0' }
+verbose addNamed [ 'inherits', '~1.0.0' ]
+verbose addNamed [ null, '>=1.0.0- <1.1.0-' ]
+silly name, range, hasData [ 'inherits', '>=1.0.0- <1.1.0-', false ]
+verbose raw, before any munging graceful-fs
+verbose url resolving [ 'https://registry.npmjs.org/', './graceful-fs' ]
+verbose url resolved https://registry.npmjs.org/graceful-fs
+verbose etag "DKLD6NF1W3AC5ZOJFLCKTHRC9"
+http GET https://registry.npmjs.org/graceful-fs
+verbose raw, before any munging mkdirp
+verbose url resolving [ 'https://registry.npmjs.org/', './mkdirp' ]
+verbose url resolved https://registry.npmjs.org/mkdirp
+verbose etag "3BPHUFB4MV7RLWD3JDZF1SQVU"
+http GET https://registry.npmjs.org/mkdirp
+verbose raw, before any munging inherits
+verbose url resolving [ 'https://registry.npmjs.org/', './inherits' ]
+verbose url resolved https://registry.npmjs.org/inherits
+verbose etag "EHTG7193DZ8DOUUG2G1MRITXH"
+http GET https://registry.npmjs.org/inherits
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/package.json
+verbose loadDefaults binary@0.3.0
+info preinstall binary@0.3.0
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/package.json
+verbose readDependencies: using package.json deps
+verbose cache add [ 'chainsaw@~0.1.0', null ]
+silly cache add: name, spec, args [ undefined, 'chainsaw@~0.1.0', [ 'chainsaw@~0.1.0', null ] ]
+verbose parsed url { pathname: 'chainsaw@~0.1.0',
+verbose parsed url   path: 'chainsaw@~0.1.0',
+verbose parsed url   href: 'chainsaw@~0.1.0' }
+silly cache add: name, spec, args [ 'chainsaw', '~0.1.0', [ 'chainsaw', '~0.1.0' ] ]
+verbose parsed url { pathname: '~0.1.0', path: '~0.1.0', href: '~0.1.0' }
+verbose addNamed [ 'chainsaw', '~0.1.0' ]
+verbose addNamed [ null, '>=0.1.0- <0.2.0-' ]
+silly name, range, hasData [ 'chainsaw', '>=0.1.0- <0.2.0-', false ]
+verbose raw, before any munging chainsaw
+verbose url resolving [ 'https://registry.npmjs.org/', './chainsaw' ]
+verbose url resolved https://registry.npmjs.org/chainsaw
+verbose etag "1SL0CSYIBM7CWRVF2JJBANR66"
+http GET https://registry.npmjs.org/chainsaw
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/readable-stream/package.json
+verbose loadDefaults readable-stream@0.2.0
+info preinstall readable-stream@0.2.0
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/readable-stream/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/readable-stream/package.json
+verbose readDependencies: using package.json deps
+silly resolved []
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/readable-stream
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/readable-stream
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/readable-stream/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules' ]
+info linkStuff readable-stream@0.2.0
+verbose linkBins readable-stream@0.2.0
+verbose linkMans readable-stream@0.2.0
+verbose rebuildBundles readable-stream@0.2.0
+info install readable-stream@0.2.0
+info postinstall readable-stream@0.2.0
+http 304 https://registry.npmjs.org/inherits
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"EHTG7193DZ8DOUUG2G1MRITXH"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:19 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag inherits from cache
+silly name, range, hasData 2 [ 'inherits', '>=1.0.0- <1.1.0-', true ]
+silly versions [ 'inherits', [ '1.0.0' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: '38e1975285bf1f7ba9c84da102bb12771322ac48',
+verbose bin dist     tarball: 'http://registry.npmjs.org/inherits/-/inherits-1.0.0.tgz' } ]
+http 304 https://registry.npmjs.org/graceful-fs
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"DKLD6NF1W3AC5ZOJFLCKTHRC9"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:19 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag graceful-fs from cache
+silly name, range, hasData 2 [ 'graceful-fs', '>=1.2.0- <1.3.0-', true ]
+silly versions [ 'graceful-fs',
+silly versions   [ '1.0.2',
+silly versions     '1.1.0',
+silly versions     '1.1.1',
+silly versions     '1.1.2',
+silly versions     '1.1.3',
+silly versions     '1.1.4',
+silly versions     '1.1.5',
+silly versions     '1.1.6',
+silly versions     '1.1.7',
+silly versions     '1.1.8',
+silly versions     '1.1.9',
+silly versions     '1.1.10',
+silly versions     '1.1.11',
+silly versions     '1.1.12',
+silly versions     '1.1.13',
+silly versions     '1.1.14',
+silly versions     '1.2.0' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: 'fe2d82a295e30de4e1d1c04ec159e10061140704',
+verbose bin dist     tarball: 'http://registry.npmjs.org/graceful-fs/-/graceful-fs-1.2.0.tgz' } ]
+verbose caching /Users/timbaker/.npm/inherits/1.0.0/package/package.json
+verbose loadDefaults inherits@1.0.0
+verbose caching /Users/timbaker/.npm/graceful-fs/1.2.0/package/package.json
+verbose loadDefaults graceful-fs@1.2.0
+http 304 https://registry.npmjs.org/mkdirp
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"3BPHUFB4MV7RLWD3JDZF1SQVU"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:19 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag mkdirp from cache
+http 304 https://registry.npmjs.org/chainsaw
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"1SL0CSYIBM7CWRVF2JJBANR66"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:19 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag chainsaw from cache
+silly name, range, hasData 2 [ 'mkdirp', '>=0.3.0- <0.4.0-', true ]
+silly versions [ 'mkdirp',
+silly versions   [ '0.0.1',
+silly versions     '0.0.2',
+silly versions     '0.0.3',
+silly versions     '0.0.4',
+silly versions     '0.0.5',
+silly versions     '0.0.6',
+silly versions     '0.0.7',
+silly versions     '0.1.0',
+silly versions     '0.2.0',
+silly versions     '0.2.1',
+silly versions     '0.2.2',
+silly versions     '0.3.0',
+silly versions     '0.3.1',
+silly versions     '0.3.2',
+silly versions     '0.3.3',
+silly versions     '0.3.4',
+silly versions     '0.3.5' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: 'de3e5f8961c88c787ee1368df849ac4413eca8d7',
+verbose bin dist     tarball: 'http://registry.npmjs.org/mkdirp/-/mkdirp-0.3.5.tgz' } ]
+silly name, range, hasData 2 [ 'chainsaw', '>=0.1.0- <0.2.0-', true ]
+silly versions [ 'chainsaw',
+silly versions   [ '0.0.1',
+silly versions     '0.0.3',
+silly versions     '0.0.4',
+silly versions     '0.0.5',
+silly versions     '0.0.6',
+silly versions     '0.0.7',
+silly versions     '0.0.8',
+silly versions     '0.0.9',
+silly versions     '0.1.0' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: '5eab50b28afe58074d0d58291388828b5e5fbc98',
+verbose bin dist     tarball: 'http://registry.npmjs.org/chainsaw/-/chainsaw-0.1.0.tgz' } ]
+verbose caching /Users/timbaker/.npm/mkdirp/0.3.5/package/package.json
+verbose loadDefaults mkdirp@0.3.5
+silly resolved [ { name: 'inherits',
+silly resolved     description: 'A tiny simple way to do classic inheritance in js',
+silly resolved     version: '1.0.0',
+silly resolved     keywords: [ 'inheritance', 'class', 'klass', 'oop', 'object-oriented' ],
+silly resolved     main: './inherits.js',
+silly resolved     repository: { type: 'git', url: 'git://github.com/isaacs/inherits.git' },
+silly resolved     author: 
+silly resolved      { name: 'Isaac Z. Schlueter',
+silly resolved        email: 'i@izs.me',
+silly resolved        url: 'http://blog.izs.me/' },
+silly resolved     _id: 'inherits@1.0.0',
+silly resolved     dependencies: {},
+silly resolved     devDependencies: {},
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'inherits@~1.0.0',
+silly resolved     scripts: {} },
+silly resolved   { author: 
+silly resolved      { name: 'Isaac Z. Schlueter',
+silly resolved        email: 'i@izs.me',
+silly resolved        url: 'http://blog.izs.me' },
+silly resolved     name: 'graceful-fs',
+silly resolved     description: 'fs monkey-patching to avoid EMFILE and other problems',
+silly resolved     version: '1.2.0',
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/isaacs/node-graceful-fs.git' },
+silly resolved     main: 'graceful-fs.js',
+silly resolved     engines: { node: '>=0.4.0' },
+silly resolved     directories: { test: 'test' },
+silly resolved     scripts: { test: 'tap test/*.js' },
+silly resolved     keywords: [ 'fs', 'EMFILE', 'error', 'handling', 'monkeypatch' ],
+silly resolved     license: 'BSD',
+silly resolved     _id: 'graceful-fs@1.2.0',
+silly resolved     dependencies: {},
+silly resolved     devDependencies: {},
+silly resolved     optionalDependencies: {},
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'graceful-fs@~1.2.0' },
+silly resolved   { name: 'mkdirp',
+silly resolved     description: 'Recursively mkdir, like `mkdir -p`',
+silly resolved     version: '0.3.5',
+silly resolved     author: 
+silly resolved      { name: 'James Halliday',
+silly resolved        email: 'mail@substack.net',
+silly resolved        url: 'http://substack.net' },
+silly resolved     main: './index',
+silly resolved     keywords: [ 'mkdir', 'directory' ],
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/substack/node-mkdirp.git' },
+silly resolved     scripts: { test: 'tap test/*.js' },
+silly resolved     devDependencies: { tap: '~0.4.0' },
+silly resolved     license: 'MIT',
+silly resolved     _id: 'mkdirp@0.3.5',
+silly resolved     dependencies: {},
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'mkdirp@0.3' } ]
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream inherits@1.0.0
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream graceful-fs@1.2.0
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream mkdirp@0.3.5
+info installOne inherits@1.0.0
+info installOne graceful-fs@1.2.0
+info installOne mkdirp@0.3.5
+verbose from cache /Users/timbaker/.npm/inherits/1.0.0/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/inherits
+verbose from cache /Users/timbaker/.npm/graceful-fs/1.2.0/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/graceful-fs
+verbose from cache /Users/timbaker/.npm/mkdirp/0.3.5/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/mkdirp
+verbose caching /Users/timbaker/.npm/chainsaw/0.1.0/package/package.json
+verbose loadDefaults chainsaw@0.1.0
+silly resolved [ { name: 'chainsaw',
+silly resolved     version: '0.1.0',
+silly resolved     description: 'Build chainable fluent interfaces the easy way... with a freakin\' chainsaw!',
+silly resolved     main: './index.js',
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/substack/node-chainsaw.git' },
+silly resolved     dependencies: { traverse: '>=0.3.0 <0.4' },
+silly resolved     keywords: [ 'chain', 'fluent', 'interface', 'monad', 'monadic' ],
+silly resolved     author: 
+silly resolved      { name: 'James Halliday',
+silly resolved        email: 'mail@substack.net',
+silly resolved        url: 'http://substack.net' },
+silly resolved     license: 'MIT/X11',
+silly resolved     engine: { node: '>=0.4.0' },
+silly resolved     _id: 'chainsaw@0.1.0',
+silly resolved     devDependencies: {},
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'chainsaw@~0.1.0',
+silly resolved     scripts: {} } ]
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary chainsaw@0.1.0
+info installOne chainsaw@0.1.0
+verbose unpack /Users/timbaker/.npm/inherits/1.0.0/package.tgz
+verbose from cache /Users/timbaker/.npm/chainsaw/0.1.0/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw
+verbose unpack /Users/timbaker/.npm/graceful-fs/1.2.0/package.tgz
+verbose unpack /Users/timbaker/.npm/mkdirp/0.3.5/package.tgz
+silly gunzTarPerm modes [ '755', '644' ]
+silly gunzTarPerm modes [ '755', '644' ]
+silly gunzTarPerm modes [ '755', '644' ]
+verbose unpack /Users/timbaker/.npm/chainsaw/0.1.0/package.tgz
+silly gunzTarPerm modes [ '755', '644' ]
+silly extracting entry package.json
+silly extracting entry package.json
+silly extracting entry package.json
+silly extracting entry package.json
+silly extracting entry .npmignore
+silly extracting entry README.md
+silly extracting entry README.md
+silly extracting entry inherits.js
+silly extracting entry .npmignore
+silly extracting entry LICENSE
+silly extracting entry .npmignore
+silly extracting entry index.js
+silly extracting entry LICENSE
+silly extracting entry graceful-fs.js
+silly extracting entry index.js
+silly extracting entry .travis.yml
+silly extracting entry examples/add_do.js
+silly extracting entry examples/prompt.js
+silly extracting entry test/open.js
+silly extracting entry examples/pow.js
+silly extracting entry readme.markdown
+silly extracting entry README.markdown
+silly extracting entry test/chainsaw.js
+silly extracting entry test/chmod.js
+silly extracting entry test/perm.js
+silly extracting entry test/perm_sync.js
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/inherits/package.json
+verbose loadDefaults inherits@1.0.0
+silly extracting entry test/race.js
+silly extracting entry test/mkdirp.js
+info preinstall inherits@1.0.0
+silly extracting entry test/return.js
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/inherits/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/inherits/package.json
+verbose readDependencies: using package.json deps
+silly resolved []
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/inherits
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/inherits
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/inherits/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules' ]
+info linkStuff inherits@1.0.0
+verbose linkBins inherits@1.0.0
+verbose linkMans inherits@1.0.0
+verbose rebuildBundles inherits@1.0.0
+info install inherits@1.0.0
+info postinstall inherits@1.0.0
+silly extracting entry test/return_sync.js
+silly extracting entry test/root.js
+silly extracting entry test/sync.js
+silly extracting entry test/umask.js
+silly extracting entry test/clobber.js
+silly extracting entry test/umask_sync.js
+silly extracting entry test/rel.js
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/graceful-fs/package.json
+verbose loadDefaults graceful-fs@1.2.0
+info preinstall graceful-fs@1.2.0
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/graceful-fs/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/graceful-fs/package.json
+verbose readDependencies: using package.json deps
+silly resolved []
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/graceful-fs
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/graceful-fs
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/graceful-fs/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules' ]
+info linkStuff graceful-fs@1.2.0
+verbose linkBins graceful-fs@1.2.0
+verbose linkMans graceful-fs@1.2.0
+verbose rebuildBundles graceful-fs@1.2.0
+info install graceful-fs@1.2.0
+info postinstall graceful-fs@1.2.0
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/package.json
+verbose loadDefaults chainsaw@0.1.0
+info preinstall chainsaw@0.1.0
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/package.json
+verbose readDependencies: using package.json deps
+verbose cache add [ 'traverse@>=0.3.0 <0.4', null ]
+silly cache add: name, spec, args [ undefined,
+silly cache add: name, spec, args   'traverse@>=0.3.0 <0.4',
+silly cache add: name, spec, args   [ 'traverse@>=0.3.0 <0.4', null ] ]
+verbose parsed url { pathname: 'traverse@', path: 'traverse@', href: 'traverse@' }
+silly cache add: name, spec, args [ 'traverse', '>=0.3.0 <0.4', [ 'traverse', '>=0.3.0 <0.4' ] ]
+verbose parsed url { pathname: '=0.3.0', path: '=0.3.0', href: '=0.3.0' }
+verbose addNamed [ 'traverse', '>=0.3.0 <0.4' ]
+verbose addNamed [ null, '>=0.3.0 <0.4.0-' ]
+silly name, range, hasData [ 'traverse', '>=0.3.0 <0.4.0-', false ]
+verbose raw, before any munging traverse
+verbose url resolving [ 'https://registry.npmjs.org/', './traverse' ]
+verbose url resolved https://registry.npmjs.org/traverse
+verbose etag "DQTO18X683CQQZTJBXL2WGYW7"
+http GET https://registry.npmjs.org/traverse
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/mkdirp/package.json
+verbose loadDefaults mkdirp@0.3.5
+info preinstall mkdirp@0.3.5
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/mkdirp/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/mkdirp/package.json
+verbose readDependencies: using package.json deps
+silly resolved []
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/mkdirp
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/mkdirp
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules/mkdirp/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/node_modules' ]
+info linkStuff mkdirp@0.3.5
+verbose linkBins mkdirp@0.3.5
+verbose linkMans mkdirp@0.3.5
+verbose rebuildBundles mkdirp@0.3.5
+info install mkdirp@0.3.5
+info postinstall mkdirp@0.3.5
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/fstream/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules' ]
+info linkStuff fstream@0.1.22
+verbose linkBins fstream@0.1.22
+verbose linkMans fstream@0.1.22
+verbose rebuildBundles fstream@0.1.22
+verbose rebuildBundles [ 'graceful-fs', 'inherits', 'mkdirp' ]
+info install fstream@0.1.22
+info postinstall fstream@0.1.22
+http 304 https://registry.npmjs.org/traverse
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+silly get cb     etag: '"DQTO18X683CQQZTJBXL2WGYW7"',
+silly get cb     date: 'Mon, 11 Mar 2013 19:41:19 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag traverse from cache
+silly name, range, hasData 2 [ 'traverse', '>=0.3.0 <0.4.0-', true ]
+silly versions [ 'traverse',
+silly versions   [ '0.1.2',
+silly versions     '0.1.3',
+silly versions     '0.2.0',
+silly versions     '0.2.1',
+silly versions     '0.2.2',
+silly versions     '0.2.3',
+silly versions     '0.2.4',
+silly versions     '0.3.0',
+silly versions     '0.3.1',
+silly versions     '0.2.5',
+silly versions     '0.2.6',
+silly versions     '0.3.2',
+silly versions     '0.3.3',
+silly versions     '0.3.4',
+silly versions     '0.3.5',
+silly versions     '0.3.6',
+silly versions     '0.3.7',
+silly versions     '0.3.8',
+silly versions     '0.4.0',
+silly versions     '0.4.1',
+silly versions     '0.4.2',
+silly versions     '0.3.9',
+silly versions     '0.4.3',
+silly versions     '0.4.4',
+silly versions     '0.4.5',
+silly versions     '0.4.6',
+silly versions     '0.5.0',
+silly versions     '0.5.1',
+silly versions     '0.5.2',
+silly versions     '0.6.0',
+silly versions     '0.6.1',
+silly versions     '0.6.2',
+silly versions     '0.6.3' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.24-darwin-x64-11.4.2',
+verbose bin dist   { shasum: '717b8f220cc0bb7b44e40514c22b2e8bbc70d8b9',
+verbose bin dist     tarball: 'http://registry.npmjs.org/traverse/-/traverse-0.3.9.tgz' } ]
+verbose caching /Users/timbaker/.npm/traverse/0.3.9/package/package.json
+verbose loadDefaults traverse@0.3.9
+silly resolved [ { name: 'traverse',
+silly resolved     version: '0.3.9',
+silly resolved     description: 'Traverse and transform objects by visiting every node on a recursive walk',
+silly resolved     author: { name: 'James Halliday' },
+silly resolved     license: 'MIT/X11',
+silly resolved     main: './index',
+silly resolved     repository: 
+silly resolved      { type: 'git',
+silly resolved        url: 'git://github.com/substack/js-traverse.git' },
+silly resolved     devDependencies: { expresso: '0.7.x' },
+silly resolved     scripts: { test: 'expresso' },
+silly resolved     _id: 'traverse@0.3.9',
+silly resolved     dependencies: {},
+silly resolved     optionalDependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.13',
+silly resolved     _nodeVersion: 'v0.6.14',
+silly resolved     _defaultsLoaded: true,
+silly resolved     _from: 'traverse@>=0.3.0 <0.4' } ]
+info into /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw traverse@0.3.9
+info installOne traverse@0.3.9
+verbose from cache /Users/timbaker/.npm/traverse/0.3.9/package/package.json
+info unbuild /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/node_modules/traverse
+verbose unpack /Users/timbaker/.npm/traverse/0.3.9/package.tgz
+silly gunzTarPerm modes [ '755', '644' ]
+silly extracting entry package.json
+silly extracting entry .npmignore
+silly extracting entry LICENSE
+silly extracting entry index.js
+silly extracting entry examples/json.js
+silly extracting entry examples/leaves.js
+silly extracting entry examples/negative.js
+silly extracting entry examples/stringify.js
+silly extracting entry README.markdown
+silly extracting entry test/circular.js
+silly extracting entry test/instance.js
+silly extracting entry test/interface.js
+silly extracting entry test/json.js
+silly extracting entry test/equal.js
+silly extracting entry test/mutability.js
+silly extracting entry test/negative.js
+silly extracting entry test/obj.js
+silly extracting entry test/stop.js
+silly extracting entry test/stringify.js
+silly extracting entry test/date.js
+silly extracting entry test/super_deep.js
+silly extracting entry test/leaves.js
+verbose caching /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/node_modules/traverse/package.json
+verbose loadDefaults traverse@0.3.9
+info preinstall traverse@0.3.9
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/node_modules/traverse/package.json
+verbose readDependencies: using package.json deps
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/node_modules/traverse/package.json
+verbose readDependencies: using package.json deps
+silly resolved []
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/node_modules/traverse
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/node_modules/traverse
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/node_modules/traverse/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/node_modules' ]
+info linkStuff traverse@0.3.9
+verbose linkBins traverse@0.3.9
+verbose linkMans traverse@0.3.9
+verbose rebuildBundles traverse@0.3.9
+info install traverse@0.3.9
+info postinstall traverse@0.3.9
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules/chainsaw/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/node_modules' ]
+info linkStuff chainsaw@0.1.0
+verbose linkBins chainsaw@0.1.0
+verbose linkMans chainsaw@0.1.0
+verbose rebuildBundles chainsaw@0.1.0
+verbose rebuildBundles [ 'traverse' ]
+info install chainsaw@0.1.0
+info postinstall chainsaw@0.1.0
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules/binary/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules/unzip/node_modules' ]
+info linkStuff binary@0.3.0
+verbose linkBins binary@0.3.0
+verbose linkMans binary@0.3.0
+verbose rebuildBundles binary@0.3.0
+verbose rebuildBundles [ 'chainsaw' ]
+info install binary@0.3.0
+info postinstall binary@0.3.0
+verbose about to build /Users/timbaker/node_modules/phantomjs/node_modules/unzip
+info build /Users/timbaker/node_modules/phantomjs/node_modules/unzip
+verbose from cache /Users/timbaker/node_modules/phantomjs/node_modules/unzip/package.json
+verbose linkStuff [ false,
+verbose linkStuff   false,
+verbose linkStuff   false,
+verbose linkStuff   '/Users/timbaker/node_modules/phantomjs/node_modules' ]
+info linkStuff unzip@0.1.4
+verbose linkBins unzip@0.1.4
+verbose linkMans unzip@0.1.4
+verbose rebuildBundles unzip@0.1.4
+verbose rebuildBundles [ 'binary',
+verbose rebuildBundles   'buffers',
+verbose rebuildBundles   'fstream',
+verbose rebuildBundles   'over',
+verbose rebuildBundles   'pullstream',
+verbose rebuildBundles   'readable-stream',
+verbose rebuildBundles   'setimmediate' ]
+info install unzip@0.1.4
+info postinstall unzip@0.1.4
+verbose about to build /Users/timbaker/node_modules/phantomjs
+info build /Users/timbaker/node_modules/phantomjs
+verbose from cache /Users/timbaker/node_modules/phantomjs/package.json
+verbose linkStuff [ false, false, false, '/Users/timbaker/node_modules' ]
+info linkStuff phantomjs@1.8.1-3
+verbose linkBins phantomjs@1.8.1-3
+verbose bins linking [ { phantomjs: './bin/phantomjs' },
+verbose bins linking   '/Users/timbaker/node_modules/.bin',
+verbose bins linking   false ]
+verbose linkMans phantomjs@1.8.1-3
+verbose rebuildBundles phantomjs@1.8.1-3
+verbose rebuildBundles [ 'rimraf', 'unzip' ]
+info install phantomjs@1.8.1-3
+verbose unsafe-perm in lifecycle false
+verbose Setting uid from 0 502
+verbose stack at uid setting Error
+verbose stack at uid setting     at exec (/usr/local/lib/node_modules/npm/lib/utils/exec.js:35:17)
+verbose stack at uid setting     at Array.0 (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:146:5)
+verbose stack at uid setting     at EventEmitter._tickCallback (node.js:192:40)
+silly exec sh "-c" "node install.js"
+silly spawning [ 'sh',
+silly spawning   [ '-c', 'node install.js' ],
+silly spawning   '/Users/timbaker/node_modules/phantomjs' ]
+info phantomjs@1.8.1-3 Failed to exec install script
+info unbuild /Users/timbaker/node_modules/phantomjs
+verbose from cache /Users/timbaker/node_modules/phantomjs/package.json
+info preuninstall phantomjs@1.8.1-3
+info uninstall phantomjs@1.8.1-3
+verbose unbuild phantomjs@1.8.1-3 [ true,
+verbose unbuild phantomjs@1.8.1-3   '/Users/timbaker/node_modules',
+verbose unbuild phantomjs@1.8.1-3   '/Users/timbaker/node_modules' ]
+verbose binRoot [ '/Users/timbaker/node_modules/.bin',
+verbose binRoot   { phantomjs: './bin/phantomjs' } ]
+info postuninstall phantomjs@1.8.1-3
+ERR! phantomjs@1.8.1-3 install: `node install.js`
+ERR! `sh "-c" "node install.js"` failed with 1
+ERR! 
+ERR! Failed at the phantomjs@1.8.1-3 install script.
+ERR! This is most likely a problem with the phantomjs package,
+ERR! not with npm itself.
+ERR! Tell the author that this fails on your system:
+ERR!     node install.js
+ERR! You can get their info via:
+ERR!     npm owner ls phantomjs
+ERR! There is likely additional logging output above.
+ERR! 
+ERR! System Darwin 11.4.2
+ERR! command "node" "/usr/local/bin/npm" "install" "phantomjs"
+ERR! cwd /Users/timbaker/projects/ASAP/Gradschool/application/project/development/tests/selenium
+ERR! node -v v0.6.14
+ERR! npm -v 1.1.13
+ERR! code ELIFECYCLE
+ERR! message phantomjs@1.8.1-3 install: `node install.js`
+ERR! message `sh "-c" "node install.js"` failed with 1
+ERR! errno {}
+verbose exit [ 1, true ]

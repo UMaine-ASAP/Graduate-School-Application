@@ -129,7 +129,7 @@ class Model
 
 	
 	// Convert DB Array to entity object
-	protected function loadFromDB($dbData)
+	public function loadFromDB($dbData)
 	{
 		if( $dbData == array() )
 		{
@@ -268,6 +268,7 @@ class Model
 		$this->query = "UPDATE %s SET ";
 
 		$is_first = true;
+		
 		if ($this->is_dirty == array()) return; // nothing to save
 
 		// build query string
@@ -316,6 +317,7 @@ class Model
 	{
 		$this->query = "SELECT * FROM %s WHERE %s = %d ";
 		$this->args = array(static::$tableName, $this->whereReplacements[0], $this->whereReplacements[1]);		
+
 		$result = $this->queryFirst();
 		$this->loadFromDB($result);
 

@@ -1,20 +1,15 @@
-{% extends 'basic_layout.twig' %}
+{% extends 'pageLayout.twig' %}
 
 {% block title %}{% block forgotten_title %}{% endblock %}{% endblock %}
+{% block pageTitle %}{{ block('forgotten_title') }}{% endblock %}
+
 {% block head %}
-	<link rel="stylesheet" href="{{WEBROOT}}/styles/forgot.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
 	{% block forgotten_head %}{% endblock %}
 {% endblock %}
 
 {% block content %}
-
-<h1>{% block forgotten_title %}{% endblock %}</h1>
-<div id="forgot">
-	<div id="recoverForm">
-		<div>
-			<p>{% block forgotten_description %}{% endblock %}</p>
-		</div>
-	</div>
+<div class='shortFormContainer center'>
+	{% block forgotten_description %}{% endblock %}
 </div>
 
 {% endblock %}

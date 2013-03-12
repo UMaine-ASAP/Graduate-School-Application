@@ -8,8 +8,8 @@
  * 
  */
 
-include_once "../application/libs/database.php";
-include_once "../application/libs/variables.php";
+include_once "../application/libraries/database.php";
+include_once "../application/libraries/variables.php";
 
 /**
  * Map State Value

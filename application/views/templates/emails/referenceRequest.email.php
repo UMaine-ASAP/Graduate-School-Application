@@ -7,7 +7,7 @@
  * 	APPLICANT_FULL_NAME
  * 	REFERENCE_FULL_NAME
  * 	RECOMMENDATION_LINK
- * 		$link_plain = $GLOBALS["grad_app_root"]."pages/rec_submit.php?userid=". $gethash ."&" . $get_code_url;
+ * 		$link_plain = $GLOBALS["WEBROOT"]."pages/rec_submit.php?userid=". $gethash ."&" . $get_code_url;
  * 	GRADUATE_HOMEPAGE
  */
 

@@ -4,7 +4,7 @@
  Purpose: To allow access to a MySQL database
 ************************************************************************/
 
-include_once __DIR__ . "/../config.php";
+include_once __DIR__ . "/../configuration.php";
 include_once __DIR__ . "/Error.php";
 
 class ActiveRecord

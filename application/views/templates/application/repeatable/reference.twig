@@ -4,23 +4,19 @@
 <div id="reference-#{{reference.id}}" class="{% if hide %}hidden{% endif %} reference">
 	<fieldset class="nested">
 		
-		{{ section.removeSubSectionButton('reference-#' ~ reference.id ) }}
+		{% if reference.id > 3 %}
+			{{ section.removeSubSectionButton('reference-#' ~ reference.id ) }}
+		{% endif %}
 
 		<legend>Recommendation</legend>
 		<div>
-			<div style="clear:both"></div>
-
 			{{ forms.boolean( {'title':'Will this individual submit a recommendation online?', 
 						'name':'reference-isSubmittingOnline-#' ~ reference.id,
 						'value':reference.isSubmittingOnline,
 						'isRequired':true
 					} ) }}
-		
-			<div style="clear:both"></div>
 
 			<p class="message warning">An electronic recommendation form will be emailed to this recommender if you click yes.</p>
-
-			<div style="clear:both"></div>
 
 			{{ forms.input( {'title':'First Name', 
 						'name':'reference-firstName-#' ~ reference.id,
@@ -112,8 +108,10 @@
 			
 			<div style="clear:both"></div>
 		</fieldset><!-- end fieldset "reference1_addr" -->
-		<button id='ref1_request' class="sendEmail button green small add" type="button" onclick="requestRecommendation('#ref1_request','reference1'); return false;" title="Add">Email Recommendation Form to Reference</button><span class='emailSentMessage'></span>
-		<script type='text/javascript'> setButtonDisplay('#ref1_request', '{{REFERENCE1_ONLINE}}', '{{REFERENCE1_REQUEST_SENT}}'); </script>
+		<div id='sendEmailButton{{reference.id}}'>
+			<button class="sendEmail button green small add" onclick="requestRecommendation('#sendEmailButton{{reference.id}}',{{reference.id}}); return false;" title="Add">Email Recommendation Form to Reference</button><span class='emailSentMessage'></span>
+			<script type='text/javascript'> setButtonDisplay('#sendEmailButton{{reference.id}} .sendEmail', '{{reference.isSubmittingOnline}}', '{{reference.requestHasBeenSent}}'); </script>
+		<div>
 		<div style="clear:both"></div>
 
 

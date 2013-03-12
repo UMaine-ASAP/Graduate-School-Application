@@ -1,5 +1,0 @@
-# Logfile created on Sun Dec 09 18:08:26 -0500 2012 by logger.rb/1.2.6
-D, [2012-12-09T18:08:26.748017 #11661] DEBUG -- : REQUESTING PAGE: GET http://codeigniter.com with {} and HTTP headers {}
-D, [2012-12-09T18:10:55.872282 #11719] DEBUG -- : REQUESTING PAGE: GET http://mcp.asap.um.maine.edu/gradschool/grad_application/application/pages/login.php with {} and HTTP headers {}
-D, [2012-12-09T18:11:53.675498 #11735] DEBUG -- : REQUESTING PAGE: GET http://mcp.asap.um.maine.edu/gradschool/grad_application/application/pages/login.php with {} and HTTP headers {}
-D, [2012-12-09T18:12:01.857093 #11738] DEBUG -- : REQUESTING PAGE: GET http://mcp.asap.um.maine.edu/gradschool/grad_application/application/pages/login.php with {} and HTTP headers {}

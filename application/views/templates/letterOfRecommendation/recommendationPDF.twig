@@ -1,0 +1,75 @@
+{% extends "pageLayout.twig" %}
+
+{% block title %}UMaine Graduate School Recommendation{% endblock %}
+
+{% block head %}
+
+<link rel="stylesheet" type="text/css" href="{{CSSPATH}}/recommendationPDF.css" />
+
+{% endblock %}
+
+{% block content %}
+
+<h1>UMAINE GRADUATE SCHOOL RECOMMENDATION</h1>
+
+<p class="right"><strong><span class="field">Date Received:</span> <span class="value">{{ recommendation.dateCreated }}</span></strong></p>
+<h2 class='section'>Applicant Information</h2>
+<div class="fieldset">
+	<table>
+		<tr>
+			<td><span class="field">Name:</span> <span class="value">{{ application.fullName }}</span></td>
+			<td><span class="field">Date of Birth:</span> <span class="value">{{ application.dateOfBirth }}</span></td>
+		</tr>
+		<tr>
+			<td><span class="field">Maiden/Former Name:</span> <span class="value">{{application.alternativeName }}</span></td>
+			<td><span class="field">Email Address:</span> <span class="value email">{{application.email }}</span></td>
+		</tr>
+	</table>
+</div>
+
+<h4><b>This applicant {{ application.waiveReferenceViewingRights }} waived their rights to view this recommendation.</b></h4>
+
+<h2 class='section'>Recommender Information</h2>
+<div class="fieldset">
+	<table>
+		<tr>
+			<td><span class="field">Name:</span> <span class="value">{{ recommendation.fullName }}</span></td>
+			<td><span class="field">Title:</span> <span class="value">{{recommendation.title}}</span></td>
+		</tr>
+		<tr>
+			<td><span class="field">Employer:</span> <span class="value">{{recommendation.employer}}</span></td>
+			<td><span class="field">Email Address:</span> <span class="value email">{{RECOMMENDER_EMAIL}}</span></td>
+		</tr>
+		<tr>
+			<td><span class="field">Phone Number:</span> <span class="value">{{RECOMMENDER_PHONE}}</span></td>
+			<td></td>
+		</tr>
+	</table>
+</div>
+<!--
+		<h4><b>This recommender allows this recommendation to be used for any program
+		the applicant may apply to.</b></h4>
+-->
+<h2 class='section'>Summary Evaluation Ratings (1 = lowest, 7 = highest)</h2>
+
+<p><span class="field">Academic Ability and Potential for Graduate Work:</span> <strong><span class="value">{{RECOMMENDATION_ABILITY}}</span></strong></p>
+
+<p><span class="field">Motivation for the Proposed Program of Study:</span> <strong><span class="value">{{RECOMMENDATION_MOTIVATION}}</span></strong></p>
+
+  <p>&nbsp;</p>
+<p><span class="field">This recommendation may be used for:</span> <span class="value">{{RECOMMENDATION_REUSE}}</span></p>
+<p><span class="value" style='margin-left: 10px;'>{{RECOMMENDATION_REUSE_PROGRAMS}}</span></p>
+
+<p><span class="field">This recommendation may be used for:</span> <span class="value">{{RECOMMENDATION_LIFESPAN}}</span></p>
+
+  <p>&nbsp;</p>	
+<p>Recommendation:</p>
+
+<p><b><pre>{{RECOMMENDATION_TEXT}}</pre></b></p>
+
+
+{% endblock %}
+
+
+
+				

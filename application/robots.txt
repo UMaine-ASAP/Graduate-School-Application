@@ -1,9 +1,7 @@
 User-agent: *
-Disallow: /applicant_files/
-Disallow: /application/controllers/
-Disallow: /application/libs/
-Disallow: /application/models/
-Disallow: /application/scripts/
-Disallow: /application/controllers/
+Disallow: /controllers/
 Disallow: /cron/
-Disallow: /tests/
+Disallow: /libraries/
+Disallow: /models/
+Disallow: /move_outside_webroot/
+Disallow: /views/

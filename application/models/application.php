@@ -1,11 +1,16 @@
 <?php
 
 // Libraries
-require_once __DIR__ . "/../libs/database.php";
-require_once __DIR__ . "/../libs/corefuncs.php";
+require_once __DIR__ . "/../libraries/database.php";
+require_once __DIR__ . "/../libraries/MPDF52/mpdf.php";
+require_once __DIR__ . "/../libraries/ordinalSuffix.php";
+
+// Controllers
+require_once __DIR__ . "/../controllers/ApplicationController.php";
 
 // Models
 require_once __DIR__ . "/Applicant.php";
+require_once __DIR__ . "/ApplicationFieldReference.php";
 
 // Application Subsections and repeatables
 require_once __DIR__ . "/applicationComponents/Transaction.php";
@@ -21,6 +26,11 @@ require_once __DIR__ . "/applicationComponents/Personal.php";
 require_once __DIR__ . "/applicationComponents/Reference.php";
 require_once __DIR__ . "/applicationComponents/ContactInformation.php";
 
+/**
+ * Application Type
+ * 
+ * Enumeration helper for different application types in Database
+ */
 class ApplicationType
 {
 	const DEGREE      = 1;
@@ -28,19 +38,53 @@ class ApplicationType
 	const CERTIFICATE = 3;
 }
 
+/**
+ * Application Sections
+ * 
+ * Enumeration helper for different application sections
+ */
+class ApplicationSection
+{
+	const personalInformation     = 1;
+	const international           = 2;
+	const educationalHistory      = 3;
+	const educationalObjectives   = 4;
+	const lettersOfRecommendation = 5;
+
+	public static $sectionDetails = array(
+		self::personalInformation     => array('url'=>'/application/section/personal-information', 'name'=>'Personal Information'),
+		self::international           => array('url'=>'/application/section/international', 'name'=>'International'),
+		self::educationalHistory      => array('url'=>'/application/section/educational-history', 'name'=>'Educational History'),
+		self::educationalObjectives   => array('url'=>'/application/section/educational-objectives', 'name'=>'Educational Objectives'),
+		self::lettersOfRecommendation => array('url'=>'/application/section/letters-of-recommendation', 'name'=>'Letters of Recommendation')
+
+		);
+}
+
 class Application extends Model
 {
 	protected static $tableName   = 'Application';
 	protected static $primaryKeys = array('applicationId', 'applicantId');
 
+ 	// Register our available properties with Model.php
 	protected $cache = array();
-	protected static $availableProperties = array('hasBeenSubmitted', 'degree', 'international', 'type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'status');
+	protected static $availableProperties = array('pretty_usState', 'pretty_birth_state', 'pretty_waiveReferenceViewingRights', 'startInfo', 'placeOfBirth', 'fullName', 'hasBeenSubmitted', 'degree', 'international', 'type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'status');
 
+
+	/**
+	 * Magic Getter
+	 * 
+	 * Gets the data for special properties
+	 * 
+	 * @return any
+	 */
 	public function __get($name)
 	{
 		// Data
 		 switch($name)
 		 {
+		 	case 'applicant':
+		 		return ApplicantController::getActiveApplicant();
 		 	case 'type':
 		 		$result = Database::getFirst('SELECT name FROM APPLICATION_type WHERE applicationTypeId = %d', $this->applicationTypeId);
 		 		return $result['name'];
@@ -90,8 +134,39 @@ class Application extends Model
 		 		$personal = $this->personal;
 				return $personal->givenName . " " . $personal->middleName . " " . $personal->familyName;
 			break;
+			case 'startInfo':
+				return $this->startSemester . ' ' . $this->startYear;
+			break;
+			case 'placeOfBirth':
+			 	return $this->birth_city . ' ' . $this->pretty_birth_state . ' ' . $this->birth_country;
+			break;
+		 	case 'pretty_waiveReferenceViewingRights':
+		 		return ($this->waiveReferenceViewingRights == 1) ? "Yes" : "No";
+		 	break;
+			case 'pretty_birth_state':
+		 		// International choice should return blank
+		 		if ($this->birth_state == 'IT') {
+		 			return '';
+		 		}
+		 		return $this->birth_state;
+		 	break;
+		 	case 'pretty_usState':
+		 		// International choice should return blank
+		 		if ($this->usState == 'IT') {
+		 			return '';
+		 		}
+		 		return $this->usState;
+		 	break;
 		 	case 'sections':
-			 	return array('personal-information', 'international', 'educational-history', 'educational-objectives', 'letters-of-recommendation');
+		 		switch($this->applicationTypeId)
+		 		{
+		 			case ApplicationType::DEGREE: case ApplicationType::CERTIFICATE:
+			 			return array('personal-information', 'international', 'educational-history', 'educational-objectives', 'letters-of-recommendation');
+		 			break;
+		 			case ApplicationType::NONDEGREE:
+				 		return array('personal-information', 'international', 'educational-history', 'educational-objectives');
+		 			break;
+		 		}
 		 	break;
 		 	case 'status':
 		 		if( $this->hasBeenSubmitted == 1)
@@ -104,6 +179,7 @@ class Application extends Model
 		 }
 
 		return parent::__get($name);
+
 	}
 
 	// override default model behavior -> we need to check for applicant id too!!!
@@ -112,15 +188,18 @@ class Application extends Model
 		Database::iquery("DELETE FROM Application WHERE applicantId=%d AND applicationId=%d", $this->applicantId, $this->id);
 	}
 
-	// override default behavior -> we need to make sure we own the application!!!
+	// override default model behavior -> we need to make sure we own the application!!!
 	public function save()
 	{
-		$this->lastModified = Date('Y-m-d H:i:s');
-		// Just to be save check for ownership
-		if( ApplicationController::doesActiveUserOwnApplication($this->id) )
+		// Just to be safe, check for ownership
+		if( !ApplicationController::doesActiveUserOwnApplication($this->id) )
 		{
-			parent::save();
+			return;
 		}
+
+		// save application
+		$this->lastModified = Date('Y-m-d H:i:s');
+		parent::save();
 	}
 
 	/**
@@ -153,7 +232,7 @@ class Application extends Model
 			case 'options_startYear':
 				$curYear = date('Y');
 
-				$result = array();
+				$result = array(''=>'- None -');
 				for ($i=0; $i < 4; $i++) { 
 					$result[$curYear + $i] = $curYear + $i;
 				}
@@ -204,33 +283,50 @@ class Application extends Model
 		return null; // nothing found
 	}
 
+
+	/**
+	 * Email All References
+	 * 
+	 * sends emails to all references
+	 * 
+	 * @return void
+	 */
 	public function emailAllReferences()
 	{
-		$references = Database::query("SELECT * FROM APPLICATION_Reference WHERE applicationId = %d", $this->applicationId);
+		$references = Model::factory('Reference')->whereEqual('applicationId', $this->applicationId)->get();
 		foreach ($references as $reference) {
-			$this->emailReference( (int) $reference['referenceId']);
+			$this->emailReference( $reference->id );
 		}
 	}
 
+
+	/**
+	 * Email Reference
+	 * 
+	 * sends email to a single reference provided that reference is an online reference and an email hasn't already been sent
+	 * 
+	 * @return    string    Empty string if successful, otherwise error message
+	 */
 	public function emailReference($referenceId)
 	{
 		$reference = Reference::getWithId($referenceId);
+		if ( is_null($reference) ) {
+			return "ERROR: reference doesn't exist!";
+		}
 
 		// Check if reference email has already been submitted
 		if( $reference->requestHasBeenSent || ! $reference->isSubmittingOnline) {
 			return "ERROR: Email already sent or not an online reference";
 		}
 
-		$applicant = Reference::getWithId($referenceId);
-
 		// send email
-		$email = new EmailSystem();
+		$email = new Email();
 		$email->loadFromTemplate('referenceRequest.email.php', 
-								array('APPLICANT_FULL_NAME' => $this->fullName,
-									 'REFERENCE_FULL_NAME' => $reference->fullName,
-									 'RECOMMENDATION_LINK' => $GLOBALS['WEBROOT'] . '/reference/?q=' . $this->applicationHash,
-									 'GRADUATE_HOMEPAGE'   => $GLOBALS['GRADUATE_HOMEPAGE']));
-		$email->setDestinationEmail( $reference_email );
+								array('{{APPLICANT_FULL_NAME}}' => $this->fullName,
+									 '{{REFERENCE_FULL_NAME}}' => $reference->fullName,
+									 '{{RECOMMENDATION_LINK}}' => $GLOBALS['WEBROOT'] . '/recommendation/' . $this->hashReference . '/' . $reference->id,
+									 '{{GRADUATE_HOMEPAGE}}'   => $GLOBALS['GRADUATE_HOMEPAGE']));
+		$email->setDestinationEmail( $reference->email );
 		$email->sendEmail();
 
 		// update database
@@ -239,37 +335,147 @@ class Application extends Model
 	}
 
 
-	public function submitWithPayment($application, $paymentIsHappeningNow)
+	/**
+	 * Get Reference with Id
+	 * 
+	 * @param
+	 * 
+	 * @return     object     The associated reference id or null if not found
+	 */
+	public function getReferenceWithId($id)
+	{
+		$result = null;
+		foreach ($this->references as $reference) {
+			if($reference->id == $id)
+			{
+				$result = $reference;
+				break;
+			}
+		}
+		return $result;
+	}
+
+
+	/**
+	 * Check Required Fields
+	 * 
+	 * Checkes whether required fields are filled in or not. Returns an error of messages for missing fields
+	 * 
+	 * @return    array    Array of error messages for missing required fields
+	 */
+	public function checkRequiredFields()
+	{
+		$errors = array();
+
+		/* ---- Test database fields ---- */
+		foreach ($GLOBALS['databaseFields'] as $sectionName => $fields) {
+			foreach ($fields as $fieldName=>$field) {
+				if( isset($field['isRequired']) && $field['isRequired'])
+				{
+					// Check if error occurred
+					$fieldReference = new ApplicationFieldReference($fieldName);
+					$hasError = false;
+					if( $fieldReference->value() == '')
+					{
+						$hasError = true;
+						$errors[] = array('message' => $field['requiredMessage'], 'section'=>$sectionName);
+					}
+
+					// check any additional requirements
+					if( isset($field['requirements']) )
+					{
+						foreach ($field['requirements'] as $requirement) {
+							if($hasError) break;
+							switch ($requirement) {
+								case 'nonzero':
+									if($fieldReference->value() == 0)
+									{
+										$hasError = true;
+										$errors[] = array('message' => $field['requiredMessage'], 'section'=>$sectionName);
+									}
+									break;
+								
+								default:
+									break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		/* ---- General Tests ---- */
+
+		// Any reference marked as online must have an email
+		foreach ( array_reverse($this->references) as $reference) {
+			if ($reference->isSubmittingOnline && $reference->email == '') {
+				$errors[] = array('message' => "If your reference will submit online, you must enter an Email Address", 'section'=>ApplicationSection::lettersOfRecommendation);
+			}
+			
+			// references must inclue first name
+			if ($reference->firstName == '') {
+				$errors[] = array('message' => "You did not enter a First Name for your ". addOrdinalNumberSuffix($reference->id) . " reference", 'section'=>ApplicationSection::lettersOfRecommendation);
+			}
+
+			// references must inclue first last
+			if ($reference->lastName == '') {
+				$errors[] = array('message' => "You did not enter a last Name for your ". addOrdinalNumberSuffix($reference->id) . " reference", 'section'=>ApplicationSection::lettersOfRecommendation);
+			}
+		}
+
+
+		/* ---- Application specific test ---- */
+		switch ($application->applicationTypeId) {
+			case ApplicationType::DEGREE:
+				// at least 3 references must exist with first and last names
+				if( count($this->references) < 3 )
+				{
+					$errors[] = array('message' => "For a degree application, you must provide 3 references", 'section'=>ApplicationSection::lettersOfRecommendation);
+				}
+				break;
+			case ApplicationType::CERTIFICATE:
+				//@TODO: require recommendations for BUA (2 recommendations)
+				//@TODO: require recommendation for GIS (1 recommendation)
+				break;			
+		}
+
+		return $errors;
+	}
+
+	public function submitWithPayment($paymentIsHappeningNow)
 	{
 		// Set payment method
 		$payment_method = ($paymentIsHappeningNow) ? "PAYNOW" : "PAYLATER";
-		$db->iquery("UPDATE applicants SET application_payment_method='%s' WHERE applicant_id=%d", $payment_method, $this->application_id );
+		Database::iquery("UPDATE `Application` SET application_payment_method='%s' WHERE `applicantId`=%d", $payment_method, $this->application_id );
 
 		// Update database to show that application has been submitted
-		$db->iquery("UPDATE `applicants` SET `has_been_submitted` = '1' WHERE `applicant_id` = %d LIMIT 1", $this->application_id);
+		Database::iquery("UPDATE `Application` SET `has_been_submitted` = '1' WHERE `applicantId` = %d LIMIT 1", $this->application_id);
 	
 		// Set application submit date
 		$date = date("Y-m-d");
-		$db->iquery("UPDATE `applicants` SET `application_submit_date` = '%s' WHERE `applicant_id` = %d LIMIT 1", $date, $this->application_id);		
-
+		Database::iquery("UPDATE `application` SET `application_submit_date` = '%s' WHERE `applicantId` = %d LIMIT 1", $date, $this->application_id);		
+		
+		$this->emailAllReferences();
+		$this->_generateFinalPDF();
 
 		// Submitting with payment
 		if( $paymentIsHappeningNow ) {
 			//Generate transaction ID
-			$trans_id = 'UMGRAD' . '*' . $this->applicant_id . '*' . time();
+			$trans_id = 'UMGRAD' . '*' . $this->application_id . '*' . time();
 			
 			//update database transaction_id
-			$db->iquery("UPDATE applicants SET application_fee_transaction_number='%s' WHERE applicant_id=%d", $trans_id, $this->applicant_id);
+			Database::iquery("UPDATE Application SET application_fee_transaction_number='%s' WHERE applicantId =%d", $trans_id, $this->applicant_id);
 			
 			//Fetch application cost
-			$app_cost_query = $db->query("SELECT application_fee_transaction_amount FROM applicants WHERE applicant_id=%d", $this->applicant_id);
-			$app_cost       = $app_cost_query[0][0];
+			$app_cost_query = Database::GetFirst("SELECT application_fee_transaction_amount FROM Application WHERE applicant_id=%d", $this->applicant_id);
+			$app_cost       = $app_cost_query['application_fee_transaction_amount'];
 			
 			//Build request
-			$data ='UPAY_SITE_ID=' . $GLOBALS["touchnet_site_id"].'&';
-			$data .='UMS_APP_ID='   . $GLOBALS["touchnet_app_id"].'&';
-			$data .='EXT_TRANS_ID=' . $trans_id.'&';
-			$data .='AMT=' . $app_cost;
+			$data = array( 
+				'UPAY_SITE_ID' => $GLOBALS["touchnet_site_id"],
+				'UMS_APP_ID'   => $GLOBALS["touchnet_app_id"],
+				'EXT_TRANS_ID' => $trans_id,
+				'AMT'          => $app_cost);
 			
 			$header = array("MIME-Version: 1.0","Content-type: application/x-www-form-urlencoded","Contenttransfer-encoding: text");
 			
@@ -281,7 +487,7 @@ class Application extends Model
 			curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
 			curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
 			curl_setopt($ch, CURLOPT_POST, TRUE);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $data); 
+			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data) ); 
 			curl_setopt($ch, CURLPROTO_HTTPS, TRUE);
 			curl_setopt($ch, CURLOPT_TIMEOUT, 10); //Max time to connect
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); //Put result in variable
@@ -303,27 +509,73 @@ class Application extends Model
 			print $result;						
 		} else {
 			// Payment is not happening now
-			$db->iquery("UPDATE applicants SET application_fee_payment_status='N' WHERE applicants.applicant_id=%d", $user);
+			$db->iquery("UPDATE Application SET application_fee_payment_status='N' WHERE applicantId = %d", $this->applicantId);
 		
+
+			$app_cost_query = Database::GetFirst("SELECT application_fee_transaction_amount FROM Application WHERE applicant_id=%d", $this->applicant_id);
+			$app_cost       = $app_cost_query['application_fee_transaction_amount'];
+
 			// email
 			$email = new Email();
-			$email->loadFromTemplate('mailPayLater.email.php');
+			$email->loadFromTemplate('mailPayLater.email.php', array('{{APPLICATION_FEE}}'=>$app_cost));
 			$email->setDestinationEmail( $this->applicant->getEmail() );
 			$email->sendEmail();
 
 		}
 	}
 
-	public function generateClientPDF() {
-		self::generate_application_pdf("USER");
+	/**
+	 * Build PDF (Internal Method)
+	 * 
+	 * Helper function for generating the pdf
+	 * 
+	 * @return    mpdf    An mpdf object with the application pdf loaded
+	 */
+	private function _buildPDF()
+	{
+		// render html
+		$app = \Slim\Slim::getInstance();
+		$app->view()->appendData(array('application' => $this));
+		$html = $app->view()->render('application/applicationPDF.twig');
+
+		// convert html to pdf
+		$mpdf = new mPDF();
+		$mpdf->AddPage();
+		$mpdf->WriteHTML($html);
+		return $mpdf;		
 	}
 
-	public function generateServerPDF() {
-		self::generate_application_pdf("SERVER");
-	}	
+	/**
+	 * Display PDF
+	 * 
+	 * Generates and sends to the http client the application as a pdf
+	 * 
+	 * @return void
+	 */
+	public function displayPDF() {
+		$pdftitle = "UMGradApp_". $this->personal->givenName . '_' . $this->personal->familyName . ".pdf";
+		$this->_buildPDF()->Output($pdftitle, 'D');
+	}
 
+	/**
+	 * Generate Final PDF (Internal Method)
+	 * 
+	 * Renders the application pdf and stores on the server
+	 * 
+	 * @return void
+	 */
+	private function _generateFinalPDF() {
+		$today = date("m-d-Y");
+		$exDOB = explode("/", $this->dateOfBirth);
+		$DOB   = $exDOB[0].$exDOB[1].$exDOB[2];
+
+		$pdfFileName = $this->id . '_' . $this->personal->familyName ."_". $this->personal->givenName . '_' . $DOB . ".pdf";
+
+		$pdfFullPath = $GLOBALS['completed_pdfs_path'] . $pdfFileName;
+
+		$this->_buildPDF()->Output($pdfFullPath);
+
+		chmod($pdfFullPath, 0664);
+	}
 
 }
-
-
-

@@ -59,16 +59,18 @@
 
 - Develop Application Code
 	- Migrate old code to a new, stable foundation
-		- Implement inheriting templates
-			- *complete* Define core templates
-			- Fix css
-			- *complete* Use macros for expanding input fields
-			- Add correct database names and default values
-		- Change routing methods
+		- <del>Implement inheriting templates</del>
+			- <del>Define core templates</del>
+			- <del>Fix css</del>
+			- <del>Use macros for expanding input fields</del>
+			- <del>Add correct database names and default values</del>
+		- <del>Change routing methods</del>
 		- Ensure saving fields works correctly
 		- Ensure applications validate correctly
 		- Ensure payment works correctly
-		- Fully test submission process with ASAP staff
+		- Ensure reference process works
+			- emailing references
+			- Submitting references
 
 	- Implement submitting multiple applications
 		- Change payment for 2nd time degree application within last 6 months?
@@ -81,7 +83,7 @@
 		- Change required fields
 		- Change payment amount
 
-- Create the new database SQL
+- <del>Create the new database SQL</del>
 - Update application administration to support the the new database
 - Create SQL code to migrate data from application 1.0 to application 2.0 *(see dev/db/migration.md)*
 - Write system documentation and create supporting diagrams
@@ -90,28 +92,57 @@
 Specific Tasks
 --------------
 
-- check if fields are working
-- improve look and interaction of my-applications page
-- account registration?
 - Database migration script
-- database field config
-- contact information
 
-- submission
-- missing pages
+- Application
+	- check if all fields are working
 	- forgot password page
-	- no-javascript page?
+	- account registration process
+	- enforce required fields
+	- Certificate and non-degree academic program selection infos
+	- Certificate program list
+	- certificate BUA requires 2 recomendations and GIS requires 1
 
-- test in IE
-- clean legacy files
-- clean tests
+- Recommendation form and submission
+
+- File cleanup
+	- can remove reset_password.twig?
+	- clean legacy files
+
+- shouldn't be able to delete reference after emailing
+
+- testing
+	- test in IE 6+, Safari, Firefox, Chrome, Opera
+
+- Comments
+	- finish README sections
+	- libraries
+		- Database
+		- Error
+		- ErrorTracker
+		- InputSanitation
+		- Template
+	- model.php
+	- application model
+
+- should be storing recommendations in database?
+- is application id unique across users?
+- display ethnicity information in pdf
+- display program information
+- filename dates should be created and stored then used for filename
+
+### Currently working on
+- app submission
+- forgot password page
+- other application types
+- account registration
+
+### Someday
 - fix app_cleanup.php  (currently not used and needs work)
-- move email function and remove core_funcs
-- see if template library is still be used
 
+
+### Johnny
 - upload essay/resume
-- force at least 3 recommendations
-- can remove reset_password.twig?
 
 # Project Details
 

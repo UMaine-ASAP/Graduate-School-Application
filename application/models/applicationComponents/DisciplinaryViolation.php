@@ -17,7 +17,6 @@ class DisciplinaryViolation extends ApplicationComponent
 		}
 		$dbObject = Database::getFirst("SELECT * FROM APPLICATION_DisciplinaryViolation WHERE applicationId = %d AND disciplinaryViolationId = %d ", $application->id, $violationId);
 
-
 		$violation = Model::factory('DisciplinaryViolation');
 		$violation->loadFromDB($dbObject);
 		return $violation;

@@ -1,6 +1,8 @@
-{% extends 'application/section.twig' %}
+{% extends 'application/sectionLayout.twig' %}
 {% import "application/section.macro.twig" as section %}
 {% import "forms.macro.twig" as forms %}
+
+{% block pageName %}Application - Letters of Recommendation{% endblock %}
 
 {% block form %}
 
@@ -15,18 +17,19 @@
  		$(field).parent().children("span.emailSentMessage").text("Email has been sent.");
  	}
  } 
- function requestRecommendation(button, reference) {
+ function requestRecommendation(referenceId, reference) {
  	$.ajax({
- 		url: 'scripts/email_reference.php',
+ 		url: WEBROOT + '/application/section/letters-of-recommendation/email-reference/' + reference,
  		type: 'POST', 		
- 		data: 'reference=' + reference,
  		success: function(data) {
- 			if ( data == "SUCCESS: Email Sent") { 
- 				$(button).css('display', 'none');
-		 		$(button).addClass('email_sent');
- 				$(button).parent().children("span.emailSentMessage").text("Email has been sent.");
+ 			var button = $(referenceId + ' button.sendEmail');
+ 			console.log("***"+data+"***");
+ 			if ( data == "\nSuccess: Recommendation email sent!") {
+ 				button.css('display', 'none');
+		 		button.addClass('email_sent');
+ 				$(referenceId + ' span.emailSentMessage').text("Email has been sent.");
  			} else {
- 				$(button).parent().children("span.emailSentMessage").text(data); 				
+ 				$(referenceId + ' span.emailSentMessage').text(data); 				
  			}
  		}
  	});

@@ -8,7 +8,7 @@ class Reference extends ApplicationComponent
 	protected static $tableName = 'APPLICATION_Reference';
 	protected static $primaryKeys = array('referenceId', 'applicationId');
 
-	protected static $availableProperties = array('contactInformation');
+	protected static $availableProperties = array('fullName', 'contactInformation', 'requestHasBeenSent', 'isSubmittingOnline');
 
 	public function __get($name)
 	{
@@ -32,7 +32,7 @@ class Reference extends ApplicationComponent
 		 return parent::__get($name);
 	}
 
-	protected static $availableOptions = array('options_relationship', 'options_state', 'options_country');	
+	protected static $availableOptions = array('options_relationship', 'options_state', 'options_country', 'options_scores', 'options_scores_woNumbers');	
 	public static function getOption($optionName)
 	{
 		switch($optionName)
@@ -50,6 +50,26 @@ class Reference extends ApplicationComponent
 			case 'options_state':
 				return Application::getOption('options_state');
 			break;
+			case 'options_scores':
+				return array(  '1' => '1 - Below Average',
+							'2' => '2 - Average',
+							'3' => '3 - Somewhat Above Average',
+							'4' => '4 - Good',
+							'5' => '5 - Unusual',
+							'6' => '6 - Outstanding',
+							'7' => '7 - Truly Exceptional',
+							'8' => 'Unable to Judge');
+			break;
+			case 'options_scores_woNumbers':
+				return array(  '1' => 'Below Average',
+							'2' => 'Average',
+							'3' => 'Somewhat Above Average',
+							'4' => 'Good',
+							'5' => 'Unusual',
+							'6' => 'Outstanding',
+							'7' => 'Truly Exceptional',
+							'8' => 'Unable to Judge');
+			break;			
 
 		}
 		return null; // nothing found
@@ -61,6 +81,7 @@ class Reference extends ApplicationComponent
 
 		$reference->contactInformationId = ContactInformation::createAndGetId();
 		$reference->save();
+		
 		return $reference;
 	}
 

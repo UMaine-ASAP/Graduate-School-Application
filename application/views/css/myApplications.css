@@ -1,0 +1,88 @@
+
+/** General formatting **/
+.topHeader
+{
+	float: right;
+	width: auto;
+}
+
+.content {
+	width: 60em;
+	font-size: 14px;	
+}
+
+/** Create a new application **/
+
+
+dfn {
+	font-weight: bold;
+}
+
+#create-application
+{
+	float: left;
+	font-weight: bold;
+}
+
+#create-application-modal
+{
+	text-align: left;
+}
+
+#create-application-modal fieldset
+{
+	margin: 2em 0 1.5em 0;
+}
+
+#create-application-modal fieldset li
+{
+	margin-bottom: .5em;
+}
+
+/** Table **/
+
+#no-applications {
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+#my-Applications
+{
+	margin: 0 auto;
+	margin-top: 2em;
+	width: 100%;
+}
+
+thead td
+{
+	font-weight: bolder;
+	padding-bottom: .5em;
+	text-align: center;
+}
+
+tbody tr
+{
+	height: 4em;
+}
+
+tbody tr.odd
+{
+	background: #DFE9eD;
+	border-radius: 15px;
+	border: 1px solid #9FAEB3;	
+	border-left: none;
+	border-right: none;
+}
+
+td
+{
+	width: 100px;
+	padding-right: 10px;
+	text-align: center;
+}
+
+.application-type
+{
+	white-space: nowrap;
+}

@@ -1,0 +1,555 @@
+  <!-- Template for two-column form field table structure:
+
+<table class="two">
+	<tr>
+		<td><span class="field">FIELD:</span> <span class="value">VALUE</span></td>
+		<td><span class="field">FIELD:</span> <span class="value">VALUE</span></td>
+	</tr>
+</table>
+
+<table class="three">
+	<tr>
+		<td><span class="field">FIELD:</span> <span class="value">VALUE</span></td>
+		<td><span class="field">FIELD:</span> <span class="value">VALUE</span></td>
+		<td><span class="field">FIELD:</span> <span class="value">VALUE</span></td>
+	</tr>
+</table>
+
+ -->
+
+ <!-- Macro: fieldValuePairTD
+	Builds a table element for a field and associated value
+	-->
+{% macro fieldValuePairTD(fieldName, value) %}
+	<td>{{ _self.fieldValuePair(fieldName, value) }}</td>
+{% endmacro %}
+
+
+ <!-- Macro: fieldValuePair
+	Builds a table element for a field and associated value
+	-->
+{% macro fieldValuePair(fieldName, value) %}
+	<span class="field">{{ fieldName }}</span> <span class="value">{{ value | raw }}</span>
+{% endmacro %}
+
+{% macro fieldValuePairArray(data) %}
+	{{ _self.fieldValuePair(data[0], data[1]) }}
+{% endmacro %}
+
+
+<html xmlns="htt/*  */p://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=macintosh"/>
+
+<!-- The css needs to be included here for mpdf to process it -->
+<style type="text/css">
+body {
+	width:7.5in;
+	margin: 0 auto;
+	padding:0;
+	font-family: "Times New Roman";
+	font-size: 10pt;
+	line-height:10pt;
+	color: #333;
+}
+
+.center { text-align: center; }
+
+h1 { font-size: 22px; }
+
+h2 {
+	font-size: 16px;
+	margin:.5em;
+}
+
+h3 {
+	margin-top: 16pt;
+	margin-bottom:8pt;
+}
+ul {
+	list-style:none;
+	padding-left:6pt;
+}
+
+a:link{
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;
+}
+a:visited {
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;
+}
+
+div.fieldset {
+	border:0.1mm solid #000000;
+	padding: 4px;
+}
+
+div.fieldset p {
+	line-height:130%
+	page-break-before:avoid;
+	margin: 0 auto 6pt auto;
+}
+
+p.note {
+	font-size:8pt;
+	line-height:100%;
+}
+
+p.center {
+	text-align:center;
+}
+
+p.bold {
+	font-weight:bold;
+}
+
+div.fieldset table , table.box{
+	width:100%;
+	border-collapse: collapse;
+}
+
+table.box td{
+	border:0.1mm solid #000000;
+	padding: 5px;
+}
+
+div.fieldset table.two tr td {
+	width:50%;
+	padding-right:12pt
+}
+
+div.fieldset table.three tr td {
+	width:33%;
+	padding-right:12pt;
+	padding-bottom:12pt;
+}
+
+span.value, pre { /* a form field value entry */
+	font-family: "Times New Roman";
+	font-weight:bold;
+	font-size: 12pt;
+	line-height: normal;
+}
+
+span.tab {
+	margin-right:12pt;
+}
+</style>
+</head>
+<body>
+
+<!-- ================================================================================================================ -->
+<!-- = page 1 -->
+<!-- ================================================================================================================ -->
+
+
+<h2 class='center'>UNIVERSITY OF MAINE</h2>
+<h2 class='center'>APPLICATION FOR ADMISSION TO THE GRADUATE SCHOOL</h2>
+<p align=center><b><span>Graduate School, 42 Stodder Hall, University of Maine, Orono, ME 04469-5755</span></b></p>
+<div align=right style='margin: .5em;'><span>This application was submitted on: </span><b><span>{{ application.submittedDate }}</span></b></div>
+<div align=right style='margin: .2em;'><span>External Application ID: </span><b><span>{{ application.id }}</span></b></div>
+<div align=right style='margin: .2em;'><span>Method:</span><b><span>{{ application.transaction.paymentMethod }}</span></b></div>
+
+{% set primary = application.personal %}
+<h3>Basic Information</h3>
+<div class="fieldset">
+	<table class="two">
+		<tr>
+			{{ _self.fieldValuePairTD('Full Name:', primary.familyName ~ ', ' ~ primary.givenName ~ ', ' ~ primary.middleName)}}
+			{{ _self.fieldValuePairTD('Gender:', primary.gender) }}
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('Maiden/Former Name:', primary.alternateName) }}
+			{{ _self.fieldValuePairTD('Date of Birth:', primary.dateOfBirth) }}
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('Social Security Number:', primary.socialSecurityNumber) }}
+			{{ _self.fieldValuePairTD('Place of Birth:', primary.placeOfBirth) }}
+		</tr>
+	</table>
+     <hr size=1>
+	<table class="two">
+		<tr>
+			{{ _self.fieldValuePairTD('Present Occupation', primary.presentOccupation) }}
+			{{ _self.fieldValuePairTD('', '') }}
+		</tr>
+	</table>
+    
+	<hr size=1>
+     <p class="note center bold">If you are a resident alien, please enclose a copy of your green card with your application.</p>
+
+	<table class="two">
+		<tr>
+			{{ _self.fieldValuePairTD('Country of Citizenship:', primary.countryOfCitizenship) }}
+			{{ _self.fieldValuePairTD('Residency Status:', primary.residencyStatus) }}
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('If US Citizen, Legal State of Residence:', primary.pretty_usState) }}
+			{{ _self.fieldValuePairTD('', '') }}
+		</tr>
+	</table>
+</div>
+
+<h3>Ethnicity</h3>
+<div class="fieldset">
+	<p class="note">Note on Ethnicity: Colleges and universities are asked by many, including the federal government, accrediting associations, college guides, newspapers, and our own college/university communities, to describe the racial/ethnic backgrounds of our students and employees. In order to respond to these requests, we ask you to answer the following two questions:</span></p>
+	<table class="two">
+		<tr>
+			{{ _self.fieldValuePairTD('Hispanic/Latino:', application.ethnicity_hispa) }}
+			{{ _self.fieldValuePairTD('Other Ethnicity:', primary.nonHispanicEthnicities) }}
+		</tr>
+	</table>
+</div>
+
+<h3>Contact Information</h3>
+<div class="fieldset">
+	<table class="two">
+		<tr>
+			{% set permanentAddress = primary.permanentMailing %}
+			{{ _self.fieldValuePairTD('Primary Phone Number', permanentAddress.primaryPhone) }}
+			{{ _self.fieldValuePairTD('Primary Phone Number', permanentAddress.secondaryPhone) }}
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('E-mail address', primary.email) }}
+			{{ _self.fieldValuePairTD('', '') }}
+		</tr>
+	</table>
+	<hr size=1>
+	<table class='two'>
+		<tr>
+			{% if primary.isMailingSameAsPermanent %}
+				{% set mailingAddress = permanentAddress %}
+			{% else %}
+				{% set mailingAddress = primary.mailing %}
+			{% endif %}
+			{{ _self.fieldValuePairTD('Permanent Address:', permanentAddress.fullAddress) }}
+			{{ _self.fieldValuePairTD('Mailing Address:', mailingAddress.fullAddress) }}
+		</tr>
+	</table>
+</div>
+
+<h3>Academic/Criminal History</h3>
+<div class="fieldset">
+	<p>{{ _self.fieldValuePair('Have you ever been found responsible for a disciplinary violation at a post-secondary educational institution you have attended (or the international equivalent) whether related to academic misconduct or behavioral misconduct, that resulted in your suspension, removal, dismissal or expulsion from the institution?', application.pretty_hasDisciplinaryViolation) }}</p>
+	
+	{% for violation in application.disciplinaryViolations %}
+		<p>
+			{{ _self.fieldValuePair('Date:', violation.date, false) }}<br />
+			{{ _self.fieldValuePair('Explanation:', violation.details, false) }}
+		</p>
+	{% endfor %}
+
+	{{ _self.fieldValuePair('Have you ever been convicted of a misdemeanor felony or
+      other crime, or adjudicated of committing a juvenile crime?', application.pretty_hasCivilDisciplinary) }}
+	  
+	{% for violation in application.civilViolations %}
+		<p>
+			{{ _self.fieldValuePair('Date:', violation.date, false) }}<br />
+			{{ _self.fieldValuePair('Explanation:', violation.details, false) }}
+		</p>
+	{% endfor %}
+</div>
+
+<h3>Educational Objectives</h3>
+<div class="fieldset">
+    
+	<table class="two">
+		<tr>
+			{{ _self.fieldValuePairTD('Proposed department of study:', application.degree.academic_program) }}
+			{{ _self.fieldValuePairTD('Intended Entry:', application.startInfo) }}
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('Degree you are seeking:', application.degree.academic_planName) }}
+			{{ _self.fieldValuePairTD('Attendance Status:', application.degree.pretty_academic_load) }}
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('Major Area of Interest:', application.degree.academic_major) }}
+			{{ _self.fieldValuePairTD('Minor Area of Interest:', application.degree.academic_minor) }}
+		</tr>
+	</table>
+
+	<hr size=1>
+
+	<table class="two">
+		<tr>
+			{{ _self.fieldValuePairTD('Have you previously applied to this institution?:', primary.pretty_hasPrevUMGradApp_appExists) }}
+			{{ _self.fieldValuePairTD('', '') }}
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('When', primary.prevUMGradApp_date) }}
+			{{ _self.fieldValuePairTD('To what department?', primary.prevUMGradApp_dept) }}
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('Did you withdraw?', primary.pretty_prevUMGradWithdraw_exists) }}
+			{{ _self.fieldValuePairTD('When?', primary.prevUMGradWithdraw_date) }}
+		</tr>
+
+		<tr>
+			{{ _self.fieldValuePairTD('Do you wish to apply for an assistantship?', application.degree.pretty_isSeekingAssistantship) }}
+			{{ _self.fieldValuePairTD('', '') }}
+		</tr>
+		<tr>
+			<td colspan="2">
+				{{ _self.fieldValuePair('Do you intend to apply for certification of eligibility under the New England Regional Student Program?', application.degree.pretty_isApplyingNebhe) }}
+			</td>
+		</tr>
+		<tr>
+			<td style='padding-top: 1em;' colspan="2">
+				{{ _self.fieldValuePair('University of Maine Faculty you have corresponded with regarding your application:', application.hasUmaineCorrespondent) }}
+			</td>
+		</tr>
+	</table>
+</div>
+
+<!-- ================================================================================================================ -->
+<!-- = page 2 -->
+<!-- ================================================================================================================ -->
+
+<h3>Previous Education</h3>
+<table class="three box">
+	<tr>
+		{% for previousSchool in application.previousSchools %}
+		<td>
+			<p>
+				<span class="value">{{ previousSchool.name }}</span><br />
+				<span class="value">{{ previousSchool.city }}, {{ previousSchool.pretty_state }}</span><br />
+				{{ _self.fieldValuePair('Location if Outside US/Canada:', previousSchool.country) }}
+				<br />
+				{{ _self.fieldValuePair('Dates Attended:', previousSchool.dateRange) }}
+				<br />
+				{{ _self.fieldValuePair('Major:', previousSchool.major) }}
+				<br />
+				{{ _self.fieldValuePair('Name of Degree or Diploma:', previousSchool.degreeEarned_name) }}
+			</p>
+		</td>	
+		{% endfor %}
+	</tr>
+</table>
+
+<h3>Previous GPA and Coursework</h3>
+<div class="fieldset">
+	<table class="two">
+		<tr>
+			{{ _self.fieldValuePairTD('Cumulative undergraduate GPA:', primary.undergradGPA) }}
+			{{ _self.fieldValuePairTD('Cumulative post-baccalaureate GPA:', primary.postbaccGPA) }}
+		</tr>
+		<tr>
+			<td style='padding-top: 1em;' colspan="2"><p><span class="field">List, by title, all courses in progress or courses you expect to take before enrolling at UM:</span></p></td>
+		</tr>
+		<tr>
+			<td>
+				<span class="value"><pre>{{ application.primary.previousCourseWork }}</pre></span>
+			</td>
+		</tr>
+	</table>
+</div>
+  
+<h3>Language Proficiency</h3>
+<div class="fieldset">
+	<table class="two">
+		{% for language in languages %}
+			<tr><td style='height: 5px;'></td></tr>
+			<tr>
+				{{ _self.fieldValuePairTD('Language:', language.name) }}
+				{{ _self.fieldValuePairTD('Reading:', language.reading) }}
+			</tr>
+			<tr>
+				{{ _self.fieldValuePairTD('Speaking:', language.speaking) }}
+				{{ _self.fieldValuePairTD('Writing:', language.writing) }}
+			</tr>
+		{% endfor %}
+
+
+		<tr>
+			<td style='padding-top: 1em;'  colspan="2"><span class="field">If English is not your primary language, indicate the number of years you have studied English (give dates):</span></td>
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('In secondary or middle school:', application.englishYears_school) }}
+			{{ _self.fieldValuePairTD('', '') }}			
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('In university:', application.englishYears_univ) }}
+			{{ _self.fieldValuePairTD('', '') }}
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('Under private auspices:', application.englishYears_private) }}
+			{{ _self.fieldValuePairTD('', '') }}
+		</tr>
+	</table>
+</div>
+
+
+<!-- ================================================================================================================ -->
+<!-- = page 3 -->
+<!-- ================================================================================================================ -->
+
+
+  <h3>Graduate Record Examination</h3>
+  <div class="fieldset">
+	<table class="three">
+		<tr>
+			<td colspan="3">
+				{{ _self.fieldValuePair('Have you ever taken or intend to take the GRE?', primary.pretty_hasTakenGRE) }}
+			</td>
+		</tr>
+		{% for gre in application.gres %}
+			{% if not loop.first %}
+				<tr><td colspan='3' style='font-size: 20px;'>
+				----------------------------------------------------------------------------------------------------------
+				</td></tr>
+			{% endif %}
+			<tr>
+				{{ _self.fieldValuePairTD('Verbal:', gre.verbal) }}
+				{{ _self.fieldValuePairTD('Quantitative', gre.quantitative) }}
+				{{ _self.fieldValuePairTD('Analytical Writing:', gre.analytical) }}
+			</tr>
+			<tr>
+				{{ _self.fieldValuePairTD('Subject:', gre.subject) }}
+				{{ _self.fieldValuePairTD('Score:', gre.score) }}
+				{{ _self.fieldValuePairTD('Date:', gre.date) }}
+			</tr>
+		{% endfor %}
+	</table>
+  </div>
+
+  <h3>Graduate Management Admission Test</h3>
+  <div class="fieldset">
+	<table class="two">
+		<tr>
+			<td colspan='2'>
+				{{ _self.fieldValuePair('Have you ever taken or intend to take the GMAT?', primary.pretty_gmat_hasTaken) }}
+			</td>
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('GMAT Score:', primary.gmat_score) }}
+			{{ _self.fieldValuePairTD('Date:', primary.gmat_date) }}
+		</tr>
+	</table>
+  </div>
+  <h3>Miller Analogies Test</h3>
+  <div class="fieldset">
+	<table class="two">
+		<tr>
+			<td colspan='2'>
+				{{ _self.fieldValuePair('Have you ever taken or intend to take the MAT?', primary.pretty_mat_hasTaken) }}
+			</td>
+		</tr>
+		<tr>
+			{{ _self.fieldValuePairTD('MAT Score:', primary.mat_score) }}
+			{{ _self.fieldValuePairTD('Date:', primary.mat_date) }}
+		</tr>
+	</table>
+  </div>
+  <h3>Honors and Achievements</h3>
+  <div class="fieldset">
+	<p><span class="field">List any honors, prizes, or scholarships previously awarded to you on the basis of academic achievement, or any honor societies to which you have been elected.</span></p>
+	<div>
+		<span class="value"><pre>{{ primary.academicHonors }}</pre></span>
+	</div>
+	
+  </div>
+  <h3></h3>
+  <div class="fieldset">
+	
+	<p><span class="field">List any employment or other activities related to your proposed program of study. If you have taught, name subjects. List published articles or books, research completed or in progress, or any other creative work.</span></p>
+	<div>
+		<span class="value"><pre>{{ primary.employmentHistory }}</pre></span>
+	</div>
+  </div>
+  
+  <h3>Recommendations</h3>
+
+	
+{% for reference in application.references %}
+	{% if loop.index % 3 == 0 %}
+		{% if not loop.first %}
+			</tr></table>
+		{% endif %}
+		<table class="three box"><tr>
+	{% endif %}
+	<td>
+		{% set address = reference.contactInformation %}
+		<p><span class="value">{{ reference.fullName }}</span></p>
+		<p><span class="value">{{ address.fullAddress | raw }}</span></p>
+		<p>{{ _self.fieldValuePair('Email:', reference.email) }}</p>
+		<p>{{ _self.fieldValuePair('Phone:', reference.primaryPhone) }}</p>
+	</td>
+	{% if loop.last %}
+		</tr></table>
+	{% endif %}
+{% endfor %}
+	
+
+<!-- ================================================================================================================ -->
+<!-- = page 4 -->
+<!-- ================================================================================================================ -->
+{% set international = application.international %}
+
+<h3>Only to be Completed by Students who are not US Citizens</h3>
+<div class="fieldset">
+	<table class='two'>
+		<tr>
+			<td colspan='2'>
+				{{ _self.fieldValuePair('Have you taken or plan the TOEFL examination?', international.pretty_toefl_hasTaken) }}
+			</td>
+		<tr>
+		<tr>	
+			<td style='width: 17%;'>
+				{{ _self.fieldValuePair('Date:', international.toefl_date) }}
+			</td>
+			{{ _self.fieldValuePairTD('Score:', international.score) }}
+		</tr>
+	</table>
+	<p style='padding-top: 6px'>
+		{{ _self.fieldValuePair('Indicate the career you plan to pursue if you plan to remain in the United States after completion of studies (e.g., teaching, government, business, industry).', international.hasUSCareer) }}
+		{{ _self.fieldValuePair('', international.usCareerDetails) }}
+	</p>
+	<p>
+		{{ _self.fieldValuePair('If you plan to continue studies for another degree, describe briefly the subject, location, estimated beginning date, and approximate duration.', international.furtherStudiesDetails) }}
+	</p>
+	<p>
+		{{ _self.fieldValuePair('If you plan to return to your own country immediately after completing study or research, state the details (e.g., employer, location, type of work, estimated beginning date) that may be known to you.', international.homeCareerDetails) }}
+	</p>
+	<p>
+		{{ _self.fieldValuePair('How do you expect to finance your graduate study?', international.financeDetails) }}
+	</p>
+	<p>
+		{{ _self.fieldValuePair('List the names and addresses of any close relatives or friends in the United States (indicate relationship):', international.usFriendsOrRelatives) }}
+		<br />
+	</p>
+		
+	<table class="three">
+		<tr>
+			<td>
+				<p>
+					<span class="field">Emergency Contact in Your Home Country:</span><br />
+					<span class='value'>{{ international.homeEmergencyContact_name }}</span><br />
+					<span class="value">{{ international.homeEmergencyContactInfo.fullAddress | raw }}</span>
+					<br />
+					{{ _self.fieldValuePair('Phone:', international.homeEmergencyContactInfo.primaryPhone) }}
+					<br />
+					{{ _self.fieldValuePair('Relationship:', international.homeEmergencyContact_relationship) }}
+				</p>
+			</td>
+		</tr>
+	</table>
+	<table class="two">
+		<tr>
+			<td>
+				<p>
+					<span class="field">Emergency Contact in the US:</span><br />
+					<span class="value">{{ international.usEmergencyContact_name }}</span><br />
+					<span class="value">{{ international.usEmergencyContactInfo.fullAddress | raw }}</span><br />
+					{{ _self.fieldValuePair('Phone:', international.usEmergencyContactInfo.primaryPhone) }}
+					<br />
+					{{ _self.fieldValuePair('Relationship:', international.usEmergencyContact_relationship) }}
+				</p>
+			</td>
+		</tr>
+	</table>
+  </div>
+</body>
+</html>

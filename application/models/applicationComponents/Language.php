@@ -1,6 +1,5 @@
 <?php
 
-// Models
 require_once __DIR__ . "/ApplicationComponent.php";
 
 class Language extends ApplicationComponent

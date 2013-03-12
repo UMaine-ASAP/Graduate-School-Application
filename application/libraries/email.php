@@ -1,56 +1,99 @@
 <?php
 
-require_once __DIR__ . "/../config.php";
+require_once __DIR__ . "/../configuration.php";
 
 /**
  * Email
  * 
- * Processes emails from template
+ * Loads and sends emails based on templates
+ * 
+ * Email templates are specified in php setting the values for to, subject, headers, and message
  */
 class Email
 {
-	private static $email_template_directory = '/../templates/emails/';
+	// Template directory for all email messages
+	private static $templateDirectory = '';
 
+	// Generic email variables
 	private $to;
 	private $subject;
 	private $headers;
 	private $message;
 
-	public function EmailSystem()
+	public function Email()
 	{
 		$this->to = '';
 		$this->subject = '';
 		$this->headers = '';
 		$this->message = '';
 
-		EmailSystem::$email_template_directory = $GLOBALS['email_templates'];
+		if ( isset($GLOBALS['email_templates']) )
+		{
+			Email::$templateDirectory = $GLOBALS['email_templates'];
+		}
+
+		// Set default value
+		if ( Email::$templateDirectory == '' )
+		{
+			Email::$templateDirectory = __DIR__ . '/../views/templates/emails/';
+		}
 	}
 
-	public function loadFromTemplate($email_template, $replacement = array())
+	/**
+	 * Load From Template
+	 * 
+	 * Prepares the specified email template with the provided data
+	 * 
+	 * @param    String    emailTemplate    The name of the email template
+	 * @param    Array     replacement      Associative array of extra data to replace in the email
+	 * 
+	 * @return void
+	 */
+	public function loadFromTemplate($emailTemplate, $replacement = array())
 	{
-		$email_template_path = __DIR__ . Email::$email_template_directory . $email_template;
+		$templateFullPath = Email::$templateDirectory . $emailTemplate;
 
-		if( !file_exists($email_template_path) ) {
-			throw new Exception("email template $email_template_path not found");
+		if( !file_exists($templateFullPath) ) {
+			throw new Exception("email template $templateFullPath not found");
 		}
 
 		// Load email variables (to, subject, headers, and message)
-		include $email_template_path;
+		include $templateFullPath;
 
-		$search_data = array_keys($replacement);
-		$replace_data = array_values($replacement);
+		// Perform replacements 
+		if( $replacement != array() ) 
+		{
+			$searchData = array_keys($replacement);
+			$replaceData = array_values($replacement);
 
-		$this->to 	= str_replace($search_data, $replace_data, $to);
-		$this->subject = str_replace($search_data, $replace_data, $subject);
-		$this->headers = str_replace($search_data, $replace_data, $headers);
-		$this->message = str_replace($search_data, $replace_data, $message);
+			$this->to 	= str_replace($searchData, $replaceData, $to);
+			$this->subject = str_replace($searchData, $replaceData, $subject);
+			$this->headers = str_replace($searchData, $replaceData, $headers);
+			$this->message = str_replace($searchData, $replaceData, $message);
+		}
 	}
 
+	/**
+	 * Set Destination Email
+	 * 
+	 * Specify the destination email
+	 * 
+	 * @param    String    toEmail    Destination email
+	 * 
+	 * @return void
+	 */
 	public function setDestinationEmail($toEmail)
 	{
 		$this->to = $toEmail;
 	}
 
+	/**
+	 * Send Email
+	 *
+	 * Submit the email using the php mail function
+	 * 
+	 * @return void
+	 */
 	public function sendEmail()
 	{
 		mail($this->to, $this->subject, $this->message, $this->headers);

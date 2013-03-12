@@ -12,7 +12,9 @@ class ApplicationController
 	 * 
 	 * Creates an application of the specified type
 	 * 
-	 * @return Application 	The new application, null if unsuccessful
+	 * @param   int    typeId    The numerical reference to the application type
+	 * 
+	 * @return    Object    The new application, null if unsuccessful
 	 */
 	public static function createApplication($typeId)
 	{
@@ -39,6 +41,12 @@ class ApplicationController
 			{
 				return; // error
 			}
+
+			// Create hash
+			$hashIndex = time() + $application->id; // get a unique id
+			$hashCode  = Hash::create($hashIndex); // generate hash value
+
+			$application->hashReference = $hashCode;
 
 			// Build application type specific sub-sections
 
@@ -90,6 +98,12 @@ class ApplicationController
 					$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id');
 					$international->homeEmergencyContact_contactInformationId = $tmp['id'];
 
+					// Specify current progress
+					// $sections = $db->query("SELECT * FROM structure WHERE include=1 ORDER BY `order`");
+					// $sectionCount = count($sections);
+					// for($i = 0; $i < $sectionCount ;$i++) {
+					// 	$db->iquery("INSERT INTO progress VALUES(%d, %s, 'INCOMPLETE','') ", $user, $sections[$i]['id']);
+					// }
 
 					// Update application
 					$international->save();
@@ -113,6 +127,16 @@ class ApplicationController
 		}
 	}
 
+
+	/**
+	 * Delete Application
+	 * 
+	 * Completely remove the identified application
+	 * 
+	 * @param    int    applicationId    The id of the application to remove
+	 * 
+	 * @return    void
+	 */
 	public static function deleteApplication($applicationId)
 	{
 		if( !ApplicantController::applicantIsLoggedIn() )
@@ -156,43 +180,78 @@ class ApplicationController
 		Database::iquery("DELETE FROM APPLICATION_Reference where applicationId = %d", $applicationId);
 	}
 
-	/** Get a new application object from current session data **/
+
+	/**
+	 * Get Active Application
+	 * 
+	 * Get a new application object from current session data
+	 * 
+	 * @return    Object    The active application if set, false otherwise
+	 */
 	public static function getActiveApplication()
 	{
-		// Get id
+		// Ensure session data is set
 		if( !isset($_SESSION) ) 
 		{ 
 			session_start(); 
 		}
+
 		$id = $_SESSION['active-application'];
 
 		return ApplicationController::getApplication($id);
 	}
 
-	/** Get a new application object by passed in id **/
-	public static function getApplication($applicationId)
-	{
-     	if( ! is_integer($applicationId) ) { ERROR::fatal("Passed in application identifier is not an integer."); }
 
-		// ensure applicant is logged in
-		$applicant = ApplicantController::getActiveApplicant();
-		if( $applicant == null )
-		{
+	/**
+	 * Get Application from Hash
+	 * 
+	 * @param    String    $hashReference    Encoded value for accessing the application
+	 * 
+	 * Get an application object with the unique code provided
+	 * 
+	 * @return    Object    The associated application if exists, false otherwise
+	 */
+	public static function getApplicationFromHash($hashReference)
+	{
+     	if( $hashReference == '' ) { return null; }
+
+		// Grab application
+		$applicationDB = Database::getFirst("SELECT * FROM `Application` WHERE hashReference = %s", $hashReference);
+
+		if ($applicationDB == array()) {
 			return null;
 		}
+		$application = new Application();
+		$application->loadFromDB($applicationDB);
 
-		// make sure the user owns the application
-		$applicationDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d AND applicantId = %d", $applicationId, $applicant->id);
-
-       	return Model::factory('Application')->whereEqual('applicationId', $applicationId)->first();
+       	return $application;
 	}
 
+
+	/**
+	 * Does Active User Own Application
+	 * 
+	 * Checks whether the currently logged in user owns the specified application
+	 * 
+	 * @param    int    applicationId    The id of the application to test
+	 * 
+	 * @return    bool    True if active applicant owns the specified application, false otherwise
+	 */
 	public static function doesActiveUserOwnApplication($applicationId)
 	{
 		$applicant = ApplicantController::getActiveApplicant();
 		$result    = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d AND applicantId = %d", $applicationId, $applicant->id);
 		return ( $result != array() ); 
 	}
+
+
+	/**
+	 * All My Applications
+	 * 
+	 * Retrieves all of the applications owned by the logged in user
+	 * 
+	 * @return    array    Array of applicant objects associated with the logged in user, null if user is not logged in
+	 */
 
 	public static function allMyApplications()
 	{
@@ -206,7 +265,6 @@ class ApplicationController
 
 		// Retrieve applications
 		$ids = Database::query("SELECT applicationId as id FROM `Application` WHERE applicantId = %d ORDER BY lastModified DESC", $applicant->id);
-
 
 		// ensure data exists
 		if($ids == array())
@@ -222,12 +280,15 @@ class ApplicationController
 		return $result;
 	}
 
+
 	/**
 	 * Set Active Application
 	 * 
 	 * Sets the application currently being edited
 	 * 
-	 * @return bool 	whether operation was successful or not
+	 * @param    int    applicationId    The id of the application to set
+	 * 
+	 * @return    bool    True if operation was successful, false otherwise
 	 */
 	public static function setActiveApplication($applicationId)
 	{
@@ -239,12 +300,50 @@ class ApplicationController
 			return false;
 		}
 
+		// Ensure session data is set
 		if( !isset($_SESSION) ) 
 		{ 
 			session_start(); 
 		}
 		$_SESSION['active-application'] = $applicationId;
+
 		return true;
+	}
+
+
+
+	/* ================================ */
+	/* = Internal Functions
+	/* ================================ */
+
+
+	/**
+	 * Get Application
+	 * 
+	 * Get the application object specified by the applicationId
+	 * 
+	 * @param    int    applicationId    The id of the application to get
+	 *
+	 * @return    Object    The new application, null if applicant does not exist
+	 */
+	private static function getApplication($applicationId)
+	{
+     	if( ! is_integer($applicationId) ) { ERROR::fatal("Passed in application identifier is not an integer."); }
+
+		// ensure applicant is logged in
+		$applicant = ApplicantController::getActiveApplicant();
+		if( $applicant == null )
+		{
+			return null;
+		}
+
+		// make sure the user owns the application
+		$applicationDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d AND applicantId = %d", $applicationId, $applicant->id);
+		if ($applicationDB == array()) {
+			return null;
+		}
+
+       	return Model::factory('Application')->whereEqual('applicationId', $applicationId)->first();
 	}
 
 

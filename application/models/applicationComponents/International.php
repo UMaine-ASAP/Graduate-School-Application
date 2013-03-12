@@ -10,7 +10,7 @@ class International extends ApplicationComponent
 	protected static $primaryKeys = array('applicationId');
 
 
-	protected static $availableProperties = array('usEmergencyContactInfo', 'homeEmergencyContactInfo');
+	protected static $availableProperties = array('usEmergencyContactInfo', 'homeEmergencyContactInfo', 'pretty_toefl_hasTaken');
 
 	public function __get($name)
 	{
@@ -22,7 +22,10 @@ class International extends ApplicationComponent
 		 	break;		 	
 		 	case 'homeEmergencyContactInfo':
 		 		return ContactInformation::getWithId($this->homeEmergencyContact_contactInformationId);
-		 	break;		
+		 	break;
+		 	case 'pretty_toefl_hasTaken':
+		 		return ($this->toefl_hasTaken == 1) ? "Yes" : "No";
+		 	break;
 		 }
 
 		 return parent::__get($name);

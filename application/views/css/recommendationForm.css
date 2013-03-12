@@ -1,0 +1,64 @@
+#forgot {
+	width:50em;
+}
+
+textarea {
+	width:48em;
+	max-width:48em;
+	height:20em;
+}
+
+td, th {
+	border: 1px solid black;
+}
+
+table {
+	font-size:.7em;
+}
+
+td, th {
+	padding:4px;
+	text-align:center;
+}
+
+tr:first-child, td:first-child {
+	text-align:left;
+}
+
+#firstcell {
+	border:none;
+}
+
+.note {
+	font-size:.8em;
+}
+
+.important {
+	color:#BC0000;
+}
+
+.radio-group-header {
+	margin-top: 10px;
+}
+
+.radio-selection {
+	display: inline-block;
+	margin-right: 30px;
+}
+.radio-selection label {
+	margin-left: 5px;
+}
+
+.col2, .col3 {
+	margin-top: 10px;
+}
+
+
+
+input[type="submit"] {
+	float:right;
+}
+
+h1 {
+	left:100px
+}

@@ -1,3 +1,6 @@
+<!-- Forms Macros -->
+<!-- Form macros are Twig helper functions that expand into HTML input tags, providing consistent form inputs across the application-->
+
 <!-- Macro: Input
 	Create an HTML input Element
 	values:
@@ -110,12 +113,12 @@
 		<p class="{% if values['isRequired'] %}required{% endif %} title">{{values['title']|raw}} {% if values['isRequired'] %}*{% endif %}</p>
 		<label for="{{values['name']}}_yes"><input type="radio" id="{{values['name']}}_yes" name="{{values['name']}}" value="1"
 		{% if boolean_display  == 'yes' %}
-		 	onclick="visibility(this.name+'_section', {% if (values['showOnTrue'] is not defined) or values['showOnTrue'] %}'block'{% else %}'none'{% endif %})" 
+		 	onclick="showOrNot(this.name+'_section', {% if (values['showOnTrue'] is not defined) or values['showOnTrue'] %}true{% else %}false{% endif %})" 
 		 {% endif %}
 		 onchange="saveValue(event);" >{% if values['yesText'] %} {{values['yesText']}}{% else %} Yes{% endif %}</label>
 		<label for="{{values['name']}}_no"><input type="radio" id="{{values['name']}}_no" name="{{values['name']}}" value="0" 
 			{% if boolean_display == 'yes' %}
-			onclick="visibility(this.name+'_section', {% if (values['showOnTrue'] is not defined) or values['showOnTrue'] %}'none'{% else %}'block'{% endif %})" 
+			onclick="showOrNot(this.name+'_section', {% if (values['showOnTrue'] is not defined) or values['showOnTrue'] %}false{% else %}true{% endif %})" 
 			{% endif %}
 			onchange="saveValue(event);" checked>{% if values['noText'] %} {{values['noText']}}{% else %} No{% endif %}</label>
 	</label>
@@ -133,7 +136,7 @@
 {% endmacro %}
 
 <!-- Macro: Boolean Display
-	Create a Boolean Field Element the toggles the display of a corresponding section
+	Create a Boolean Field Element that toggles the display of a corresponding section
 	values:
 		title 		 - The display title for the field
 		name 		 - The corresponding database field name identifier
