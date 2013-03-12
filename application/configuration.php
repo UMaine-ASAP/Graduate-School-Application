@@ -3,4 +3,4 @@
 //It should be stored outside the webroot and its location 
 //stored in the following line.
 
-require_once __DIR__ . "/extern_config.php";
+require_once __DIR__ . "/externalConfiguration.php";

@@ -97,6 +97,10 @@ public static function cleanInput($text) {
 // 	}
 // }
 
+public static function sanitizeString ( $var ) {
+	return( filter_var($var, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW) );
+}
+
 
 // @pragma databaseFieldTypes
 private static $databaseFieldTypes;

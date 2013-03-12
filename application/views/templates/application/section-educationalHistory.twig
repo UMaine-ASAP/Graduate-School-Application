@@ -107,7 +107,7 @@
 	
 	<div id="previousSchools">
 		{% for previousSchool in application.previousSchools %}
-			{% include 'repeatable/previousSchool.twig' with {'previousSchool':previousSchool} %}
+			{% include 'application/repeatable/previousSchool.twig' with {'previousSchool':previousSchool} %}
 		{% endfor %}
 	</div>
 
@@ -167,7 +167,7 @@
 	<div class="hidden" id="personal-hasDisciplinaryViolation_section">
 		<div id="disciplinaryViolations">
 			{% for violation in application.disciplinaryViolations %}
-				{% include 'repeatable/violation.twig' with {'violation':violation, 'type':'disciplinary'} %}
+				{% include 'application/repeatable/violation.twig' with {'violation':violation, 'type':'disciplinary'} %}
 			{% endfor %}
 
 		</div>
@@ -194,7 +194,7 @@
 	<div class="hidden" id="personal-hasCivilViolation_section">
 		<div id="civilViolations">
 			{% for violation in application.civilViolations %}
-				{% include 'repeatable/violation.twig' with {'violation':violation, 'type':'civil'} %}
+				{% include 'application/repeatable/violation.twig' with {'violation':violation, 'type':'civil'} %}
 			{% endfor %}
 		</div>	
 
@@ -239,7 +239,7 @@
 		<div class="hidden" id="personal-hasTakenGRE_section">
 			<div id="GREs">
 				{% for gre in application.GREScores %}
-					{% include 'repeatable/gre.twig' with {'gre':gre} %}
+					{% include 'application/repeatable/gre.twig' with {'gre':gre} %}
 				{% endfor %}
 			</div>
 

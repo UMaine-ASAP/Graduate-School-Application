@@ -70,7 +70,7 @@
 
 	<div id='references'>
 		{% for reference in application.references %}
-			{% include 'repeatable/reference.twig' with {'reference' : reference} %}
+			{% include 'application/repeatable/reference.twig' with {'reference' : reference} %}
 		{% endfor %}
 	</div>
 

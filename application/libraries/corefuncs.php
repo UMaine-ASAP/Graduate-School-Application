@@ -6,23 +6,9 @@ require_once __DIR__ . "/database.php";
 require_once __DIR__ . "/template.php";
 
 
-function sanitizeString ( $var ) {
-	return( filter_var($var, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW) );
-}
-
-function is_odd( $int ) {
-  return( $int & 1 );
-}
 
 
-function redirect_Unauthorized_User($nonauthenticatedDestination)
-{
-	$user = check_ses_vars();
-	if( $user == 0) {
-		header("location:" . $nonauthenticatedDestination);
-		exit();
-	}
-}
+
 
 function sendRecoverMessage($email, $code) {
 	$sender_name = "University of Maine Graduate School"; // sender's name

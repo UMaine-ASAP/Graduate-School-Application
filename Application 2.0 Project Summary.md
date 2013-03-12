@@ -97,7 +97,21 @@ Specific Tasks
 - database field config
 - contact information
 
+- submission
+- missing pages
+	- forgot password page
+	- no-javascript page?
 
+- test in IE
+- clean legacy files
+- clean tests
+- fix app_cleanup.php  (currently not used and needs work)
+- move email function and remove core_funcs
+- see if template library is still be used
+
+- upload essay/resume
+- force at least 3 recommendations
+- can remove reset_password.twig?
 
 # Project Details
 

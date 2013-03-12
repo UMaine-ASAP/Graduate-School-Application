@@ -1,4 +1,4 @@
 application/extern_config.php
 grad app.sublime-project
 grad app.sublime-workspace
-.DS_Store
+*/.DS_Store

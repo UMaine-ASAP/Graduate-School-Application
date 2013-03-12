@@ -242,7 +242,7 @@ class Slim
             'log.level' => \Slim\Log::DEBUG,
             'log.enabled' => true,
             // View
-            'templates.path' => './templates',
+            'templates.path' => './views/templates',
             'view' => '\Slim\View',
             // Cookies
             'cookies.lifetime' => '20 minutes',

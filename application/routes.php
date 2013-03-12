@@ -364,7 +364,7 @@ $app->get('/account/confirm', function() use ($app)
 /**
  * Logout
  * 
- * Logs out user
+ * Logs the user out of the system
  */
 $app->get('/logout', function() use ($app) 
 {
@@ -374,9 +374,9 @@ $app->get('/logout', function() use ($app)
 
 
 /**
- * Register - Submission
+ * Registration Submission
  * 
- * Register User
+ * Processes a new user submission
  */
 $app->post('/account/register', function() 
 {
@@ -386,45 +386,55 @@ $app->post('/account/register', function()
 /**
  * Forgot Password
  * 
- * Forgot password page
+ * Shows the forgot password page.
  */
 $app->get('/account/forgot-password', function()
 {
 	echo "forgot password";
-
 });
 
 
 /**
- * Reset Password
+ * Forgot Password Submission
  * 
- * Reset password page
+ * Shows the forgot password page.
+ */
+$app->post('/account/forgot-password', function()
+{
+	echo "forgot password";
+});
+
+
+/**
+ * Reset Password Form
+ * 
+ * The form for submitting a new password. This page should only be accessed by following the url sent to the applicant when filling out the forgot-password form. See /account/forgot-password for more details.
  */
 $app->get('/account/reset-password', function() 
+{
+	render('account/forgotten_resetPasswordForm.twig');
+});
+
+
+/**
+ * Reset Password Submission
+ * 
+ * Processes a reset password request
+ */
+$app->post('/account/reset-password', function() 
 {
 	render('account/reset_password.twig');
 });
 
 
 /**
- * Lock Out
- * 
- * Application already submitted - lockout page
- */
-$app->get('/lockout', function()
-{
-	echo "lockout";
-});
-
-
-/**
  * No Javascript
  * 
- * Javascript not detected, alerting user
+ * If Javascript is not detected in the users browser, they should be redirected to this url, alerting the user that javascript is required for the application to run properly.
  */
 $app->get('/no-javascript', function()
 {
-	render('no_javascript.twig', 
+	render('noJavascript.twig', 
 		array('GRADHOMEPAGE' => $GLOBALS['graduate_homepage'],
 			'GRADIMAGESPATH' => $GLOBALS['grad_images']));	
 });
@@ -593,14 +603,14 @@ $app->get('/application/getTemplate/:name', $authenticatedScript, function($name
 			$data = array(
 				'language' => $language,
 				'hide'     => false);
-			return $app->render("repeatable/language.twig", $data);
+			return $app->render("application/repeatable/language.twig", $data);
 		break;
 		case 'previousSchool':
 			$previousSchool = PreviousSchool::createNew();
 			$data = array(
 				'previousSchool' => $previousSchool,
 				'hide'           => false);
-			return $app->render("repeatable/previousSchool.twig", $data);
+			return $app->render("application/repeatable/previousSchool.twig", $data);
 		break;
 		case 'civilViolation':
 			$violation = CivilViolation::createNew();
@@ -608,7 +618,7 @@ $app->get('/application/getTemplate/:name', $authenticatedScript, function($name
 				'violation' => $violation,
 				'hide'      => false,
 				'type'      => 'civil');
-			return $app->render("repeatable/violation.twig", $data);
+			return $app->render("application/repeatable/violation.twig", $data);
 		break;
 		case 'disciplinaryViolation':
 			$violation = DisciplinaryViolation::createNew();
@@ -616,21 +626,21 @@ $app->get('/application/getTemplate/:name', $authenticatedScript, function($name
 				'violation' => $violation,
 				'hide'      => false,
 				'type'      => 'disciplinary');
-			return $app->render("repeatable/violation.twig", $data);
+			return $app->render("application/repeatable/violation.twig", $data);
 		break;
 		case 'GRE':
 			$gre = GRE::createNew();
 			$data = array(
 				'gre'  => $gre,
 				'hide' => false);
-			return $app->render("repeatable/gre.twig", $data);
+			return $app->render("application/repeatable/gre.twig", $data);
 		break;
 		case 'reference':
 			$reference = Reference::createNew();
 			$data = array(
 				'reference'  => $reference,
 				'hide' => false);
-			return $app->render("repeatable/reference.twig", $data);
+			return $app->render("application/repeatable/reference.twig", $data);
 		break;
 		default:
 		return '';
@@ -1088,6 +1098,12 @@ $app->get('/test/entity', function()
 /*----------------------------------------------------*/
 /* Run App
 /*----------------------------------------------------*/
+
+$app->get('/upload-test', function()
+{
+	echo "test";
+});
+
 
 $app->run();
 
