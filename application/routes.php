@@ -10,7 +10,6 @@ if( !isset($_SESSION) )
 	session_start();
 }
 
-
 // Data
 require_once __DIR__ . "/configuration.php";
 // Models
@@ -916,6 +915,29 @@ $app->get('/application/section/educational-objectives', $authenticated, $applic
 	$application 	= ApplicationController::getActiveApplication();
 
 	render_section('application/section-educationalObjectives.twig', array('application' => $application), $application->sections, 'educational-objectives');
+});
+
+
+
+
+/**
+ * Application
+ * 
+ * Render application section educational objectives
+ */
+$app->post('/application/section/educational-objectives', $authenticated, $applicationNotSubmitted, function ()
+{
+
+$target_path = "uploads/";
+$target_path = $target_path . basename( $_FILES['uploadedfile']['name']);
+// echo $target_path;
+if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
+	echo "The file ". basename($_FILES['uploadedfile']['name'])." has been uploaded.";
+} else {
+	echo "There was an error uploading the file, please try again.";
+}
+
+
 });
 
 
