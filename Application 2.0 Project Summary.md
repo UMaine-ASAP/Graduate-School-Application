@@ -125,9 +125,6 @@ Specific Tasks
 - fix app_cleanup.php  (currently not used and needs work)
 
 
-### Johnny
-- upload essay/resume
-
 # Project Details
 
 **Important Locations:**

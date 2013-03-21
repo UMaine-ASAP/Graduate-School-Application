@@ -69,6 +69,7 @@ $email_templates = 'views/templates/emails/';
 
 $gradschool_path        = "/Users/gradd2app/gradschool/";    // Path to the Umaine Graduate School user account on the server to be accessed through sftp
 $mainestreet_path       = "/Users/grad1mainst/mainestreet/"; // Path to the MaineStreet user account on the server to be accessed through sftp
-$mainestreet_group_name = "gradmainstreet";
-$gradschool_group_name  = "gradoffice";
+$mainestreet_group_name = 'staff';//"gradmainstreet";
+$gradschool_group_name  = 'staff';//"gradoffice";
+
 

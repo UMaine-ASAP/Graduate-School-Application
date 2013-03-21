@@ -1,0 +1,66 @@
+\hypertarget{app__cleanup_8php}{\section{application/cron/app\-\_\-cleanup.php File Reference}
+\label{app__cleanup_8php}\index{application/cron/app\-\_\-cleanup.\-php@{application/cron/app\-\_\-cleanup.\-php}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{app__cleanup_8php_ae63e2cbd6c0768081a3fb915e24203cc}{delete\-\_\-records} (\$id)
+\item 
+\hyperlink{app__cleanup_8php_a25cc43e18a91d2382622ebdb8212e384}{safe\-Unlink} (\$filepath)
+\item 
+\hyperlink{app__cleanup_8php_a95c6eb758b90b078da7d469c1abe170e}{delete\-\_\-essays} (\$id)
+\item 
+\hyperlink{app__cleanup_8php_a8fc105438d39bc3bbf3c0fc9e2b66691}{delete\-\_\-references} (\$id)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{app__cleanup_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db} = new Database()
+\item 
+\hyperlink{app__cleanup_8php_af59a5f7cd609e592c41dc3643efd3c98}{\$query} = \char`\"{}S\-E\-L\-E\-C\-T family\-\_\-name, given\-\_\-name, date\-\_\-of\-\_\-birth, applicant\-\_\-id, application\-\_\-submit\-\_\-date F\-R\-O\-M applicants\char`\"{}
+\item 
+\hyperlink{app__cleanup_8php_a09bc8ccbc60307ba2d4bfe5af5d2b9e5}{\$find\-\_\-users} = \$db-\/$>$query(\$query)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{app__cleanup_8php_a95c6eb758b90b078da7d469c1abe170e}{\index{app\-\_\-cleanup.\-php@{app\-\_\-cleanup.\-php}!delete\-\_\-essays@{delete\-\_\-essays}}
+\index{delete\-\_\-essays@{delete\-\_\-essays}!app_cleanup.php@{app\-\_\-cleanup.\-php}}
+\subsubsection[{delete\-\_\-essays}]{\setlength{\rightskip}{0pt plus 5cm}delete\-\_\-essays (
+\begin{DoxyParamCaption}
+\item[{}]{\$id}
+\end{DoxyParamCaption}
+)}}\label{app__cleanup_8php_a95c6eb758b90b078da7d469c1abe170e}
+\hypertarget{app__cleanup_8php_ae63e2cbd6c0768081a3fb915e24203cc}{\index{app\-\_\-cleanup.\-php@{app\-\_\-cleanup.\-php}!delete\-\_\-records@{delete\-\_\-records}}
+\index{delete\-\_\-records@{delete\-\_\-records}!app_cleanup.php@{app\-\_\-cleanup.\-php}}
+\subsubsection[{delete\-\_\-records}]{\setlength{\rightskip}{0pt plus 5cm}delete\-\_\-records (
+\begin{DoxyParamCaption}
+\item[{}]{\$id}
+\end{DoxyParamCaption}
+)}}\label{app__cleanup_8php_ae63e2cbd6c0768081a3fb915e24203cc}
+\hypertarget{app__cleanup_8php_a8fc105438d39bc3bbf3c0fc9e2b66691}{\index{app\-\_\-cleanup.\-php@{app\-\_\-cleanup.\-php}!delete\-\_\-references@{delete\-\_\-references}}
+\index{delete\-\_\-references@{delete\-\_\-references}!app_cleanup.php@{app\-\_\-cleanup.\-php}}
+\subsubsection[{delete\-\_\-references}]{\setlength{\rightskip}{0pt plus 5cm}delete\-\_\-references (
+\begin{DoxyParamCaption}
+\item[{}]{\$id}
+\end{DoxyParamCaption}
+)}}\label{app__cleanup_8php_a8fc105438d39bc3bbf3c0fc9e2b66691}
+\hypertarget{app__cleanup_8php_a25cc43e18a91d2382622ebdb8212e384}{\index{app\-\_\-cleanup.\-php@{app\-\_\-cleanup.\-php}!safe\-Unlink@{safe\-Unlink}}
+\index{safe\-Unlink@{safe\-Unlink}!app_cleanup.php@{app\-\_\-cleanup.\-php}}
+\subsubsection[{safe\-Unlink}]{\setlength{\rightskip}{0pt plus 5cm}safe\-Unlink (
+\begin{DoxyParamCaption}
+\item[{}]{\$filepath}
+\end{DoxyParamCaption}
+)}}\label{app__cleanup_8php_a25cc43e18a91d2382622ebdb8212e384}
+
+
+\subsection{Variable Documentation}
+\hypertarget{app__cleanup_8php_a1fa3127fc82f96b1436d871ef02be319}{\index{app\-\_\-cleanup.\-php@{app\-\_\-cleanup.\-php}!\$db@{\$db}}
+\index{\$db@{\$db}!app_cleanup.php@{app\-\_\-cleanup.\-php}}
+\subsubsection[{\$db}]{\setlength{\rightskip}{0pt plus 5cm}\$db = new Database()}}\label{app__cleanup_8php_a1fa3127fc82f96b1436d871ef02be319}
+\hypertarget{app__cleanup_8php_a09bc8ccbc60307ba2d4bfe5af5d2b9e5}{\index{app\-\_\-cleanup.\-php@{app\-\_\-cleanup.\-php}!\$find\-\_\-users@{\$find\-\_\-users}}
+\index{\$find\-\_\-users@{\$find\-\_\-users}!app_cleanup.php@{app\-\_\-cleanup.\-php}}
+\subsubsection[{\$find\-\_\-users}]{\setlength{\rightskip}{0pt plus 5cm}\$find\-\_\-users = \$db-\/$>$query(\$query)}}\label{app__cleanup_8php_a09bc8ccbc60307ba2d4bfe5af5d2b9e5}
+\hypertarget{app__cleanup_8php_af59a5f7cd609e592c41dc3643efd3c98}{\index{app\-\_\-cleanup.\-php@{app\-\_\-cleanup.\-php}!\$query@{\$query}}
+\index{\$query@{\$query}!app_cleanup.php@{app\-\_\-cleanup.\-php}}
+\subsubsection[{\$query}]{\setlength{\rightskip}{0pt plus 5cm}\$query = \char`\"{}S\-E\-L\-E\-C\-T family\-\_\-name, given\-\_\-name, date\-\_\-of\-\_\-birth, applicant\-\_\-id, application\-\_\-submit\-\_\-date F\-R\-O\-M applicants\char`\"{}}}\label{app__cleanup_8php_af59a5f7cd609e592c41dc3643efd3c98}
