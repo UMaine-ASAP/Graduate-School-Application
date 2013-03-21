@@ -581,7 +581,7 @@ $app->get('/create-application', $authenticated, function() use ($app) {
 /**
  * Delete an application
  */
-$app->get('/delete-application/:applicationId', $authenticated, function($applicationId) use ($app) {
+$app->get('/delete-application/:applicationId', $authenticated, $applicationNotSubmitted, function($applicationId) use ($app) {
 
 	ApplicationController::deleteApplication($applicationId);
 
@@ -596,7 +596,7 @@ $app->get('/delete-application/:applicationId', $authenticated, function($applic
  * Sets active application and redirects to the correct starting 
  * page for the current application
  */
-$app->get('/edit-application/:id', $authenticated, function($id) use ($app) {
+$app->get('/edit-application/:id', $authenticated, $applicationNotSubmitted, function($id) use ($app) {
 	$id = (int) $id;
 	$isValidApplication = ApplicationController::setActiveApplication($id);
 
@@ -1053,9 +1053,13 @@ $app->get('/application/section/review', $authenticated, $applicationNotSubmitte
 /**
  * Downloads pdf of current application
  */
-$app->get('/application/download', $authenticated, $applicationNotSubmitted, function ()
+$app->get('/application/download(/:id)', $authenticated, $applicationNotSubmitted, function ($id = NULL)
 {
-	$application = ApplicationController::getActiveApplication();
+	if( is_null($id) ) {
+		$application = ApplicationController::getActiveApplication();
+	} else {
+		$application = ApplicationController::getApplication($id);
+	}
 	$application->displayPDF();
 });
 

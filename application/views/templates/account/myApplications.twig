@@ -45,8 +45,12 @@
 				<td><time class='lastModified'>{{application.lastModified}}</time></td>				
 				<td>{{application.status}}</td>
 				<td>
-					<button class='small green edit-application'>Edit</button>
-					<button class='small red red delete-application'>Delete</button>
+					{% if application.hasBeenSubmitted == 0 %}
+						<button class='small green edit-application'>Edit</button>
+						<button class='small red red delete-application'>Delete</button>
+					{% else %}
+						<button class='small red red view-application'>View</button>
+					{% endif %}
 				</td>
 			</tr>
 			{% endfor %}

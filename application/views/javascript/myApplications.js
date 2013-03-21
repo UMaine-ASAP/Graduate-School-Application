@@ -39,8 +39,10 @@ $(document).ready(function() {
 
 	$('#create-application').click( function() {
 		$('#create-application-modal').dialog('open');
-		console.log( getApplicantId(this) );
+	});
 
+	$('.view-application').click( function() {
+		window.location = WEBROOT + '/application/download/' + getApplicantId(this);
 	});
 
 	$('.edit-application').click( function() {
