@@ -207,9 +207,14 @@ class ApplicationController
 			session_start(); 
 		}
 
+		if( ! isset($_SESSION['active-application']) )
+		{
+			return null;
+		}
+
 		$id = $_SESSION['active-application'];
 
-		return ApplicationController::getApplication($id);
+		return ApplicationController::getApplication((int)$id);
 	}
 
 
