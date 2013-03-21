@@ -31,7 +31,7 @@ class Recommendation extends Model
 				return "UMGradRec_App_$appId\_Rec_$refId\_$filteredLastName\_$filteredFirstName.pdf";
 			break;
 			case 'application':
-				return ApplicationController::getApplicationById((int)$this->applicationId);
+				return ApplicationController::getApplicationByIdWithoutAnActiveUser((int)$this->applicationId);
 			break;
 			case 'pretty_academicAbility':
 				if($this->academicAbility == -1) return '';

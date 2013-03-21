@@ -218,7 +218,7 @@ class ApplicationController
 	 * 
 	 * @param    String    $hashReference    Encoded value for accessing the application
 	 * 
-	 * Get an application object with the unique code provided
+	 * Get an application object with the unique code provided. Used for access to application for recommendation
 	 * 
 	 * @return    Object    The associated application if exists, false otherwise
 	 */
@@ -333,6 +333,11 @@ class ApplicationController
 	 */
 	public static function getApplication($applicationId)
 	{
+		return getApplicationById($applicationId);
+	}
+
+	public static function getApplicationById($applicationId)
+	{
      	if( ! is_integer($applicationId) ) { ERROR::fatal("Passed in application identifier is not an integer."); }
 
 		// ensure applicant is logged in
@@ -353,20 +358,19 @@ class ApplicationController
 
 
 	/**
-	 * Get Application by id
+	 * Get Application by id Without An Active User
 	 * 
-	 * Get the application object specified by the applicationId only by id
+	 * Get the application object specified by the applicationId without a logged in user. Use carefully!
 	 * 
 	 * @param    int    applicationId    The id of the application to get
 	 *
 	 * @return    Object    The new application, null if application does not exist
 	 */
-	public static function getApplicationById($applicationId)
+	public static function getApplicationByIdWithoutAnActiveUser($applicationId)
 	{
      	if( ! is_integer($applicationId) ) { ERROR::fatal("Passed in application identifier is not an integer."); }
 
 
-		// make sure the user owns the application
 		$applicationDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d", $applicationId);
 		if ($applicationDB == array()) {
 			return null;

@@ -46,7 +46,7 @@ if ( count($applicantIds) != 0 )
 	//Loop through each un-pushed applicant.
 	foreach($applicationIds as $applicationId) {
 
-		$application = ApplicationController::getApplicationById($applicationId);
+		$application = ApplicationController::getApplicationByIdWithoutAnActiveUser($applicationId);
 
 		//Create folder for each applicant, include in it thier application and essay.
 		//ex: ../essays/UMGradApps_02_03_2010/Simpson_Jonathan_Daniel_II_91

@@ -1160,7 +1160,7 @@ $app->post('/payment/callback-update', function() use ($app)
 	$identifierArray = explode("*", $externalTransactionId);
 	$applicationId = $identifierArray[1];
 
-	$application = ApplicationController::getApplicationById($applicationId);
+	$application = ApplicationController::getApplicationByIdWithoutAnActiveUser($applicationId);
 	
 	// Process successful payments
 	if ($status == "success" 

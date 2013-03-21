@@ -16,7 +16,7 @@ require_once __DIR__ . "/../controllers/ApplicationController.php";
 function buildMainestreetOutputForApplicant($applicationId) {
 
 	/* --- Application variables --- */
-	$application      = ApplicationController::getApplicationById($applicationId);
+	$application      = ApplicationController::getApplicationByIdWithoutAnActiveUser($applicationId);
 	$personal         = $application->personal;
 	$degree           = $application->degree;
 	$transaction      = $application->transaction;
