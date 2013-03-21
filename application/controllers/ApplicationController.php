@@ -333,7 +333,7 @@ class ApplicationController
 	 */
 	public static function getApplication($applicationId)
 	{
-		return getApplicationById($applicationId);
+		return self::getApplicationById($applicationId);
 	}
 
 	public static function getApplicationById($applicationId)
