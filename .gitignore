@@ -1,4 +1,13 @@
-application/extern_config.php
-grad app.sublime-project
-grad app.sublime-workspace
-*/.DS_Store
+application/move_outside_webroot/external_configuration.php
+application/move_outside_webroot/applicationFiles/completed_pdfs/*
+application/move_outside_webroot/applicationFiles/essays/*
+application/move_outside_webroot/applicationFiles/recommendations/*
+application.gradschool.asap.sublime-project
+application.gradschool.asap.sublime-workspace
+
+# OS generated files #
+######################
+.DS_Store
+ehthumbs.db
+Icon*
+Thumbs.db
