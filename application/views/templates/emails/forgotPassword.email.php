@@ -2,7 +2,7 @@
 
 $to      = '';
 $subject = "UMaine Grad School: Password Recovery";
-$header  = "From: University of Maine Graduate School <noreply@umaine.edu>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
+$headers = "From: University of Maine Graduate School <noreply@umaine.edu>\r\nMIME-Version: 1.0\nContent-type: text/plain; charset=iso-8859-1";
 
 // Message
 $message = "Password Recovery\n\n";

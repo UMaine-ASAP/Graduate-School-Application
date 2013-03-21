@@ -23,8 +23,7 @@
  		type: 'POST', 		
  		success: function(data) {
  			var button = $(referenceId + ' button.sendEmail');
- 			console.log("***"+data+"***");
- 			if ( data == "\nSuccess: Recommendation email sent!") {
+ 			if ( data == "Success: Recommendation email sent!") {
  				button.css('display', 'none');
 		 		button.addClass('email_sent');
  				$(referenceId + ' span.emailSentMessage').text("Email has been sent.");

@@ -83,7 +83,7 @@ class Degree extends ApplicationComponent
 
 				$options = Database::query("SELECT * FROM AcademicProgram WHERE department_code = %s ORDER BY degree_name ASC", $departmentCode);
 
-				$result = array();
+				$result = array(''=>'- None -');
 				foreach($options as $option) {
 					$result[$option['degree_code']] = $option['degree_name'];
 				}

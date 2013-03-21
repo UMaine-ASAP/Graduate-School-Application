@@ -69,6 +69,7 @@ class ApplicantController
 				return '';
 			}
 		}
+
 		return 'Incorrect email/password combination';
 	}
 
@@ -105,19 +106,21 @@ class ApplicantController
 	/**
 	 * Create Account
 	 * 
-	 * @param   string    email       Applicant email (username)
-	 * @param   string    password    Applicant's account password
+	 * @param   string    email        Applicant email (username)
+	 * @param   string    password     Applicant's account password
+	 * @param   string    firstName    Applicant's first name
+	 * @param   string    lastName     Applicant's last name
 	 * 
 	 * @return    void
 	 */
-	public static function createAccount($email, $password)
+	public static function createAccount($email, $password, $firstName, $lastName)
 	{
 		$last_index = Database::getFirst("SELECT applicantId FROM Applicant ORDER BY applicantId DESC LIMIT 1");
 
 		$hash_index = time() + $last_index['applicantId'] + 1; // get a unique id
 		$code = Hash::create($hash_index); // use this code for the confirmation email
 
-		Database::iquery("INSERT INTO `Applicant` (`loginEmail`, `password`, `loginEmailCode`) VALUES('%s', '%s', '%s')", $email, sha1($password), $code);
+		Database::iquery("INSERT INTO `Applicant` (`loginEmail`, `password`, `loginEmailCode`, `givenName`, `familyName`) VALUES('%s', '%s', '%s', '%s', '%s')", $email, sha1($password), $code, $firstName, $lastName);
 
 
 		$recipient_email = str_replace('@','%40',$email);
@@ -137,7 +140,7 @@ class ApplicantController
 
 
 	/**
-	 * Account Already Exists
+	 * Account Exists
 	 * 
 	 * Checks whether the specified username (email address) exists in the system
 	 * 
@@ -145,7 +148,7 @@ class ApplicantController
 	 * 
 	 * @return   bool     Whether the account already exists or not
 	 */
-	public static function accountAlreadyExists($email)
+	public static function accountExists($email)
 	{
 		if($email == '') return false;
 		$dupe_result = Database::getFirst("SELECT `loginEmail` FROM `Applicant` WHERE `loginEmail` = '%s'", $email);
@@ -214,31 +217,124 @@ class ApplicantController
 
 
 	/**
+	 * Get applicant with given id
+	 * 
+	 * @param 	int 		identifier of applicant to create object for
+	 * 
+	 * @return 	Object 	Applicant object for given identifier
+	 */
+	public static function getApplicant($applicantId)
+	{
+     	if ( ! is_integer($applicantId) ) { throw new Exception("Passed in applicant identifier is not an integer.", 1); }
+
+       	return Model::factory('Applicant')->whereEqual('applicantId', $applicantId)->first();
+	}
+
+
+	/* ---------- */
+	/* - Forgot Password
+	/* ---------- */
+
+	/**
+	 * is Forgotten Password Pending
+	 * 
+	 * Checks if a password request has already been sent
+	 * 
+	 * @param 	string     Login email of applicant
+	 * 
+	 * @return 	bool     True if password request is pending, otherwise false
+	 */
+	public static function isForgottenPasswordPending($loginEmail)
+	{
+		$user = Database::getFirst("SELECT `forgotPasswordCode` FROM `Applicant` WHERE `loginEmail` = '%s'", $loginEmail);
+		return $user['forgotPasswordCode'] != '';
+	}
+
+
+	/**
+	 * Create Forgot Password Code
+	 * 
+	 * Creates a new forgot password code
+	 * 
+	 * @param    string     Login email of applicant
+	 * 
+	 * @return    string     Created code
+	 */
+	public static function createForgotPasswordCode($loginEmail)
+	{
+		// create a pending password
+		$code = rand(0, 999999);
+		$code = sha1($code . $loginEmail);
+		
+		// add the new hash to the database
+		Database::iquery("UPDATE `Applicant` SET `forgotPasswordCode` = '%s' WHERE `loginEmail` = '%s'", $code, $loginEmail);
+		return $code;
+	}
+
+
+	/**
 	 * Send Forgot Password Email
 	 * 
 	 * Sends a password recovery email to the specified address with a url to reset the password
 	 * 
-	 * @param   string    email   Applicant email (username) to send the recovery link to
-	 * @param   string    code    Hash used for recovery process
+	 * @param   string    Applicant email (username) to send the recovery link to
 	 * 
 	 * @return    void
 	 */
-	public static function sendForgotPasswordEmail($email, $code)
+	public static function sendForgotPasswordEmail($loginEmail)
 	{
-		$emailObject = new EmailSystem();
+		// get code for forgotten password
+		$tmp = Database::getFirst("SELECT `forgotPasswordCode` FROM `Applicant` WHERE `loginEmail` = '%s'", $loginEmail);
+		$code = $tmp['forgotPasswordCode'];
 
-		$encodedEmail = str_replace('+','%2B',$email);
+		$emailObject = new Email();
 
-		$code = ''; //@TODO: create code
-		$confirmUrl = $GLOBALS['WEBROOT'] . "/forgot ?email=$encodedEmail&code=$code";
+		$encodedEmail = str_replace('+','%2B',$loginEmail);
+
+		$confirmUrl = $GLOBALS['WEBROOT'] . "/account/reset-password?email=$encodedEmail&code=$code";
 
 		$emailObject->loadFromTemplate('forgotPassword.email.php', 
-										array('CONFIRM_URL' => $confirmUrl,
-										'APPLICANT_EMAIL'   => $email,
-										'ADMIN_EMAIL'       => $GLOBALS['ADMIN_EMAIL'],
-										'GRADUATE_HOMEPAGE' => $GLOBALS['GRADUATE_HOMEPAGE']));
-		$emailObject->setDestinationEmail( $email );
+										array('{{CONFIRM_URL}}' => $confirmUrl,
+										'{{APPLICANT_EMAIL}}'   => $loginEmail,
+										'{{ADMIN_EMAIL}}'       => $GLOBALS['ADMIN_EMAIL'],
+										'{{GRADUATE_HOMEPAGE}}' => $GLOBALS['GRADUATE_HOMEPAGE']));
+		$emailObject->setDestinationEmail( $loginEmail );
 		$emailObject->sendEmail();
+	}
+
+
+	/**
+	 * is Valid Forgotten Email and Code
+	 * 
+	 * Ensure the forgotten password recovery information is valid
+	 * 
+	 * @param 	string     Login email of applicant
+	 * @param 	string     Forgotten code of applicant
+	 * 
+	 * @return 	Bool    True if information is valid, otherwise false
+	 */
+	public static function isValidForgottenEmailAndCode($loginEmail, $code)
+	{
+		$check_user = Database::getFirst("SELECT `forgotPasswordCode` FROM `Applicant` WHERE  `loginEmail` = '%s' AND `forgotPasswordCode` = '%s'", $loginEmail, $code);
+		return ($check_user['forgotPasswordCode'] != "");		
+	}
+
+
+	/**
+	 * Update Password For User with Email
+	 * 
+	 * Sets the user's password completing the forgotten password chain of events
+	 * 
+	 * @param 	string     Login email of applicant
+	 * @param 	string    New password
+	 * 
+	 * @return 	void
+	 */
+	public static function updatePasswordForUserWithEmail($loginEmail, $newPassword)
+	{
+		// Hash the new password and add it to the database, and clear the old hash
+		$newPassword = sha1($newPassword);
+		Database::iquery("UPDATE `Applicant` SET `password` = '%s', `forgotPasswordCode` = '' WHERE `loginEmail` = '%s' LIMIT 1", $newPassword, $loginEmail);		
 	}
 
 
@@ -246,24 +342,6 @@ class ApplicantController
 	/* ================================ */
 	/* = Internal Functions
 	/* ================================ */
-
-	/**
-	 * Get applicant with given id
-	 * 
-	 * @param 	int 		identifier of applicant to create object for
-	 * 
-	 * @return 	Object 	Applicant object for given identifier
-	 */
-	private static function getApplicant($applicantId)
-	{
-     	if ( ! is_integer($applicantId) ) { throw new Exception("Passed in applicant identifier is not an integer.", 1); }
-
-//		$applicantDB = Database::getFirst("SELECT * FROM `Applicant` WHERE applicantId = %d", $applicantId);
-
-       	return Model::factory('Applicant')->whereEqual('applicantId', $applicantId)->first();
-//       	return new Applicant( $applicantDB );
-	}
-
 
 	/* ---------- */
 	/* - Session Management

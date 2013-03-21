@@ -6,7 +6,7 @@
  */
 class RecommendationController
 {
-	public static function validateAndSaveRecommendation($data)
+	public static function validateRecommendation($data)
 	{
 
 	}

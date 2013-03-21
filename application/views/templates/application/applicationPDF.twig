@@ -1,5 +1,5 @@
-  <!-- Template for two-column form field table structure:
-
+{% import "pdf.macro.twig" as pdf %}
+<!-- Template for two-column form field table structure:
 <table class="two">
 	<tr>
 		<td><span class="field">FIELD:</span> <span class="value">VALUE</span></td>
@@ -14,129 +14,14 @@
 		<td><span class="field">FIELD:</span> <span class="value">VALUE</span></td>
 	</tr>
 </table>
-
  -->
-
- <!-- Macro: fieldValuePairTD
-	Builds a table element for a field and associated value
-	-->
-{% macro fieldValuePairTD(fieldName, value) %}
-	<td>{{ _self.fieldValuePair(fieldName, value) }}</td>
-{% endmacro %}
-
-
- <!-- Macro: fieldValuePair
-	Builds a table element for a field and associated value
-	-->
-{% macro fieldValuePair(fieldName, value) %}
-	<span class="field">{{ fieldName }}</span> <span class="value">{{ value | raw }}</span>
-{% endmacro %}
-
-{% macro fieldValuePairArray(data) %}
-	{{ _self.fieldValuePair(data[0], data[1]) }}
-{% endmacro %}
-
-
-<html xmlns="htt/*  */p://www.w3.org/TR/REC-html40">
+<html xmlns="http://www.w3.org/TR/REC-html40">
 <head>
 <meta http-equiv=Content-Type content="text/html; charset=macintosh"/>
 
 <!-- The css needs to be included here for mpdf to process it -->
 <style type="text/css">
-body {
-	width:7.5in;
-	margin: 0 auto;
-	padding:0;
-	font-family: "Times New Roman";
-	font-size: 10pt;
-	line-height:10pt;
-	color: #333;
-}
-
-.center { text-align: center; }
-
-h1 { font-size: 22px; }
-
-h2 {
-	font-size: 16px;
-	margin:.5em;
-}
-
-h3 {
-	margin-top: 16pt;
-	margin-bottom:8pt;
-}
-ul {
-	list-style:none;
-	padding-left:6pt;
-}
-
-a:link{
-	color:blue;
-	text-decoration:underline;
-	text-underline:single;
-}
-a:visited {
-	color:purple;
-	text-decoration:underline;
-	text-underline:single;
-}
-
-div.fieldset {
-	border:0.1mm solid #000000;
-	padding: 4px;
-}
-
-div.fieldset p {
-	line-height:130%
-	page-break-before:avoid;
-	margin: 0 auto 6pt auto;
-}
-
-p.note {
-	font-size:8pt;
-	line-height:100%;
-}
-
-p.center {
-	text-align:center;
-}
-
-p.bold {
-	font-weight:bold;
-}
-
-div.fieldset table , table.box{
-	width:100%;
-	border-collapse: collapse;
-}
-
-table.box td{
-	border:0.1mm solid #000000;
-	padding: 5px;
-}
-
-div.fieldset table.two tr td {
-	width:50%;
-	padding-right:12pt
-}
-
-div.fieldset table.three tr td {
-	width:33%;
-	padding-right:12pt;
-	padding-bottom:12pt;
-}
-
-span.value, pre { /* a form field value entry */
-	font-family: "Times New Roman";
-	font-weight:bold;
-	font-size: 12pt;
-	line-height: normal;
-}
-
-span.tab {
-	margin-right:12pt;
-}
+	{% include 'application/applicationPDF.css' %}
 </style>
 </head>
 <body>
@@ -158,23 +43,23 @@ span.tab {
 <div class="fieldset">
 	<table class="two">
 		<tr>
-			{{ _self.fieldValuePairTD('Full Name:', primary.familyName ~ ', ' ~ primary.givenName ~ ', ' ~ primary.middleName)}}
-			{{ _self.fieldValuePairTD('Gender:', primary.gender) }}
+			{{ pdf.fieldValuePairTD('Full Name:', primary.familyName ~ ', ' ~ primary.givenName ~ ', ' ~ primary.middleName)}}
+			{{ pdf.fieldValuePairTD('Gender:', primary.gender) }}
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('Maiden/Former Name:', primary.alternateName) }}
-			{{ _self.fieldValuePairTD('Date of Birth:', primary.dateOfBirth) }}
+			{{ pdf.fieldValuePairTD('Maiden/Former Name:', primary.alternateName) }}
+			{{ pdf.fieldValuePairTD('Date of Birth:', primary.dateOfBirth) }}
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('Social Security Number:', primary.socialSecurityNumber) }}
-			{{ _self.fieldValuePairTD('Place of Birth:', primary.placeOfBirth) }}
+			{{ pdf.fieldValuePairTD('Social Security Number:', primary.socialSecurityNumber) }}
+			{{ pdf.fieldValuePairTD('Place of Birth:', primary.placeOfBirth) }}
 		</tr>
 	</table>
      <hr size=1>
 	<table class="two">
 		<tr>
-			{{ _self.fieldValuePairTD('Present Occupation', primary.presentOccupation) }}
-			{{ _self.fieldValuePairTD('', '') }}
+			{{ pdf.fieldValuePairTD('Present Occupation', primary.presentOccupation) }}
+			{{ pdf.fieldValuePairTD('', '') }}
 		</tr>
 	</table>
     
@@ -183,12 +68,12 @@ span.tab {
 
 	<table class="two">
 		<tr>
-			{{ _self.fieldValuePairTD('Country of Citizenship:', primary.countryOfCitizenship) }}
-			{{ _self.fieldValuePairTD('Residency Status:', primary.residencyStatus) }}
+			{{ pdf.fieldValuePairTD('Country of Citizenship:', primary.countryOfCitizenship) }}
+			{{ pdf.fieldValuePairTD('Residency Status:', primary.residencyStatus) }}
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('If US Citizen, Legal State of Residence:', primary.pretty_usState) }}
-			{{ _self.fieldValuePairTD('', '') }}
+			{{ pdf.fieldValuePairTD('If US Citizen, Legal State of Residence:', primary.pretty_usState) }}
+			{{ pdf.fieldValuePairTD('', '') }}
 		</tr>
 	</table>
 </div>
@@ -198,8 +83,8 @@ span.tab {
 	<p class="note">Note on Ethnicity: Colleges and universities are asked by many, including the federal government, accrediting associations, college guides, newspapers, and our own college/university communities, to describe the racial/ethnic backgrounds of our students and employees. In order to respond to these requests, we ask you to answer the following two questions:</span></p>
 	<table class="two">
 		<tr>
-			{{ _self.fieldValuePairTD('Hispanic/Latino:', application.ethnicity_hispa) }}
-			{{ _self.fieldValuePairTD('Other Ethnicity:', primary.nonHispanicEthnicities) }}
+			{{ pdf.fieldValuePairTD('Hispanic/Latino:', application.ethnicity_hispa) }}
+			{{ pdf.fieldValuePairTD('Other Ethnicity:', primary.nonHispanicEthnicities) }}
 		</tr>
 	</table>
 </div>
@@ -209,12 +94,12 @@ span.tab {
 	<table class="two">
 		<tr>
 			{% set permanentAddress = primary.permanentMailing %}
-			{{ _self.fieldValuePairTD('Primary Phone Number', permanentAddress.primaryPhone) }}
-			{{ _self.fieldValuePairTD('Primary Phone Number', permanentAddress.secondaryPhone) }}
+			{{ pdf.fieldValuePairTD('Primary Phone Number', permanentAddress.primaryPhone) }}
+			{{ pdf.fieldValuePairTD('Primary Phone Number', permanentAddress.secondaryPhone) }}
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('E-mail address', primary.email) }}
-			{{ _self.fieldValuePairTD('', '') }}
+			{{ pdf.fieldValuePairTD('E-mail address', primary.email) }}
+			{{ pdf.fieldValuePairTD('', '') }}
 		</tr>
 	</table>
 	<hr size=1>
@@ -225,30 +110,30 @@ span.tab {
 			{% else %}
 				{% set mailingAddress = primary.mailing %}
 			{% endif %}
-			{{ _self.fieldValuePairTD('Permanent Address:', permanentAddress.fullAddress) }}
-			{{ _self.fieldValuePairTD('Mailing Address:', mailingAddress.fullAddress) }}
+			{{ pdf.fieldValuePairTD('Permanent Address:', permanentAddress.fullAddress) }}
+			{{ pdf.fieldValuePairTD('Mailing Address:', mailingAddress.fullAddress) }}
 		</tr>
 	</table>
 </div>
 
 <h3>Academic/Criminal History</h3>
 <div class="fieldset">
-	<p>{{ _self.fieldValuePair('Have you ever been found responsible for a disciplinary violation at a post-secondary educational institution you have attended (or the international equivalent) whether related to academic misconduct or behavioral misconduct, that resulted in your suspension, removal, dismissal or expulsion from the institution?', application.pretty_hasDisciplinaryViolation) }}</p>
+	<p>{{ pdf.fieldValuePair('Have you ever been found responsible for a disciplinary violation at a post-secondary educational institution you have attended (or the international equivalent) whether related to academic misconduct or behavioral misconduct, that resulted in your suspension, removal, dismissal or expulsion from the institution?', application.pretty_hasDisciplinaryViolation) }}</p>
 	
 	{% for violation in application.disciplinaryViolations %}
 		<p>
-			{{ _self.fieldValuePair('Date:', violation.date, false) }}<br />
-			{{ _self.fieldValuePair('Explanation:', violation.details, false) }}
+			{{ pdf.fieldValuePair('Date:', violation.date, false) }}<br />
+			{{ pdf.fieldValuePair('Explanation:', violation.details, false) }}
 		</p>
 	{% endfor %}
 
-	{{ _self.fieldValuePair('Have you ever been convicted of a misdemeanor felony or
+	{{ pdf.fieldValuePair('Have you ever been convicted of a misdemeanor felony or
       other crime, or adjudicated of committing a juvenile crime?', application.pretty_hasCivilDisciplinary) }}
 	  
 	{% for violation in application.civilViolations %}
 		<p>
-			{{ _self.fieldValuePair('Date:', violation.date, false) }}<br />
-			{{ _self.fieldValuePair('Explanation:', violation.details, false) }}
+			{{ pdf.fieldValuePair('Date:', violation.date, false) }}<br />
+			{{ pdf.fieldValuePair('Explanation:', violation.details, false) }}
 		</p>
 	{% endfor %}
 </div>
@@ -258,16 +143,16 @@ span.tab {
     
 	<table class="two">
 		<tr>
-			{{ _self.fieldValuePairTD('Proposed department of study:', application.degree.academic_program) }}
-			{{ _self.fieldValuePairTD('Intended Entry:', application.startInfo) }}
+			{{ pdf.fieldValuePairTD('Proposed department of study:', application.degree.academic_program) }}
+			{{ pdf.fieldValuePairTD('Intended Entry:', application.startInfo) }}
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('Degree you are seeking:', application.degree.academic_planName) }}
-			{{ _self.fieldValuePairTD('Attendance Status:', application.degree.pretty_academic_load) }}
+			{{ pdf.fieldValuePairTD('Degree you are seeking:', application.degree.academic_planName) }}
+			{{ pdf.fieldValuePairTD('Attendance Status:', application.degree.pretty_academic_load) }}
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('Major Area of Interest:', application.degree.academic_major) }}
-			{{ _self.fieldValuePairTD('Minor Area of Interest:', application.degree.academic_minor) }}
+			{{ pdf.fieldValuePairTD('Major Area of Interest:', application.degree.academic_major) }}
+			{{ pdf.fieldValuePairTD('Minor Area of Interest:', application.degree.academic_minor) }}
 		</tr>
 	</table>
 
@@ -275,30 +160,30 @@ span.tab {
 
 	<table class="two">
 		<tr>
-			{{ _self.fieldValuePairTD('Have you previously applied to this institution?:', primary.pretty_hasPrevUMGradApp_appExists) }}
-			{{ _self.fieldValuePairTD('', '') }}
+			{{ pdf.fieldValuePairTD('Have you previously applied to this institution?:', primary.pretty_hasPrevUMGradApp_appExists) }}
+			{{ pdf.fieldValuePairTD('', '') }}
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('When', primary.prevUMGradApp_date) }}
-			{{ _self.fieldValuePairTD('To what department?', primary.prevUMGradApp_dept) }}
+			{{ pdf.fieldValuePairTD('When', primary.prevUMGradApp_date) }}
+			{{ pdf.fieldValuePairTD('To what department?', primary.prevUMGradApp_dept) }}
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('Did you withdraw?', primary.pretty_prevUMGradWithdraw_exists) }}
-			{{ _self.fieldValuePairTD('When?', primary.prevUMGradWithdraw_date) }}
+			{{ pdf.fieldValuePairTD('Did you withdraw?', primary.pretty_prevUMGradWithdraw_exists) }}
+			{{ pdf.fieldValuePairTD('When?', primary.prevUMGradWithdraw_date) }}
 		</tr>
 
 		<tr>
-			{{ _self.fieldValuePairTD('Do you wish to apply for an assistantship?', application.degree.pretty_isSeekingAssistantship) }}
-			{{ _self.fieldValuePairTD('', '') }}
+			{{ pdf.fieldValuePairTD('Do you wish to apply for an assistantship?', application.degree.pretty_isSeekingAssistantship) }}
+			{{ pdf.fieldValuePairTD('', '') }}
 		</tr>
 		<tr>
 			<td colspan="2">
-				{{ _self.fieldValuePair('Do you intend to apply for certification of eligibility under the New England Regional Student Program?', application.degree.pretty_isApplyingNebhe) }}
+				{{ pdf.fieldValuePair('Do you intend to apply for certification of eligibility under the New England Regional Student Program?', application.degree.pretty_isApplyingNebhe) }}
 			</td>
 		</tr>
 		<tr>
 			<td style='padding-top: 1em;' colspan="2">
-				{{ _self.fieldValuePair('University of Maine Faculty you have corresponded with regarding your application:', application.hasUmaineCorrespondent) }}
+				{{ pdf.fieldValuePair('University of Maine Faculty you have corresponded with regarding your application:', application.hasUmaineCorrespondent) }}
 			</td>
 		</tr>
 	</table>
@@ -316,13 +201,13 @@ span.tab {
 			<p>
 				<span class="value">{{ previousSchool.name }}</span><br />
 				<span class="value">{{ previousSchool.city }}, {{ previousSchool.pretty_state }}</span><br />
-				{{ _self.fieldValuePair('Location if Outside US/Canada:', previousSchool.country) }}
+				{{ pdf.fieldValuePair('Location if Outside US/Canada:', previousSchool.country) }}
 				<br />
-				{{ _self.fieldValuePair('Dates Attended:', previousSchool.dateRange) }}
+				{{ pdf.fieldValuePair('Dates Attended:', previousSchool.dateRange) }}
 				<br />
-				{{ _self.fieldValuePair('Major:', previousSchool.major) }}
+				{{ pdf.fieldValuePair('Major:', previousSchool.major) }}
 				<br />
-				{{ _self.fieldValuePair('Name of Degree or Diploma:', previousSchool.degreeEarned_name) }}
+				{{ pdf.fieldValuePair('Name of Degree or Diploma:', previousSchool.degreeEarned_name) }}
 			</p>
 		</td>	
 		{% endfor %}
@@ -333,8 +218,8 @@ span.tab {
 <div class="fieldset">
 	<table class="two">
 		<tr>
-			{{ _self.fieldValuePairTD('Cumulative undergraduate GPA:', primary.undergradGPA) }}
-			{{ _self.fieldValuePairTD('Cumulative post-baccalaureate GPA:', primary.postbaccGPA) }}
+			{{ pdf.fieldValuePairTD('Cumulative undergraduate GPA:', primary.undergradGPA) }}
+			{{ pdf.fieldValuePairTD('Cumulative post-baccalaureate GPA:', primary.postbaccGPA) }}
 		</tr>
 		<tr>
 			<td style='padding-top: 1em;' colspan="2"><p><span class="field">List, by title, all courses in progress or courses you expect to take before enrolling at UM:</span></p></td>
@@ -353,12 +238,12 @@ span.tab {
 		{% for language in languages %}
 			<tr><td style='height: 5px;'></td></tr>
 			<tr>
-				{{ _self.fieldValuePairTD('Language:', language.name) }}
-				{{ _self.fieldValuePairTD('Reading:', language.reading) }}
+				{{ pdf.fieldValuePairTD('Language:', language.name) }}
+				{{ pdf.fieldValuePairTD('Reading:', language.reading) }}
 			</tr>
 			<tr>
-				{{ _self.fieldValuePairTD('Speaking:', language.speaking) }}
-				{{ _self.fieldValuePairTD('Writing:', language.writing) }}
+				{{ pdf.fieldValuePairTD('Speaking:', language.speaking) }}
+				{{ pdf.fieldValuePairTD('Writing:', language.writing) }}
 			</tr>
 		{% endfor %}
 
@@ -367,16 +252,16 @@ span.tab {
 			<td style='padding-top: 1em;'  colspan="2"><span class="field">If English is not your primary language, indicate the number of years you have studied English (give dates):</span></td>
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('In secondary or middle school:', application.englishYears_school) }}
-			{{ _self.fieldValuePairTD('', '') }}			
+			{{ pdf.fieldValuePairTD('In secondary or middle school:', application.englishYears_school) }}
+			{{ pdf.fieldValuePairTD('', '') }}			
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('In university:', application.englishYears_univ) }}
-			{{ _self.fieldValuePairTD('', '') }}
+			{{ pdf.fieldValuePairTD('In university:', application.englishYears_univ) }}
+			{{ pdf.fieldValuePairTD('', '') }}
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('Under private auspices:', application.englishYears_private) }}
-			{{ _self.fieldValuePairTD('', '') }}
+			{{ pdf.fieldValuePairTD('Under private auspices:', application.englishYears_private) }}
+			{{ pdf.fieldValuePairTD('', '') }}
 		</tr>
 	</table>
 </div>
@@ -392,7 +277,7 @@ span.tab {
 	<table class="three">
 		<tr>
 			<td colspan="3">
-				{{ _self.fieldValuePair('Have you ever taken or intend to take the GRE?', primary.pretty_hasTakenGRE) }}
+				{{ pdf.fieldValuePair('Have you ever taken or intend to take the GRE?', primary.pretty_hasTakenGRE) }}
 			</td>
 		</tr>
 		{% for gre in application.gres %}
@@ -402,14 +287,14 @@ span.tab {
 				</td></tr>
 			{% endif %}
 			<tr>
-				{{ _self.fieldValuePairTD('Verbal:', gre.verbal) }}
-				{{ _self.fieldValuePairTD('Quantitative', gre.quantitative) }}
-				{{ _self.fieldValuePairTD('Analytical Writing:', gre.analytical) }}
+				{{ pdf.fieldValuePairTD('Verbal:', gre.verbal) }}
+				{{ pdf.fieldValuePairTD('Quantitative', gre.quantitative) }}
+				{{ pdf.fieldValuePairTD('Analytical Writing:', gre.analytical) }}
 			</tr>
 			<tr>
-				{{ _self.fieldValuePairTD('Subject:', gre.subject) }}
-				{{ _self.fieldValuePairTD('Score:', gre.score) }}
-				{{ _self.fieldValuePairTD('Date:', gre.date) }}
+				{{ pdf.fieldValuePairTD('Subject:', gre.subject) }}
+				{{ pdf.fieldValuePairTD('Score:', gre.score) }}
+				{{ pdf.fieldValuePairTD('Date:', gre.date) }}
 			</tr>
 		{% endfor %}
 	</table>
@@ -420,12 +305,12 @@ span.tab {
 	<table class="two">
 		<tr>
 			<td colspan='2'>
-				{{ _self.fieldValuePair('Have you ever taken or intend to take the GMAT?', primary.pretty_gmat_hasTaken) }}
+				{{ pdf.fieldValuePair('Have you ever taken or intend to take the GMAT?', primary.pretty_gmat_hasTaken) }}
 			</td>
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('GMAT Score:', primary.gmat_score) }}
-			{{ _self.fieldValuePairTD('Date:', primary.gmat_date) }}
+			{{ pdf.fieldValuePairTD('GMAT Score:', primary.gmat_score) }}
+			{{ pdf.fieldValuePairTD('Date:', primary.gmat_date) }}
 		</tr>
 	</table>
   </div>
@@ -434,12 +319,12 @@ span.tab {
 	<table class="two">
 		<tr>
 			<td colspan='2'>
-				{{ _self.fieldValuePair('Have you ever taken or intend to take the MAT?', primary.pretty_mat_hasTaken) }}
+				{{ pdf.fieldValuePair('Have you ever taken or intend to take the MAT?', primary.pretty_mat_hasTaken) }}
 			</td>
 		</tr>
 		<tr>
-			{{ _self.fieldValuePairTD('MAT Score:', primary.mat_score) }}
-			{{ _self.fieldValuePairTD('Date:', primary.mat_date) }}
+			{{ pdf.fieldValuePairTD('MAT Score:', primary.mat_score) }}
+			{{ pdf.fieldValuePairTD('Date:', primary.mat_date) }}
 		</tr>
 	</table>
   </div>
@@ -474,8 +359,8 @@ span.tab {
 		{% set address = reference.contactInformation %}
 		<p><span class="value">{{ reference.fullName }}</span></p>
 		<p><span class="value">{{ address.fullAddress | raw }}</span></p>
-		<p>{{ _self.fieldValuePair('Email:', reference.email) }}</p>
-		<p>{{ _self.fieldValuePair('Phone:', reference.primaryPhone) }}</p>
+		<p>{{ pdf.fieldValuePair('Email:', reference.email) }}</p>
+		<p>{{ pdf.fieldValuePair('Phone:', reference.primaryPhone) }}</p>
 	</td>
 	{% if loop.last %}
 		</tr></table>
@@ -493,31 +378,31 @@ span.tab {
 	<table class='two'>
 		<tr>
 			<td colspan='2'>
-				{{ _self.fieldValuePair('Have you taken or plan the TOEFL examination?', international.pretty_toefl_hasTaken) }}
+				{{ pdf.fieldValuePair('Have you taken or plan the TOEFL examination?', international.pretty_toefl_hasTaken) }}
 			</td>
 		<tr>
 		<tr>	
 			<td style='width: 17%;'>
-				{{ _self.fieldValuePair('Date:', international.toefl_date) }}
+				{{ pdf.fieldValuePair('Date:', international.toefl_date) }}
 			</td>
-			{{ _self.fieldValuePairTD('Score:', international.score) }}
+			{{ pdf.fieldValuePairTD('Score:', international.score) }}
 		</tr>
 	</table>
 	<p style='padding-top: 6px'>
-		{{ _self.fieldValuePair('Indicate the career you plan to pursue if you plan to remain in the United States after completion of studies (e.g., teaching, government, business, industry).', international.hasUSCareer) }}
-		{{ _self.fieldValuePair('', international.usCareerDetails) }}
+		{{ pdf.fieldValuePair('Indicate the career you plan to pursue if you plan to remain in the United States after completion of studies (e.g., teaching, government, business, industry).', international.hasUSCareer) }}
+		{{ pdf.fieldValuePair('', international.usCareerDetails) }}
 	</p>
 	<p>
-		{{ _self.fieldValuePair('If you plan to continue studies for another degree, describe briefly the subject, location, estimated beginning date, and approximate duration.', international.furtherStudiesDetails) }}
+		{{ pdf.fieldValuePair('If you plan to continue studies for another degree, describe briefly the subject, location, estimated beginning date, and approximate duration.', international.furtherStudiesDetails) }}
 	</p>
 	<p>
-		{{ _self.fieldValuePair('If you plan to return to your own country immediately after completing study or research, state the details (e.g., employer, location, type of work, estimated beginning date) that may be known to you.', international.homeCareerDetails) }}
+		{{ pdf.fieldValuePair('If you plan to return to your own country immediately after completing study or research, state the details (e.g., employer, location, type of work, estimated beginning date) that may be known to you.', international.homeCareerDetails) }}
 	</p>
 	<p>
-		{{ _self.fieldValuePair('How do you expect to finance your graduate study?', international.financeDetails) }}
+		{{ pdf.fieldValuePair('How do you expect to finance your graduate study?', international.financeDetails) }}
 	</p>
 	<p>
-		{{ _self.fieldValuePair('List the names and addresses of any close relatives or friends in the United States (indicate relationship):', international.usFriendsOrRelatives) }}
+		{{ pdf.fieldValuePair('List the names and addresses of any close relatives or friends in the United States (indicate relationship):', international.usFriendsOrRelatives) }}
 		<br />
 	</p>
 		
@@ -529,9 +414,9 @@ span.tab {
 					<span class='value'>{{ international.homeEmergencyContact_name }}</span><br />
 					<span class="value">{{ international.homeEmergencyContactInfo.fullAddress | raw }}</span>
 					<br />
-					{{ _self.fieldValuePair('Phone:', international.homeEmergencyContactInfo.primaryPhone) }}
+					{{ pdf.fieldValuePair('Phone:', international.homeEmergencyContactInfo.primaryPhone) }}
 					<br />
-					{{ _self.fieldValuePair('Relationship:', international.homeEmergencyContact_relationship) }}
+					{{ pdf.fieldValuePair('Relationship:', international.homeEmergencyContact_relationship) }}
 				</p>
 			</td>
 		</tr>
@@ -543,9 +428,9 @@ span.tab {
 					<span class="field">Emergency Contact in the US:</span><br />
 					<span class="value">{{ international.usEmergencyContact_name }}</span><br />
 					<span class="value">{{ international.usEmergencyContactInfo.fullAddress | raw }}</span><br />
-					{{ _self.fieldValuePair('Phone:', international.usEmergencyContactInfo.primaryPhone) }}
+					{{ pdf.fieldValuePair('Phone:', international.usEmergencyContactInfo.primaryPhone) }}
 					<br />
-					{{ _self.fieldValuePair('Relationship:', international.usEmergencyContact_relationship) }}
+					{{ pdf.fieldValuePair('Relationship:', international.usEmergencyContact_relationship) }}
 				</p>
 			</td>
 		</tr>

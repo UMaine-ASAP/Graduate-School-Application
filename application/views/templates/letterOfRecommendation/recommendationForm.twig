@@ -18,7 +18,6 @@
 	document.onkeypress = stopRKey;
 </script>
 
-
 {% endblock %}
 
 {% block content %}
@@ -32,7 +31,7 @@
 		</div>
 	</div>
 	<form method="post" id="recform" name="recform">
-		<fieldset>
+		<fieldset class='nested'>
 			<legend>
 				Applicant&rsquo;s Information
 			</legend>
@@ -64,8 +63,8 @@
 				<input type="text" id="title" name="title" maxlength="40" size="40"/>
 			</label></p>
 		
-			<p><label for="emploer">Employer<br />
-				<input type="text" id="emploer" name="emploer" maxlength="40" size="40"/>
+			<p><label for="employer">Employer<br />
+				<input type="text" name="employer" maxlength="40" size="40"/>
 			</label></p>
 		
 			<p><label for="email">Email<br />
@@ -73,7 +72,7 @@
 			</label></p>
 		
 			<p><label for="phone">Phone<br />
-				<input type="text" id="phone" name="phone" maxlength="20" size="20" value="{{ reference.contactInformation.primaryPhone }}"/>
+				<input type="text" id="phone" name="phone" maxlength="20" size="20" value="{% if reference.contactInformation.primaryPhone %}{{ reference.contactInformation.primaryPhone }}{% endif %}"/>
 			</label></p>
 	
 		</fieldset>
@@ -85,7 +84,7 @@
 			<table>
 				<tr>
 					<th rowspan="2" span="col" id="firstcell"></th>
-					{% for value,option in reference.options_scores_woNumbers %}
+					{% for value,option in recommendation.options_scores_woNumbers %}
 						<th span="col">{{option}}</th>
 					{% endfor %}
 				</tr>
@@ -161,31 +160,23 @@
 			<legend>Recommendation</legend>
 			<div class='radio-group-header'>This recommendation may be used for:</div>
 			<div class='col2'>
-				<span class='radio-selection'>
-					<input type='radio' name='programReuse' value='all'/>
-					<label>All UM Graduate Programs</label>
-				</span>
-				<span class='radio-selection'>
-					<input type='radio' name='programReuse' value='select'/>
-					<label>The Following UM Graduate Programs:</label>
-				</span>
+				{% for value,name in recommendation.options_reuse %}
+					<span class='radio-selection'>
+						<input type='radio' name='programReuse' value='{{value}}'/>
+						<label>{{ name }}</label>
+					</span>
+				{% endfor %}
 			</div>
-			<div>Please List: <input type='text' name='recommendation-reuse-programs' style='width: 80%;'/></div>
+			<div>Please List: <input type='text' name='reusablePrograms' style='width: 80%;'/></div>
 
 			<div class='radio-group-header'>This recommendation may be used for:</div>
 			<div class='col3'>
-				<span class='radio-selection'>
-					<input type='radio' name='lifetime' value='1year'/>
-					<label>The current academic year</label>
-				</span>
-				<span class='radio-selection'>
-					<input type='radio' name='lifetime' value='2years'/>
-					<label>2 years</label>
-				</span>
-				<span class='radio-selection'>
-					<input type='radio' name='lifetime' value='any'/>
-					<label>Indefinitely</label>
-				</span>
+				{% for value,name in recommendation.options_lifetime %}
+					<span class='radio-selection'>
+						<input type='radio' name='lifetime' value='{{value}}'/>
+						<label>{{ name }}</label>
+					</span>
+				{% endfor %}
 			</div>
 
 			<br>

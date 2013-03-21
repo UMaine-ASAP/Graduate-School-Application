@@ -10,7 +10,7 @@ date_default_timezone_set('America/New_York');
 
 $SERVERNAME        = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
 $GRADUATE_HOMEPAGE = "http://$SERVERNAME/grad/drupal6/";           // where the drupal site is located
-$WEBROOT           = "http://localhost:8888/Graduate-School-Application/application";
+$WEBROOT           = "http://$SERVERNAME";
 
 $ADMIN_EMAIL     = "crystal.burgess@maine.edu";
 $session_timeout = 600; // Session timeout in seconds - 10 minutes
@@ -21,7 +21,7 @@ $session_timeout = 600; // Session timeout in seconds - 10 minutes
 /* ================================================================ */
 
 $db_user = "root";                       // Database User
-$db_pass = "root";                           // Database Password
+$db_pass = "";                           // Database Password
 $db_host = "localhost";                  // Database Host
 $db_name = "gradschool-application-2";   // Database Table
 
@@ -57,6 +57,7 @@ $essays_path          = $_applicant_file_path . "essays/";            // Where E
 $resumes_path         = $_applicant_file_path . "essays/";            // Where resumés are stored on submit
 $completed_pdfs_path  = $_applicant_file_path . "completed_pdfs/";    // Where pdfs are stored on submit
 $recommendations_path = $_applicant_file_path . "recommendations/";   // Where recommendations are stored, after the recommender fills out the online form and submits
+$tmp_path             = $_applicant_file_path . "tmp/";
 
 // Templates
 $email_templates = 'views/templates/emails/';

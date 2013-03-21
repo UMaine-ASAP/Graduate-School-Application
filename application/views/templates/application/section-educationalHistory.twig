@@ -124,7 +124,7 @@
 
 <div style="clear:both"></div>
 
-{% if application.type == 'DEGREE' or application.type == 'CERTIFICATE' %}
+{% if application.applicationTypeId == constant('ApplicationType::DEGREE') or application.applicationTypeId == constant('ApplicationType::CERTIFICATE') %}
 	<fieldset id="grade_information" class="nested">
 		<legend>Grade Information</legend>
 
@@ -221,7 +221,7 @@
 
 
 <!--Begin fieldset "examinations"-->
-{% if application.type == 'DEGREE' %}
+{% if application.applicationTypeId == constant('ApplicationType::DEGREE') %}
 
 	<fieldset id="examinations" name="examinations" class="nested">
 		<legend>Examinations</legend>

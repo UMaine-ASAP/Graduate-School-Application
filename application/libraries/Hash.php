@@ -22,7 +22,7 @@ class Hash
 			$hash .= substr($validCharacters, $tmp%$mod,1);
 			$tmp = floor( $tmp / $mod );
 		}
-		return $hash;
+		return sha1($hash);
 	}
 	
 }

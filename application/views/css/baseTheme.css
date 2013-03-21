@@ -221,7 +221,13 @@ form.shortForm input[type='submit']
 /* ---------------------- */
 /* - Forgetten Password Section
 /* ---------------------- */
-section#content-forgotten-password {
+section#content-forgotten-emailNotFound,
+section#content-forgotten-emailSent,
+section#content-forgotten-error,
+section#content-forgotten-password, 
+section#content-forgotten-passwordResetSuccessful, 
+section#content-forgotten-requestPending,
+section#content-forgotten-resetPasswordForm {
 	font-size: 16px;
 
 	margin-top: 5em;

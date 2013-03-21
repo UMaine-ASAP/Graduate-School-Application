@@ -92,50 +92,34 @@
 Specific Tasks
 --------------
 
+- Questions
+	- Certificate and non-degree academic program selection infos
+	- Certificate program list
+	- application type descriptions
+	- exact cost structure?
+
 - Database migration script
 
 - Application
-	- check if all fields are working
-	- forgot password page
-	- account registration process
-	- enforce required fields
-	- Certificate and non-degree academic program selection infos
-	- Certificate program list
 	- certificate BUA requires 2 recomendations and GIS requires 1
+	- application status
+	- application costs
+	- make sure mainestreet fields sent have the same values (like isSeekingAssitantship should be 1 or yes? -> check carefully)
+	- copy application data from last application
+	- upload script and remove old file
 
-- Recommendation form and submission
+- Finish README comments
 
-- File cleanup
-	- can remove reset_password.twig?
-	- clean legacy files
-
-- shouldn't be able to delete reference after emailing
+- pdf output
+	- perfect?
+	- display program information
 
 - testing
 	- test in IE 6+, Safari, Firefox, Chrome, Opera
-
-- Comments
-	- finish README sections
-	- libraries
-		- Database
-		- Error
-		- ErrorTracker
-		- InputSanitation
-		- Template
-	- model.php
-	- application model
-
-- should be storing recommendations in database?
-- is application id unique across users?
-- display ethnicity information in pdf
-- display program information
-- filename dates should be created and stored then used for filename
-
-### Currently working on
-- app submission
-- forgot password page
-- other application types
-- account registration
+	- make sure images work on a server where the project is not at the root of the document
+	- cron script
+	- touchnet payment process
+	- check if all fields are working
 
 ### Someday
 - fix app_cleanup.php  (currently not used and needs work)

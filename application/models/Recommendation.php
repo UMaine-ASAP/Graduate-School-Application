@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../libraries/mpdf54/mpdf.php';
+require_once __DIR__ . '/../libraries/MPDF52/mpdf.php';
+
+require_once __DIR__ . '/../controllers/ApplicationController.php';
 
 /**
  * A single recommendation filled out by a reference
@@ -8,10 +10,10 @@ require_once __DIR__ . '/../libraries/mpdf54/mpdf.php';
 class Recommendation extends Model
 {
 	protected static $tableName = 'APPLICATION_Recommendation';
-	protected static $primaryKeys = array('recommendationId', 'referenceId', 'applicationId');
+	protected static $primaryKeys = array('referenceId', 'applicationId');
 
 
-	protected static $availableProperties = array('fullName', 'contactInformation', 'requestHasBeenSent', 'isSubmittingOnline');
+	protected static $availableProperties = array('application', 'fullName', 'contactInformation', 'requestHasBeenSent', 'isSubmittingOnline', 'pretty_academicAbility', 'pretty_motivation', 'pretty_programReuse', 'pretty_lifetime');
 
 	public function __get($name)
 	{
@@ -22,111 +24,157 @@ class Recommendation extends Model
 		 		return $this->firstName . ' ' . $this->lastName;
 		 	break;
 		 	case 'filename':
-				return "UMGradRec_". $this->applicationId ."_".$this->lastName.$this->firstName."_". $this->dateCreated .".pdf";
+		 		$appId             = $this->applicationId;
+		 		$refId             = $this->referenceId;
+				$filteredLastName  = InputSanitation::replaceNonAlphanumeric( $this->lastName );		 	
+				$filteredFirstName = InputSanitation::replaceNonAlphanumeric( $this->firstName );		 	
+				return "UMGradRec_App_$appId\_Rec_$refId\_$filteredLastName\_$filteredFirstName.pdf";
+			break;
+			case 'application':
+				return ApplicationController::getApplicationById((int)$this->applicationId);
+			break;
+			case 'pretty_academicAbility':
+				if($this->academicAbility == -1) return '';
+				$potentialScores = Recommendation::getOption('options_scores');
+				return $potentialScores[ $this->academicAbility ];		
+			break;
+			case 'pretty_motivation':
+				if($this->motivation == -1) return '';
+				$potentialScores = Recommendation::getOption('options_scores');
+				return $potentialScores[ $this->motivation ];		
+			break;
+			case 'pretty_programReuse':
+				if($this->programReuse == -1) return '';
+				$potentialScores = Recommendation::getOption('options_reuse');
+				return $potentialScores[ $this->programReuse ];
+			break;
+			case 'pretty_lifetime':
+				if($this->lifetime == -1) return '';
+				$potentialScores = Recommendation::getOption('options_lifetime');
+				return $potentialScores[ $this->lifetime ];
 			break;
 		 }
 
 		 return parent::__get($name);
 	}
 
-		
-	public function sendThankYouEmail($application)
+	protected static $availableOptions = array('options_scores', 'options_scores_woNumbers', 'options_reuse', 'options_lifetime');	
+	public static function getOption($optionName)
+	{
+		switch($optionName)
+		{
+			case 'options_scores':
+				return array(  '1' => '1 - Below Average',
+							'2' => '2 - Average',
+							'3' => '3 - Somewhat Above Average',
+							'4' => '4 - Good',
+							'5' => '5 - Unusual',
+							'6' => '6 - Outstanding',
+							'7' => '7 - Truly Exceptional',
+							'8' => 'Unable to Judge');
+			break;
+			case 'options_scores_woNumbers':
+				return array(  '1' => 'Below Average',
+							'2' => 'Average',
+							'3' => 'Somewhat Above Average',
+							'4' => 'Good',
+							'5' => 'Unusual',
+							'6' => 'Outstanding',
+							'7' => 'Truly Exceptional',
+							'8' => 'Unable to Judge');
+			break;
+			case 'options_reuse':
+				return array('All UM Graduate Programs', 'The Following UM Graduate Programs:');
+			break;
+			case 'options_lifetime':
+				return array( 'The current academic year', '2 years', 'Indefinitely');
+			break;
+
+		}
+		return null; // nothing found
+	}
+
+
+	/**
+	 * Creates a new recommendation
+	 * 
+	 * @param    int    The id of the application tied to this recommendation
+	 * @param    int    The id of the reference tied to this recommendation
+	 * 
+	 * @return    object     A New Recommendation Object
+	 */
+	public static function create($applicationId, $referenceId)
+	{
+
+		Database::iquery("INSERT INTO APPLICATION_Recommendation(`referenceId`, `applicationId`) VALUES (%d, %d)", $referenceId, $applicationId);
+
+		$result = Database::getFirst("SELECT * FROM APPLICATION_Recommendation WHERE referenceId = %d AND applicationId = %d", $referenceId, $applicationId);
+
+		$entityName = get_called_class();
+		$entity = new $entityName($entityName);
+		$entity->loadFromDB($result);
+		return $entity;
+	}
+
+
+	/**
+	 * Get a recommendation
+	 * 
+	 * @param    int    The id of the application tied to this recommendation
+	 * @param    int    The id of the reference tied to this recommendation
+	 * 
+	 * @return    object     The associated Recommendation Object if exists, null otherwise
+	 */
+	public static function retrieve($applicationId, $referenceId)
+	{
+		$dbObject = Database::getFirst("SELECT * FROM APPLICATION_Recommendation WHERE applicationId = %d AND referenceId = %d", $applicationId, $referenceId);
+
+		$recommendation = Model::factory('Recommendation');
+		$recommendation->loadFromDB($dbObject);
+		return $recommendation;
+	}
+	
+	/**
+	 * Send Thank You Email
+	 * 
+	 * Emails the recommender a thank you email
+	 * 
+	 * @return void
+	 */
+	public function sendThankYouEmail()
 	{
 		$email = new Email();
+		$applicationPersonal = $this->application->personal;
 		$email->loadFromTemplate('referenceThankYou.email.php', 
-							array('{{APPLICANT_FULL_NAME}}' => $application->personal->fullName,
-								 '{{REFERENCE_GIVEN_NAME}}' => $application->personal->givenName));
+									array('{{APPLICANT_FULL_NAME}}' => $applicationPersonal->fullName,
+									'{{APPLICANT_GIVEN_NAME}}'      => $applicationPersonal->givenName));
 		$email->setDestinationEmail( $this->email );
 		$email->sendEmail();
 	}
 
+
+	/**
+	 * Build PDF
+	 * 
+	 * Generates the final pdf and saves on server
+	 * 
+	 * @return void
+	 */
 	public function buildPDF()
 	{
-		$potentialScores = Reference::getOption('options_scores');
-
-		// Get ability description from score
-		$abilityDescription = '';
-		if ( isset($_POST['ability']) ) {
-			$abilityDescription = $potentialScores[ $_POST['ability'] ];
-		}
-
-		// Get motivation description from score
-		$motiviationDescription = '';
-		if ( isset($_POST['motiviation']) ) {
-			$motiviationDescription = $potentialScores[ $_POST['motiviation'] ];
-		}
-
-		// Get reuse description from score
-		$reuse_value      = ( isset($_POST['recommendation-reuse']) ) ? $_POST['recommendation-reuse'] : -1;
-		$reuseDescription = "";
-		switch( $reuse_value ) {
-			case 'all':
-			$reuse = "All UM Graduate Programs";
-			break;
-			case 'select':
-			$reuse = "The Following UM Graduate Programs:";
-			break;
-		}
-
-		// Get lifespan description from score
-		$lifespan_value      = ( isset($_POST['recommendation-lifespan']) ) ? $_POST['recommendation-lifespan'] : -1;
-		$lifespanDescription = "";
-
-		switch( $lifespan_value ) {
-			case '1year':
-			$lifespan = 'The current academic year';
-			break;
-			case '2years':
-			$lifespan = '2 years';
-			break;
-			case 'any':
-			$lifespan = 'Indefinitely';
-			break;
-		}
-
-		// Get reuse programs
-		$reuse_programs = isset($_POST['recommendation-reuse-programs'] ) ? $_POST['recommendation-reuse-programs'] : '';
-
-		$recommender_firstName = $_POST['rfname'];
-		$recommender_lastName  = $_POST['rlname'];
-
-
-		$replace_data = Array(
-			'RECOMMENDATION_DATE_RECEIVED' => date("m-d-Y"),
-
-			'APPLICANT_NAME'                    => $_POST["applicant_name"],
-			'APPLICANT_DOB'                     => $applicant_data['date_of_birth'],
-			'APPLICANT_FORMER_NAME'             => $applicant_data['alternate_name'],
-			'APPLICANT_EMAIL'                   => $_POST['uemail'],
-			'STATUS_WAIVED_VIEW_RECOMMENDATION' => $_POST['waived'],
-
-			'RECOMMENDER_NAME'     => $recommender_firstName . " " . $recommender_lastName,
-			'RECOMMENDER_TITLE'    => $_POST['rtitle'],
-			'RECOMMENDER_EMPLOYER' => $_POST['remployer'],
-			'RECOMMENDER_EMAIL'    => $_POST['remail'],
-			'RECOMMENDER_PHONE'    => $_POST['rphone'],
-
-			'RECOMMENDATION_ABILITY'    => $ability,
-			'RECOMMENDATION_MOTIVATION' => $motivation,
-
-			'RECOMMENDATION_REUSE'          => $reuse,
-			'RECOMMENDATION_REUSE_PROGRAMS' => $reuse_programs,
-			'RECOMMENDATION_LIFESPAN'       => $lifespan,
-			'RECOMMENDATION_TEXT'           => $_POST['essay']
-		);
-
-		// Get raw recommendation html
-		$app = \Slim\Slim::getInstance();
-		$app->view()->appendData(array('application' => $this));
-		$html = $app->view()->render('letterOfRecommendation/recommendationPDF.twig', $replace_data);
-
 		//Set created date
 		$this->dateCreated = date("m-d-Y");
 		$this->save();
+
+		// Get raw recommendation html
+		$app = \Slim\Slim::getInstance();
+		$app->view()->appendData(array('application' => $this->application, 'recommendation' => $this));
+		$pdfHtml = $app->view()->render('letterOfRecommendation/recommendationPDF.twig');
+
 		
 		// convert html to pdf
 		$mpdf = new mPDF();
-		$mpdf->WriteHTML( utf8_encode($pdfhtml) );
+		$mpdf->WriteHTML( utf8_encode($pdfHtml) );
 		
 		// Save pdf
 		$fullRecommendationPath = $GLOBALS['recommendations_path'] . $this->filename;

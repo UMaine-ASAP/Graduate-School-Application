@@ -1,10 +1,40 @@
+	body {
+		font-size: 16px;
+	}
+
+	fieldset {
+	margin-left: 3px;
+	margin-bottom: 10px;
+	margin-right: 3px;
+	margin-top: 1em;
+	padding-left: 6px;
+	padding-bottom: 7px;
+	padding-right: 6px;
+	padding-top: 2px;
+	background: #b4c8cf;
+	border-left:1px solid #9FAEB3;
+	border-top:1px solid #9FAEB3;
+	border-right: none;
+	border-bottom: none;
+	width:95%;
+}
+
+fieldset legend {
+	font-weight: bolder;
+	background: #b4c8cf;
+	padding: 4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border:1px solid #95A4A8;
+}
+
 #forgot {
 	width:50em;
 }
 
 textarea {
-	width:48em;
-	max-width:48em;
+	width:47em;
+	max-width:47em;
 	height:20em;
 }
 

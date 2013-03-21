@@ -260,8 +260,6 @@ $GLOBALS['databaseFields'] = array(
 
 	ApplicationSection::lettersOfRecommendation => array(
 
-		'waiveReferenceViewingRights' => array('filter' => 'filter_boolean', 'isRequired' => true, 'requiredMessage'=>'You did not select a Waive Viewing Rights option'),
-
 		'reference-firstName'          => array('filter' => 'filter_name'),
 		'reference-lastName'           => array('filter' => 'filter_name'),
 		'reference-email'              => array('filter' => 'filter_email'),
@@ -285,7 +283,8 @@ $GLOBALS['databaseFields'] = array(
 	/* --------- Other --------- */
 
 	'other' => array(
-		'hasAcceptedTermsOfAgreement' => array('filter' => 'filter_boolean')
+		'hasAcceptedTermsOfAgreement' => array('filter' => 'filter_boolean'),
+		'waiveReferenceViewingRights' => array('filter' => 'filter_boolean', 'isRequired' => true, 'requiredMessage'=>'You did not select a Waive Viewing Rights option')
 	)
 
 

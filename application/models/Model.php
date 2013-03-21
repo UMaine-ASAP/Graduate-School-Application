@@ -1,35 +1,37 @@
 <?php
 
 /**
- * Entity
+ * Manages a single object tied to a database table
  * 
- * Defines how object instantiation classes work
- * 
- * An entity is a single distinct object of the system. Examples include a particular user, an evaluation, a question, etc...
+ * Specify tableName, identifying keys, and any extra properties for use in Twig template using protected variables
  * 
  * @author Tim Westbaker
- * @created 11/8/12
  */
 class Model
 {
-	protected static $entityName; // store the name of the entity
-	protected static $tableName;	// Database table name
-	protected static $primaryKeys;	// Identifying columns
-
-	protected $values;	
-	protected $is_dirty;	// Values changed for saving
-
-	private $whereClause;		// WhereEqual structure
-	private $whereReplacements;	// Replacement information
-
-	private $query; // the query string to run
-	private $args; // the arguments for the query string
+	protected static $entityName;  // store the name of the model
+	protected static $tableName;	 // Database table name
+	protected static $primaryKeys; // Array of identifying columns
 
 	// Twig isset parameters. See __isset() function override call below
-	protected static $availableProperties = array();
-	protected static $availableOptions    = array();
+	protected static $availableProperties = array(); // Custom properties 
+	protected static $availableOptions    = array(); // Array of options stored as value=>name
 
 
+	protected $values;	 // Array of values associated with fields in the table
+	protected $is_dirty; // Array of values changed that need saving
+
+	private $whereClause;		// query wherestring addition
+	private $whereReplacements;	// Where replacement information
+
+	private $query; // the query string to run
+	private $args;  // the arguments for the query string
+
+
+
+	/**
+	 * Model Initializer
+	 */
 	function Model($name = '')
 	{
 		$this->is_dirty = array();
@@ -48,11 +50,13 @@ class Model
 	}
 	
 
-
-
+	/**
+	 * Magic Getter
+	 * 
+	 * Retrieve value from options or database table
+	 */
 	public function __get($name)
 	{
-
 		// Check if this is a request for available options
 		if( strpos($name, 'options_') !== false) {
 			$result = static::getOption($name);
@@ -68,10 +72,14 @@ class Model
 		}
 	}
 
+
+	/**
+	 * Magic setter
+	 * 
+	 * Set a field property
+	 */
 	public function __set($key, $value)
 	{	
-
-
 		if( isset($this->values[$key]) )
 		{
 			$this->is_dirty[] = $key;
@@ -81,10 +89,14 @@ class Model
 		}
 	}
 
-	// We need to correctly overide __isset in order to use any magic variables in Twig. See magicGetters and available options for more information
-	public function __isset($name)
-	{		
 
+	/**
+	 * Magic isset
+	 * 
+	 * We need to correctly overide __isset in order to use any magic variables in Twig. See magicGetters, available properties, and available options for more information
+	 */
+	public function __isset($name)
+	{
 		// check if option is set in child classes getters or available options
 		if ( in_array($name, static::$availableProperties) || in_array($name, static::$availableOptions) ) 
 		{
@@ -99,15 +111,14 @@ class Model
 	}
 
 
-
-	// Set value without making dirty
+	/**
+	 * Set value without making dirty
+	 */
 	private function setValue($key, $value) 
 	{
-
 		$this->values[$key] = "$value";
 	}
 
-	// @pragma Load data
 
 	/**
 	 * Load associative data into entity
@@ -158,8 +169,6 @@ class Model
 
 			return $this;
 		}
-
-
 	}
 
 
@@ -178,38 +187,31 @@ class Model
 	}	
 
 
-	// @pragma Querying
+	/* =============================== */
+	/* = Database Query Functions
+	/* =============================== */
 
+	/**
+	 * Starts a new database query
+	 * 
+	 * @param    string    Model class name to create
+	 * 
+	 * @return    object    New model of the specified type
+	 */
 	public static function factory($entityName)
 	{
 		return new $entityName($entityName);
 	}
 
-	protected function queryAppendUnique($beginsWhere = TRUE)
-	{
-		// Build Query Tag on - WHERE key1 = %d AND key2 = %d ...
-		$queryPieces = array_map( function($key) { return " `$key` = %d "; }, static::$primaryKeys);
 
-		if( $beginsWhere )
-		{
-			$this->query .= ' WHERE ';
-		}  else {
-			$this->query .= ' AND ';			
-		}
-
-		$this->query .= ' ' . implode(' AND ', $queryPieces);
-
-		// Add args
-		foreach( static::$primaryKeys as $keyNumber=>$key )
-		{
-			$idName = 'id' . ((int)$keyNumber + 1);
-			$this->args[] = $this->values[$idName];
-		}
-	}
-
+	/**
+	 * Deletes the object from the database
+	 * 
+	 * @return void
+	 */
 	public function delete()
 	{
-		$this->query = "DELETE FROM %s ";
+		$this->query = "DELETE FROM %s LIMIT 1";
 		$this->args = array(static::$tableName);
 
 		$this->queryAppendUnique();
@@ -217,52 +219,11 @@ class Model
 	}
 
 
-	public function whereEqual($fieldName, $value)
-	{
-		$this->whereClause = ' %s = %s ';
-		$this->whereReplacements = array($fieldName, $value);
-		return $this;
-	}
-
-
-
-	public function queryFirst()
-	{
-		// Add tablename to query
-		$args = array_merge( array($this->query), $this->args);
-
-		$result = call_user_func_array( array('Database', 'getFirst'), $args);
-		$this->resetQuery();
-		return $result;		
-	}
-
-	public function query()
-	{
-		// Add tablename to query
-		$args = array_merge( array($this->query), $this->args);
-
-		$result = call_user_func_array( array('Database', 'query'), $args);		
-		$this->resetQuery();
-		return $result;
-	}
-
-	public function iquery()
-	{
-		// Add tablename to query
-		$args = array_merge( array($this->query), $this->args);
-
-		$result = call_user_func_array( array('Database', 'iquery'), $args);
-		$this->resetQuery();
-		return $result;
-	}
-
-	protected function resetQuery()
-	{
-		$this->query = '';
-		$this->args = array();		
-	}
-
-
+	/**
+	 * Save database changes
+	 * 
+	 * @return void
+	 */
 	public function save()
 	{
 		$this->query = "UPDATE %s SET ";
@@ -297,10 +258,16 @@ class Model
 		$this->iquery();
 	}
 
+
+	/**
+	 * Retrieve all model objects from the query
+	 * 
+	 * @return    array    Array of models of specified type
+	 */
 	public function get()
 	{
-		$this->query = "SELECT * FROM %s WHERE %s = %d ";
-		$this->args = array(static::$tableName, $this->whereReplacements[0], $this->whereReplacements[1]);
+		$this->query = "SELECT * FROM %s WHERE %s = %d ORDER BY %s ASC";
+		$this->args = array(static::$tableName, $this->whereReplacements[0], $this->whereReplacements[1], static::$primaryKeys[0]);
 		$dataAr = $this->query();
 
 		$result = array();
@@ -313,6 +280,11 @@ class Model
 	}	
 
 
+	/**
+	 * Retrieve a model object from the query
+	 * 
+	 * @return    Object    Model
+	 */
 	public function first()
 	{
 		$this->query = "SELECT * FROM %s WHERE %s = %d ";
@@ -324,5 +296,113 @@ class Model
 		return $this;
 	}	
 
+
+	/* --------------- */
+	/* - Query Helpers
+	/* --------------- */
+
+	/**
+	 * Retrieve first database result based on built query string
+	 * 
+	 * @return array
+	 */
+	public function queryFirst()
+	{
+		// Add tablename to query
+		$args = array_merge( array($this->query), $this->args);
+
+		$result = call_user_func_array( array('Database', 'getFirst'), $args);
+		$this->resetQuery();
+		return $result;		
+	}
+
+
+	/**
+	 * Retrieve database result based on built query string
+	 * 
+	 * @return array
+	 */
+	public function query()
+	{
+		// Add tablename to query
+		$args = array_merge( array($this->query), $this->args);
+
+		$result = call_user_func_array( array('Database', 'query'), $args);		
+		$this->resetQuery();
+		return $result;
+	}
+
+
+	/**
+	 * Run iquery
+	 * 
+	 * @return void
+	 */
+	public function iquery()
+	{
+		// Add tablename to query
+		$args = array_merge( array($this->query), $this->args);
+
+		call_user_func_array( array('Database', 'iquery'), $args);
+		$this->resetQuery();
+	}
+
+
+	/**
+	 * Reset query
+	 * 
+	 * @return void
+	 */
+	protected function resetQuery()
+	{
+		$this->query = '';
+		$this->args = array();		
+	}
+
+
+	/**
+	 * Appends where equal clause to query
+	 * 
+	 * @param    string    Fieldname for where clause
+	 * @param    string    Value to check equality
+	 * 
+	 * @return    this
+	 */
+	public function whereEqual($fieldName, $value)
+	{
+		$this->whereClause = ' %s = %s ';
+		$this->whereReplacements = array($fieldName, $value);
+		return $this;
+	}
+
+
+	/**
+	 * Appends where clause to query string to ensure a unique item is selected
+	 * 
+	 * @param    bool    True if where string should be included, false if where clause has already been started
+	 * 
+	 * @return    void
+	 */
+	protected function queryAppendUnique($beginsWhere = TRUE)
+	{
+		// Build Query Tag on - WHERE key1 = %d AND key2 = %d ...
+		$queryPieces = array_map( function($key) { return " `$key` = %d "; }, static::$primaryKeys);
+
+		if( $beginsWhere )
+		{
+			$this->query .= ' WHERE ';
+		}  else {
+			$this->query .= ' AND ';			
+		}
+
+		$this->query .= ' ' . implode(' AND ', $queryPieces);
+
+		// Add args
+		foreach( static::$primaryKeys as $keyNumber=>$key )
+		{
+			$idName = 'id' . ((int)$keyNumber + 1);
+			$this->args[] = $this->values[$idName];
+		}
+	}
 
 }

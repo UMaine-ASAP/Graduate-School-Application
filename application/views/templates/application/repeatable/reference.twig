@@ -4,7 +4,7 @@
 <div id="reference-#{{reference.id}}" class="{% if hide %}hidden{% endif %} reference">
 	<fieldset class="nested">
 		
-		{% if reference.id > 3 %}
+		{% if reference.id > 3 and not reference.requestHasBeenSent %}
 			{{ section.removeSubSectionButton('reference-#' ~ reference.id ) }}
 		{% endif %}
 
@@ -104,8 +104,7 @@
 						'options':reference.options_country,
 					} ) }}
 			
-
-			
+		
 			<div style="clear:both"></div>
 		</fieldset><!-- end fieldset "reference1_addr" -->
 		<div id='sendEmailButton{{reference.id}}'>

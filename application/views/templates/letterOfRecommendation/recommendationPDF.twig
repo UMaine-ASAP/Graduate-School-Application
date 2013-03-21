@@ -1,75 +1,76 @@
-{% extends "pageLayout.twig" %}
-
-{% block title %}UMaine Graduate School Recommendation{% endblock %}
-
-{% block head %}
-
-<link rel="stylesheet" type="text/css" href="{{CSSPATH}}/recommendationPDF.css" />
-
-{% endblock %}
-
-{% block content %}
+{% import "pdf.macro.twig" as pdf %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<style type="text/css">
+		{% include 'letterOfRecommendation/recommendationPDF.css' %}
+	</style>
+</head>
+<body>
 
 <h1>UMAINE GRADUATE SCHOOL RECOMMENDATION</h1>
+<p class="right">
+	<strong>{{ pdf.fieldValuePair('Date Received:', recommendation.dateCreated) }}</strong>
+</p>
 
-<p class="right"><strong><span class="field">Date Received:</span> <span class="value">{{ recommendation.dateCreated }}</span></strong></p>
 <h2 class='section'>Applicant Information</h2>
 <div class="fieldset">
 	<table>
 		<tr>
-			<td><span class="field">Name:</span> <span class="value">{{ application.fullName }}</span></td>
-			<td><span class="field">Date of Birth:</span> <span class="value">{{ application.dateOfBirth }}</span></td>
+			{{ pdf.fieldValuePairTD('Name:', application.fullName) }}
+			{{ pdf.fieldValuePairTD('Date of Birth:', application.personal.birth_date) }}
 		</tr>
 		<tr>
-			<td><span class="field">Maiden/Former Name:</span> <span class="value">{{application.alternativeName }}</span></td>
-			<td><span class="field">Email Address:</span> <span class="value email">{{application.email }}</span></td>
-		</tr>
+			{{ pdf.fieldValuePairTD('Maiden/Former Name:', application.personal.alternativeName) }}
+			<td><span class="field">Email Address:</span> <span class="value email">{{ application.personal.email }}</span></td>			
 	</table>
 </div>
 
-<h4><b>This applicant {{ application.waiveReferenceViewingRights }} waived their rights to view this recommendation.</b></h4>
+<h4><b>This applicant {{ application.pretty_waiveReferenceViewingRights }} waived their rights to view this recommendation.</b></h4>
 
 <h2 class='section'>Recommender Information</h2>
 <div class="fieldset">
 	<table>
 		<tr>
-			<td><span class="field">Name:</span> <span class="value">{{ recommendation.fullName }}</span></td>
-			<td><span class="field">Title:</span> <span class="value">{{recommendation.title}}</span></td>
+			{{ pdf.fieldValuePairTD('Name:', recommendation.fullName) }}
+			{{ pdf.fieldValuePairTD('Title:', recommendation.title) }}
 		</tr>
 		<tr>
-			<td><span class="field">Employer:</span> <span class="value">{{recommendation.employer}}</span></td>
-			<td><span class="field">Email Address:</span> <span class="value email">{{RECOMMENDER_EMAIL}}</span></td>
+			{{ pdf.fieldValuePairTD('Employer:', recommendation.employer) }}
+			<td><span class="field">Email Address:</span> <span class="value email">{{ recommendation.email }}</span></td>
 		</tr>
 		<tr>
-			<td><span class="field">Phone Number:</span> <span class="value">{{RECOMMENDER_PHONE}}</span></td>
+			{{ pdf.fieldValuePairTD('Phone Number:', recommendation.phone) }}
 			<td></td>
 		</tr>
 	</table>
 </div>
-<!--
-		<h4><b>This recommender allows this recommendation to be used for any program
-		the applicant may apply to.</b></h4>
--->
+
 <h2 class='section'>Summary Evaluation Ratings (1 = lowest, 7 = highest)</h2>
 
-<p><span class="field">Academic Ability and Potential for Graduate Work:</span> <strong><span class="value">{{RECOMMENDATION_ABILITY}}</span></strong></p>
+<p><span class="field">Academic Ability and Potential for Graduate Work:</span> <strong><span class="value">{{ recommendation.pretty_academicAbility }}</span></strong></p>
 
-<p><span class="field">Motivation for the Proposed Program of Study:</span> <strong><span class="value">{{RECOMMENDATION_MOTIVATION}}</span></strong></p>
+<p><span class="field">Motivation for the Proposed Program of Study:</span> <strong><span class="value">{{ recommendation.pretty_motivation }}</span></strong></p>
 
-  <p>&nbsp;</p>
-<p><span class="field">This recommendation may be used for:</span> <span class="value">{{RECOMMENDATION_REUSE}}</span></p>
-<p><span class="value" style='margin-left: 10px;'>{{RECOMMENDATION_REUSE_PROGRAMS}}</span></p>
+<p>&nbsp;</p>
+<p>
+	{{ pdf.fieldValuePair('This recommendation may be used for:', recommendation.pretty_programReuse) }}
+</p>
+{% if recommendation.programReuse == 1 %}
+	<p><span class="value" style='margin-left: 10px;'>{{ recommendation.reusablePrograms }}</span></p>
+{% endif %}
+<p>
+	{{ pdf.fieldValuePair('This recommendation may be used for:', recommendation.pretty_lifetime) }}
+</p>
 
-<p><span class="field">This recommendation may be used for:</span> <span class="value">{{RECOMMENDATION_LIFESPAN}}</span></p>
-
-  <p>&nbsp;</p>	
+<p>&nbsp;</p>	
 <p>Recommendation:</p>
 
-<p><b><pre>{{RECOMMENDATION_TEXT}}</pre></b></p>
+<p><b><pre>{{ recommendation.recommendation }}</pre></b></p>
 
 
-{% endblock %}
-
+</body>
+</html>
 
 
 				

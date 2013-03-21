@@ -48,11 +48,25 @@ class ApplicationController
 
 			$application->hashReference = $hashCode;
 
-			// Build application type specific sub-sections
-
 			// Create common sub-sections
 			Database::iquery("INSERT INTO APPLICATION_Primary(applicationId) VALUES (%d)", $applicationId);
+			$personal = $application->personal;
 
+			// Create transaction
+			Database::iquery("INSERT INTO APPLICATION_Transaction(transactionId) VALUES (NULL)");
+
+			$transactionId = Database::getFirst("SELECT transactionId FROM APPLICATION_Transaction ORDER BY transactionId DESC LIMIT 1");
+			$application->transactionId = $transactionId['transactionId'];
+
+			$transaction = $application->transaction;
+			$transaction->amount = '65';
+			$transaction->save();
+
+			// Set first and last name
+			$personal->givenName  = $applicant->givenName;
+			$personal->familyName = $applicant->familyName;
+
+			// Build application type specific sub-sections
 			switch( $application->applicationTypeId )
 			{
 				case ApplicationType::DEGREE:
@@ -70,7 +84,6 @@ class ApplicationController
 					Reference::createNew();
 
 					/*** Update Personal contact info ***/
-					$personal = $application->personal;
 
 					// mailing contact info
 					Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);
@@ -119,6 +132,7 @@ class ApplicationController
 
 			}
 
+			$personal->save();
 			$application->save(); // save any changes to application
 			return $application;
 
@@ -178,6 +192,10 @@ class ApplicationController
 		Database::iquery("DELETE FROM APPLICATION_DisciplinaryViolation where applicationId = %d", $applicationId);
 		Database::iquery("DELETE FROM APPLICATION_GRE where applicationId = %d", $applicationId);
 		Database::iquery("DELETE FROM APPLICATION_Reference where applicationId = %d", $applicationId);
+
+		// Keep transaction information?
+		Database::iquery("DELETE FROM APPLICATION_Transaction where transactionId = %d", $application->transactionId);
+
 	}
 
 
@@ -311,12 +329,6 @@ class ApplicationController
 	}
 
 
-
-	/* ================================ */
-	/* = Internal Functions
-	/* ================================ */
-
-
 	/**
 	 * Get Application
 	 * 
@@ -324,9 +336,9 @@ class ApplicationController
 	 * 
 	 * @param    int    applicationId    The id of the application to get
 	 *
-	 * @return    Object    The new application, null if applicant does not exist
+	 * @return    Object    The new application, null if application does not exist
 	 */
-	private static function getApplication($applicationId)
+	public static function getApplication($applicationId)
 	{
      	if( ! is_integer($applicationId) ) { ERROR::fatal("Passed in application identifier is not an integer."); }
 
@@ -345,6 +357,35 @@ class ApplicationController
 
        	return Model::factory('Application')->whereEqual('applicationId', $applicationId)->first();
 	}
+
+
+	/**
+	 * Get Application by id
+	 * 
+	 * Get the application object specified by the applicationId only by id
+	 * 
+	 * @param    int    applicationId    The id of the application to get
+	 *
+	 * @return    Object    The new application, null if application does not exist
+	 */
+	public static function getApplicationById($applicationId)
+	{
+     	if( ! is_integer($applicationId) ) { ERROR::fatal("Passed in application identifier is not an integer."); }
+
+
+		// make sure the user owns the application
+		$applicationDB = Database::getFirst("SELECT * FROM `Application` WHERE applicationId = %d", $applicationId);
+		if ($applicationDB == array()) {
+			return null;
+		}
+
+       	return Model::factory('Application')->whereEqual('applicationId', $applicationId)->first();
+	}
+
+
+	/* ================================ */
+	/* = Internal Functions
+	/* ================================ */
 
 
 }

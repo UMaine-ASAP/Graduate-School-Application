@@ -10,7 +10,7 @@ class Transaction extends ApplicationComponent
 	protected static $primaryKeys = array('transactionId');
 
 
-	protected static $availableProperties = array('appliedProgram', 'pretty_isSeekingAssistantship', 'pretty_isApplyingNebhe', 'pretty_academic_load');
+	protected static $availableProperties = array('pretty_isPayingOnline');
 
 	/**
 	 * Magic Getter

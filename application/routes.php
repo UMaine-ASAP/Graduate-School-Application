@@ -12,18 +12,21 @@ if( !isset($_SESSION) )
 
 // Data
 require_once __DIR__ . "/configuration.php";
+
 // Models
 require_once __DIR__ . "/models/Model.php";
 require_once __DIR__ . '/models/Applicant.php';
 require_once __DIR__ . '/models/Application.php';
 require_once __DIR__ . '/models/ApplicationFieldReference.php';
+require_once __DIR__ . '/models/Recommendation.php';
+
 
 // Controllers
 require_once __DIR__ . '/controllers/ApplicationController.php';
 require_once __DIR__ . '/controllers/ApplicantController.php';
+require_once __DIR__ . '/controllers/RecommendationController.php';
 
 // Libraries
-
 require_once __DIR__ . '/libraries/Hash.php';
 require_once __DIR__ . '/libraries/email.php';
 require_once __DIR__ . '/libraries/inputSanitation.php';
@@ -391,7 +394,7 @@ $app->get('/logout', function() use ($app)
  */
 $app->post('/account/register', function() use ($app)
 {
-	$firstName        = $app->request()->post('create_firstName');
+	$firstName        = $app->request()->post('create_givenName');
 	$lastName         = $app->request()->post('create_lastName');
 	$email            = $app->request()->post('create_email');
 	$email_confirm    = $app->request()->post('create_email_confirm');
@@ -400,18 +403,19 @@ $app->post('/account/register', function() use ($app)
 
 	// Validate Data
 	$error_messages = new ErrorTracker();
+	if( empty($firstName) or empty($lastName)) 			 { $error_messages->add('You did not enter a first or last name'); }
 	if( empty($email) or $email == 'e-mail address') 		 { $error_messages->add('You did not enter an email address'); }
 	if( empty($email_confirm) ) 	 					 { $error_messages->add('You did not confirm your email address'); }
 	if( empty($password) ) 		 					 { $error_messages->add('You did not enter a password'); }
 	if( empty($password_confirm) ) 					 { $error_messages->add('You did not confirm your password choice'); }
 	if( $email != $email_confirm ) 					 { $error_messages->add('The email address you provided did not match'); }
 	if( $password != $password_confirm ) 				 { $error_messages->add('The passwords you provided did not match'); }
-	if( ApplicantController::accountAlreadyExists($email) ) { $error_messages->add("A user with that name already exists. If you forgot your password, you can recover it <a href='" . $GLOBALS['WEBROOT'] . "/account/forgot-password'>here</a>."); }
+	if( ApplicantController::accountExists($email) ) 	{ $error_messages->add("A user with that name already exists. If you forgot your password, you can recover it <a href='" . $GLOBALS['WEBROOT'] . "/account/forgot-password'>here</a>."); }
 
 	// Create new Application
 	if( !$error_messages->hasErrors() ) 
 	{
-		ApplicantController::createAccount($email, $password);
+		ApplicantController::createAccount($email, $password, $firstName, $lastName);
 
 		$app->flash('account_created_success', 'Account created. Please check your email for a link to confirm your email address.' );
 		redirect('/login');
@@ -428,97 +432,43 @@ $app->post('/account/register', function() use ($app)
  * 
  * Shows the forgot password page.
  */
-$app->get('/account/forgot-password', function() use ($app)
+$app->get('/account/forgot-password', function()
 {  
 	ApplicantController::logOutActiveApplicant();
 
-	$email = $app->request()->get('email');
-	$code  = $app->request()->get('code');	
-
-	if ($email != '' && $code != '') {
-		$email = $_GET['email'];
-		$code  = $_GET['code'];
-
-		// connect to the database and make sure the email and code match
-		$check_user = Database::getFirst("SELECT `login_email` FROM `Applicant` WHERE  `login_email` = '%s' AND `forgot_password_code` = '%s'", $email, $code);
-
-		if ($check_user['login_email'] != "") {
-			return render('account/forgotten-resetPassword.twig');
-		} else {
-			return render('account/forgotten-error.twig');
-		}
-
-	} else {
-		return render('account/forgotten-password.twig');
-	}
+	return render('/account/forgotten-password.twig');
 });
 
 
 /**
- * Attempt to submit Forgot Password
- * 
- * Shows the forgot password page.
+ * Attempt to submit a Forgot Password request
  */
-$app->post('/account/forgot-password', function()
+$app->post('/account/forgot-password', function() use ($app)
 {
-if ($_POST) {
-	if (isset($_POST['email']) && !isset($_POST['new_password'])) {
-		$email = $_POST['email'];
-		
-		// check to see if the user already has a password reset request in progress
-		$user = Database::getFirst("SELECT `forgot_password_code` FROM `applicants` WHERE `login_email` = '%s'", $email);
+	$loginEmail = $app->request()->post('email');
 
-		if ($user != '') {
-			$code = $user['forgot_password_code'];
-			if ($code == '') {
-				$code = rand(0, 999999);
-				$code .= $email;
-				$code = sha1($code);
-				
-				// add the new hash to the database
-				Database::iquery("UPDATE `applicants` SET `forgot_password_code` = '%s' WHERE `login_email` = '%s'", $code, $email);
+	// check to see if the user already has a password reset request in progress
+	if( ApplicantController::accountExists($loginEmail) )
+	{
+		if( ApplicantController::isForgottenPasswordPending($loginEmail) )
+		{
+			// resend the email
+			ApplicantController::sendForgotPasswordEmail($loginEmail);
 
-				ApplicantController::sendForgotPasswordEmail($email, $code);
+			// tell the user there is a request pending 
+			return render('/account/forgotten-requestPending.twig');
+		} else {
 
+			ApplicantController::createForgotPasswordCode($loginEmail);
 
-				// tell the user about it
-				render('account/forgotten-emailSent.twig');
-			}
-			else {
-				// resend the email
-				ApplicantController::sendForgotPasswordEmail($email, $code);
+			ApplicantController::sendForgotPasswordEmail($loginEmail);
 
-				// tell the user there is a request pending 
-				render('account/forgotten-requestPending.twig');
-			}
-		} // user is invalid
-		else {
-			render('account/forgotten-emailNotFound.twig');
+			// tell the user about it
+			return render('/account/forgotten-emailSent.twig');
 		}
-	} //isset($_POST['email']) && !isset($_POST['new_password'])
-	else if (isset($_POST['new_password']) && isset($_POST['new_password_confirm']) && isset($_POST['email']) && isset($_POST['code'])) {
-		// check to see if the email and code match in the database
-		$email      = $_POST['email'];
-		$code       = $_POST['code'];
-
-		// connect to the database and make sure the email and code match a user
-		$check_user = Database::getFirst("SELECT `login_email` FROM `applicants` WHERE  `login_email` = '%s' AND `forgot_password_code` = '%s'", $email, $code);
-
-		if ($check_user['login_email'] != "" && $code != "") {
-			// the request is valid. Hash the new password and add it to the database, and clear the old hash
-			$password = sha1($_POST['new_password']);
-
-			Database::iquery("UPDATE `applicants` SET `password` = '%s', `forgot_password_code` = '' WHERE `login_email` = '%s' LIMIT 1", $password, $email);
-			
-			// tell the user the password was successfully reset 
-			render('account/forgotten-passwordResetSuccessful.twig');
-		}
-		else {
-			render('account/forgotten-error.twig');
-		}
-	} //isset($_POST['new_password']) && isset($_POST['new_password_confirm']) && isset($_POST['email']) && isset($_POST['code'])
-} //$_POST
-
+	} else {
+		return render('/account/forgotten-emailNotFound.twig');
+	}
 });
 
 
@@ -526,10 +476,21 @@ if ($_POST) {
  * Reset Password Form
  * 
  * The form for submitting a new password. This page should only be accessed by following the url sent to the applicant when filling out the forgot-password form. See /account/forgot-password for more details.
+ * Use get instead of post because the user can only send data via a url
  */
-$app->get('/account/reset-password', function() 
+$app->get('/account/reset-password', function() use ($app)
 {
-	render('account/forgotten_resetPasswordForm.twig');
+	// Process get request variables
+	$email = $app->request()->get('email');
+	$code  = $app->request()->get('code');	
+
+	if ($email != '' && $code != '' && applicantController::isValidForgottenEmailAndCode($email, $code))
+	{
+		return render('/account/forgotten-resetPasswordForm.twig');
+	}	
+
+	// something bad happened
+	return render('/account/forgotten-error.twig');
 });
 
 
@@ -538,9 +499,22 @@ $app->get('/account/reset-password', function()
  * 
  * Processes a reset password request
  */
-$app->post('/account/reset-password', function() 
+$app->post('/account/reset-password', function() use ($app)
 {
-	render('account/reset_password.twig');
+	// Note that these are coming from the url via get!
+	$email = $app->request()->get('email');
+	$code  = $app->request()->get('code');
+
+	// Double check the email and code to be save
+	$newPassword = $app->request()->post('newPassword');
+
+	if ($email != '' && $code != '' && applicantController::isValidForgottenEmailAndCode($email, $code))
+	{
+		applicantController::updatePasswordForUserWithEmail($email, $newPassword);
+		
+		return render('/account/forgotten-passwordResetSuccessful.twig');
+	}
+	return render('/account/forgotten-error.twig');	
 });
 
 
@@ -657,14 +631,18 @@ $app->post('/application/saveField', $authenticatedScript, function() use ($app)
 
 	$isValidValue = InputSanitation::isValid($fieldReference->fieldPath, $value, $errorMessage);
 
-	// check for social security number - we need to encrypt before storing in DB
-	if( $fieldPath == 'personal-socialSecurityNumber')
-	{
-		throw new Exception("social security number needs to be encrypted");
-	}
-
 	if($isValidValue)
 	{
+		// save value
+
+		// check for social security number - we need to encrypt before storing in DB
+		if( $fieldPath == 'personal-socialSecurityNumber')
+		{
+			$application = ApplicationController::getActiveApplication();
+			Database::iquery("UPDATE APPLICATION_Primary SET socialSecurityNumber=AES_ENCRYPT('%s', '%s') WHERE applicationId=%d", $value, $GLOBALS['key'], $application->id);
+			exit(0);
+		}
+
 		$fieldReference->save($value);
 	} else {
 		echo $errorMessage;
@@ -788,6 +766,13 @@ $app->post('/application/delete-repeatable', $authenticatedScript, function() us
 			if($id <= 3) return;
 			
 			$object = Reference::getWithId($id);
+
+			// don't allow deletion if email has been sent
+			if($object->requestHasBeenSent)
+			{
+				return;
+			}				
+
 			if( $object != null )
 			{
 				$object->delete();
@@ -1105,59 +1090,49 @@ $app->get('/payment/failed', function()
  * 
  * Indicates payment was successful. Data about payment details is sent to application for records.
  */
-$app->post('/payment/callback-update', function()
+$app->post('/payment/callback-update', function() use ($app)
 {
-     $db = Database::getInstance();
-	
 	// Parse data from Touchnet
-	$key 	= $app->request('posting_key');
-	$status   = $app->request('pmt_status');
-	$trans_id = $app->request('EXT_TRANS_ID');
+	$key                   = $app->request()->params('posting_key');
+	$status                = $app->request()->params('pmt_status');
+	$externalTransactionId = $app->request()->params('EXT_TRANS_ID');
+	$isPaymentTypeCredit   = $app->request()->params('card_type') != ''; // If (card_type) exists then method was credit, otherwise was ACH check
 	
-	$identifier_array = explode("*", $trans_id);
-	
-	$upaysiteID  = $identifier_array[0];
-	$applicantID = $identifier_array[1];
-	$transID 	   = $identifier_array[2];
-	
-	$result = Database::getFirst('SELECT application_fee_transaction_number FROM Application WHERE applicant_id=%d', $applicantId);
-	$stored_transaction_id = $result['application_fee_transaction_number'];
-	
-	//mail("timothy.d.baker@umit.maine.edu", "SYSTEM-GRAD-APPLICATION: Touchnet payment made", "payment data:\n " . json_encode($_POST));
+	$identifierArray = explode("*", $externalTransactionId);
+	$applicationId = $identifierArray[1];
+
+	$application = ApplicationController::getApplicationById($applicationId);
 	
 	// Process successful payments
 	if ($status == "success" 
 		&& $key == $GLOBALS['touchnet_posting_key']
-		&& $stored_transaction_id == $trans_id
+		&& $externalTransactionId == $application->externalTransactionId
 		) 
 	{
-	
-		// Set Payment method
-		$payment_method = "";
-	
-		if( isset( $_REQUEST['card_type'] )) {
-			$payment_method = "CREDIT";
+		// Payment was succssful
+		$transaction = $application->transaction;
+
+		// Set Payment method. 
+		if( $isPaymentTypeCredit ) {
+			$transaction->paymentMethod = 'CREDIT';
 		} else {
-			$payment_method = "ACH";	
+			$transaction->paymentMethod = 'ACH';
 		}
 	
 		// Update Database 
-		// @TODO: do this using the model!
-		Database::iquery("UPDATE applicants SET application_fee_payment_status='Y' WHERE applicants.applicant_id=%d", $applicantID);
-		Database::iquery("UPDATE applicants SET application_fee_transaction_date='%s' WHERE applicants.applicant_id=%d", date("Y-m-d"), $applicantID);
-		Database::iquery("UPDATE applicants SET application_fee_transaction_type='Online' WHERE applicants.applicant_id=%d", $applicantID);
-	
-		Database::iquery("UPDATE applicants SET application_fee_transaction_payment_method='%s' WHERE applicants.applicant_id=%d", $payment_method, $applicantID);
-	
+		$transaction->isPayingOnline = 1;
+		$transaction->isCompleted    = 1;
+		$transaction->completedDate  = date("Y-m-d");
+
+		$transaction->save();
 	} else {
-		$error_message  = "A touchnet payment was made unsucessfully ";
-		$error_message .= " *** Payment Status: $status ";
-		$error_message .= ($key != $GLOBALS['touchnet_posting_key']) ? " *** Passed in key '$key' does not match actual key" : '';
-		$error_message .= ($stored_transaction_id == $trans_id) ? " *** Passed in transaction id '$trans_id' does not match stored transaction id" : "";
+		// Error occured
+		$error_message  = "A touchnet payment was made unsucessfully. Payment Status: $status ";
+		$error_message .= ($key != $GLOBALS['touchnet_posting_key']) ? " Passed in key '$key' does not match actual key" : '';
+		$error_message .= ($stored_transaction_id == $trans_id) ? " Passed in transaction id '$trans_id' does not match stored transaction id" : "";
 		error_log($error_message);
 	}
-	
-	$db->close();
+
 });
 
 
@@ -1182,7 +1157,7 @@ function checkRecommendationURL($applicationHashReference, $referenceId)
 	$application = ApplicationController::getApplicationFromHash($applicationHashReference);
 
 	// make sure application is valid
-	if ( is_null($application) ) {
+	if ( is_null($application)) {
 		render('basicPage.twig', array('title'=>'', 'content'=>'URL does not exist. please check the url or contact <a href="mailto:graduate@maine.edu">graduate@maine.edu</a>'));
 		exit(0);
 	}
@@ -1207,8 +1182,10 @@ $app->get('/recommendation/:applicationHashReference/:referenceId', function($ap
 	$application = ApplicationController::getApplicationFromHash($applicationHashReference);
 	$reference   = $application->getReferenceWithId($referenceId);
 
-	print_r($application->personal->fullName);
-	render('letterOfRecommendation/recommendationForm.twig', array('application'=>$application, 'reference'=>$reference));
+	// create a blank recommendation for accessing options
+	$recommendation = new Recommendation();
+
+	render('letterOfRecommendation/recommendationForm.twig', array('application'=>$application, 'reference'=>$reference, 'recommendation'=>$recommendation));
 
 });
 
@@ -1217,25 +1194,27 @@ $app->get('/recommendation/:applicationHashReference/:referenceId', function($ap
 /**
  * Process recommendation
  */
-$app->post('/recommendation/:applicationHashReference/:referenceId', function($applicationHashReference, $referenceId)
+$app->post('/recommendation/:applicationHashReference/:referenceId', function($applicationHashReference, $referenceId) use ($app)
 {
 	// Ensure url is valid, displays error page otherwise
 	checkRecommendationURL($applicationHashReference, $referenceId);
 
 	$application = ApplicationController::getApplicationFromHash($applicationHashReference);
 
-	// validate (we're not using client-side validation on this one because 
-	// they might not have javascript)
-	RecommendationController::validateRecommendation( $app->request()->post() );
+
+	// validate (we're not using client-side validation on this one because they might not have javascript)
+	$errorMessages = RecommendationController::validateRecommendation( $app->request()->post() );
+
+	if ($errorMessages != '') {
+		flash('errors', $errorMessages);
+		redirect("/recommendation/$applicaitonHashReference/$referenceId");
+	}
 
 	// Save data
 	$data = $app->request()->post();
 
-	$recommendation = Recommendation::createNew();
+	$recommendation = Recommendation::create((int)$application->id, (int)$referenceId);
 
-	$recommendation->recommendationId = $data['recommendationId'];
-	$recommendation->referenceId      = $data['referenceId'];
-	$recommendation->applicationId    = $data['applicationId'];
 	$recommendation->firstName        = $data['firstName'];
 	$recommendation->lastName         = $data['lastName'];
 	$recommendation->title            = $data['title'];
@@ -1251,11 +1230,12 @@ $app->post('/recommendation/:applicationHashReference/:referenceId', function($a
 
 	$recommendation->save();	
 
-	// build pdfs
+	// build pdf
 	$recommendation->buildPDF();
 
 	// Thank reference
-	$recommendation->sendThankYouEmail($application);
+
+	$recommendation->sendThankYouEmail();
 
 	redirect('/recommendation/thank-you');
 
@@ -1267,11 +1247,7 @@ $app->post('/recommendation/:applicationHashReference/:referenceId', function($a
  */
 $app->get('/recommendation/thank-you', function()
 {
-	render(
-		'/letter_of_recommendation/thank_you.twig', 
-		array('GRADHOMEPAGE' => $GLOBALS['GRADUATE_HOMEPAGE']
-			)
-		);	
+	render('letterOfRecommendation/thankYou.twig');	
 });
 
 

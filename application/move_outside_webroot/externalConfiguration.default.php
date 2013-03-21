@@ -58,6 +58,7 @@ $essays_path          = $_applicant_file_path . "/essays/";            // Where 
 $resumes_path         = $_applicant_file_path . "/essays/";            // Where resumés are stored on submit
 $completed_pdfs_path  = $_applicant_file_path . "/completed_pdfs/";    // Where pdfs are stored on submit
 $recommendations_path = $_applicant_file_path . "/recommendations/";   // Where recommendations are stored, after the recommender fills out the online form and submits
+$tmp_path             = $_applicant_file_path . "tmp/";
 
 // Templates
 $email_templates = 'views/templates/emails/';

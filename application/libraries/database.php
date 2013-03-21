@@ -1,79 +1,11 @@
 <?php
-/************************************************************************
- Class: DATABASE
- Purpose: To allow access to a MySQL database
-************************************************************************/
 
-include_once __DIR__ . "/../configuration.php";
-include_once __DIR__ . "/Error.php";
+require_once __DIR__ . "/../configuration.php";
+require_once __DIR__ . "/Error.php";
 
-class ActiveRecord
-{
-	private $action;
-	private $table;
-	private $selection;
-	private $where;
-
-
-	function __construct()
-	{
-		$selection = array();
-		$where = array();
-	}
-
-	public function get()
-	{
-
-	}
-
-	public function first()
-	{
-
-	}
-
-	public function select($name, $alias = '')
-	{
-		$this->selection[] = array('name' => $name, 'alias' => $alias);
-	}
-
-	private function buildQueryString()
-	{
-		$replacements = array();
-
-		switch($action)
-		{
-			case 'select':
-				$query = 'SELECT ';
-
-				// build selection options
-				if( count($selection) == 0 ) 
-				{
-					$query .= ' * ';
-				} else {
-					foreach( $selection as $item)
-					{
-						$query .= ' %s ';
-						$replacements[] = $item['name'];
-						if($item['alias'] != '')
-						{
-							$query .= ' as %s';
-							$replacements[] = $item['alias'];
-						}
-					}
-				}
-
-				// Table
-
-			break;
-			default:
-			Error::fatal("Action: $action not found");
-		}
-	}
-
-
-}
-
-
+/**
+ * Manages a connection and queries to a MySQL database
+ */
 class Database
 {
 	private static $database_name;
@@ -84,8 +16,13 @@ class Database
 	
 	private static $database_instance;
 
-	// Used to create database object
-	private static function getInstance() 
+
+	/**
+	 * Get current database Instance
+	 * 
+	 * @return database_instance
+	 */
+	private static function getInstance()
 	{ 
     		if (!self::$database_instance) 
     		{ 
@@ -93,20 +30,39 @@ class Database
 			self::$database_instance->connect();
 		}
 
-    	return self::$database_instance; 
+    		return self::$database_instance; 
 	}  
 
 
 	/**
-	 * Allow user to explicitly set database to connect to
+	 * Connect to database
+	 * 
+	 * Note: query and iquery automatically make a connection to the database
+	 * 
+	 * @param    string    (optional) Database username
+	 * @param    string    (optional) Database password
+	 * @param    string    (optional) Database host
+	 * @param    string    (optional) Database name
+	 * 
+	 * @return void
 	 */
 	public static function connect($user=null, $pass=null, $host=null, $name=null)
 	{
 		self::createConnection($user, $pass, $host, $name);
 	}
 
+
 	/**
-	 * Internal processing
+	 * Creates a database connection
+	 * 
+	 * Note: query and iquery automatically make a connection to the database
+	 * 
+	 * @param    string    (optional) Database username
+	 * @param    string    (optional) Database password
+	 * @param    string    (optional) Database host
+	 * @param    string    (optional) Database name
+	 * 
+	 * @return void
 	 */
 	private static function createConnection($user=null, $pass=null, $host=null, $name=null)
 	{
@@ -133,10 +89,26 @@ class Database
 	}
 	
 
+	/**
+	 * Check if databaes connection exists
+	 * 
+	 * @return    bool    True if the database connection exists, otherwise false
+	 */
 	public static function isConnected() {
-		return self::$database_link == TRUE; //return boolean not a reference
+		return self::$database_link == TRUE;
 	}
 
+
+	/**
+	 * Performs a selection query and returns the first result
+	 * 
+	 * @param     string    SQL query string with formatted refer
+	 * @param     string    Input 1
+	 * @param     string    Input 2
+	 * @param     ......
+	 * 
+	 * @return    void
+	 */
 	public static function getFirst()
 	{
 		$result = call_user_func_array('self::query', func_get_args());
@@ -149,6 +121,25 @@ class Database
 		}
 	}
 
+
+	/**
+	 * Performs a selection query
+	 * 
+	 * To use this function, pass in a formatted query string and reference any input values
+	 * e.g. Database::iquery('INSERT INTO %s(id) VALUES(%d)', 'tableName', 1); 
+	 * Possible format values:
+	 * 		%d = decimal
+	 * 		%s = string
+	 * 		%i = ???
+	 * 		%b = ???
+	 * 
+	 * @param     string    SQL query string with formatted refer
+	 * @param     string    Input 1
+	 * @param     string    Input 2
+	 * @param     ......
+	 * 
+	 * @return    void
+	 **/
 	public static function query(/*$query, [[, $args [, $... ]]*/)
 	{
 		self::createConnection();
@@ -264,6 +255,24 @@ class Database
 	}
 
 
+	/**
+	 * Performs an update, insertion, deletion, or other cammand-based query
+	 * 
+	 * To use this function, pass in a formatted query string and reference any input values
+	 * e.g. Database::iquery('INSERT INTO %s(id) VALUES(%d)', 'tableName', 1); 
+	 * Possible format values:
+	 * 		%d = decimal
+	 * 		%s = string
+	 * 		%i = ???
+	 * 		%b = ???
+	 * 
+	 * @param     string    SQL query string with formatted refer
+	 * @param     string    Input 1
+	 * @param     string    Input 2
+	 * @param     ......
+	 * 
+	 * @return    void
+	 **/
 	public static function iquery(/*$query, [[, $args [, $... ]]*/)
 	{
 		self::createConnection();
@@ -326,9 +335,14 @@ class Database
 		}
 	}
 	
-	
 
-
+	/**
+	 * Escapes an object by removing sql injection risk
+	 * 
+	 * @param     object    Object to escape
+	 * 
+	 * @return    object    Escaped object
+	 **/
 	public static function escapeArgs($object)
 	{
 		if (is_array($object))
@@ -342,6 +356,14 @@ class Database
   		return $object;
 	}
 
+
+	/**
+	 * Escapes an object by removing sql injection risk
+	 * 
+	 * @param     string    String to escape
+	 * 
+	 * @return    string    Escaped string
+	 **/
 	public static function escapeString($str)
 	{
 		if (get_magic_quotes_gpc())

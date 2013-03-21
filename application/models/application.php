@@ -26,6 +26,7 @@ require_once __DIR__ . "/applicationComponents/Personal.php";
 require_once __DIR__ . "/applicationComponents/Reference.php";
 require_once __DIR__ . "/applicationComponents/ContactInformation.php";
 
+
 /**
  * Application Type
  * 
@@ -37,6 +38,7 @@ class ApplicationType
 	const NONDEGREE   = 2;
 	const CERTIFICATE = 3;
 }
+
 
 /**
  * Application Sections
@@ -61,6 +63,10 @@ class ApplicationSection
 		);
 }
 
+
+/**
+ * Manages entire application data and business logic
+ */
 class Application extends Model
 {
 	protected static $tableName   = 'Application';
@@ -131,8 +137,7 @@ class Application extends Model
 		 		}
 		 	break;
 		 	case 'fullName':
-		 		$personal = $this->personal;
-				return $personal->givenName . " " . $personal->middleName . " " . $personal->familyName;
+				return $this->personal->fullName;
 			break;
 			case 'startInfo':
 				return $this->startSemester . ' ' . $this->startYear;
@@ -141,7 +146,7 @@ class Application extends Model
 			 	return $this->birth_city . ' ' . $this->pretty_birth_state . ' ' . $this->birth_country;
 			break;
 		 	case 'pretty_waiveReferenceViewingRights':
-		 		return ($this->waiveReferenceViewingRights == 1) ? "Yes" : "No";
+		 		return ($this->waiveReferenceViewingRights == 1) ? "has" : "has not";
 		 	break;
 			case 'pretty_birth_state':
 		 		// International choice should return blank
@@ -176,6 +181,36 @@ class Application extends Model
 		 			return 'In Progress';
 		 		}
 		 	break;
+		 	case 'submissionFolderName':
+				$personal           = $this->personal;		 	
+				$id                 = $this->id;
+				$filteredFamilyName = InputSanitation::replaceNonAlphanumeric( $personal->familyName );
+				$filteredGivenName  = InputSanitation::replaceNonAlphanumeric( $personal->givenName );
+
+		 		return "$id\_$filteredFamilyName\_$filteredGivenName\_/";
+		 	break;
+
+		 	case 'fileNamePDF':
+				$personal           = $this->personal;
+				$id                 = $this->id;
+				$filteredFamilyName = InputSanitation::replaceNonAlphanumeric( $personal->familyName );
+				$filteredGivenName  = InputSanitation::replaceNonAlphanumeric( $personal->givenName );
+		 
+		 		return "UMGradApp_$id\_$filteredFamilyName\_$filteredGivenName.pdf";
+		 	break;
+		 	case 'displayNamePDF':
+				$filteredFamilyName = InputSanitation::replaceNonAlphanumeric( $personal->familyName );
+				$filteredGivenName  = InputSanitation::replaceNonAlphanumeric( $personal->givenName );
+
+				return "UMGradApp_$filteredGivenName\_$filteredFamilyName.pdf";
+
+		 	break;
+		 	case 'fileNameResume':
+		 		return $this->id . "_resume";
+		 	break;
+		 	case 'fileNameEssay':
+		 		return $this->id . "_essay";
+		 	break;
 		 }
 
 		return parent::__get($name);
@@ -185,7 +220,7 @@ class Application extends Model
 	// override default model behavior -> we need to check for applicant id too!!!
 	public function delete()
 	{
-		Database::iquery("DELETE FROM Application WHERE applicantId=%d AND applicationId=%d", $this->applicantId, $this->id);
+		Database::iquery("DELETE FROM Application WHERE applicantId=%d AND applicationId=%d LIMIT 1", $this->applicantId, $this->id);
 	}
 
 	// override default model behavior -> we need to make sure we own the application!!!
@@ -305,6 +340,8 @@ class Application extends Model
 	 * 
 	 * sends email to a single reference provided that reference is an online reference and an email hasn't already been sent
 	 * 
+	 * @param    int    reference Id
+	 * 
 	 * @return    string    Empty string if successful, otherwise error message
 	 */
 	public function emailReference($referenceId)
@@ -338,15 +375,15 @@ class Application extends Model
 	/**
 	 * Get Reference with Id
 	 * 
-	 * @param
+	 * @param    int    reference id
 	 * 
 	 * @return     object     The associated reference id or null if not found
 	 */
-	public function getReferenceWithId($id)
+	public function getReferenceWithId($referenceId)
 	{
 		$result = null;
 		foreach ($this->references as $reference) {
-			if($reference->id == $id)
+			if($reference->id == $referenceId)
 			{
 				$result = $reference;
 				break;
@@ -442,18 +479,26 @@ class Application extends Model
 		return $errors;
 	}
 
+
+	/**
+	 * Submit an application with or without payment now
+	 * 
+	 * @param    bool    Whether payment is happening now or not
+	 * 
+	 * @return    void
+	 */
 	public function submitWithPayment($paymentIsHappeningNow)
 	{
 		// Set payment method
-		$payment_method = ($paymentIsHappeningNow) ? "PAYNOW" : "PAYLATER";
-		Database::iquery("UPDATE `Application` SET application_payment_method='%s' WHERE `applicantId`=%d", $payment_method, $this->application_id );
+
+		$transaction = $this->transaction;
+		$transaction->isPayingOnline = ($paymentIsHappeningNow) ? 1 : 0;
+		$transaction->save();
 
 		// Update database to show that application has been submitted
-		Database::iquery("UPDATE `Application` SET `has_been_submitted` = '1' WHERE `applicantId` = %d LIMIT 1", $this->application_id);
-	
-		// Set application submit date
-		$date = date("Y-m-d");
-		Database::iquery("UPDATE `application` SET `application_submit_date` = '%s' WHERE `applicantId` = %d LIMIT 1", $date, $this->application_id);		
+		$this->hasBeenSubmitted = 1;
+		$this->submittedDate = date("m/d/Y");
+		$this->save();
 		
 		$this->emailAllReferences();
 		$this->_generateFinalPDF();
@@ -461,21 +506,18 @@ class Application extends Model
 		// Submitting with payment
 		if( $paymentIsHappeningNow ) {
 			//Generate transaction ID
-			$trans_id = 'UMGRAD' . '*' . $this->application_id . '*' . time();
+			$externalTransactionId = 'UMGRAD' . '*' . $this->id . '*' . time();
 			
-			//update database transaction_id
-			Database::iquery("UPDATE Application SET application_fee_transaction_number='%s' WHERE applicantId =%d", $trans_id, $this->applicant_id);
-			
-			//Fetch application cost
-			$app_cost_query = Database::GetFirst("SELECT application_fee_transaction_amount FROM Application WHERE applicant_id=%d", $this->applicant_id);
-			$app_cost       = $app_cost_query['application_fee_transaction_amount'];
+			//update database transaction_id			
+			$transaction->externalTransactionId = $externalTransactionId;
+			$transaction->save();
 			
 			//Build request
 			$data = array( 
 				'UPAY_SITE_ID' => $GLOBALS["touchnet_site_id"],
 				'UMS_APP_ID'   => $GLOBALS["touchnet_app_id"],
-				'EXT_TRANS_ID' => $trans_id,
-				'AMT'          => $app_cost);
+				'EXT_TRANS_ID' => $externalTransactionId,
+				'AMT'          => $transaction->amount);
 			
 			$header = array("MIME-Version: 1.0","Content-type: application/x-www-form-urlencoded","Contenttransfer-encoding: text");
 			
@@ -508,21 +550,15 @@ class Application extends Model
 			
 			print $result;						
 		} else {
-			// Payment is not happening now
-			$db->iquery("UPDATE Application SET application_fee_payment_status='N' WHERE applicantId = %d", $this->applicantId);
-		
 
-			$app_cost_query = Database::GetFirst("SELECT application_fee_transaction_amount FROM Application WHERE applicant_id=%d", $this->applicant_id);
-			$app_cost       = $app_cost_query['application_fee_transaction_amount'];
-
-			// email
+			// Send mail pay later email
 			$email = new Email();
-			$email->loadFromTemplate('mailPayLater.email.php', array('{{APPLICATION_FEE}}'=>$app_cost));
+			$email->loadFromTemplate('mailPayLater.email.php', array('{{APPLICATION_FEE}}'=>$transaction->amount));
 			$email->setDestinationEmail( $this->applicant->getEmail() );
 			$email->sendEmail();
-
 		}
 	}
+
 
 	/**
 	 * Build PDF (Internal Method)
@@ -545,6 +581,7 @@ class Application extends Model
 		return $mpdf;		
 	}
 
+
 	/**
 	 * Display PDF
 	 * 
@@ -553,9 +590,9 @@ class Application extends Model
 	 * @return void
 	 */
 	public function displayPDF() {
-		$pdftitle = "UMGradApp_". $this->personal->givenName . '_' . $this->personal->familyName . ".pdf";
-		$this->_buildPDF()->Output($pdftitle, 'D');
+		$this->_buildPDF()->Output( $this->displayNamePDF, 'D');
 	}
+
 
 	/**
 	 * Generate Final PDF (Internal Method)
@@ -565,13 +602,8 @@ class Application extends Model
 	 * @return void
 	 */
 	private function _generateFinalPDF() {
-		$today = date("m-d-Y");
-		$exDOB = explode("/", $this->dateOfBirth);
-		$DOB   = $exDOB[0].$exDOB[1].$exDOB[2];
 
-		$pdfFileName = $this->id . '_' . $this->personal->familyName ."_". $this->personal->givenName . '_' . $DOB . ".pdf";
-
-		$pdfFullPath = $GLOBALS['completed_pdfs_path'] . $pdfFileName;
+		$pdfFullPath = $GLOBALS['completed_pdfs_path'] . $this->fileNamePDF;
 
 		$this->_buildPDF()->Output($pdfFullPath);
 

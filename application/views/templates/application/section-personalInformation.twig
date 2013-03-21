@@ -112,6 +112,7 @@
 			{{ forms.input( {'title':'Postal Code',
 						'name':'personal-permanentMailing-postal',
 						'value':application.personal.permanentMailing.postal,
+						'size':15,
 						'isRequired':true
 					} ) }}
 
@@ -165,6 +166,7 @@
 				{{ forms.input( {'title':'Postal Code',
 							'name':'personal-mailing-postal',
 							'value':application.personal.mailing.postal,
+							'size':15,
 						 } ) }}
 				
 			{{ forms.select( {'title':'Country', 
@@ -270,7 +272,7 @@
 		green_card_link
 	-->
 
-		{% if application.type == 'Degree' or application.type == 'Certificate' %}
+		{% if application.applicationTypeId == constant('ApplicationType::DEGREE') or application.applicationTypeId == constant('ApplicationType::CERTIFICATE') %}
 			<fieldset id="ethnicity" name="ethnicity" class="nested">
 
 				<legend>Ethnic Information</legend>
@@ -321,7 +323,7 @@
 	<div style="clear:both;"></div>
 </fieldset><!-- end fieldset "personal_information" -->
 
-{% if application.type == 'Degree' or application.type == 'Certificate' %}
+{% if application.applicationTypeId == constant('ApplicationType::DEGREE') or application.applicationTypeId == constant('ApplicationType::CERTIFICATE') %}
 
 	<fieldset id="fieldset-languages" name="languages">
 		<legend>Language Information</legend>
