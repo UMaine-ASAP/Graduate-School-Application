@@ -36,7 +36,9 @@
 				<h1>{% block pageTitle %}{% endblock %}</h1>
 			</header>
 			<section id='content-{{TEMPLATENAME|replace({' ': '-'})}}' class="content">
-				<div class='errorMessage'>{{ flash['error'] }}</div>
+				{% if flash['error'] %}
+					<div class='errorMessage'>{{ flash['error'] }}</div>
+				{% endif %}
 				<header class="loggedIn javascript-required">
 					{% if ISLOGGEDIN %}
 						Welcome <span style="font-weight:bold;">{{EMAIL}}</span>&nbsp;&nbsp;&nbsp;[&nbsp;<a href="/logout">Sign Out</a>&nbsp;]
