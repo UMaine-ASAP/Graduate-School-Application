@@ -176,35 +176,71 @@
 
 			<div style="clear:both"></div>
 
-			<div><p class='title'>Please upload your essay and r&eacute;sum&eacute; below. Accepted file formats are pdf, doc, docx, rtf, and txt. If you have difficulties uploading a file, please send it as an attachment to graduate@maine.edu.</p><br/></div>
+			<script type="text/javascript" >
+				$(function(){
+
+					function createUploader(url, uploadName, uploadElement, statusElement, filenameElement)
+					{
+						new AjaxUpload(uploadElement, {
+							action: url,
+							name: uploadName,
+							onSubmit: function(file, ext){
+								 if (! (ext && /^(pdf|doc|txt|rtf|docx)$/.test(ext))){
+									statusElement.text('Only PDF, DOC, DOCX, TXT or RTF files are allowed');
+									return false;
+								}
+								statusElement.text('Uploading...');
+							},
+							onComplete: function(file, response){
+								if (response=='') {
+									filenameElement.text(file);
+									statusElement.text('Your '+uploadName+' uploaded successfully.');
+								} else {
+									statusElement.text('There was a problem and your '+uploadName+' was not uploaded.');
+								}
+							}
+						});
+					}
+
+					// we need to strip out http:// if it exists
+					//var baseURL = '{{WEBROOT}}'.replace("http://", "");
+
+					createUploader('/application/upload-essay', 'essay', $('#essay_upload'), $('#essay_status'), $('#essay_name'));
+
+					createUploader('/application/upload-resume', 'resume', $('#resume_upload'), $('#resume_status'), $('#resume_name'));
+
+				});
+			</script>
+		
 
 			<label for="essay_upload">
-				<p class="title">Upload a brief essay (300-500 words) to be read by professors in your field on your academic and personal intentions and objectives. Identify any special interest you would like to pursue now or in the future. If you have previously attended another graduate school, explain why you wish to transfer to The University of Maine.</p><br/>
+				<p class="title">Upload a brief essay (300-500 words) to be read by professors in your field on your academic and personal intentions and objectives. Identify any special interest you would like to pursue now or in the future. If you have previously attended another graduate school, explain why you wish to transfer to The University of Maine.</p>
 			</label>
 
-			<div style="clear:both"></div>
-
-			<form enctype="multipart/form-data" method="POST">
-				<input type="hidden" name="MAX_FILE_SIZE" value="100000" />
-				<input name="uploadedfile" type="file" /><br/>
-				<input type="submit" value="Submit Essay" />
-			<br/>
-			</form>
+			<div class='upload_container'>
+				<span id="essay_upload" class="upload">Upload Essay</span>
+				<span id='essay_name' class='filename'>{{ application.essayOldFileName }}</span>
+			</div>
+			<div id="essay_status" class="status"></div>
 
 
-			<label for="resume_upload">
+			<label for="resume_upload" style='min-height: auto;'>
 				<p class="title">Upload a brief r&eacute;sum&eacute; to be read by professors in your field.</p>
 			</label>
 
-		<div style="clear:both"></div>
 
-			<form enctype="multipart/form-data" method="POST">
-				<input type="hidden" name="MAX_FILE_SIZE" value="100000" />
-				<input name="uploadedfile" type="file" /><br/>
-				<input type="submit" value="Submit R&eacute;sum&eacute;" />
-			</form>
+			<div class='upload_container'>
+				<span id="resume_upload" class="upload">Upload R&eacute;sum&eacute;</span>
+				<span id='resume_name' class='filename'>{{ application.resumeOldFileName }}</span>
+			</div>
+			<div id="resume_status" class="status"></div>
+
 
 			<div style="clear:both"></div>
+
+
+			<div><p class='title'>To upload an essay or resume, select the appropriate button above. Accepted file formats are pdf, doc, docx, rtf, and txt. If you have difficulties uploading a file, please send it as an attachment to graduate@maine.edu.</p></div>
+
 		</fieldset>
 	
 	{% endif %}

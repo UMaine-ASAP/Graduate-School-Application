@@ -231,6 +231,12 @@ $applicationNotSubmitted = function()
 {
 	$application = ApplicationController::getActiveApplication();
 
+	// Redirect if application does not exist
+	if( is_null($application) )
+	{
+		redirect('/my-applications');
+	}
+
 	// Redirect if application has already been submitted
 	if( $application->hasBeenSubmitted )
 	{
@@ -903,26 +909,79 @@ $app->get('/application/section/educational-objectives', $authenticated, $applic
 });
 
 
-
+/* ---------------- */
+/* - Upload
+/* ---------------- */
 
 /**
- * Application
+ * Uploads a file
  * 
- * Render application section educational objectives
+ * @param    string    The name referencing the file uploaded (the name of the upload element)
+ * 
+ * @return    string    Empty if upload was successful, otherwise error message
  */
-$app->post('/application/section/educational-objectives', $authenticated, $applicationNotSubmitted, function ()
+function uploadFile($type)
 {
+	// Only allow certain file types
+	$allowedExtensions = array("doc", "docx", "rtf", "pdf", "txt");
 
-$target_path = "uploads/";
-$target_path = $target_path . basename( $_FILES['uploadedfile']['name']);
-// echo $target_path;
-if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
-	echo "The file ". basename($_FILES['uploadedfile']['name'])." has been uploaded.";
-} else {
-	echo "There was an error uploading the file, please try again.";
+
+	// Get the file extension
+	$filename = basename($_FILES['essay']['name']);
+	$extension = strtolower(substr(strrchr($filename, '.'), 1));
+
+	// build file final destination
+	$application = ApplicationController::getActiveApplication();
+	$dest        = $GLOBALS[$type."s_path"] . $application->id . "_$type." . $extension;
+
+
+	// Make sure file type is allowed
+	if(in_array($extension, $allowedExtensions) ){
+		// Upload file
+		if(move_uploaded_file($_FILES[$type]['tmp_name'], $dest)) {
+			//upload was successful. Update permissions
+			chmod($dest, 0660);
+			chgrp($dest, $GLOBALS['gradschool_group_name']);
+			// don't return any messages
+			return '';
+		} else {
+			return "There was an error uploading the file, please try again.";
+		}
+	}
 }
 
+/**
+ * Upload essay
+ */
+$app->post('/application/upload-essay', $authenticated, $applicationNotSubmitted, function () use ($app)
+{
+	$result = uploadFile('essay');
 
+	// update database
+	if( $result == '')
+	{
+		$application = ApplicationController::getActiveApplication();
+		$application->essayOldFileName = basename($_FILES['essay']['name']);
+		$application->save();
+	}
+	return $result;
+});
+
+/**
+ * Upload resume
+ */
+$app->post('/application/upload-resume', $authenticated, $applicationNotSubmitted, function () use ($app)
+{
+	$result = uploadFile('resume');
+
+	// update database
+	if( $result == '')
+	{
+		$application = ApplicationController::getActiveApplication();
+		$application->resumeOldFileName = basename($_FILES['resume']['name']);
+		$application->save();
+	}
+	return $result;	
 });
 
 
