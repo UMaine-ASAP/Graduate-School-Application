@@ -39,7 +39,8 @@ class ApplicationController
 			// We will be opening this application. Set as active in case any database operations pull from the active application :)
 			if( ! ApplicationController::setActiveApplication($applicationId) ) 
 			{
-				return; // error
+				error_log("Could not set active application");
+				return null; // error
 			}
 
 			// Create hash
@@ -137,6 +138,7 @@ class ApplicationController
 			return $application;
 
 		} else {
+			error_log("Application type: $typeID was not found in the database");
 			return null;
 		}
 	}

@@ -44,6 +44,15 @@ p {
 /* = Header
 /* =============================================================== */
 
+.errorMessage {
+	background-color: lightpink;
+	padding: 16px;
+	margin-bottom: 10px;
+	text-align: center;
+	font-weight: bolder;
+	color: darkred;
+}
+
 header.topHeader {
 	background-color: #003263;
      background-image: url('../images/bluebargradient.gif');
