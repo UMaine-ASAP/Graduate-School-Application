@@ -1,6 +1,0 @@
-var searchData=
-[
-  ['_5f_5fget',['__get',['../class_applicant.html#a43a7086f2d32a8f96671db92b72029a4',1,'Applicant\__get()'],['../class_application.html#aac0113600d0eede18e95837c6479dc52',1,'Application\__get()'],['../class_contact_information.html#a81ddb497923005380ba5769111b3355d',1,'ContactInformation\__get()'],['../class_degree.html#af1fa5dd7922d150a2b2a7838c13f507b',1,'Degree\__get()'],['../class_international.html#a54dba2163003ccc423d7c7d8e5a46b5f',1,'International\__get()'],['../class_personal.html#ab6c66ef2fc000613fb7bb43454a55087',1,'Personal\__get()'],['../class_previous_school.html#a422c2af63cdc3c749ed00ae2dd4675b9',1,'PreviousSchool\__get()'],['../class_reference.html#a6ead7621a834272a3795e909e54fa92c',1,'Reference\__get()'],['../class_transaction.html#afad271614232f3fffc0cc0d841c820f4',1,'Transaction\__get()'],['../class_model.html#a740f266bff6a614abd25c11530bdda3d',1,'Model\__get()'],['../class_recommendation.html#a0f72c27a53bade868800eb2e0ef141e3',1,'Recommendation\__get()']]],
-  ['_5f_5fisset',['__isset',['../class_model.html#afd3c70662171bf6c4664626a245387fb',1,'Model']]],
-  ['_5f_5fset',['__set',['../class_model.html#a769d1b670dfa274cfa71d95fb5c88626',1,'Model']]]
-];
