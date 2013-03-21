@@ -67,9 +67,6 @@ function _saveFieldCallback(response, target) {
 		if (response == 1 || response == '' || response == '\n') {
 			// Save was successful
 			$("#validate_wrapper").validate().showErrors(null);
-			var errObj = new Object();
-			errObj[target.name] = '';
-			$("#validate_wrapper").validate().showErrors(errObj);
 		} else {
 			// There was an Error saving the field name, display response
 			var errObj = new Object();
