@@ -1,0 +1,43 @@
+\hypertarget{mainestreet_8php}{\section{application/cron/mainestreet.php File Reference}
+\label{mainestreet_8php}\index{application/cron/mainestreet.\-php@{application/cron/mainestreet.\-php}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mainestreet_8php_a4568c615066786584e7839065e2808fd}{map\-State\-Value} (\$value)
+\item 
+\hyperlink{mainestreet_8php_a9d88230e20488ae6a9d9d70beb295daa}{mainestreet} (\$userid)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{mainestreet_8php_a9d88230e20488ae6a9d9d70beb295daa}{\index{mainestreet.\-php@{mainestreet.\-php}!mainestreet@{mainestreet}}
+\index{mainestreet@{mainestreet}!mainestreet.php@{mainestreet.\-php}}
+\subsubsection[{mainestreet}]{\setlength{\rightskip}{0pt plus 5cm}mainestreet (
+\begin{DoxyParamCaption}
+\item[{}]{\$userid}
+\end{DoxyParamCaption}
+)}}\label{mainestreet_8php_a9d88230e20488ae6a9d9d70beb295daa}
+Mainestreet
+
+Generates tab-\/delimited data for Mainestreet import for a single completed applicant
+
+This file is fine-\/tuned for the import -\/ don't change without versioning!
+
+\begin{DoxyAuthor}{Authors}
+\-: Lukas Jordan //edits\-: jonathan simpson. 
+\end{DoxyAuthor}
+\hypertarget{mainestreet_8php_a4568c615066786584e7839065e2808fd}{\index{mainestreet.\-php@{mainestreet.\-php}!map\-State\-Value@{map\-State\-Value}}
+\index{map\-State\-Value@{map\-State\-Value}!mainestreet.php@{mainestreet.\-php}}
+\subsubsection[{map\-State\-Value}]{\setlength{\rightskip}{0pt plus 5cm}map\-State\-Value (
+\begin{DoxyParamCaption}
+\item[{}]{\$value}
+\end{DoxyParamCaption}
+)}}\label{mainestreet_8php_a4568c615066786584e7839065e2808fd}
+Maine\-Street Data File
+
+Nightly dump (from Cron script) of data for Mainestreet importing
+
+Each line is a tab delimited, predetermined, output of fields for a single completed application Map State Value
+
+Conversion function for state value. 'I\-T' is the state code for international (used because state is a required field) 

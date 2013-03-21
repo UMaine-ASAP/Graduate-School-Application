@@ -1,0 +1,172 @@
+\hypertarget{class_application_controller}{\section{Application\-Controller Class Reference}
+\label{class_application_controller}\index{Application\-Controller@{Application\-Controller}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_application_controller_a3636a2a238af8b6e8f933daf5d710a09}{create\-Application} (\$type\-Id)
+\item 
+static \hyperlink{class_application_controller_a1e5d7a4bd68c0edd494c689c96a3f6bb}{delete\-Application} (\$application\-Id)
+\item 
+static \hyperlink{class_application_controller_ad3d52fe6c4ea40052562695780c3e28b}{get\-Active\-Application} ()
+\item 
+static \hyperlink{class_application_controller_a1aba1a3a9ac1c481839d1bac1f508f39}{get\-Application\-From\-Hash} (\$hash\-Reference)
+\item 
+static \hyperlink{class_application_controller_ae3499803f36cd8ae921a359ae2d84ca6}{does\-Active\-User\-Own\-Application} (\$application\-Id)
+\item 
+static \hyperlink{class_application_controller_aa0d22e04160bfe41cb9afa34c32417d3}{all\-My\-Applications} ()
+\item 
+static \hyperlink{class_application_controller_a0c3186d3d765c423a1ba9540b246df08}{set\-Active\-Application} (\$application\-Id)
+\item 
+static \hyperlink{class_application_controller_a7d6f4dd86d37ec04828b00b7b210fb72}{get\-Application} (\$application\-Id)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_application_controller_aa0d22e04160bfe41cb9afa34c32417d3}{\index{Application\-Controller@{Application\-Controller}!all\-My\-Applications@{all\-My\-Applications}}
+\index{all\-My\-Applications@{all\-My\-Applications}!ApplicationController@{Application\-Controller}}
+\subsubsection[{all\-My\-Applications}]{\setlength{\rightskip}{0pt plus 5cm}static Application\-Controller\-::all\-My\-Applications (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_application_controller_aa0d22e04160bfe41cb9afa34c32417d3}
+All My Applications
+
+Retrieves all of the applications owned by the logged in user
+
+\begin{DoxyReturn}{Returns}
+array Array of applicant objects associated with the logged in user, null if user is not logged in 
+\end{DoxyReturn}
+\hypertarget{class_application_controller_a3636a2a238af8b6e8f933daf5d710a09}{\index{Application\-Controller@{Application\-Controller}!create\-Application@{create\-Application}}
+\index{create\-Application@{create\-Application}!ApplicationController@{Application\-Controller}}
+\subsubsection[{create\-Application}]{\setlength{\rightskip}{0pt plus 5cm}static Application\-Controller\-::create\-Application (
+\begin{DoxyParamCaption}
+\item[{}]{\$type\-Id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_application_controller_a3636a2a238af8b6e8f933daf5d710a09}
+Create \hyperlink{class_application}{Application}
+
+Creates an application of the specified type
+
+
+\begin{DoxyParams}{Parameters}
+{\em int} & type\-Id The numerical reference to the application type\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Object The new application, null if unsuccessful 
+\end{DoxyReturn}
+General table updates \hypertarget{class_application_controller_a1e5d7a4bd68c0edd494c689c96a3f6bb}{\index{Application\-Controller@{Application\-Controller}!delete\-Application@{delete\-Application}}
+\index{delete\-Application@{delete\-Application}!ApplicationController@{Application\-Controller}}
+\subsubsection[{delete\-Application}]{\setlength{\rightskip}{0pt plus 5cm}static Application\-Controller\-::delete\-Application (
+\begin{DoxyParamCaption}
+\item[{}]{\$application\-Id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_application_controller_a1e5d7a4bd68c0edd494c689c96a3f6bb}
+Delete \hyperlink{class_application}{Application}
+
+Completely remove the identified application
+
+
+\begin{DoxyParams}{Parameters}
+{\em int} & application\-Id The id of the application to remove\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\hypertarget{class_application_controller_ae3499803f36cd8ae921a359ae2d84ca6}{\index{Application\-Controller@{Application\-Controller}!does\-Active\-User\-Own\-Application@{does\-Active\-User\-Own\-Application}}
+\index{does\-Active\-User\-Own\-Application@{does\-Active\-User\-Own\-Application}!ApplicationController@{Application\-Controller}}
+\subsubsection[{does\-Active\-User\-Own\-Application}]{\setlength{\rightskip}{0pt plus 5cm}static Application\-Controller\-::does\-Active\-User\-Own\-Application (
+\begin{DoxyParamCaption}
+\item[{}]{\$application\-Id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_application_controller_ae3499803f36cd8ae921a359ae2d84ca6}
+Does Active User Own \hyperlink{class_application}{Application}
+
+Checks whether the currently logged in user owns the specified application
+
+
+\begin{DoxyParams}{Parameters}
+{\em int} & application\-Id The id of the application to test\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if active applicant owns the specified application, false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_application_controller_ad3d52fe6c4ea40052562695780c3e28b}{\index{Application\-Controller@{Application\-Controller}!get\-Active\-Application@{get\-Active\-Application}}
+\index{get\-Active\-Application@{get\-Active\-Application}!ApplicationController@{Application\-Controller}}
+\subsubsection[{get\-Active\-Application}]{\setlength{\rightskip}{0pt plus 5cm}static Application\-Controller\-::get\-Active\-Application (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_application_controller_ad3d52fe6c4ea40052562695780c3e28b}
+Get Active \hyperlink{class_application}{Application}
+
+Get a new application object from current session data
+
+\begin{DoxyReturn}{Returns}
+Object The active application if set, false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_application_controller_a7d6f4dd86d37ec04828b00b7b210fb72}{\index{Application\-Controller@{Application\-Controller}!get\-Application@{get\-Application}}
+\index{get\-Application@{get\-Application}!ApplicationController@{Application\-Controller}}
+\subsubsection[{get\-Application}]{\setlength{\rightskip}{0pt plus 5cm}static Application\-Controller\-::get\-Application (
+\begin{DoxyParamCaption}
+\item[{}]{\$application\-Id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_application_controller_a7d6f4dd86d37ec04828b00b7b210fb72}
+Get \hyperlink{class_application}{Application}
+
+Get the application object specified by the application\-Id
+
+
+\begin{DoxyParams}{Parameters}
+{\em int} & application\-Id The id of the application to get\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Object The new application, null if applicant does not exist 
+\end{DoxyReturn}
+\hypertarget{class_application_controller_a1aba1a3a9ac1c481839d1bac1f508f39}{\index{Application\-Controller@{Application\-Controller}!get\-Application\-From\-Hash@{get\-Application\-From\-Hash}}
+\index{get\-Application\-From\-Hash@{get\-Application\-From\-Hash}!ApplicationController@{Application\-Controller}}
+\subsubsection[{get\-Application\-From\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}static Application\-Controller\-::get\-Application\-From\-Hash (
+\begin{DoxyParamCaption}
+\item[{}]{\$hash\-Reference}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_application_controller_a1aba1a3a9ac1c481839d1bac1f508f39}
+Get \hyperlink{class_application}{Application} from Hash
+
+
+\begin{DoxyParams}[1]{Parameters}
+String & {\em \$hash\-Reference} & Encoded value for accessing the application\\
+\hline
+\end{DoxyParams}
+Get an application object with the unique code provided
+
+\begin{DoxyReturn}{Returns}
+Object The associated application if exists, false otherwise 
+\end{DoxyReturn}
+\hypertarget{class_application_controller_a0c3186d3d765c423a1ba9540b246df08}{\index{Application\-Controller@{Application\-Controller}!set\-Active\-Application@{set\-Active\-Application}}
+\index{set\-Active\-Application@{set\-Active\-Application}!ApplicationController@{Application\-Controller}}
+\subsubsection[{set\-Active\-Application}]{\setlength{\rightskip}{0pt plus 5cm}static Application\-Controller\-::set\-Active\-Application (
+\begin{DoxyParamCaption}
+\item[{}]{\$application\-Id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_application_controller_a0c3186d3d765c423a1ba9540b246df08}
+Set Active \hyperlink{class_application}{Application}
+
+Sets the application currently being edited
+
+
+\begin{DoxyParams}{Parameters}
+{\em int} & application\-Id The id of the application to set\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if operation was successful, false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+application/controllers/\hyperlink{_application_controller_8php}{Application\-Controller.\-php}\end{DoxyCompactItemize}
