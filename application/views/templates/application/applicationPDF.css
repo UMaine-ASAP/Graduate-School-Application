@@ -1,0 +1,94 @@
+body {
+	width:7.5in;
+	margin: 0 auto;
+	padding:0;
+	font-family: "Times New Roman";
+	font-size: 10pt;
+	line-height:10pt;
+	color: #333;
+}
+
+.center { text-align: center; }
+
+h1 { font-size: 22px; }
+
+h2 {
+	font-size: 16px;
+	margin:.5em;
+}
+
+h3 {
+	margin-top: 16pt;
+	margin-bottom:8pt;
+}
+ul {
+	list-style:none;
+	padding-left:6pt;
+}
+
+a:link{
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;
+}
+a:visited {
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;
+}
+
+div.fieldset {
+	border:0.1mm solid #000000;
+	padding: 4px;
+}
+
+div.fieldset p {
+	line-height:130%
+	page-break-before:avoid;
+	margin: 0 auto 6pt auto;
+}
+
+p.note {
+	font-size:8pt;
+	line-height:100%;
+}
+
+p.center {
+	text-align:center;
+}
+
+p.bold {
+	font-weight:bold;
+}
+
+div.fieldset table , table.box{
+	width:100%;
+	border-collapse: collapse;
+}
+
+table.box td{
+	border:0.1mm solid #000000;
+	padding: 5px;
+}
+
+div.fieldset table.two tr td {
+	width:50%;
+	padding-right:12pt
+}
+
+div.fieldset table.three tr td {
+	width:33%;
+	padding-right:12pt;
+	padding-bottom:12pt;
+}
+
+span.value, pre { /* a form field value entry */
+	font-family: "Times New Roman";
+	font-weight:bold;
+	font-size: 12pt;
+	line-height: normal;
+}
+
+span.tab {
+	margin-right:12pt;
+}

@@ -1,0 +1,16 @@
+
+
+ <!-- Macro: fieldValuePairTD
+	Builds a table element for a field and associated value
+	-->
+{% macro fieldValuePairTD(fieldName, value) %}
+	<td>{{ _self.fieldValuePair(fieldName, value) }}</td>
+{% endmacro %}
+
+
+ <!-- Macro: fieldValuePair
+	Builds a table element for a field and associated value
+	-->
+{% macro fieldValuePair(fieldName, value) %}
+	<span class="field">{{ fieldName }}</span> <span class="value">{{ value | raw }}</span>
+{% endmacro %}
