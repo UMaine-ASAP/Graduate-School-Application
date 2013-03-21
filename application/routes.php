@@ -572,7 +572,7 @@ $app->get('/create-application', $authenticated, function() use ($app) {
 
 		redirect('/edit-application/' . $application->id);
 	} else {
-		// @TODO set error message
+		$app->flash('error', 'An error occurred while creating the application. Please try again.');
 		redirect('/my-applications');
 	}
 });
