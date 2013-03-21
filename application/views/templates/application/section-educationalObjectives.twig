@@ -202,12 +202,9 @@
 						});
 					}
 
-					// we need to strip out http:// if it exists
-					//var baseURL = '{{WEBROOT}}'.replace("http://", "");
+					createUploader('{{WEBROOT}}//application/upload-essay', 'essay', $('#essay_upload'), $('#essay_status'), $('#essay_name'));
 
-					createUploader('/application/upload-essay', 'essay', $('#essay_upload'), $('#essay_status'), $('#essay_name'));
-
-					createUploader('/application/upload-resume', 'resume', $('#resume_upload'), $('#resume_status'), $('#resume_name'));
+					createUploader('{{WEBROOT}}//application/upload-resume', 'resume', $('#resume_upload'), $('#resume_status'), $('#resume_name'));
 
 				});
 			</script>
