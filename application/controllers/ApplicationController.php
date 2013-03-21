@@ -53,15 +53,6 @@ class ApplicationController
 			Database::iquery("INSERT INTO APPLICATION_Primary(applicationId) VALUES (%d)", $applicationId);
 			$personal = $application->personal;
 
-			// Create transaction
-			Database::iquery("INSERT INTO APPLICATION_Transaction(transactionId) VALUES (NULL)");
-
-			$transactionId = Database::getFirst("SELECT transactionId FROM APPLICATION_Transaction ORDER BY transactionId DESC LIMIT 1");
-			$application->transactionId = $transactionId['transactionId'];
-
-			$transaction = $application->transaction;
-			$transaction->amount = '65';
-			$transaction->save();
 
 			// Set first and last name
 			$personal->givenName  = $applicant->givenName;
@@ -196,7 +187,7 @@ class ApplicationController
 		Database::iquery("DELETE FROM APPLICATION_Reference where applicationId = %d", $applicationId);
 
 		// Keep transaction information?
-		Database::iquery("DELETE FROM APPLICATION_Transaction where transactionId = %d", $application->transactionId);
+		//Database::iquery("DELETE FROM APPLICATION_Transaction where transactionId = %d", $application->transactionId);
 
 	}
 

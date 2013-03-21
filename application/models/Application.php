@@ -74,7 +74,7 @@ class Application extends Model
 
  	// Register our available properties with Model.php
 	protected $cache = array();
-	protected static $availableProperties = array('pretty_usState', 'pretty_birth_state', 'pretty_waiveReferenceViewingRights', 'startInfo', 'placeOfBirth', 'fullName', 'hasBeenSubmitted', 'degree', 'international', 'type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'status');
+	protected static $availableProperties = array('pretty_usState', 'pretty_birth_state', 'pretty_waiveReferenceViewingRights', 'startInfo', 'placeOfBirth', 'fullName', 'hasBeenSubmitted', 'degree', 'international', 'type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'status', 'cost');
 
 
 	/**
@@ -95,7 +95,10 @@ class Application extends Model
 		 		$result = Database::getFirst('SELECT name FROM APPLICATION_type WHERE applicationTypeId = %d', $this->applicationTypeId);
 		 		return $result['name'];
 		 	case 'transaction':
-			 	return Model::factory('Transaction')->first($this->transactionId);
+		 		if ($this->transactionId == 0) {
+		 			return null;
+		 		}
+			 	return Model::factory('Transaction')->whereEqual('transactionId', $this->transactionId)->first();
 		 	break;
 		 	case 'civilViolations':
 			 	return Model::factory('CivilViolation')->whereEqual('applicationId', $this->id)->get();
@@ -210,6 +213,28 @@ class Application extends Model
 		 	break;
 		 	case 'fileNameEssay':
 		 		return $this->id . "_essay";
+		 	break;
+		 	case 'cost':
+		 		// Split on application type
+		 		switch($this->applicationTypeId)
+		 		{
+		 			case ApplicationType::DEGREE:
+		 				// Check if another application has been submitted for the same year & semester
+		 				$result = Database::query("SELECT applicationId FROM Application WHERE startYear=%d AND startSemester=%d AND applicationId<>%d", $this->startYear, $this->startSemester, $this->id);
+		 				if( $result != array() )
+		 				{
+			 				return 10;
+		 				}
+
+		 				return 65;
+		 			break;
+		 			case ApplicationType::NONDEGREE:
+		 				return 35;
+		 			break;
+		 			case ApplicationType::CERTIFICATE:
+		 				return 35;
+		 			break;
+		 		}
 		 	break;
 		 }
 
@@ -489,9 +514,21 @@ class Application extends Model
 	 */
 	public function submitWithPayment($paymentIsHappeningNow)
 	{
-		// Set payment method
+		// Create transaction
+//		Database::iquery("INSERT INTO APPLICATION_Transaction(transactionId) VALUES (NULL)");
+
+		Database::iquery("INSERT INTO APPLICATION_Transaction(transactionId) VALUES (NULL)");
+		$transactionId = Database::getFirst("SELECT LAST_INSERT_ID() as transactionId FROM APPLICATION_Transaction");
+		$this->transactionId = $transactionId['transactionId'];
+		$this->save();
 
 		$transaction = $this->transaction;
+		$transaction->amount = $this->cost;
+
+		$transaction->save();
+
+
+		// Set payment method
 		$transaction->isPayingOnline = ($paymentIsHappeningNow) ? 1 : 0;
 		$transaction->save();
 
@@ -520,7 +557,7 @@ class Application extends Model
 				'AMT'          => $transaction->amount);
 			
 			$header = array("MIME-Version: 1.0","Content-type: application/x-www-form-urlencoded","Contenttransfer-encoding: text");
-			
+
 			//Execute request
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
