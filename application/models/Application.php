@@ -308,7 +308,7 @@ class Application extends Model
 			break;
 			case 'options_type':
 				$result = array();
-				$typeDB = Database::query("SELECT * FROM APPLICATION_type");
+				$typeDB = Database::query("SELECT * FROM APPLICATION_Type");
 				foreach ($typeDB as $type) {
 					$result[ $type['applicationTypeId'] ] = $type['name'];
 				}
