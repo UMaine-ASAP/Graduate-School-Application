@@ -227,20 +227,22 @@ $authenticatedScript = function() use ($app)
  *
  * @return    bool   True if user is logged in, otherwise false
  */
-$applicationNotSubmitted = function() 
+$applicationNotSubmitted = function() use ($app)
 {
+
 	$application = ApplicationController::getActiveApplication();
 
 	// Redirect if application does not exist
 	if( is_null($application) )
 	{
+		$app->flash('error', 'Application does not exist');
 		redirect('/my-applications');
 	}
 
 	// Redirect if application has already been submitted
 	if( $application->hasBeenSubmitted )
 	{
-		$app->flash('warning', 'Application already submitted');
+		$app->flash('error', 'Application already submitted');
 		redirect('/my-applications');
 	}
 
@@ -581,7 +583,15 @@ $app->get('/create-application', $authenticated, function() use ($app) {
 /**
  * Delete an application
  */
-$app->get('/delete-application/:applicationId', $authenticated, $applicationNotSubmitted, function($applicationId) use ($app) {
+$app->get('/delete-application/:applicationId', $authenticated, function($applicationId) use ($app) {
+
+	// make sure passed in application hasn't been submitted (we can't use the middleware applicationNotSubmitted because the active application hasn't been set yet!)
+	$application = ApplicationController::getApplication($applicationId);
+	if($application == null || $application->hasBeenSubmitted == 1 )
+	{
+		$app->flash('error', 'Application has already submitted');
+		redirect('/my-applications');
+	}
 
 	ApplicationController::deleteApplication($applicationId);
 
@@ -596,12 +606,22 @@ $app->get('/delete-application/:applicationId', $authenticated, $applicationNotS
  * Sets active application and redirects to the correct starting 
  * page for the current application
  */
-$app->get('/edit-application/:id', $authenticated, $applicationNotSubmitted, function($id) use ($app) {
-	$id = (int) $id;
-	$isValidApplication = ApplicationController::setActiveApplication($id);
+$app->get('/edit-application/:id', $authenticated, function($applicationId) use ($app) {
+
+	// make sure passed in application hasn't been submitted (we can't use the middleware applicationNotSubmitted because the active application hasn't been set yet!)
+	$application = ApplicationController::getApplication((int)$applicationId);
+	if($application == null || $application->hasBeenSubmitted == 1 )
+	{
+		$app->flash('error', 'Application has already submitted');
+		redirect('/my-applications');
+	}
+
+
+	$isValidApplication = ApplicationController::setActiveApplication((int)$applicationId);
 
 	if ( ! $isValidApplication )
 	{
+
 		// application either does not exist or doesn't belong to user
 		redirect('/my-applications');
 	}
