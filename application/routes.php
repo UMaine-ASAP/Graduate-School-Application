@@ -242,7 +242,7 @@ $applicationNotSubmitted = function() use ($app)
 	// Redirect if application has already been submitted
 	if( $application->hasBeenSubmitted )
 	{
-		$app->flash('error', 'Application already submitted');
+		$app->flash('error', 'Application already been submitted');
 		redirect('/my-applications');
 	}
 
@@ -589,7 +589,7 @@ $app->get('/delete-application/:applicationId', $authenticated, function($applic
 	$application = ApplicationController::getApplication($applicationId);
 	if($application == null || $application->hasBeenSubmitted == 1 )
 	{
-		$app->flash('error', 'Application has already submitted');
+		$app->flash('error', 'Application has already been submitted');
 		redirect('/my-applications');
 	}
 
@@ -612,7 +612,7 @@ $app->get('/edit-application/:id', $authenticated, function($applicationId) use 
 	$application = ApplicationController::getApplication((int)$applicationId);
 	if($application == null || $application->hasBeenSubmitted == 1 )
 	{
-		$app->flash('error', 'Application has already submitted');
+		$app->flash('error', 'Application has already been submitted');
 		redirect('/my-applications');
 	}
 
