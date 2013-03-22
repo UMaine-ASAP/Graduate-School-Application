@@ -36,6 +36,22 @@ class ApplicantController
 		}
 	}
 
+
+	/**
+	 * Get applicant with given id
+	 * 
+	 * @param 	int 		identifier of applicant to create object for
+	 * 
+	 * @return 	Object 	Applicant object for given identifier
+	 */
+	public static function getApplicant($applicantId)
+	{
+     	if ( ! is_integer($applicantId) ) { throw new Exception("Passed in applicant identifier is not an integer.", 1); }
+
+       	return Model::factory('Applicant')->whereEqual('applicantId', $applicantId)->first();
+	}
+
+
 	/**
 	 * Login Applicant
 	 * 
@@ -213,21 +229,6 @@ class ApplicantController
 		// Verify the information and flip the 'confirmed' bit
 		$result = Database::iquery("UPDATE `Applicant` SET `isEmailConfirmed` = 1 WHERE `loginEmail` = '%s' AND `loginEmailCode` = '%s'", $email, $validationCode);		
 		return ($result != null);
-	}
-
-
-	/**
-	 * Get applicant with given id
-	 * 
-	 * @param 	int 		identifier of applicant to create object for
-	 * 
-	 * @return 	Object 	Applicant object for given identifier
-	 */
-	public static function getApplicant($applicantId)
-	{
-     	if ( ! is_integer($applicantId) ) { throw new Exception("Passed in applicant identifier is not an integer.", 1); }
-
-       	return Model::factory('Applicant')->whereEqual('applicantId', $applicantId)->first();
 	}
 
 
