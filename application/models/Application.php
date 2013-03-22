@@ -92,7 +92,7 @@ class Application extends Model
 		 	case 'applicant':
 		 		return ApplicantController::getActiveApplicant();
 		 	case 'type':
-		 		$result = Database::getFirst('SELECT name FROM APPLICATION_type WHERE applicationTypeId = %d', $this->applicationTypeId);
+				$result = Database::getFirst('SELECT name FROM APPLICATION_Type WHERE applicationTypeId = %d', $this->applicationTypeId);
 		 		return $result['name'];
 		 	case 'transaction':
 		 		if ($this->transactionId == 0) {
