@@ -58,11 +58,11 @@ function saveValue(evt) {
  * 
  * @param  {[type]} response [description]
  * @param  {[type]} target   [description]
- * @param  {[type]} value    [description]
 
  * @return void
  */
 function _saveFieldCallback(response, target) {
+	saveFieldCallback(response, target);
 	if($("#validate_wrapper")) {
 		if (response == 1 || response == '' || response == '\n') {
 			// Save was successful
@@ -75,6 +75,19 @@ function _saveFieldCallback(response, target) {
 		}
 	}
 }
+
+
+/**
+ * Save Field Callback
+ *
+ * External callback for when a field has successfully saved. Override this function and use to your hearts content 
+ * 
+ * @param  {[type]} response [description]
+ * @param  {[type]} target   [description]
+
+ * @return void
+ */
+function saveFieldCallback(response, target) { }
 
 
 /**

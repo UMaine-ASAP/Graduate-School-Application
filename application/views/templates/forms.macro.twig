@@ -12,8 +12,6 @@
 		maxLength 	 - The maximum number of characters allowed
 		isRequired 	 - Whether this field is required or not
 		help 		 - Help text to display to and guide the user
-		refreshOnChange - Refreshes browser when value is changed
-
 	 -->
 {% macro input(values) %} <!-- title, id, name, value, size, isRequired, maxLength, type -->
 	<label for='{{ values['name'] }}'>
@@ -25,14 +23,6 @@
 
  	</label>
 
- 	{% if values['refreshOnChange'] %}
- 	<script>
- 		$('#{{ values['name'] }}').change( function() {
- 			location.reload();
- 		});
- 	</script>
- 	{% endif %}
-
 {% endmacro %}
 
 <!-- Macro: Select
@@ -43,8 +33,6 @@
 		value 		 - The current value to display in the field
 		options 		 - Associative array of values and names (value=>name)
 		isRequired 	 - Whether this field is required or not
-		refreshOnChange - Refreshes browser when value is changed
-
 	 -->
 {% macro select(values) %}
 	<label for='{{ values['name'] }}'>
@@ -57,14 +45,6 @@
 		<script type="text/javascript">initValue('{{ values['name'] }}','{{ values['value'] }}')</script>
  	</label>
 
- 	{% if values['refreshOnChange'] %}
- 	<script>
- 		$('#{{ values['name'] }}').change( function() {
- 			location.reload();
- 		});
- 	</script>
- 	{% endif %}
-
 {% endmacro %}
 
 
@@ -76,21 +56,12 @@
 		value 		 - The current value to display in the field
 		cols			 - The number of display columns
 		rows			 - The number of display rows
-		refreshOnChange - Refreshes browser when value is changed
 	 -->
 {% macro textarea(values) %}
 	<label for="{{values['name']}}">
 		<p class="title">{{values['title']|raw}}</p>
 		<textarea cols="{{values['cols']}}" rows="{{values['rows']}}" id="{{values['name']}}" name="{{values['name']}}" value="" onblur="saveValue(event);">{{values['value']}}</textarea>
 	</label>
-
- 	{% if values['refreshOnChange'] %}
- 	<script>
- 		$('#{{ values['name'] }}').change( function() {
- 			location.reload();
- 		});
- 	</script>
- 	{% endif %}
 
 {% endmacro %}
 
@@ -103,7 +74,6 @@
 		value 		 - The current value to display in the field
 		showOnTrue	 - Determines whether to show corresponding section on true or false. default is true	
 		isRequired 	 - Whether this field is required or not
-		refreshOnChange - Refreshes browser when value is changed
 		yesText 		 - specifies yes option text (optional)
 		noText 		 - specifies no option text (optional)
 
@@ -124,14 +94,6 @@
 	</label>
 	<script type="text/javascript">checkInitValue('{{values['name']}}_yes',"{{values['value']}}");</script>
 	<script type="text/javascript">checkInitValue('{{values['name']}}_no',"{{values['value']}}");</script>
-
- 	{% if values['refreshOnChange'] %}
- 	<script>
- 		$('#{{ values['name'] }}').change( function() {
- 			location.reload();
- 		});
- 	</script>
- 	{% endif %}
 
 {% endmacro %}
 
@@ -162,21 +124,12 @@
 		title 		 - The display title for the field
 		name 		 - The corresponding database field name identifier
 		value 		 - The current value (0 or 1) to indicate checked or not checked
-		refreshOnChange - Refreshes browser when value is changed
 	 -->
 {% macro checkbox(values) %}
 		<label for="{{ values['name'] }}" class="one_line"><input type="checkbox" id="{{ values['name'] }}" name="{{ values['name'] }}" value="1" onchange="saveValue(event);"/>{{ values['title'] }}</label>
 	<script type="text/javascript"> 
 		checkInitValue('{{ values['name'] }}',"{{ values['value'] }}");
 	</script>
-
- 	{% if values['refreshOnChange'] %}
- 	<script>
- 		$('#{{ values['name'] }}').change( function() {
- 			location.reload();
- 		});
- 	</script>
- 	{% endif %}
 
 {% endmacro %}
 

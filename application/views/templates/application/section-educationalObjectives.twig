@@ -23,12 +23,21 @@
 
 	<fieldset class="nested">
 
+		<script>
+			// Override to refresh page after department is saved
+			window.saveFieldCallback = function(response, target) { 
+				if( target.id == 'degree-academic_program' )
+				{
+					location.reload();
+				}
+			}
+		</script>
+
 		{{ forms.select( {'title':'Department', 
 				'name':'degree-academic_program',
 				'value':application.degree.academic_program, 
 				'options': application.degree.options_academicDeptCode,
-				'isRequired':true,
-				'refreshOnChange': true
+				'isRequired':true
 			 }) }}	
 
 		 {{ forms.select( {'title':'Degree', 
