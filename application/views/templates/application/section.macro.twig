@@ -1,7 +1,7 @@
 <!-- Macro: Previous-Link
 	Create an HTML link to the previous section
 	 -->
-{% macro previousLink(name) %} 
+{% macro previousLink(name, WEBROOT) %} 
 	<span style="float:left;">
 		<a href="{{WEBROOT}}/application/section/previous" ><span class="chevron">&#0171;</span> {{name | default('Previous Section')}}</a>
 	</span>
@@ -11,7 +11,7 @@
 <!-- Macro: Next-Link
 	Create an HTML link to the next section
 	 -->
-{% macro nextLink(name) %} 
+{% macro nextLink(name, WEBROOT) %} 
 <span style="float:right;">
 	<a href="{{WEBROOT}}/application/section/next">{{name | default('Next Section')}} <span class="chevron">&#0187;</span></a>
 </span>
@@ -20,21 +20,21 @@
 <!-- Macro: Build Pager
 	Create a pager linking to previous and/or next sections
 	 -->
-{% macro buildPager(includePreviousLink, includeNextLink) %}
+{% macro buildPager(includePreviousLink, includeNextLink, WEBROOT) %}
 	<div id="pager">
 		<p>
 			{% if includePreviousLink %}
 				{% if includePreviousLink is sameas(false) or includePreviousLink is sameas(true) %}
-					{{ _self.previousLink() }}
+					{{ _self.previousLink(null, WEBROOT) }}
 				{% else %}
-					{{ _self.previousLink(includePreviousLink) }}
+					{{ _self.previousLink(includePreviousLink, WEBROOT) }}
 				{% endif %}
 			{% endif %}
 			{% if includeNextLink %}
 				{% if includeNextLink is sameas(false) or includeNextLink is sameas(true) %}
-					{{ _self.nextLink() }}
+					{{ _self.nextLink(null, WEBROOT) }}
 				{% else %}
-					{{ _self.nextLink(includeNextLink) }}
+					{{ _self.nextLink(includeNextLink, WEBROOT) }}
 				{% endif %}
 
 			{% endif %}

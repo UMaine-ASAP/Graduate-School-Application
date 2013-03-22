@@ -193,14 +193,15 @@ class ApplicationController
 
 
 	/**
-	 * Get Active Application
+	 * Get Active Application Id
 	 * 
-	 * Get a new application object from current session data
+	 * Get the id stored in the session data
 	 * 
-	 * @return    Object    The active application if set, false otherwise
+	 * @return    int    The active application id if set, null if unavailable
 	 */
-	public static function getActiveApplication()
+	public static function getActiveApplicationId()
 	{
+
 		// Ensure session data is set
 		if( !isset($_SESSION) ) 
 		{ 
@@ -212,9 +213,27 @@ class ApplicationController
 			return null;
 		}
 
-		$id = $_SESSION['active-application'];
+		return (int) $_SESSION['active-application'];
+	}
 
-		return ApplicationController::getApplication((int)$id);
+
+	/**
+	 * Get Active Application
+	 *
+	 * Get a new application object from current session data
+	 *
+	 * @return    Object    The active application if set, false otherwise
+	 */
+	public static function getActiveApplication()
+	{
+
+		$id = self::getActiveApplicationId();
+		if( is_null($id))
+		{
+			return null;
+		}
+
+		return ApplicationController::getApplication($id);
 	}
 
 
