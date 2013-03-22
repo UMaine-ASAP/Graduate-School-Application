@@ -1073,13 +1073,21 @@ $app->get('/application/section/review', $authenticated, $applicationNotSubmitte
 /**
  * Downloads pdf of current application
  */
-$app->get('/application/download(/:id)', $authenticated, $applicationNotSubmitted, function ($id = NULL)
+$app->get('/application/download(/:applicationId)', $authenticated, function ($applicationId = NULL) use ($app)
 {
-	if( is_null($id) ) {
-		$application = ApplicationController::getActiveApplication();
-	} else {
-		$application = ApplicationController::getApplication($id);
+
+	if( is_null($applicationId) ) {
+		$applicationId = ApplicationController::getActiveApplicationId();
 	}
+
+	$application = ApplicationController::getApplication((int)$applicationId);
+
+	if($application == null)
+	{
+		$app->flash('error', 'Application not found');
+		redirect('/my-applications');
+	}
+
 	$application->displayPDF();
 });
 
