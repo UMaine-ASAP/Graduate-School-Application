@@ -55,9 +55,9 @@ class ApplicationComponent extends Model
 	}
 
 
-	public static function all($appId)
+	public static function all($applicationId)
 	{
-		return Database::query("SELECT * FROM %s WHERE applicationID = %i", static::$tableName, $appId);
+		return Database::query("SELECT * FROM %s WHERE applicationId = %i", static::$tableName, $applicationId);
 
 
 	}
