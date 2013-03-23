@@ -18,8 +18,8 @@ class Model
 	protected static $availableOptions    = array(); // Array of options stored as value=>name
 
 
-	protected $values;	 // Array of values associated with fields in the table
-	protected $is_dirty; // Array of values changed that need saving
+	private $values;	 // Array of values associated with fields in the table
+	private $is_dirty; // Array of values changed that need saving
 
 	private $whereClause;		// query wherestring addition
 	private $whereReplacements;	// Where replacement information
@@ -306,7 +306,7 @@ class Model
 	 * 
 	 * @return array
 	 */
-	public function queryFirst()
+	private function queryFirst()
 	{
 		// Add tablename to query
 		$args = array_merge( array($this->query), $this->args);
@@ -322,7 +322,7 @@ class Model
 	 * 
 	 * @return array
 	 */
-	public function query()
+	private function query()
 	{
 		// Add tablename to query
 		$args = array_merge( array($this->query), $this->args);
@@ -338,7 +338,7 @@ class Model
 	 * 
 	 * @return void
 	 */
-	public function iquery()
+	private function iquery()
 	{
 		// Add tablename to query
 		$args = array_merge( array($this->query), $this->args);
@@ -353,7 +353,7 @@ class Model
 	 * 
 	 * @return void
 	 */
-	protected function resetQuery()
+	private function resetQuery()
 	{
 		$this->query = '';
 		$this->args = array();		
