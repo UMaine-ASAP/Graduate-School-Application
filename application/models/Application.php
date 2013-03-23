@@ -114,10 +114,7 @@ class Application extends Model
 		 	break;
 		 	case 'preenrollCourses':
 		 	break;
-		 	case 'hasBeenSubmitted':
 
-			 	return ( parent::get('hasBeenSubmitted') == 1 );
-		 	break;
 		 	case 'GREScores':
 			 	return Model::factory('GRE')->whereEqual('applicationId', $this->id)->get();
 		 	break;
