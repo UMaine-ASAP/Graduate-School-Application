@@ -24,7 +24,7 @@ class Transaction extends ApplicationComponent
 		// Data
 		 switch($name)
 		 {
-		 	case 'pretty-isPayingOnline':
+		 	case 'pretty_isPayingOnline':
 				return ($personal_data['application_payment_method'] == 1) ? 'Paying Online' : 'Paying Offline';
 		 	break;
 		 }
