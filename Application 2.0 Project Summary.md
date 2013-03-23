@@ -102,24 +102,32 @@ Specific Tasks
 
 - Application
 	- certificate BUA requires 2 recomendations and GIS requires 1
-	- application status
-	- application costs
 	- make sure mainestreet fields sent have the same values (like isSeekingAssitantship should be 1 or yes? -> check carefully)
 	- copy application data from last application
-	- upload script and remove old file
+	- store timestamps for relevant fields?
 
-- Finish README comments
+- Documentation
+	- Finish README comments
+	- UML Diagram
+	- Application Components
 
 - pdf output
 	- perfect?
 	- display program information
 
+
 - testing
 	- test in IE 6+, Safari, Firefox, Chrome, Opera
-	- make sure images work on a server where the project is not at the root of the document
 	- cron script
 	- touchnet payment process
 	- check if all fields are working
+
+
+- Bugs
+	- SSN doesn't save
+	- Academic programs' major and minor are all ready filled in as Journalism and New Media
+	- The "Created" and "Last Modified" times on the My Applications page are not accurate
+
 
 ### Someday
 - fix app_cleanup.php  (currently not used and needs work)
