@@ -68,18 +68,4 @@ class Reference extends ApplicationComponent
 	}
 
 
-	public static function getWithId($referenceId)
-	{
-		$application = ApplicationController::getActiveApplication();
-		if( $application == null)
-		{
-			return null;
-		}
-		$dbObject = Database::getFirst("SELECT * FROM APPLICATION_Reference WHERE applicationId = %d AND referenceId = %d", $application->id, $referenceId);
-
-		$reference = Model::factory('reference');
-		$reference->loadFromDB($dbObject);
-		return $reference;
-	} 
-
 }

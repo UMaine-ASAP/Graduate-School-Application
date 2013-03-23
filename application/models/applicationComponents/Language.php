@@ -31,18 +31,4 @@ class Language extends ApplicationComponent
 		return null; // nothing found
 	}
 
-	public static function getWithId($languageId)
-	{
-		$application = ApplicationController::getActiveApplication();
-		if( $application == null)
-		{
-			return null;
-		}
-		$dbObject = Database::getFirst("SELECT * FROM APPLICATION_Language WHERE applicationId = %d AND languageId = %d", $application->id, $languageId);
-
-		$language = Model::factory('Language');
-		$language->loadFromDB($dbObject);
-		return $language;
-	} 
-
 }

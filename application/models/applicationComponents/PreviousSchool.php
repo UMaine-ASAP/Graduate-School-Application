@@ -39,21 +39,6 @@ class PreviousSchool extends ApplicationComponent
 		return parent::__get($name);
 	}
 
-	public static function getWithId($previousSchoolId)
-	{
-		$application = ApplicationController::getActiveApplication();
-		if( $application == null)
-		{
-			return null;
-		}
-		$dbObject = Database::getFirst("SELECT * FROM APPLICATION_PreviousSchool WHERE applicationId = %d AND previousSchoolId = %d", $application->id, $previousSchoolId);
-
-//		$language = new Language('Language');
-		$previousSchool = Model::factory('PreviousSchool');
-		$previousSchool->loadFromDB($dbObject);
-		return $previousSchool;
-	} 	
-
 	protected static $availableOptions = array('options_state', 'options_country');
 	
 	public static function getOption($optionName)

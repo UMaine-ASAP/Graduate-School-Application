@@ -39,18 +39,4 @@ class GRE extends ApplicationComponent
 		return null; // nothing found
 	}
 
-	public static function getWithId($greId)
-	{
-		$application = ApplicationController::getActiveApplication();
-		if( $application == null)
-		{
-			return null;
-		}
-		$dbObject = Database::getFirst("SELECT * FROM APPLICATION_GRE WHERE applicationId = %d AND greId = %d", $application->id, $greId);
-
-		$gre = Model::factory('GRE');
-		$gre->loadFromDB($dbObject);
-		return $gre;
-	} 
-
 }

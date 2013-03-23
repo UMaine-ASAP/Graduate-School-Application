@@ -29,7 +29,31 @@ class ApplicationComponent extends Model
 		$entity = new $entityName($entityName);
 		$entity->loadFromDB($result);
 		return $entity;
-	}	
+	}
+
+
+	public static function getWithId($componentId)
+	{
+		// Use active application
+		$applicationId = ApplicationController::getActiveApplicationId();
+		if( $applicationId == null)
+		{
+			return null;
+		}
+
+		return static::getWithAppIdAndId($applicationId, $componentId);
+	}
+
+
+	public static function getWithAppIdAndId($applicationId, $componentId)
+	{
+		$dbObject = Database::getFirst("SELECT * FROM %s WHERE applicationId = %d AND `%s` = %d", static::$tableName, $applicationId, static::$primaryKeys[0], $componentId);
+
+		$object = Model::factory( get_called_class() );
+		$object->loadFromDB($dbObject);
+		return $object;
+	}
+
 
 	public static function all($appId)
 	{
