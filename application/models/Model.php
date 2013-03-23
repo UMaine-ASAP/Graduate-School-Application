@@ -380,21 +380,14 @@ class Model
 	/**
 	 * Appends where clause to query string to ensure a unique item is selected
 	 * 
-	 * @param    bool    True if where string should be included, false if where clause has already been started
-	 * 
 	 * @return    void
 	 */
-	protected function queryAppendUnique($beginsWhere = TRUE)
+	private function queryAppendUnique()
 	{
 		// Build Query Tag on - WHERE key1 = %d AND key2 = %d ...
 		$queryPieces = array_map( function($key) { return " `$key` = %d "; }, static::$primaryKeys);
 
-		if( $beginsWhere )
-		{
-			$this->query .= ' WHERE ';
-		}  else {
-			$this->query .= ' AND ';			
-		}
+		$this->query .= ' WHERE ';
 
 		$this->query .= ' ' . implode(' AND ', $queryPieces);
 
