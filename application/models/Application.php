@@ -399,7 +399,7 @@ class Application extends Model
 	 * 
 	 * @param    int    reference id
 	 * 
-	 * @return     object     The associated reference id or null if not found
+	 * @return     object     The associated reference or null if not found
 	 */
 	public function getReferenceWithId($referenceId)
 	{
