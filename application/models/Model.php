@@ -211,10 +211,11 @@ class Model
 	 */
 	public function delete()
 	{
-		$this->query = "DELETE FROM %s LIMIT 1";
+		$this->query = "DELETE FROM %s ";
 		$this->args = array(static::$tableName);
 
 		$this->queryAppendUnique();
+		$this->query .= " LIMIT 1";
 		$this->iquery();
 	}
 
