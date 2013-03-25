@@ -93,7 +93,7 @@ class ApplicationFieldReference
 	 * 
 	 * Retrieve the field's value
 	 * 
-	 * @return void
+	 * @return mixed
 	 */
 	public function value()
 	{
