@@ -19,7 +19,6 @@ require_once __DIR__ . "/applicationComponents/DisciplinaryViolation.php";
 require_once __DIR__ . "/applicationComponents/PreviousSchool.php";
 require_once __DIR__ . "/applicationComponents/GRE.php";
 require_once __DIR__ . "/applicationComponents/Degree.php";
-require_once __DIR__ . "/applicationComponents/Progress.php";
 require_once __DIR__ . "/applicationComponents/International.php";
 require_once __DIR__ . "/applicationComponents/Language.php";
 require_once __DIR__ . "/applicationComponents/Personal.php";
