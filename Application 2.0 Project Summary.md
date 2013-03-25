@@ -105,15 +105,32 @@ Specific Tasks
 	- make sure mainestreet fields sent have the same values (like isSeekingAssitantship should be 1 or yes? -> check carefully)
 	- copy application data from last application
 	- store timestamps for relevant fields?
+	- remove reference filename from database
+	- Model should have a create function (returns new id)
+	- remove progress & structure tables
+	- add cost data into cost table
 
 - Documentation
 	- Finish README comments
-	- UML Diagram
-	- Application Components
+	- Project files
+	- compile all documentations
+		Project Summary
+		Index
+		README
+		Touchnet
+		Replicating servers
+		Diagrams
+			database structure
+			Application classes
+			Template Hierarchy
+			URL Requests
+			Project Files
+		Lessons learned
 
 - pdf output
 	- perfect?
 	- display program information
+
 
 
 - testing
