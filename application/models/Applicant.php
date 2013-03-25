@@ -16,11 +16,7 @@ class Applicant extends Model
 	protected static $availableProperties = array('fullname');
 
 	/**
-	 * Magic Getter
-	 * 
 	 * Gets the data for special properties
-	 * 
-	 * @return any
 	 */
 	function __get($name)
 	{
