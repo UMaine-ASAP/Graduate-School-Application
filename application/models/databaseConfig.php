@@ -267,7 +267,6 @@ $GLOBALS['databaseFields'] = array(
 		'reference-isSubmittingOnline' => array('filter' => 'filter_boolean'),
 		'reference-requestHasBeenSent' => array('filter' => 'filter_boolean'),
 		'reference-submittedDate'      => array('filter' => 'filter_long_date'),
-		'reference-filename'           => array('filter' => 'filter_generic'),
 		
 		'contactInformation-primaryPhone'   => array('filter' => 'filter_phone'),
 		'contactInformation-streetAddress1' => array('filter' => 'filter_generic'),
