@@ -51,6 +51,10 @@ class ApplicationController
 
 			// Create common sub-sections
 			Database::iquery("INSERT INTO APPLICATION_Primary(applicationId) VALUES (%d)", $applicationId);
+			Database::iquery("INSERT INTO APPLICATION_PreviousSchool(applicationId) VALUES (%d)", $applicationId);
+			Database::iquery("INSERT INTO APPLICATION_CivilViolation(applicationId) VALUES (%d)", $applicationId);
+			Database::iquery("INSERT INTO APPLICATION_DisciplinaryViolation(applicationId) VALUES (%d)", $applicationId);
+
 			$personal = $application->personal;
 
 
@@ -65,9 +69,6 @@ class ApplicationController
 					/** General table updates **/
 					Database::iquery("INSERT INTO APPLICATION_International(applicationId) VALUES (%d)", $applicationId);
 					Database::iquery("INSERT INTO APPLICATION_Degree(applicationId) VALUES (%d)", $applicationId);
-					Database::iquery("INSERT INTO APPLICATION_PreviousSchool(applicationId) VALUES (%d)", $applicationId);
-					Database::iquery("INSERT INTO APPLICATION_CivilViolation(applicationId) VALUES (%d)", $applicationId);
-					Database::iquery("INSERT INTO APPLICATION_DisciplinaryViolation(applicationId) VALUES (%d)", $applicationId);
 					Database::iquery("INSERT INTO APPLICATION_GRE(applicationId) VALUES (%d)", $applicationId);
 
 					// Create 3 default recommendations
@@ -330,7 +331,7 @@ class ApplicationController
 		// make sure this is an application of the current user
 		$applicant   = ApplicantController::getActiveApplicant();
 		$application = Database::getFirst("SELECT * FROM `Application` WHERE applicantId = %d AND applicationId = %d", $applicant->id, $applicationId);
-		
+
 		if( $application == array() ) {
 			return false;
 		}
