@@ -26,6 +26,10 @@ class Personal extends ApplicationComponent
 		 	case 'fullName':
 				return $this->givenName . " " . $this->middleName . " " . $this->familyName;
 			break;
+		 	case 'socialSecurityNumber':
+				$ssnResult = DATABASE::getFirst("SELECT AES_DECRYPT(social_security_number, '%s') AS ssn FROM APPLICATION_Primary WHERE applicationId=%d LIMIT 1", $GLOBALS['key'], $this->id);
+				return $ssnResult[0];
+		 	break;			
 		 	case 'pretty_hasDisciplinaryViolation':
 		 		return ($this->hasDisciplinaryViolation == 1) ? "Yes" : "No";
 		 	break;
@@ -57,11 +61,6 @@ class Personal extends ApplicationComponent
 				$output .= ( $this->ethnicity_unspec == 1 ) ? "unspecified":"";
 				return $output;
 		 	break;
-
-		 	case 'socialSecurityNumber':
-				$ssnResult = DATABASE::getFirst("SELECT AES_DECRYPT(social_security_number, '%s') AS ssn FROM APPLICATION_Primary WHERE applicationId=%d LIMIT 1", $GLOBALS['key'], $this->id);
-				return $ssnResult[0];
-		 	break;		 		
 		 }
 
 		 return parent::__get($name);
