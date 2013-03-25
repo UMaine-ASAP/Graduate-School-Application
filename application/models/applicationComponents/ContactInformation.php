@@ -47,21 +47,6 @@ class ContactInformation extends ApplicationComponent
 		return parent::__get($name);
 	}
 
-	public static function getWithId($contactInformationId)
-	{
-		$application = ApplicationController::getActiveApplication();
-		if( $application == null)
-		{
-			return null;
-		}
-		$dbObject = Database::getFirst("SELECT * FROM APPLICATION_ContactInformation WHERE applicationId = %d AND contactInformationId = %d", $application->id, $contactInformationId);
-
-		$contactInfo = Model::factory('ContactInformation');
-
-		$contactInfo->loadFromDB($dbObject);
-		return $contactInfo;
-	} 
-
 	public static function createAndGetId()
 	{
 		$application = ApplicationController::getActiveApplication();
