@@ -1,0 +1,1 @@
+cloc application/controllers application/models/ application/views application/libraries/Database.php application/libraries/Email.php application/libraries/Error.php application/libraries/InputSanitation.php 
