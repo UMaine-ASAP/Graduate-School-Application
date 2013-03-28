@@ -85,6 +85,7 @@ class Model
 			$this->is_dirty[] = $key;
 			$this->values[$key] = $value;
 		} else {
+			error_log("Key $key not found in class: " . get_class($this));
 			//throw new Exception("Key $key does not exist");
 		}
 	}
@@ -296,7 +297,7 @@ class Model
 		{
 			$this->args = array(static::$tableName, $this->whereReplacements[0], $this->whereReplacements[1]);
 		} else {
-			$this->args = array(static::$tableName, $this->primaryKeys[0], $id);
+			$this->args = array(static::$tableName, static::$primaryKeys[0], $id);
 		}
 
 		$result = $this->queryFirst();
