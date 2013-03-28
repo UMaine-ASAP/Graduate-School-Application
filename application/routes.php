@@ -1040,6 +1040,7 @@ $app->get('/application/section/review', $authenticated, $applicationNotSubmitte
 	$applicant   = ApplicantController::getActiveApplicant();
 	$application = ApplicationController::getActiveApplication();
 
+
 	// check for errors
 	$errors = $application->checkRequiredFields();
 
@@ -1130,7 +1131,7 @@ $app->get('/application/submit-without-payment', $authenticated, $applicationNot
 	$application->submitWithPayment(false);
 	
 	render(
-		'application/payment_response.twig', 
+		'application/paymentResponse.twig', 
 		array('TITLE' 					=> 'Application Submitted',
 			'APPLICATION_RESULT_MESSAGE' 	=> 'Your application was submitted successfully.',
 			'ADDITIONAL_MESSAGE' 		=> 'As soon as your payment has been received your application will be reviewed.'
@@ -1152,7 +1153,7 @@ $app->get('/application/submit-without-payment', $authenticated, $applicationNot
 $app->get('/payment/success', function()
 {
 	render(
-		'application/payment_response.twig', 
+		'application/paymentResponse.twig', 
 		array('TITLE' 					=> 'Transaction Successful',
 			'APPLICATION_RESULT_MESSAGE' 	=> 'Your application was submitted successfully.',
 			'ADDITIONAL_MESSAGE' 		=> 'As soon as your payment has been received your application will be reviewed.'
@@ -1167,7 +1168,7 @@ $app->get('/payment/success', function()
 $app->get('/payment/cancel', function()
 {
 	render(
-		'application/payment_response.twig', 
+		'application/paymentResponse.twig', 
 		array('TITLE' 					=> 'Transaction Canceled',
 			'APPLICATION_RESULT_MESSAGE' 	=> 'You have successfully submitted an online application to The University of Maine Graduate School, however your application fee payment transaction has been cancelled. Please contact the Graduate School office at 207-581-3291 to pay the application fee. Applications are not processed until an application fee has been received.',
 			'ADDITIONAL_MESSAGE' 		=> ''
@@ -1182,7 +1183,7 @@ $app->get('/payment/cancel', function()
 $app->get('/payment/failed', function()
 {
 	render(
-		'application/payment_response.twig', 
+		'application/paymentResponse.twig', 
 		array('TITLE' 					=> 'Transaction Failed',
 			'APPLICATION_RESULT_MESSAGE' 	=> 'Your transaction has failed.',
 			'ADDITIONAL_MESSAGE' 		=> ''
