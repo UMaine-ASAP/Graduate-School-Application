@@ -1099,6 +1099,13 @@ $app->get('/application/submit-with-payment', $authenticated, $applicationNotSub
 {
 	$application = ApplicationController::getActiveApplication();
 
+	// Check required fields -> redirect if application is not complete
+	$errors = $application->checkRequiredFields();
+	if( count($errors) > 0 )
+	{
+		redirect('/application/section/review');
+	}
+
 	//Send Payment - redirects to Touchnet
 	$application->submitWithPayment(true);
 });
@@ -1111,6 +1118,14 @@ $app->get('/application/submit-without-payment', $authenticated, $applicationNot
 {
 	$application = ApplicationController::getActiveApplication();
 	
+	// Check required fields -> redirect if application is not complete
+	$errors = $application->checkRequiredFields();
+	if( count($errors) > 0 )
+	{
+		redirect('/application/section/review');
+	}
+
+
 	// Submit
 	$application->submitWithPayment(false);
 	
