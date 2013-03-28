@@ -242,7 +242,7 @@ $applicationNotSubmitted = function() use ($app)
 	// Redirect if application has already been submitted
 	if( $application->hasBeenSubmitted )
 	{
-		$app->flash('error', 'Application already been submitted');
+		$app->flash('error', 'Application has already been submitted');
 		redirect('/my-applications');
 	}
 
