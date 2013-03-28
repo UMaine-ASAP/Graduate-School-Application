@@ -277,6 +277,12 @@
 				'maxLength':15
 			} ) }}
 
+
+		{{ forms.select( {'title':'Country', 
+					'name':'international-homeEmergencyContactInfo-country',
+					'value':application.international.homeEmergencyContactInfo.country, 
+					'options': application.options_country
+				 }) }}
 			
 		<div style="clear:both;"></div>
 	</fieldset><!-- end fieldset "home_emergency_contact" -->
