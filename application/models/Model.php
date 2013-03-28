@@ -284,12 +284,20 @@ class Model
 	/**
 	 * Retrieve a model object from the query
 	 * 
+	 * @param    int    The id of the element to retrieve (optional)
+	 * 
 	 * @return    Object    Model
 	 */
-	public function first()
+	public function first($id=-1)
 	{
 		$this->query = "SELECT * FROM %s WHERE %s = %d ";
-		$this->args = array(static::$tableName, $this->whereReplacements[0], $this->whereReplacements[1]);		
+
+		if($id == -1)
+		{
+			$this->args = array(static::$tableName, $this->whereReplacements[0], $this->whereReplacements[1]);
+		} else {
+			$this->args = array(static::$tableName, $this->primaryKeys[0], $id);
+		}
 
 		$result = $this->queryFirst();
 		$this->loadFromDB($result);
