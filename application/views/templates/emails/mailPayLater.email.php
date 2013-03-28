@@ -7,7 +7,7 @@ $headers = "From: UMaine Graduate School <graduate@maine.edu>\r\nMIME-Version: 1
 // Message
 $message = "University of Maine Graduate Application Received - Fee Required";
 
-$message .= "\r\rThank you for your application to the Graduate School. You must submit the payment of ${{APPLICATION_FEE}} for your application fee in order for your file to be reviewed for admission.";
+$message .= "\r\rThank you for your application to the Graduate School. You must submit the payment of \${{APPLICATION_FEE}} for your application fee in order for your file to be reviewed for admission.";
 $message .= "\rThe fee may be paid by sending a check/money order, made payable to University of Maine, to the address listed below.  Or you may call our office at 207-581-3291 to pay with a Visa or Mastercard.";
 
 $message .="\r\rInstructions regarding how to log in to MaineStreet - the University's student information system - will be sent shortly with information on how to check the status of your application or pay your fee online, through your Student Center.";
