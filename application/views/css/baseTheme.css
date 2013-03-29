@@ -39,6 +39,11 @@ p {
 
 .center { margin: 0 auto; }
 
+.stand-alone {
+	display: block;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
 
 /* =============================================================== */
 /* = Header
@@ -246,7 +251,7 @@ section#content-forgotten-resetPasswordForm {
 /* - Login Section
 /* ---------------------- */
 
-section#content-login {
+section#content-login, section#content-createAccount {
 	font-size: 16px;
 	margin-top: 5em;
 }
@@ -261,8 +266,8 @@ section#content-login #signin {
 	margin:0px 4em 0px .7em;
 }
 
-section#content-login #signin, section#content-login #create_account { 
-	float: left;
+section#content-login #signin, section#content-createAccount #create_account { 
+	margin: 0 auto;
 }
 	
 section#content-login #signin * [type='text'], section#content-login #signin * [type='password'] {

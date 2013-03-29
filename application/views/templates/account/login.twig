@@ -10,7 +10,7 @@
 
 {% block content %}
 
-	<div id="signin" class='login shortFormContainer'>
+	<div id="signin" class='shortFormContainer'>
 		<div id="success_msg">{{ flash['success'] | raw}}</div>
 		<div id='errors'>{{ flash['errors'] | raw }}</div>
 		<form id="signinForm" class='shortForm' method="post" accept-charset="utf-8">
@@ -28,51 +28,13 @@
 
 				<input type="hidden" name="form_name" value="signIn" id="whichform"/>
 				<input type="submit" name="signin" value="Sign In"/>
-				<a href="{{WEBROOT}}/account/forgot-password">forgot password?</a>
+				<a class='stand-alone' href="{{WEBROOT}}/account/forgot-password">forgot password?</a>
+				<a class='stand-alone' href="{{WEBROOT}}/account/create-account">Create Account</a>
 
 				<div style="clear:both"></div>
 			</fieldset>
 		</form>
 	</div>
 
-	<div id="create_account" class='login shortFormContainer'>
-				<div id="account_created_success">{{ flash['account_created_success'] | raw}}</div>
-		<form method="post" action="{{WEBROOT}}/account/register" class='shortForm' accept-charset="utf-8" id="createForm">
-			<fieldset>
-				<legend>Create a New Account</legend>
-				<div id='errors'>{{ flash['account-creation-errors'] | raw}}</div>
-				<label for="create_givenName">
-					<p class="title">given name</p>
-					<input class="required givenName" type="text" name="create_givenName" value="" id="create_givenName" size="27"/>
-				</label>
-				<label for="create_lastName">
-					<p class="title">last name</p>
-					<input class="required lastName" type="text" name="create_lastName" value="" id="create_lastName" size="27"/>
-				</label>				
-				<label for="create_email">
-					<p class="title">e-mail address</p>
-					<input class="required email" type="text" name="create_email" value="" id="create_email" size="27"/>
-				</label>
-				<label for="create_email_confirm">
-					<p class="title">confirm e-mail</p>
-					<input class="required email" type="text" name="create_email_confirm" value="" id="create_email_confirm" size="27"/>
-				</label>
-				<label for="create_password">
-					<p class="title">create password</p>
-					<input class="create_password" minLength="2" type="password" name="create_password" value="" id="create_password" size="27"/>
-				</label>
-				<label for="create_password_confirm">
-					<p class="title">confirm password</p>
-					<input class="create_password_confirm" minLength="2" type="password" name="create_password_confirm" value="" id="create_password_confirm" size="27"/>
-				</label>
 
-				<input type="submit" name="create" value="Create Account"/>
-
-				<div style="clear:both"></div>
-			</fieldset>
-		</form>
-		{% if CREATE_MESSAGE %}
-			<div id="create_msg">{{CREATE_MESSAGE}}</div>
-		{% endif %}
-	</div>
 {% endblock %}

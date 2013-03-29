@@ -1,0 +1,47 @@
+{% extends 'pageLayout.twig' %}
+{% import "forms.macro.twig" as forms %}
+
+{% block title %}Create Account{% endblock %}
+{% block pageTitle %}Create Account{% endblock %}
+{% block head %}
+<script type="text/javascript" charset="utf-8" src='{{JSPATH}}/loginPage.js'></script>
+
+{% endblock %}
+
+{% block content %}
+	<div id="create_account" class='shortFormContainer'>
+		<form method="post" class='shortForm' accept-charset="utf-8" id="createForm">
+			<fieldset>
+				<legend>Create a New Account</legend>
+				<label for="create_givenName">
+					<p class="title">given name</p>
+					<input class="required givenName" type="text" name="create_givenName" value="" id="create_givenName" size="27"/>
+				</label>
+				<label for="create_lastName">
+					<p class="title">last name</p>
+					<input class="required lastName" type="text" name="create_lastName" value="" id="create_lastName" size="27"/>
+				</label>				
+				<label for="create_email">
+					<p class="title">e-mail address</p>
+					<input class="required email" type="text" name="create_email" value="" id="create_email" size="27"/>
+				</label>
+				<label for="create_email_confirm">
+					<p class="title">confirm e-mail</p>
+					<input class="required email" type="text" name="create_email_confirm" value="" id="create_email_confirm" size="27"/>
+				</label>
+				<label for="create_password">
+					<p class="title">create password</p>
+					<input class="create_password" minLength="2" type="password" name="create_password" value="" id="create_password" size="27"/>
+				</label>
+				<label for="create_password_confirm">
+					<p class="title">confirm password</p>
+					<input class="create_password_confirm" minLength="2" type="password" name="create_password_confirm" value="" id="create_password_confirm" size="27"/>
+				</label>
+
+				<input type="submit" name="create" value="Create Account"/>
+
+				<div style="clear:both"></div>
+			</fieldset>
+		</form>
+	</div>
+{% endblock %}

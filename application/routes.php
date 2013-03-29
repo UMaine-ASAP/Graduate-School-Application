@@ -281,7 +281,6 @@ $app->get('/', function()
  */
 $app->get('/login', function() use($app) 
 {
-
 	if( ApplicantController::applicantIsLoggedIn()) {
 		redirect('/my-applications');
 	}
@@ -339,6 +338,55 @@ $app->post('/login', function() use ($app)
 	}
 });
 
+/**
+ * Create Account
+ */
+$app->get('/account/create-account', function() use ($app) {
+	if( ApplicantController::applicantIsLoggedIn()) {
+		redirect('/my-applications');
+	}
+
+	render('account/createAccount.twig', array());
+});
+
+/**
+ * Attempt Account Registration
+ * 
+ * Processes a new user submission
+ */
+$app->post('/account/create-account', function() use ($app)
+{
+	$firstName        = $app->request()->post('create_givenName');
+	$lastName         = $app->request()->post('create_lastName');
+	$email            = $app->request()->post('create_email');
+	$email_confirm    = $app->request()->post('create_email_confirm');
+	$password         = $app->request()->post('create_password');
+	$password_confirm = $app->request()->post('create_password_confirm');			
+
+	// Validate Data
+	$error_messages = new ErrorTracker();
+	if( empty($firstName) or empty($lastName)) 			 { $error_messages->add('You did not enter a first or last name'); }
+	if( empty($email) or $email == 'e-mail address') 		 { $error_messages->add('You did not enter an email address'); }
+	if( empty($email_confirm) ) 	 					 { $error_messages->add('You did not confirm your email address'); }
+	if( empty($password) ) 		 					 { $error_messages->add('You did not enter a password'); }
+	if( empty($password_confirm) ) 					 { $error_messages->add('You did not confirm your password choice'); }
+	if( $email != $email_confirm ) 					 { $error_messages->add('The email address you provided did not match'); }
+	if( $password != $password_confirm ) 				 { $error_messages->add('The passwords you provided did not match'); }
+	if( ApplicantController::accountExists($email) ) 	{ $error_messages->add("A user with that name already exists. If you forgot your password, you can recover it <a href='" . $GLOBALS['WEBROOT'] . "/account/forgot-password'>here</a>."); }
+
+	// Create new Application
+	if( !$error_messages->hasErrors() ) 
+	{
+		ApplicantController::createAccount($email, $password, $firstName, $lastName);
+
+		$app->flash('success', 'Account created. Please check your email for a link to confirm your email address.' );
+		redirect('/login');
+	} else {
+		// Display Errors
+		$app->flash('errors', $error_messages->render() );
+		redirect('/login');
+	}
+});
 
 /**
  * Attempt to confirm account
@@ -394,45 +442,6 @@ $app->get('/logout', function() use ($app)
 	redirect('/login');
 });
 
-
-/**
- * Attempt Account Registration
- * 
- * Processes a new user submission
- */
-$app->post('/account/register', function() use ($app)
-{
-	$firstName        = $app->request()->post('create_givenName');
-	$lastName         = $app->request()->post('create_lastName');
-	$email            = $app->request()->post('create_email');
-	$email_confirm    = $app->request()->post('create_email_confirm');
-	$password         = $app->request()->post('create_password');
-	$password_confirm = $app->request()->post('create_password_confirm');			
-
-	// Validate Data
-	$error_messages = new ErrorTracker();
-	if( empty($firstName) or empty($lastName)) 			 { $error_messages->add('You did not enter a first or last name'); }
-	if( empty($email) or $email == 'e-mail address') 		 { $error_messages->add('You did not enter an email address'); }
-	if( empty($email_confirm) ) 	 					 { $error_messages->add('You did not confirm your email address'); }
-	if( empty($password) ) 		 					 { $error_messages->add('You did not enter a password'); }
-	if( empty($password_confirm) ) 					 { $error_messages->add('You did not confirm your password choice'); }
-	if( $email != $email_confirm ) 					 { $error_messages->add('The email address you provided did not match'); }
-	if( $password != $password_confirm ) 				 { $error_messages->add('The passwords you provided did not match'); }
-	if( ApplicantController::accountExists($email) ) 	{ $error_messages->add("A user with that name already exists. If you forgot your password, you can recover it <a href='" . $GLOBALS['WEBROOT'] . "/account/forgot-password'>here</a>."); }
-
-	// Create new Application
-	if( !$error_messages->hasErrors() ) 
-	{
-		ApplicantController::createAccount($email, $password, $firstName, $lastName);
-
-		$app->flash('account_created_success', 'Account created. Please check your email for a link to confirm your email address.' );
-		redirect('/login');
-	} else {
-		// Display Errors
-		$app->flash('account-creation-errors', $error_messages->render() );
-		redirect('/login');
-	}
-});
 
 
 /**
