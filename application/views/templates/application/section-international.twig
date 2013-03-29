@@ -5,6 +5,7 @@
 {% block pageName %}Application - International{% endblock %}
 
 {% block form %}
+{% set international = application.international %}
 
 <form action="" method="post" autocomplete="off">
 <fieldset id="international" name="international">
@@ -16,7 +17,7 @@
 		
 		{{ forms.booleanDisplay( {'title':'Are you a citizen of the United States?',
 				'name':'international-isInternationalStudent',
-				'value':application.international.isInternationalStudent,
+				'value':international.isInternationalStudent,
 				'showOnTrue':false
 			} ) }}
 		<div style="clear:both"></div>
@@ -31,7 +32,7 @@
 				
 				{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the TOEFL examination?',
 						'name':'international-toefl_hasTaken',
-						'value':application.international.toefl_hasTaken,
+						'value':international.toefl_hasTaken,
 						'showOnTrue':true
 					} ) }}
 
@@ -41,7 +42,7 @@
 	
 			{{ forms.input({'title':'Date of Exam',
 					'name':'international-toefl_date',
-					'value':application.international.toefl_date,
+					'value':international.toefl_date,
 					'size': 10,
 					'maxLength':10,
 					'help':'mm/dd/yyyy'
@@ -49,7 +50,7 @@
 
 			{{ forms.input({'title':'TOEFL Score',
 					'name':'international-toefl_score',
-					'value':application.international.toefl_score,
+					'value':international.toefl_score,
 					'size': 7,
 					'maxLength':10,
 				} ) }}	
@@ -58,7 +59,7 @@
 			
 				{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
 						'name':'international-toefl_hasReported',
-						'value':application.international.toefl_hasReported,
+						'value':international.toefl_hasReported,
 						'showOnTrue':false
 					} ) }}			
 
@@ -79,7 +80,7 @@
 
 			{{ forms.boolean( {'title':'Will you continue studies for another degree?',
 					'name':'international-hasFurtherStudies',
-					'value':application.international.hasFurtherStudies,
+					'value':international.hasFurtherStudies,
 					'showOnTrue':false
 				} ) }}			
 
@@ -90,7 +91,7 @@
 			<!-- Need a form type for text area.... -->
 			{{ forms.textarea( {'title':'Briefly describe the subject, location, estimated beginning date and approximate duration',
 					'name':'international-furtherStudiesDetails',
-					'value':application.international.furtherStudiesDetails,
+					'value':international.furtherStudiesDetails,
 					'cols': 60,
 					'rows':5,
 				} ) }}
@@ -99,7 +100,7 @@
 
 			{{ forms.boolean( {'title':'Will you pursue a career <strong>in the United States</strong> after completion of studies?',
 					'name':'international-hasUSCareer',
-					'value':application.international.hasUSCareer,
+					'value':international.hasUSCareer,
 				} ) }}
 
 		<div style="clear:both"></div>
@@ -108,7 +109,7 @@
 
 			{{ forms.textarea( {'title':'Briefly describe the subject, location, estimated beginning date and approximate duration',
 					'name':'international-usCareerDetails',
-					'value':application.international.usCareerDetails,
+					'value':international.usCareerDetails,
 					'cols': 60,
 					'rows':5,
 				} ) }}
@@ -117,14 +118,14 @@
 			
 			{{ forms.boolean( {'title':'Will you pursue a career <strong>in your home country </strong> after completion of studies?',
 					'name':'international-hasHomeCareer',
-					'value':application.international.hasHomeCareer,
+					'value':international.hasHomeCareer,
 				} ) }}
 
 		<div class="hidden" id="home_career_section">
 
 			{{ forms.textarea( {'title':'Briefly describe the subject, location, estimated beginning date and approximate duration',
 					'name':'international-homeCareerDetails',
-					'value':application.international.homeCareerDetails,
+					'value':international.homeCareerDetails,
 					'cols': 60,
 					'rows':5,
 				} ) }}
@@ -138,7 +139,7 @@
 
 		{{ forms.textarea( {'title':'How do you expect to finance your graduate study?',
 				'name':'international-financeDetails',
-				'value':application.international.financeDetails,
+				'value':international.financeDetails,
 				'cols': 60,
 				'rows':5,
 			} ) }}
@@ -146,7 +147,7 @@
 		<!-- need database field 'usFriendsOrRelatives' for this info -->
 		{{ forms.textarea( {'title':'List the names and addresses of any close friends or relatives in the United States (indicate relationship)',
 			'name':'international-usFriendsOrRelatives',
-			'value':application.international.usFriendsOrRelatives,
+			'value':international.usFriendsOrRelatives,
 			'cols': 60,
 			'rows':5,
 			} ) }}
@@ -159,57 +160,59 @@
 		<legend>United States Emergency Contact</legend>
 		<p class="title">Please list a close friend or relative <b>in the United States</b> that should be contacted in case of emergency.</p>
 		
+		{% set usEmergencyContactInfo = international.usEmergencyContactInfo %}
+
 		{{ forms.input( {'title':'Name', 
 				'name':'international-usEmergencyContact_name',
-				'value':application.international.usEmergencyContact_name,
+				'value':international.usEmergencyContact_name,
 				'size': 25,
 				'maxLength':30
 			} ) }}
 
 		{{ forms.input( {'title':'Relationship', 
 				'name':'international-usEmergencyContact_relationship',
-				'value':application.international.usEmergencyContact_relationship,
+				'value':international.usEmergencyContact_relationship,
 				'size': 25,
 				'maxLength':30
 			} ) }}	
 
 		{{ forms.input( {'title':'Phone Number', 
 				'name':'international-usEmergencyContactInfo-primaryPhone',
-				'value':application.international.usEmergencyContactInfo.primaryPhone,
+				'value':usEmergencyContactInfo.primaryPhone,
 				'size': 15,
 				'maxLength':15
 			} ) }}
 
 		{{ forms.input( {'title':'Street', 
 				'name':'international-usEmergencyContactInfo-streetAddress1',
-				'value':application.international.usEmergencyContactInfo.streetAddress1,
+				'value':usEmergencyContactInfo.streetAddress1,
 				'size': 55,
 				'maxLength':55
 			} ) }}
 
 		{{ forms.input( {'title':'Additional', 
 				'name':'international-usEmergencyContactInfo-streetAddress2',
-				'value':application.international.usEmergencyContactInfo.streetAddress2,
+				'value':usEmergencyContactInfo.streetAddress2,
 				'size': 55,
 				'maxLength':55
 			} ) }}
 
 		{{ forms.input( {'title':'City', 
 				'name':'international-usEmergencyContactInfo-city',
-				'value':application.international.usEmergencyContactInfo.city,
+				'value':usEmergencyContactInfo.city,
 				'size': 30,
 				'maxLength':30
 			} ) }}
 
 		{{ forms.select( {'title':'State', 
 				'name':'international-usEmergencyContactInfo-state',
-				'value':application.international.usEmergencyContactInfo.state,
+				'value':usEmergencyContactInfo.state,
 				'options': application.options_state
 			} ) }}
 
 		{{ forms.input( {'title':'Postal Code', 
 				'name':'international-usEmergencyContactInfo-postal',
-				'value':application.international.usEmergencyContactInfo.postal,
+				'value':usEmergencyContactInfo.postal,
 				'size': 15,
 				'maxLength':15
 			} ) }}
@@ -222,57 +225,60 @@
 		<legend>Home Country Emergency Contact</legend>
 		<p class="title">Please list a close friend or relative <strong>in your home country </strong> that should be contacted in case of emergency.</p>
 		
+		{% set homeEmergencyContactInfo = international.homeEmergencyContactInfo %}
+
+
 		{{ forms.input( {'title':'Name', 
 				'name':'international-homeEmergencyContact_name',
-				'value':application.international.homeEmergencyContact_name,
+				'value':international.homeEmergencyContact_name,
 				'size': 25,
 				'maxLength':30
 			} ) }}
 
 		{{ forms.input( {'title':'Relationship', 
 				'name':'international-homeEmergencyContact_relationship',
-				'value':application.international.homeEmergencyContact_relationship,
+				'value':international.homeEmergencyContact_relationship,
 				'size': 25,
 				'maxLength':30
 			} ) }}	
 
 		{{ forms.input( {'title':'Phone Number', 
 				'name':'international-homeEmergencyContactInfo-primaryPhone',
-				'value':application.international.homeEmergencyContactInfo.primaryPhone,
+				'value':homeEmergencyContactInfo.primaryPhone,
 				'size': 15,
 				'maxLength':15
 			} ) }}
 
 		{{ forms.input( {'title':'Street', 
 				'name':'international-homeEmergencyContactInfo-streetAddress1',
-				'value':application.international.homeEmergencyContactInfo.streetAddress1,
+				'value':homeEmergencyContactInfo.streetAddress1,
 				'size': 55,
 				'maxLength':55
 			} ) }}
 
 		{{ forms.input( {'title':'Additional', 
 				'name':'international-homeEmergencyContactInfo-streetAddress2',
-				'value':application.international.homeEmergencyContactInfo.streetAddress2,
+				'value':homeEmergencyContactInfo.streetAddress2,
 				'size': 55,
 				'maxLength':55
 			} ) }}
 
 		{{ forms.input( {'title':'City', 
 				'name':'international-homeEmergencyContactInfo-city',
-				'value':application.international.homeEmergencyContactInfo.city,
+				'value':homeEmergencyContactInfo.city,
 				'size': 30,
 				'maxLength':30
 			} ) }}
 
 		{{ forms.select( {'title':'State', 
 				'name':'international-homeEmergencyContactInfo-state',
-				'value':application.international.homeEmergencyContactInfo.state,
+				'value':homeEmergencyContactInfo.state,
 				'options': application.options_state
 			} ) }}
 
 		{{ forms.input( {'title':'Postal Code', 
 				'name':'international-homeEmergencyContactInfo-postal',
-				'value':application.international.homeEmergencyContactInfo.postal,
+				'value':homeEmergencyContactInfo.postal,
 				'size': 15,
 				'maxLength':15
 			} ) }}
@@ -280,7 +286,7 @@
 
 		{{ forms.select( {'title':'Country', 
 					'name':'international-homeEmergencyContactInfo-country',
-					'value':application.international.homeEmergencyContactInfo.country, 
+					'value':homeEmergencyContactInfo.country, 
 					'options': application.options_country
 				 }) }}
 			

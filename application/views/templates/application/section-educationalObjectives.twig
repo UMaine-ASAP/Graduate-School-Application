@@ -33,17 +33,19 @@
 			}
 		</script>
 
+	{% set degree = application.degree %}
+
 		{{ forms.select( {'title':'Department', 
 				'name':'degree-academic_program',
-				'value':application.degree.academic_program, 
-				'options': application.degree.options_academicDeptCode,
+				'value':degree.academic_program, 
+				'options': degree.options_academicDeptCode,
 				'isRequired':true
 			 }) }}	
 
 		 {{ forms.select( {'title':'Degree', 
 				'name':'degree-academic_plan',
-				'value':application.degree.academic_plan, 
-				'options': application.degree.options_academicPlan,
+				'value':degree.academic_plan, 
+				'options': degree.options_academicPlan,
 				'isRequired':true
 			 }) }}	
 				
@@ -51,14 +53,14 @@
 
 		{{ forms.input( {'title':'Major area of Interest',
 				'name':'degree-academic_major',
-				'value':application.degree.academic_major,
+				'value':degree.academic_major,
 				'size': 30,
 				'maxLength': 30,
 			} ) }}
 
 		{{ forms.input( {'title':'Minor area of Interest',
 				'name':'degree-academic_minor',
-				'value':application.degree.academic_minor,
+				'value':degree.academic_minor,
 				'size': 30,
 				'maxLength': 30,
 			} ) }}
@@ -67,7 +69,7 @@
 
 		{{ forms.select( {'title':'Student Type', 
 				'name':'degree-studentType',
-				'value':application.degree.studentType, 
+				'value':degree.studentType, 
 				'options': application.options_studentType, 
 				'isRequired':true
 			 }) }}
@@ -88,7 +90,7 @@
 		
 		{{ forms.select( {'title':'Do you expect to study full time or part time?', 
 				'name':'degree-academic_load',
-				'value':application.degree.academic_load, 
+				'value':degree.academic_load, 
 				'options': application.options_academicYear,
 				'isRequired':true
 			 }) }}
@@ -107,7 +109,7 @@
 
 			{{ forms.boolean( {'title':'Do you wish to apply for an assistantship?',
 					'name':'degree-isSeekingAssistantship',
-					'value':application.degree.isSeekingAssistantship,
+					'value':degree.isSeekingAssistantship,
 				} ) }}
 
 			<div style="clear:both"></div>
@@ -146,7 +148,7 @@
 			
 			{{ forms.boolean( {'title':'Do you intend to apply for certification of eligibility under the New England Regional Student Program?',
 					'name':'degree-isApplyingNebhe',
-					'value':application.degree.isApplyingNebhe,
+					'value':degree.isApplyingNebhe,
 				} ) }}
 			
 			<div style="clear:both"></div>

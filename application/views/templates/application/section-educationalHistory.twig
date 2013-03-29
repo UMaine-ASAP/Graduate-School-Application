@@ -16,9 +16,11 @@
 <fieldset id="previous_app" name="previous_app" class="nested">
 	<legend>Previous Application to University of Maine</legend>
 
+	{% set personal = application.personal %}
+
 	{{ forms.booleanDisplay( {'title':'Have you previously applied to the University of Maine?',
 			'name':'personal-prevUMGradApp_appExists',
-			'value':application.personal.prevUMGradApp_appExists,
+			'value':personal.prevUMGradApp_appExists,
 			'showOnTrue':true,
 			'isRequired':true
 		} ) }}
@@ -29,7 +31,7 @@
 		
 		{{ forms.booleanDisplay( {'title':'For a graduate program?',
 			'name':'personal-prevUMGradApp_gradAppExists',
-			'value':application.personal.prevUMGradApp_gradAppExists,
+			'value':personal.prevUMGradApp_gradAppExists,
 			'showOnTrue':true
 		} ) }}
 
@@ -40,7 +42,7 @@
 			
 			{{ forms.input( {'title':'When did you apply?',
 					'name':'personal-prevUMGradApp_date',
-					'value':application.personal.prevUMGradApp_date,
+					'value':personal.prevUMGradApp_date,
 					'size':14,
 					'maxLength':7,
 					'help':'mm/yyyy'
@@ -48,7 +50,7 @@
 
 			{{ forms.select( {'title':'To which department?',
 					'name':'personal-prevUMGradApp_dept',
-					'value':application.personal.prevUMGradApp_dept,
+					'value':personal.prevUMGradApp_dept,
 					'options':application.degree.options_academicDeptCode
 				} ) }}
 
@@ -57,14 +59,14 @@
 			
 			{{ forms.input( {'title':'Degree awarded',
 					'name':'personal-prevUMGradApp_degree',
-					'value':application.personal.prevUMGradApp_degree,
+					'value':personal.prevUMGradApp_degree,
 					'size':31,
 					'maxLength':30
 				} ) }}
 
 			{{ forms.input( {'title':'Date awarded',
 					'name':'personal-prevUMGradApp_degreeDate',
-					'value':application.personal.prevUMGradApp_degreeDate,
+					'value':personal.prevUMGradApp_degreeDate,
 					'size':14,
 					'maxLength':7,
 					'help':'mm/yyyy'					
@@ -75,7 +77,7 @@
 
 			{{ forms.booleanDisplay( {'title':'Did you withdraw?',
 				'name':'personal-prevUMGradWithdraw_exists',
-				'value':application.personal.prevUMGradWithdraw_exists,
+				'value':personal.prevUMGradWithdraw_exists,
 				'showOnTrue':true
 			} ) }}
 	
@@ -85,7 +87,7 @@
 				
 				{{ forms.input( {'title':'Date withdrawn',
 					'name':'personal-prevUMGradWithdraw_date',
-					'value':application.personal.prevUMGradWithdraw_date,
+					'value':personal.prevUMGradWithdraw_date,
 					'size':14,
 					'maxLength':7,
 					'help':'mm/yyyy'
@@ -130,14 +132,14 @@
 
 		{{ forms.input( {'title':'Cumulative undergraduate grade point average',
 				'name':'personal-undergradGPA',
-				'value':application.personal.undergradGPA,
+				'value':personal.undergradGPA,
 				'size':4,
 				'maxLength':4
 			} ) }}
 
 		{{ forms.input( {'title':'Cumulative post-baccalaureate grade point average',
 				'name':'personal-postbaccGPA',
-				'value':application.personal.postbaccGPA,
+				'value':personal.postbaccGPA,
 				'size':4,
 				'maxLength':4
 			} ) }}
@@ -146,7 +148,7 @@
 
 		{{ forms.textarea( {'title':'List, by title, all course work you expect to take or courses you expect to take before enrolling at UM. <b>Please have a supplementary transcript sent to the Graduate School when grades are available.</b>',
 				'name':'personal-previousCourseWork',
-				'value':application.personal.previousCourseWork,
+				'value':personal.previousCourseWork,
 				'cols':60,
 				'rows':5
 			} ) }}
@@ -163,7 +165,7 @@
 	<!-- need additional record functionality -->
 	{{ forms.booleanDisplay( {'title':'Have you ever been found responsible for a disciplinary violation at a post-secondary educational institution you have attended (or the international equivalent) whether related to academic misconduct or behavioral misconduct, that resulted in your suspension, removal, dismissal or expulsion from the institution?',
 			'name':'personal-hasDisciplinaryViolation',
-			'value':application.personal.hasDisciplinaryViolation,
+			'value':personal.hasDisciplinaryViolation,
 			'isRequired':true
 		} ) }}
 
@@ -194,7 +196,7 @@
 
 	{{ forms.booleanDisplay( {'title':'Have you ever been convicted of a misdemeanor, felony or other crime, or adjudicated of committing a juvenile crime?',
 			'name':'personal-hasCivilViolation',
-			'value':application.personal.hasCivilViolation,
+			'value':personal.hasCivilViolation,
 			'isRequired':true			
 		} ) }}	
 
@@ -236,7 +238,7 @@
 
 			{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the GRE?',
 				'name':'personal-hasTakenGRE',
-				'value':application.personal.hasTakenGRE,
+				'value':personal.hasTakenGRE,
 				'showOnTrue':true
 			} ) }}
 		
@@ -265,7 +267,7 @@
 					
 			{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the GMAT?',
 					'name':'personal-gmat_hasTaken',
-					'value':application.personal.gmat_hasTaken,
+					'value':personal.gmat_hasTaken,
 					'showOnTrue':true
 				} ) }}
 			
@@ -275,7 +277,7 @@
 				
 				{{ forms.input( {'title':'Date of Exam',
 						'name':'personal-gmat_date',
-						'value':application.personal.gmat_date,
+						'value':personal.gmat_date,
 						'size':14,
 						'maxLength':7,
 						'help':'mm/yyyy'					
@@ -283,28 +285,28 @@
 
 				{{ forms.input( {'title':'Verbal',
 						'name':'personal-gmat_verbal',
-						'value':application.personal.gmat_verbal,
+						'value':personal.gmat_verbal,
 						'size':2,
 						'maxLength':2
 					} ) }}
 
 				{{ forms.input( {'title':'Quantitative',
 						'name':'personal-gmat_quantitative',
-						'value':application.personal.gmat_quantitative,
+						'value':personal.gmat_quantitative,
 						'size':2,
 						'maxLength':2
 					} ) }}
 
 				{{ forms.input( {'title':'Analytical',
 						'name':'personal-gmat_analytical',
-						'value':application.personal.gmat_analytical,
+						'value':personal.gmat_analytical,
 						'size':3,
 						'maxLength':3
 					} ) }}	
 
 				{{ forms.input( {'title':'Total Score',
 						'name':'personal-gmat_score',
-						'value':application.personal.gmat_score,
+						'value':personal.gmat_score,
 						'size':3,
 						'maxLength':3
 					} ) }}
@@ -313,7 +315,7 @@
 
 				{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
 						'name':'personal-gmat_hasReported',
-						'value':application.personal.gmat_hasReported
+						'value':personal.gmat_hasReported
 					} ) }}
 
 			<div style="clear:both"></div>
@@ -327,7 +329,7 @@
 
 			{{ forms.booleanDisplay( {'title':'Have you taken or plan to take the MAT?',
 					'name':'personal-mat_hasTaken',
-					'value':application.personal.mat_hasTaken,
+					'value':personal.mat_hasTaken,
 					'showOnTrue':true
 				} ) }}
 
@@ -337,7 +339,7 @@
 				
 				{{ forms.input( {'title':'Date of Exam',
 						'name':'personal-mat_date',
-						'value':application.personal.mat_date,
+						'value':personal.mat_date,
 						'size':14,
 						'maxLength':7,
 						'help':'mm/yyyy'					
@@ -345,7 +347,7 @@
 
 				{{ forms.input( {'title':'MAT Score',
 						'name':'personal-mat_score',
-						'value':application.personal.mat_score,
+						'value':personal.mat_score,
 						'size':3,
 						'maxLength':3
 					} ) }}
@@ -355,7 +357,7 @@
 
 				{{ forms.boolean( {'title':'Has this score been reported to the University of Maine?',
 						'name':'personal-mat_hasReported',
-						'value':application.personal.mat_hasReported,
+						'value':personal.mat_hasReported,
 						'showOnTrue':false
 					} ) }}
 
@@ -377,14 +379,14 @@
 
 	{{ forms.input( {'title':'Present Occupation',
 			'name':'personal-presentOccupation',
-			'value':application.personal.presentOccupation,
+			'value':personal.presentOccupation,
 			'size':30,
 			'maxLength':30
 		} ) }}
 		
 	{{ forms.textarea( {'title':'<b>Employment/Extra-Curricular Activities</b><br />List any employment or other activities related to your proposed program of study. If you have taught, name subjects. List published articles or books, research completed or in progress, or any other creative work.',
 			'name':'personal-employmentHistory',
-			'value':application.personal.employmentHistory,
+			'value':personal.employmentHistory,
 			'cols':60,
 			'rows':5
 		} ) }}
@@ -392,7 +394,7 @@
 	{{ forms.textarea( {'title':'<b>Honors/Scholarships</b><br />
 		List any honors, prizes or scholarships previously awarded to you on the basis of academic achievement, or any honor societies to which you have been elected',
 			'name':'personal-academicHonors',
-			'value':application.personal.academicHonors,
+			'value':personal.academicHonors,
 			'cols':60,
 			'rows':5
 		} ) }}
