@@ -97,6 +97,7 @@ Specific Tasks
 	- Certificate program list
 	- application type descriptions
 	- exact cost structure?
+	- what certificate information needs to go to mainestreet?
 
 - Database migration script
 
@@ -104,10 +105,6 @@ Specific Tasks
 	- certificate BUA requires 2 recomendations and GIS requires 1
 	- make sure mainestreet fields sent have the same values (like isSeekingAssitantship should be 1 or yes? -> check carefully)
 	- copy application data from last application
-	- store timestamps for relevant fields?
-	- remove reference filename from database
-	- Model should have a create function (returns new id)
-	- remove progress & structure tables
 	- add cost data into cost table
 
 - Documentation
@@ -126,23 +123,27 @@ Specific Tasks
 			URL Requests
 			Project Files
 		Lessons learned
+		- include Touchnet marketplace documentation
 
 - pdf output
 	- perfect?
 	- display program information
 
-
+certificate program database
 
 - testing
 	- test in IE 6+, Safari, Firefox, Chrome, Opera
 	- cron script
 	- touchnet payment process
+		- success
+			- callback?
+		- failure
+		- cancel
 	- check if all fields are working
 
 
 - Bugs
 	- SSN doesn't save
-	- Academic programs' major and minor are all ready filled in as Journalism and New Media
 	- The "Created" and "Last Modified" times on the My Applications page are not accurate
 
 

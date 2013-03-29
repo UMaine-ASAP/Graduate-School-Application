@@ -184,7 +184,7 @@ All *data submissions* are implemented in routes.php and are HTTP post requests 
 As part of the site configuration, the .htaccess file's exists to redirect all url requests to routes.php according to Apache 2's rewrite rules. If application url requests do not function at all, the server needs to be configured to either allow the .htacess files, or redirect url requests to routes.php. If this is not an option, alternatively you can change the webroot in externalConfiguration.php to http://<webroot_here>/routes.php. The urls will not be as pretty but the application should function properly.
 
 Views
----------
+-----
 
 Views (also known as templates) are the display containers of the application.
 
@@ -207,6 +207,12 @@ The Twig library can be found found in /libs/Twig and /libs/Slim/Twig.php. /libs
 
 - Template names follow the same format as database field names. For example, the template account/forgotten-error.twig belongs to the account category, is descended from the forgotten template file (called forgottenLayout), and is called error.
 
+
+
+Touchnet Payment
+----------------
+
+See Touchnet Marketplace documentation
 
 
 Notes
