@@ -165,12 +165,31 @@
 			$temp .= $appsubdate[2]."/".$appsubdate[1]."/".$appsubdate[0] . "\t";
 			$temp .= $user['application_fee_transaction_amount'] . "\t";
 			$temp .= $user['application_fee_transaction_number'] . "\t";// external transaction id for Touchnet
+
+			// Application payment method (CC, ACH, or blank)
+			switch ($user['application_fee_transaction_payment_method']) {
+				case 'CREDIT':
+					$temp .= "CC\t";
+					break;
+				case 'ACH':
+					$temp .= "ACH\t";
+					break;
+				default:
+					$temp .= "\t";
+					break;
+			}
+
+			// Degree type
+			$temp .= "DEG\t";
+
 		} else {
 			//value is 'N' - use all blanks
 			$temp .= "\t"; //transaction type
 			$temp .= "\t"; //date
 			$temp .= "\t"; //transaction amount
 			$temp .= "\t"; // external transaction id for Touchnet
+			$temp .= "\t"; // Application payment method
+			$temp .= "\t"; // Degree type
 		}
 
 		$temp .= "\n"; // End Application
