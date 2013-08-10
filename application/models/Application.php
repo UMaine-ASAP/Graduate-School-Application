@@ -126,8 +126,6 @@ class Application extends Model
 		 	case 'references':
 		 		return Model::factory('Reference')->whereEqual('applicationId', $this->applicationId)->get();
 		 	break;
-		 	case 'progress':
-		 	break;
 		 	case 'personal':
 		 		if( array_key_exists($name, $this->cache)) {
 		 			return $this->cache[$name];
