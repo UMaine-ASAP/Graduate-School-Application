@@ -36,7 +36,7 @@
 <p align=center><b><span>Graduate School, 42 Stodder Hall, University of Maine, Orono, ME 04469-5755</span></b></p>
 <div align=right style='margin: .5em;'><span>This application was submitted on: </span><b><span>{{ application.submittedDate }}</span></b></div>
 <div align=right style='margin: .2em;'><span>External Application ID: </span><b><span>{{ application.id }}</span></b></div>
-<div align=right style='margin: .2em;'><span>Method:</span><b><span>{{ application.transaction.paymentMethod }}</span></b></div>
+<div align=right style='margin: .2em;'><span>Method:</span><b><span>{{ application.transaction.pretty_paymentMethod }}</span></b></div>
 
 {% set primary = application.personal %}
 <h3>Basic Information</h3>

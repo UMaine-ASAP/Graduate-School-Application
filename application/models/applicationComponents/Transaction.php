@@ -10,7 +10,7 @@ class Transaction extends ApplicationComponent
 	protected static $primaryKeys = array('transactionId');
 
 
-	protected static $availableProperties = array('pretty_isPayingOnline');
+	protected static $availableProperties = array('pretty_isPayingOnline', 'pretty_paymentMethod');
 
 	/**
 	 * Magic Getter
@@ -25,7 +25,10 @@ class Transaction extends ApplicationComponent
 		 switch($name)
 		 {
 		 	case 'pretty_isPayingOnline':
-				return ($personal_data['application_payment_method'] == 1) ? 'Paying Online' : 'Paying Offline';
+				return ($this->isPayingOnline == 1) ? 'Paying Online' : 'Paying Offline';
+		 	break;
+		 	case 'pretty_paymentMethod':
+		 		return ($this->paymentMethod == 'CC') ? 'Credit Card' : $this->paymentMethod;
 		 	break;
 		 }
 
