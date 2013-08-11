@@ -1230,7 +1230,7 @@ $app->post('/payment/callback-update', function() use ($app)
 
 		// Set Payment method. 
 		if( $isPaymentTypeCredit ) {
-			$transaction->paymentMethod = 'CREDIT';
+			$transaction->paymentMethod = 'CC';
 		} else {
 			$transaction->paymentMethod = 'ACH';
 		}

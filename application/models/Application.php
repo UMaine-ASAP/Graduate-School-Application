@@ -73,7 +73,7 @@ class Application extends Model
 
  	// Register our available properties with Model.php
 	protected $cache = array();
-	protected static $availableProperties = array('pretty_usState', 'pretty_birth_state', 'pretty_waiveReferenceViewingRights', 'startInfo', 'placeOfBirth', 'fullName', 'hasBeenSubmitted', 'degree', 'international', 'type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'status', 'cost');
+	protected static $availableProperties = array('typeCode', 'pretty_usState', 'pretty_birth_state', 'pretty_waiveReferenceViewingRights', 'startInfo', 'placeOfBirth', 'fullName', 'hasBeenSubmitted', 'degree', 'international', 'type', 'transaction', 'civilViolations', 'disciplinaryViolations', 'previousSchools', 'degreeInfo', 'preenrollCourses', 'GREScores', 'languages', 'references', 'progress', 'personal', 'sections', 'status', 'cost');
 
 
 	/**
@@ -93,6 +93,23 @@ class Application extends Model
 		 	case 'type':
 				$result = Database::getFirst('SELECT name FROM APPLICATION_Type WHERE applicationTypeId = %d', $this->applicationTypeId);
 		 		return $result['name'];
+		 	case 'typeCode':
+		 	{
+		 		// Mainestreet type code
+		 		switch($this->applicationTypeId) 		
+		 		{
+		 			case ApplicationType::DEGREE:
+		 				return "DEG";
+		 			case ApplicationType::NONDEGREE:
+		 				return "NDG";
+		 			case ApplicationType::CERTIFICATE:
+		 				return "CER";
+		 			default:
+		 				error_log("Application typecode not found");
+		 				break;
+		 		}
+		 		return "";
+		 	}
 		 	case 'transaction':
 		 		if ($this->transactionId == 0) {
 		 			return null;

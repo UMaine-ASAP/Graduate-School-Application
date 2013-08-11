@@ -61,6 +61,24 @@ class Personal extends ApplicationComponent
 				$output .= ( $this->ethnicity_unspec == 1 ) ? "unspecified":"";
 				return $output;
 		 	break;
+		 	case 'ethnicityCodeHisp':
+				return ( $this->ethnicity_hispa == 1 ) ? "HISPA":"";
+			break;
+		 	case 'ethnicityCodeAmind':
+				return ( $this->ethnicity_amind == 1 ) ? "AMIND":"";
+			break;
+		 	case 'ethnicityCodeAsian':
+				return ( $this->ethnicity_asian == 1 ) ? "Asian":"";
+			break;
+		 	case 'ethnicityCodeBlack':
+				return ( $this->ethnicity_black == 1 ) ? "BLACK":"";
+			break;
+		 	case 'ethnicityCodePacif':
+				return ( $this->ethnicity_pacif == 1 ) ? "PACIF":"";
+			break;
+		 	case 'ethnicityCodeWhite':
+				return ( $this->ethnicity_white == 1 ) ? "WHITE":"";
+			break;
 		 }
 
 		 return parent::__get($name);
