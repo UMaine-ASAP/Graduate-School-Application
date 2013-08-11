@@ -21,12 +21,12 @@ Instructions
 ------------
 
 1. setup the database using the sql script "tests/gradschool_application.sql"
-2. Remove tests/
-3. Check privleges and ownership on the folders within applicant_files (if necessary move these outside the web root)
-4. Configure the variables within application/libs/extern_variables.php
-5. move application/libs/extern_variables.php outside the webroot and set the directory information inside application/libs/variables.php to point to extern_variables
+2. Place only the contents of application/ into the webroot
+3. Check privileges and ownership on the folders within applicant_files (if necessary move these outside the web root)
+4. Configure the variables within application/move\_outside\_webroot/externalConfiguration.php
+5. move data within application/move\_outside\_webroot/ outside the webroot and set the directory information inside application/cpmfogiratopm.php to point to externalConfiguration.php
 6. Schedule cron.php to run slightly after midnight
-7. Complete an application and test submission as well as the payment process
+7. Complete an application and test application submission and payment process
 
 Code Syntax
 ===========
