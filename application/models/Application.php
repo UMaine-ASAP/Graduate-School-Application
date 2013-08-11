@@ -602,7 +602,7 @@ class Application extends Model
 			// Send mail pay later email
 			$email = new Email();
 			$email->loadFromTemplate('mailPayLater.email.php', array('{{APPLICATION_FEE}}'=>$transaction->amount));
-			$email->setDestinationEmail( $this->applicant->getEmail() );
+			$email->setDestinationEmail( $this->applicant->loginEmail );
 			$email->sendEmail();
 		}
 	}
