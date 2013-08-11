@@ -27,16 +27,30 @@ dfn {
 #create-application-modal
 {
 	text-align: left;
+	height: 100% !important;
+}
+
+#create-application-modal p {
+	font-size: 18px;
+	padding-bottom: 1em;
+	border-bottom: 1px solid rgba(40,40,40,.25);
 }
 
 #create-application-modal fieldset
 {
-	margin: 2em 0 1.5em 0;
+	margin: 1em 0 2em 0;
 }
 
 #create-application-modal fieldset li
 {
-	margin-bottom: .5em;
+	margin-bottom: 1em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid rgba(40,40,40,.25);
+}
+
+#create-application-modal button {
+	float:right;
+	font-weight: bold;
 }
 
 /** Table **/

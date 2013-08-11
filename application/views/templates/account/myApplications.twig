@@ -67,13 +67,13 @@
 				<ul>
 					{% for type in types %}
 					<li>
-						<input type='radio' id='{{type.name|replace({' ': '-'})}}' name='application-type' value='{{type.applicationTypeId}}'/>
+						<input type='radio' id='{{type.name|replace({' ': '-'})}}' name='application-type' value='{{type.applicationTypeId}}'{% if loop.index == 1 %}checked{% endif %}/>
 						<label for='{{type.name|replace({' ': '-'})}}'><dfn>{{type.name}}</dfn> - {{type.description}}</label>
 					</li>
 					{% endfor %}
 				</ul>
 			</fieldset>
-			<input type='submit' value='Begin Application' />
+			<button class = "small green" type='submit' value='Begin Application' />Begin Application</button
 		</form>
 	</div>
 </div>
