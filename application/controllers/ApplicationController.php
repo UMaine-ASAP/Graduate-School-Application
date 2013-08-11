@@ -151,12 +151,12 @@ class ApplicationController
 		$application = ApplicationController::getApplication( (int) $applicationId);
 
 		// different application types require different data to be deleted. 
+		Database::iquery("DELETE FROM APPLICATION_International where applicationId = %d", $applicationId);
+		Database::iquery("DELETE FROM APPLICATION_Degree where applicationId = %d", $applicationId);
 
 		switch( $application->applicationTypeId )
 		{
 			case ApplicationType::DEGREE:
-				Database::iquery("DELETE FROM APPLICATION_International where applicationId = %d", $applicationId);
-				Database::iquery("DELETE FROM APPLICATION_Degree where applicationId = %d", $applicationId);
 			break;
 			case ApplicationType::NONDEGREE:
 			break;
@@ -354,7 +354,7 @@ class ApplicationController
 	 */
 	public static function getApplication($applicationId)
 	{
-		return self::getApplicationById($applicationId);
+		return self::getApplicationById((int)$applicationId);
 	}
 
 	public static function getApplicationById($applicationId)
