@@ -62,58 +62,54 @@ class ApplicationController
 			$personal->givenName  = $applicant->givenName;
 			$personal->familyName = $applicant->familyName;
 
+
+			/** General table updates **/
+			Database::iquery("INSERT INTO APPLICATION_International(applicationId) VALUES (%d)", $applicationId);
+			Database::iquery("INSERT INTO APPLICATION_Degree(applicationId) VALUES (%d)", $applicationId);
+			Database::iquery("INSERT INTO APPLICATION_GRE(applicationId) VALUES (%d)", $applicationId);
+
+			// Create 3 default recommendations
+			Reference::createNew();
+			Reference::createNew();
+			Reference::createNew();
+
+			/*** Update Personal contact info ***/
+
+			// mailing contact info
+			Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);
+			$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id FROM APPLICATION_ContactInformation');
+			$personal->mailing_contactInformationId = $tmp['id'];
+
+			// permanent address contact info
+			Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);					
+			$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id');
+			$personal->permanentMailing_contactInformationId = $tmp['id'];
+
+			// update application
+			$personal->save();
+
+			/*** Update International contact info ***/
+			$international = $application->international;
+
+			// US contact info
+			Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);					
+			$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id');
+			$international->usEmergencyContact_contactInformationId = $tmp['id'];
+
+			// Home contact info
+			Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);					
+			$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id');
+			$international->homeEmergencyContact_contactInformationId = $tmp['id'];
+
+			// Update application
+			$international->save();
+			
+
+
 			// Build application type specific sub-sections
 			switch( $application->applicationTypeId )
 			{
 				case ApplicationType::DEGREE:
-					/** General table updates **/
-					Database::iquery("INSERT INTO APPLICATION_International(applicationId) VALUES (%d)", $applicationId);
-					Database::iquery("INSERT INTO APPLICATION_Degree(applicationId) VALUES (%d)", $applicationId);
-					Database::iquery("INSERT INTO APPLICATION_GRE(applicationId) VALUES (%d)", $applicationId);
-
-					// Create 3 default recommendations
-					Reference::createNew();
-					Reference::createNew();
-					Reference::createNew();
-
-					/*** Update Personal contact info ***/
-
-					// mailing contact info
-					Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);
-					$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id FROM APPLICATION_ContactInformation');
-					$personal->mailing_contactInformationId = $tmp['id'];
-
-					// permanent address contact info
-					Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);					
-					$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id');
-					$personal->permanentMailing_contactInformationId = $tmp['id'];
-
-					// update application
-					$personal->save();
-
-					/*** Update International contact info ***/
-					$international = $application->international;
-
-					// US contact info
-					Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);					
-					$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id');
-					$international->usEmergencyContact_contactInformationId = $tmp['id'];
-
-					// Home contact info
-					Database::iquery("INSERT INTO APPLICATION_ContactInformation(applicationId) VALUES (%d)", $applicationId);					
-					$tmp = Database::getFirst('SELECT LAST_INSERT_ID() as id');
-					$international->homeEmergencyContact_contactInformationId = $tmp['id'];
-
-					// Specify current progress
-					// $sections = $db->query("SELECT * FROM structure WHERE include=1 ORDER BY `order`");
-					// $sectionCount = count($sections);
-					// for($i = 0; $i < $sectionCount ;$i++) {
-					// 	$db->iquery("INSERT INTO progress VALUES(%d, %s, 'INCOMPLETE','') ", $user, $sections[$i]['id']);
-					// }
-
-					// Update application
-					$international->save();
-
 				break;
 				case ApplicationType::NONDEGREE:
 				break;
