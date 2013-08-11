@@ -196,34 +196,33 @@ class Application extends Model
 		 		}
 		 	break;
 		 	case 'submissionFolderName':
-				$personal           = $this->personal;		 	
 				$id                 = $this->id;
-				$filteredFamilyName = InputSanitation::replaceNonAlphanumeric( $personal->familyName );
-				$filteredGivenName  = InputSanitation::replaceNonAlphanumeric( $personal->givenName );
+				$filteredFullName = InputSanitation::replaceNonAlphanumeric( $this->$personal->fullNameEncoded );
 
-		 		return "$id\_$filteredFamilyName\_$filteredGivenName\_/";
+		 		return "$filteredFullName\_$id/";
 		 	break;
 
 		 	case 'fileNamePDF':
-				$personal           = $this->personal;
 				$id                 = $this->id;
-				$filteredFamilyName = InputSanitation::replaceNonAlphanumeric( $personal->familyName );
-				$filteredGivenName  = InputSanitation::replaceNonAlphanumeric( $personal->givenName );
-		 
-		 		return "UMGradApp_$id\_$filteredFamilyName\_$filteredGivenName.pdf";
+				$filteredFamilyName = InputSanitation::replaceNonAlphanumeric( $this->personal->familyName );
+		 		return "UMGradApp\_$filteredFamilyName\_$id.pdf";
 		 	break;
 		 	case 'displayNamePDF':
+		 		$personal = $this->$personal;
 				$filteredFamilyName = InputSanitation::replaceNonAlphanumeric( $personal->familyName );
 				$filteredGivenName  = InputSanitation::replaceNonAlphanumeric( $personal->givenName );
-
 				return "UMGradApp_$filteredGivenName\_$filteredFamilyName.pdf";
 
 		 	break;
 		 	case 'fileNameResume':
-		 		return $this->id . "_resume";
+				$id                 = $this->id;
+				$filteredFamilyName = InputSanitation::replaceNonAlphanumeric( $this->$personal->familyName );
+		 		return "UMGradApp_" . $filteredFamilyName . "_" . $id . "_Resume";
 		 	break;
 		 	case 'fileNameEssay':
-		 		return $this->id . "_essay";
+				$id                 = $this->id;
+				$filteredFamilyName = InputSanitation::replaceNonAlphanumeric( $this->$personal->familyName );
+		 		return "UMGradApp_" . $filteredFamilyName . "_" . $id . "_Essay";
 		 	break;
 		 	case 'cost':
 		 		// Split on application type

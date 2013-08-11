@@ -10,7 +10,7 @@ class Personal extends ApplicationComponent
 	protected static $primaryKeys = array('applicationId');
 
 
-	protected static $availableProperties = array('mailing', 'permanentMailing', 'fullName', 'socialSecurityNumber', 'pretty_hasDisciplinaryViolation', 'pretty_hasCivilViolation', 'pretty_prevUMGradApp_appExists', 'pretty_prevUMGradWithdraw_exists', 'pretty_gmat_hasTaken', 'pretty_mat_hasTaken', 'pretty_hasTakenGRE', 'nonHispanicEthnicities');
+	protected static $availableProperties = array('mailing', 'permanentMailing', 'fullName', 'fullNameEncoded', 'socialSecurityNumber', 'pretty_hasDisciplinaryViolation', 'pretty_hasCivilViolation', 'pretty_prevUMGradApp_appExists', 'pretty_prevUMGradWithdraw_exists', 'pretty_gmat_hasTaken', 'pretty_mat_hasTaken', 'pretty_hasTakenGRE', 'nonHispanicEthnicities');
 
 	public function __get($name)
 	{
@@ -25,6 +25,9 @@ class Personal extends ApplicationComponent
 		 	break;
 		 	case 'fullName':
 				return $this->givenName . " " . $this->middleName . " " . $this->familyName;
+			break;
+			case 'fullNameEncoded':
+				return $this->givenName . "_" . $this->middleName . "_" . $this->familyName;
 			break;
 		 	case 'socialSecurityNumber':
 				$ssnResult = DATABASE::getFirst("SELECT AES_DECRYPT(socialSecurityNumber, '%s') AS ssn FROM APPLICATION_Primary WHERE applicationId=%d LIMIT 1", $GLOBALS['key'], $this->id);
