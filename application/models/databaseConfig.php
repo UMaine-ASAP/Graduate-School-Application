@@ -283,7 +283,7 @@ $GLOBALS['databaseFields'] = array(
 
 	'other' => array(
 		'hasAcceptedTermsOfAgreement' => array('filter' => 'filter_boolean'),
-		'waiveReferenceViewingRights' => array('filter' => 'filter_boolean', 'isRequired' => true, 'requiredMessage'=>'You did not select a Waive Viewing Rights option')
+		'waiveReferenceViewingRights' => array('filter' => 'filter_boolean', 'isRequired' => true, 'exceptRequirementFromApplicationTypes' => array(ApplicationType::NONDEGREE), 'requiredMessage'=>'You did not select a Waive Viewing Rights option')
 	)
 
 

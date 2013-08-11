@@ -443,7 +443,7 @@ class Application extends Model
 		/* ---- Test database fields ---- */
 		foreach ($GLOBALS['databaseFields'] as $sectionName => $fields) {
 			foreach ($fields as $fieldName=>$field) {
-				if( isset($field['isRequired']) && $field['isRequired'])
+				if( isset($field['isRequired']) && $field['isRequired'] && in_array($this->applicationTypeId, $field['exceptRequirementFromApplicationTypes']))
 				{
 					// Check if error occurred
 					$fieldReference = new ApplicationFieldReference($fieldName);
@@ -486,12 +486,12 @@ class Application extends Model
 			}
 			
 			// references must inclue first name
-			if ($reference->firstName == '') {
+			if ($reference->firstName == '' && $this->applicationTypeId == ApplicationType::DEGREE) {
 				$errors[] = array('message' => "You did not enter a First Name for your ". addOrdinalNumberSuffix($reference->id) . " reference", 'section'=>ApplicationSection::lettersOfRecommendation);
 			}
 
 			// references must inclue first last
-			if ($reference->lastName == '') {
+			if ($reference->lastName == '' && $this->applicationTypeId == ApplicationType::DEGREE) {
 				$errors[] = array('message' => "You did not enter a last Name for your ". addOrdinalNumberSuffix($reference->id) . " reference", 'section'=>ApplicationSection::lettersOfRecommendation);
 			}
 		}
