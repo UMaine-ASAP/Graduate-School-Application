@@ -442,8 +442,11 @@ class Application extends Model
 		/* ---- Test database fields ---- */
 		foreach ($GLOBALS['databaseFields'] as $sectionName => $fields) {
 			foreach ($fields as $fieldName=>$field) {
-				if( isset($field['isRequired']) && $field['isRequired'] && in_array($this->applicationTypeId, $field['exceptRequirementFromApplicationTypes']))
+				if( isset($field['isRequired']) && $field['isRequired'])
 				{
+					if ( is_array($field['exceptRequirementFromApplicationTypes']) && in_array($this->applicationTypeId, $field['exceptRequirementFromApplicationTypes']) ) {
+						continue;
+					}
 					// Check if error occurred
 					$fieldReference = new ApplicationFieldReference($fieldName);
 					$hasError = false;
