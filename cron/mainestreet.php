@@ -99,7 +99,7 @@
 			// $temp .= $user['alternate_name']."\t";
 			// $temp .=  preg_replace('/[^\d]/', '', $user['secondary_phone'])."\t";
 			$al_temp = $result[$a]['attendance_load'];
-			$attendance_load = (al_temp == 'F' || al_temp == 'P') ? "F\t" : "\t";//$result[$a]['attendance_load']."\t";////////////////////
+			$attendance_load = 'F';//(al_temp == 'F' || al_temp == 'P') ? "F\t" : "\t";//$result[$a]['attendance_load']."\t";////////////////////
 			
 			$academic_program = $result[$a]['academic_program']."\t";
 			$academic_plan= $programresult[0]['academic_plan']."\t";
