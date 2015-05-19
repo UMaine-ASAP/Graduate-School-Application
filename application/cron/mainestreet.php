@@ -77,7 +77,7 @@ function buildMainestreetOutputForApplicant($applicationId) {
 	$data[] = $degree->startYear;
 	$data[] = $personal->alternateName;
 	$data[] = InputSanitation::replaceNonDigits($personal->phoneSecondary);
-	$data[] = $degree->academic_load;//($degree->academic_load == 'F' || $degree->academic_load == 'P') ? 'F':'';
+	$data[] = 'F';//$degree->academic_load;//($degree->academic_load == 'F' || $degree->academic_load == 'P') ? 'F':'';
 
 	// Add program
 	$data[] = $degree->academic_program;
